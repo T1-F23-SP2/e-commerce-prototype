@@ -1,11 +1,9 @@
-package org.example;
-
-import com.mongodb.*;
-import com.mongodb.client.*;
-import org.bson.BsonDocument;
-import org.bson.BsonInt64;
-import org.bson.Document;
-import org.bson.conversions.Bson;
+import mongodb.*;
+import mongodb.client.*;
+import bson.BsonDocument;
+import bson.BsonInt64;
+import bson.Document;
+import bson.conversions.Bson;
 
 class MongoClientConnectionExample {
     public static void main(String[] args) {
