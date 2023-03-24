@@ -1,9 +1,6 @@
-import mongodb.*;
-import mongodb.client.*;
-import bson.BsonDocument;
-import bson.BsonInt64;
-import bson.Document;
-import bson.conversions.Bson;
+
+import com.mongodb.client.*;
+import org.bson.Document;
 
 class MongoClientConnectionExample {
     public static void main(String[] args) {
