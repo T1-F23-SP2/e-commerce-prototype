@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.CMS.ArticleSidebar">
+   <children>
+      <Label alignment="CENTER" prefHeight="50.0" prefWidth="180.0" text="Articles" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <ScrollPane fx:id="articleSidebar_ScrollPane" layoutY="50.0" prefHeight="947.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <content>
+            <VBox fx:id="vboxScrollPane_VBox" prefHeight="945.0" prefWidth="178.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
