@@ -1,13 +1,13 @@
 package com.example.ecommerceprototype.dam;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 public class DAM {
 
     //Database info
-    private static final String DB_URL = "jdbc:postgresql://192.168.0.64:5432/db";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/db";
     private static final String DB_user = "postgres";
     private static final String DB_Password = "MyPassw0rd";
 
