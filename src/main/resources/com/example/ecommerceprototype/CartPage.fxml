@@ -13,7 +13,7 @@
             <Font size="26.0" />
          </font>
       </Button>
-      <VBox fx:id="cartProductView_Vbox" layoutX="373.0" layoutY="415.0" prefHeight="664.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+      <VBox fx:id="cartProductView_Vbox" blendMode="DARKEN" layoutX="373.0" layoutY="415.0" prefHeight="664.0" prefWidth="1202.0" style="-fx-background-color: #ebebeb; -fx-border-color: #000000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
       <Label layoutX="913.0" layoutY="775.0" text="Price excl. Moms:" AnchorPane.bottomAnchor="180.0" AnchorPane.rightAnchor="277.6">
          <font>
             <Font size="24.0" />
@@ -44,7 +44,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="580.0" layoutY="36.0" text="CART" AnchorPane.leftAnchor="582.0">
+      <Label layoutX="580.0" layoutY="36.0" text="CART" AnchorPane.leftAnchor="582.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font size="48.0" />
          </font>
