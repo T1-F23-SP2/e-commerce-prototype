@@ -8,9 +8,6 @@ public class Main {
 
         System.out.println(inventory1.calcMargin());
         System.out.println(inventory2.calcMargin());
-        
-
-
 
 
     }

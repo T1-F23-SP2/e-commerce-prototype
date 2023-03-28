@@ -42,10 +42,10 @@ public class SalesReport {
     }
 
 
-    public float calcTotalSalesMargin(){
+    public float calcMarginPerProduct(){
 
-        
-        return 1;
+
+        return this.price * this.margin;
     }
 
 

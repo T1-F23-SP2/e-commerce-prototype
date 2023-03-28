@@ -1,6 +1,7 @@
 
 import com.mongodb.client.*;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 class MongoClientConnectionExample {
     public static void main(String[] args) {
@@ -16,7 +17,9 @@ class MongoClientConnectionExample {
         FindIterable<Document> cursor = collection.find(searchQuery);
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
-                System.out.println(cursorIterator.next());
+                System.out.println(cursorIterator.next().toJson());
+                //Items inst = new Items((ObjectId)cursorIterator.next().get("_id"), (String)cursorIterator.next().get("Name"), (String)cursorIterator.next().get("Address"), (int)cursorIterator.next().get("Phone"), (String)cursorIterator.next().get("City"), (int)cursorIterator.next().get("ZipCode"));
+//                System.out.println(cursorIterator.);
             }
         }
 
