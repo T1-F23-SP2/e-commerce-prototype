@@ -1,27 +1,25 @@
 import org.bson.types.ObjectId;
 
+import java.util.UUID;
+
 public class Items {
 
 
-    ObjectId _id;
+    int id;
     String name;
-//    double price;
-//    int stock;
-
-    String city;
-    int phone;
-    String address;
-    int zipCode;
+    int qty;
+    double price;
 
 
-    public Items(ObjectId _id, String name, String city, int phone, String address, int zipCode) {
-        this._id = _id;
+    public Items(int id, String name, int qty, double price) {
+        this.id = id;
         this.name = name;
-        this.city = city;
-        this.phone = phone;
-        this.address = address;
-        this.zipCode = zipCode;
+        this.qty = qty;
+        this.price = price;
     }
+
+
+
 }
 
 
