@@ -2,27 +2,39 @@ package com.example.ecommerceprototype.dam;
 
 import java.util.Date;
 
-public class DigitalAsset {
+public class Asset {
     private int id;
     private String filename;
     private String filepath;
     private String filetype;
     private int filesize;
     private String uuid;
-
-
+    private boolean isWatermarked;
     private Date date_added;
 
 
-    //Constructor
+//Constructor
 
-    public DigitalAsset(String filename, String filepath, String filetype,
-                        int filesize, String uuid, Date date_added) {
+    public Asset(String filename, String filepath, String filetype,
+                 int filesize, String uuid, boolean isWatermarked, Date date_added) {
         this.filename = filename;
         this.filepath = filepath;
         this.filetype = filetype;
         this.filesize = filesize;
         this.uuid = uuid;
+        this.isWatermarked = isWatermarked;
+        this.date_added = date_added;
+    }
+
+    public Asset(int id, String filename, String filepath, String filetype,
+                 int filesize, String uuid, boolean isWatermarked, Date date_added) {
+        this.id = id;
+        this.filename = filename;
+        this.filepath = filepath;
+        this.filetype = filetype;
+        this.filesize = filesize;
+        this.uuid = uuid;
+        this.isWatermarked = isWatermarked;
         this.date_added = date_added;
     }
 
@@ -31,10 +43,6 @@ public class DigitalAsset {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFilename() {
@@ -75,6 +83,14 @@ public class DigitalAsset {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public boolean getIsWatermarked() {
+        return isWatermarked;
+    }
+
+    public void setWatermarked(boolean watermarked) {
+        isWatermarked = watermarked;
     }
 
     public Date getDate_added() {

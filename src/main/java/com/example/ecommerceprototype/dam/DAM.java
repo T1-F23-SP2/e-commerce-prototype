@@ -11,103 +11,141 @@ public class DAM {
     private static final String DB_user = "postgres";
     private static final String DB_Password = "MyPassw0rd";
 
-    //List of assets
-    private List<DigitalAsset> assetList = new ArrayList<>();
+    private static DAM instance;
+    private Connection connection = null;
 
-
-
-    /*
-        er det nødvendigt at have en liste som programmet tjekker igennem. er database ikke godt nok?
-     */
-    public boolean addDigitalAsset(DigitalAsset asset){
-        //Checks if asset already exists in the manager's collection
-        if (assetList.contains(asset)){
-            return false;
-        }
-
-        //Checks if asset already exists in the SQLDatabase
-        if (checkDatabase(asset)){
-            return false;
-        }
-
-        //Adds asset to manager's collection
-        assetList.add(asset);
-
-        //Adds asset to SQLDatabase
-        addToDataBase(asset);
-
-        return true;
+    DAM() {
+        initializePostgresqlDatabase();
     }
 
+    public static DAM getInstance() {
+        if (instance == null) {
+            instance = new DAM();
+        }
+        return instance;
+    }
 
-
-    private boolean checkDatabase(DigitalAsset asset) {
-        boolean exists = false;
-        Connection con = null;
-        PreparedStatement stmt = null;
-        ResultSet result = null;
+    //Connection to Database
+    private void initializePostgresqlDatabase() {
         try {
-            //connection to DB
-            con = DriverManager.getConnection(DB_URL, DB_user, DB_Password);
-
-            //Prepare the query to check if the asset exists
-            stmt = con.prepareStatement(
-                    "SELECT COUNT(*) FROM digital_assets WHERE filename = ?"); //More options available....!!!!
-            stmt.setString(1, asset.getFilename());
-
-            //Execute the query and get the result
-            result = stmt.executeQuery();
-
-            //If the query has more than 0 results the file exists
-            if (result.next()){
-                exists = result.getInt(1)>0;
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            DriverManager.registerDriver(new org.postgresql.Driver());
+            connection = DriverManager.getConnection(DB_URL, DB_user, DB_Password);
+        } catch (SQLException | IllegalArgumentException ex) {
+            ex.printStackTrace(System.err);
         } finally {
-            //closing all the resources
-            try {
-                result.close();
-            } catch (Exception e) {}
-
-            try { stmt.close();
-            } catch (Exception e) {}
-
-            try { con.close();
-            } catch (Exception e) {}
+            if (connection == null) System.exit(-1);
         }
-        return exists;
     }
 
+    //Creates a list from the database of all the assets
+    public List<Asset> getAssetsList() {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM digital_assets");
+            ResultSet sqlReturnValues = stmt.executeQuery();
+            int rowcount = 0;
+            List<Asset> returnValue = new ArrayList<>();
+            while (sqlReturnValues.next()) {
+                returnValue.add(new Asset(
+                        sqlReturnValues.getInt(1),
+                        sqlReturnValues.getString(2),
+                        sqlReturnValues.getString(3),
+                        sqlReturnValues.getString(4),
+                        sqlReturnValues.getInt(5),
+                        sqlReturnValues.getString(6),
+                        sqlReturnValues.getBoolean(7),
+                        sqlReturnValues.getDate(8)));
+            }
+            return returnValue;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
-    public void addToDataBase(DigitalAsset asset) {
-        try (Connection con = DriverManager.getConnection(DB_URL,DB_user,DB_Password)){
-            PreparedStatement stmt = con.prepareStatement(
-                    "INSERT INTO digital_assets(filename, filepath, filetype, filesize, uuid, date_added) VALUES(?,?,?,?,?,?)");
+    //Uploade assets
+    public boolean uploadAsset(Asset asset) {
+        //Checks if asset already exists in the database
+        if (getAssetsList().contains(asset)) {
+            return false;
+        }
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "INSERT INTO digital_assets(filename, filepath, filetype, filesize, uuid, isWatermarked date_added) VALUES(?,?,?,?,?,?,?)");
             stmt.setString(1, asset.getFilename());
             stmt.setString(2, asset.getFilepath());
             stmt.setString(3, asset.getFiletype());
             stmt.setInt(4, asset.getFilesize());
             stmt.setString(5, asset.getUuid());
-            stmt.setDate(6, new java.sql.Date(asset.getDate_added().getTime()));
+            stmt.setBoolean(6, asset.getIsWatermarked());
+            stmt.setDate(7, new java.sql.Date(asset.getDate_added().getTime()));
             stmt.executeUpdate();
 
-
-            //Assigning the given id from the database to id in manager
-            PreparedStatement stmt2 = con.prepareStatement(
-                    "SELECT id FROM digital_assets WHERE filename = ?");
-            stmt2.setString(1, asset.getFilename());
-
-            ResultSet result = stmt2.executeQuery();
-            while (result.next()) {
-                asset.setId(result.getInt("id"));
-            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
+
+    //Delete asset
+    public boolean deleteAsset(int id) {
+        if (getAssetsList().contains(id)) {
+            try {
+                PreparedStatement stmt = connection.prepareStatement(
+                        "DELETE FROM digital_assets WHERE id = ?");
+                stmt.setInt(1, id);
+                stmt.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    //Search engine
+    public Asset getAsset(int id) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM digital_assets WHERE id = ?");
+            stmt.setInt(1, id);
+            return getAsset(stmt);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Asset getAsset(String uuid) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM digital_assets WHERE uuid = ?");
+            stmt.setString(1, uuid);
+            return getAsset(stmt);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    //Made to simplify duplication of code in search methods/getAsset methods
+    private Asset getAsset(PreparedStatement stmt) throws SQLException {
+        ResultSet sqlReturnValues = stmt.executeQuery();
+        if (!sqlReturnValues.next()) {
+            return null;
+        }
+        return new Asset(
+                sqlReturnValues.getInt(1),
+                sqlReturnValues.getString(2),
+                sqlReturnValues.getString(3),
+                sqlReturnValues.getString(4),
+                sqlReturnValues.getInt(5),
+                sqlReturnValues.getString(6),
+                sqlReturnValues.getBoolean(7),
+                sqlReturnValues.getDate(8)
+        );
+    }
+
 }
 
 
