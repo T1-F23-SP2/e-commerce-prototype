@@ -1,5 +1,6 @@
 # Git LFS
-Git LFS allows git to manage binary data, because git is bad a binary data by default. 
+Git LFS allows git to manage binary data, because git is bad at binary data by default. 
+Binary data is typically Images, or videos. But it can also be pdf, word, excel or any other office document. 
 
 ## GUI git client
 Many Gui git clients have git LFS support.
@@ -9,6 +10,8 @@ Many Gui git clients have git LFS support.
 > **Note**  
 > **All common binary file types are already set**
 > to be tracked with LFS, when LFS is installed and initialized in the repository
+
+
 
 ## Git CLI
 For git cli the git-lfs module should be installed manually
@@ -33,3 +36,11 @@ git lfs install
 Open the following png image in a image viewer, 
 it should display a diagram of how git LFS work
 > `git-lfs-success.png`
+
+It should look like this:
+
+![Image](./git-lfs-success.png)
+
+If you can't see the picture, make sure you either use a GUI client with git-lfs support, or have git-lfs module installed for your cli client. (See the above)
+
+If that doesn't work, ask on discord. (On our server, or me @AtomicHelix)
