@@ -10,6 +10,10 @@ import java.util.ArrayList;
 
 public class CMS implements ICMS{
 
+    public static void main(String[] args) { //Test main method
+        int i = CMS.getInstance().articles.getCount();
+        System.out.println(i);
+    }
     private static CMS instance;
     public final ArticleManager articles = ArticleManager.getInstance();
 
