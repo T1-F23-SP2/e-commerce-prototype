@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -17,6 +18,14 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <TextArea id="articletText_TextArea" fx:id="articletText_TextArea" editable="false" layoutX="337.0" layoutY="241.0" prefHeight="785.0" prefWidth="1332.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0" />
+      <ScrollPane layoutX="386.0" layoutY="550.0" prefHeight="820.0" prefWidth="1652.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0">
+         <content>
+            <TextArea id="articletText_TextArea" fx:id="articletText_TextArea" editable="false" prefHeight="815.0" prefWidth="1590.0">
+               <font>
+                  <Font size="96.0" />
+               </font>
+            </TextArea>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
