@@ -12,7 +12,7 @@ class MongoClientConnectionExample {
 
 
         Document searchQuery = new Document();
-        searchQuery.put("name", "John");
+        searchQuery.put("Name", "Oliver Larsen");
         FindIterable<Document> cursor = collection.find(searchQuery);
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
