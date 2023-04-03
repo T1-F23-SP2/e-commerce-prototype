@@ -1,0 +1,52 @@
+stages:
+  - .pre
+  - build
+  - test
+  - verify
+  - deploy
+  - .post
+
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+
+image: maven:3.9.0-amazoncorretto-19
+
+cache:
+  paths:
+    - .m2/repository
+
+Build:
+  stage: build
+  script:
+    - 'mvn clean -B package --file pom.xml -Dmaven.test.skip=true -Djacoco.skip=true'
+
+Test-cms:
+  stage: test
+  script:
+    - 'mvn test -Dtest="com/example/ecommerceprototype/cms/**" -Dsurefire.failIfNoSpecifiedTests=false'
+  needs: [Build]
+
+Test-dam:
+  stage: test
+  script:
+    - 'mvn test -Dtest="com/example/ecommerceprototype/dam/**" -Dsurefire.failIfNoSpecifiedTests=false'
+  needs: [Build]
+
+Test-oms:
+  stage: test
+  script:
+    - 'mvn test -Dtest="com/example/ecommerceprototype/oms/**" -Dsurefire.failIfNoSpecifiedTests=false'
+  needs: [Build]
+
+Test-pim:
+  stage: test
+  script:
+    - 'mvn test -Dtest="com/example/ecommerceprototype/pim/**" -Dsurefire.failIfNoSpecifiedTests=false'
+  needs: [Build]
+
+Test-shop:
+  stage: test
+  script:
+    - 'mvn test -Dtest="com/example/ecommerceprototype/**,!com/example/ecommerceprototype/cms/**,!com/example/ecommerceprototype/dam/**,!com/example/ecommerceprototype/oms/**,!com/example/ecommerceprototype/pim/**" -Dsurefire.failIfNoSpecifiedTests=false'
+  needs: [Build]
