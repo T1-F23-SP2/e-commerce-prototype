@@ -1,17 +1,25 @@
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TableCreator {
 
 //    static ArrayList<Items> listOfItems = new ArrayList<>();
 
     static public void showTable(){
-        JFrame frame = new JFrame("Table Example");
-        Items item1 = new Items(1, "Tv LG", 10, 499);
-        Items item2 = new Items(2, "Macbook pro 4k", 53, 13684);
-        Items item3 = new Items(3, "Iphone 24", 15, 29999);
+       JFrame frame = new JFrame("Table Example");
+
+       //Items item1 = new Items(1, "Tv LG", 10, 499);
+        //Items item2 = new Items(2, "Macbook pro 4k", 53, 13684);
+        //Items item3 = new Items(3, "Iphone 24", 15, 29999);
 
 //        listOfItems.add(item1);
 //        listOfItems.add(item2);
@@ -26,17 +34,32 @@ public class TableCreator {
 //        };
 
         // Data for the table
-        Object[][] data = {
-                {item1.id, item1.name, item1.qty, item1.price},
-                {item2.id, item2.name, item2.qty, item2.price},
-                {item3.id, item3.name, item3.qty, item3.price}
-//                {"John", "Doe", 28},
-//                {"Jane", "Smith", 32},
-//                {"Tom", "Johnson", 41}
-        };
+        Items item = null;
+        String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
+        MongoClient mongoClient = MongoClients.create(uri);
+        MongoDatabase database = mongoClient.getDatabase("TesterInvoice");
+        MongoCollection<Document> collection = database.getCollection("Products");
+
+        Document query = new Document("Price", new Document("$gt", 0.00));
+        List<Document> results = collection.find(query).into(new ArrayList<>());
+
+        List<Object[]> dataList = new ArrayList<>();
+        for (Document doc : results) {
+            String name = doc.getString("Name");
+            String Colour = doc.getString("Colour");
+            double Price = doc.getInteger("Price");
+            String Size = doc.getString("Size");
+            int Stock = doc.getInteger("Stock");
+
+            Object[] itemData = new Object[] { name, Colour, Price };
+            dataList.add(itemData);
+
+
+        }
+        Object[][] data = dataList.toArray(new Object[0][]);
 
         // Column headers
-        String[] columnNames = {"UUID", "Name", "Qty", "Price"};
+        String[] columnNames = { "Name", "Colour", "Price"};
 
         // Create the table
         JTable table = new JTable(data, columnNames);
@@ -51,6 +74,8 @@ public class TableCreator {
         frame.setSize(500, 300);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
     }
 
 

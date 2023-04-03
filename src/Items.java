@@ -1,21 +1,19 @@
-import org.bson.types.ObjectId;
-
-import java.util.UUID;
-
 public class Items {
 
 
-    int id;
-    String name;
-    int qty;
-    double price;
+   public int id;
+    public String name;
+    public String Colour;
+    public int qty;
+    public int Price;
 
 
-    public Items(int id, String name, int qty, double price) {
+    public Items(String name, String Colour, int Price) {
         this.id = id;
         this.name = name;
+        this.Colour = Colour;
         this.qty = qty;
-        this.price = price;
+        this.Price = Price;
     }
 
 
