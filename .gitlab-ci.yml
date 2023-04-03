@@ -50,3 +50,33 @@ Test-shop:
   script:
     - 'mvn test -Dtest="com/example/ecommerceprototype/**,!com/example/ecommerceprototype/cms/**,!com/example/ecommerceprototype/dam/**,!com/example/ecommerceprototype/oms/**,!com/example/ecommerceprototype/pim/**" -Dsurefire.failIfNoSpecifiedTests=false'
   needs: [Build]
+
+Check-code-coverage-cms:
+  stage: verify
+  script:
+    - 'mvn verify -Dtest="com/example/ecommerceprototype/cms/**" -Dcustom.jacoco.skip.cms.check=false -Dsurefire.failIfNoSpecifiedTests=false -Dcustom.jacoco.check.rule.minimum.default=0.60'
+  needs: [Test-cms]
+
+Check-code-coverage-dam:
+  stage: verify
+  script:
+    - 'mvn verify -Dtest="com/example/ecommerceprototype/dam/**" -Dcustom.jacoco.skip.dam.check=false -Dsurefire.failIfNoSpecifiedTests=false -Dcustom.jacoco.check.rule.minimum.default=0.60'
+  needs: [Test-dam]
+
+Check-code-coverage-oms:
+  stage: verify
+  script:
+    - 'mvn verify -Dtest="com/example/ecommerceprototype/oms/**" -Dcustom.jacoco.skip.oms.check=false -Dsurefire.failIfNoSpecifiedTests=false -Dcustom.jacoco.check.rule.minimum.default=0.60'
+  needs: [Test-oms]
+
+Check-code-coverage-pim:
+  stage: verify
+  script:
+    - 'mvn verify -Dtest="com/example/ecommerceprototype/pim/**" -Dcustom.jacoco.skip.pim.check=false -Dsurefire.failIfNoSpecifiedTests=false -Dcustom.jacoco.check.rule.minimum.default=0.60'
+  needs: [Test-pim]
+
+Check-code-coverage-shop:
+  stage: verify
+  script:
+    - 'mvn verify -Dtest="com/example/ecommerceprototype/**,!com/example/ecommerceprototype/cms/**,!com/example/ecommerceprototype/dam/**,!com/example/ecommerceprototype/oms/**,!com/example/ecommerceprototype/pim/**" -Dcustom.jacoco.skip.shop.check=false -Dsurefire.failIfNoSpecifiedTests=false -Dcustom.jacoco.check.rule.minimum.default=0.60'
+  needs: [Test-shop]
