@@ -1,3 +1,7 @@
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -7,14 +11,17 @@ import org.bson.Document;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 class BarGraphExample extends JFrame {
     private Integer[] data;
     int price;
-   private String[] names;
+    private String[] names;
 
 
     public void DB() {
@@ -82,20 +89,20 @@ class BarGraphExample extends JFrame {
                     g2.setColor(Color.RED);
                     g2.setFont(new Font("Arial", Font.BOLD, 12));
 
-                        String productName = "Product " + (names[i]);
-                        int productNameWidth = g2.getFontMetrics().stringWidth(productName);
-                        int productNameX = x + (barWidth - productNameWidth) / 2;
-                        int productNameY = getHeight() - margin / 2;
-                        g2.drawString(productName, productNameX, productNameY);
+                    String productName = "Product " + (names[i]);
+                    int productNameWidth = g2.getFontMetrics().stringWidth(productName);
+                    int productNameX = x + (barWidth - productNameWidth) / 2;
+                    int productNameY = getHeight() - margin / 2;
+                    g2.drawString(productName, productNameX, productNameY);
 
-                        // Add labels on y axis
-                        g2.setColor(Color.RED);
-                        g2.setFont(new Font("Arial", Font.BOLD, 12));
-                        String priceLabel = "$" + ( data[i]);
-                        int priceLabelWidth = g2.getFontMetrics().stringWidth(priceLabel);
-                        int priceLabelX = marginSize - priceLabelWidth - 5;
-                        int priceLabelY = y + barHeight / 2 + 5;
-                        g2.drawString(priceLabel, priceLabelX, priceLabelY);
+                    // Add labels on y axis
+                    g2.setColor(Color.RED);
+                    g2.setFont(new Font("Arial", Font.BOLD, 12));
+                    String priceLabel = "$" + (data[i]);
+                    int priceLabelWidth = g2.getFontMetrics().stringWidth(priceLabel);
+                    int priceLabelX = marginSize - priceLabelWidth - 5;
+                    int priceLabelY = y + barHeight / 2 + 5;
+                    g2.drawString(priceLabel, priceLabelX, priceLabelY);
 
                 }
 
@@ -119,14 +126,59 @@ class BarGraphExample extends JFrame {
             }
         };
 
-        panel.setBackground(Color.BLACK);
+        panel.setBackground(Color.WHITE);
         getContentPane().add(panel);
         panel.repaint();
         setSize(720, 960);
         setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public void PrintFrameToPDF(File file) {
+        com.itextpdf.text.Document Doc = null;
+        try {
+            Doc = new com.itextpdf.text.Document();
+
+            PdfWriter writer = PdfWriter.getInstance(Doc, new FileOutputStream(file));
+            Doc.open();
+
+            PdfContentByte cb = writer.getDirectContent();
+            PdfTemplate template = cb.createTemplate(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+            cb.addTemplate(template, 0, 0);
+
+            Graphics2D g2d = template.createGraphics(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+            g2d.scale(0.4, 0.4);
+
+            for (int i = 0; i < this.getContentPane().getComponents().length; i++) {
+                Component c = this.getContentPane().getComponent(i);
+                if (c instanceof JLabel || c instanceof JScrollPane) {
+                    g2d.translate(c.getBounds().x, c.getBounds().y);
+                    if (c instanceof JScrollPane) {
+                        c.setBounds(0, 0, (int) PageSize.A4.getWidth() * 2, (int) PageSize.A4.getHeight() * 2);
+                    }
+                    c.paintAll(g2d);
+                    c.addNotify();
+                }
+            }
+
+            g2d.dispose();
+
+
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.toString());
+            e.printStackTrace();
+        } finally {
+            if (Doc != null) {
+                Doc.close();
+            }
+        }
+    }
+
+    public static void main(String[] args){
         new BarGraphExample();
+        BarGraphExample graph = new BarGraphExample();
+        File outputFile = new File("src/output.pdf");
+        graph.PrintFrameToPDF(outputFile);
+
+
     }
 }
