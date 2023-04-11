@@ -6,11 +6,13 @@ import java.time.LocalDate;
 public class PriceInformation {
 
     BigDecimal price;
+    BigDecimal buyPrice;
     LocalDate priceCreation;
     DiscountInformation discountInformation;
 
-    public PriceInformation(BigDecimal price, LocalDate priceCreation, DiscountInformation discountInformation) {
+    public PriceInformation(BigDecimal price, BigDecimal buyPrice, LocalDate priceCreation, DiscountInformation discountInformation) {
         this.price = price;
+        this.buyPrice = buyPrice;
         this.priceCreation = priceCreation;
         this.discountInformation = discountInformation;
     }
@@ -18,6 +20,7 @@ public class PriceInformation {
     public BigDecimal getPrice() {
         return price;
     }
+    public BigDecimal getBuyPrice(){return price;}
 
     public void setPrice(BigDecimal price) {
         this.price = price;

@@ -1,17 +1,15 @@
+import mockPIM.PriceInformation;
+
+import java.math.BigDecimal;
 import java.util.UUID;
 
 class SalesReport {
 
 
 
-    // This is from our database
-    // remove this, and make static method to get orders from database
-//    int orders;
 
-
-    // We don't need those
-    float margin;
-    float price;
+// TODO
+//      fix trigger
     // qty trigger
 
 
@@ -19,10 +17,10 @@ class SalesReport {
     // Those are static
     double turnover;
     double wages;
-    float interestIncome;
-    float rentalIncome;
-    float taxes;
-    float productionCost;
+    double interestIncome;
+    double rentalIncome;
+    double taxes;
+    double productionCost;
 
 
 
@@ -30,47 +28,43 @@ class SalesReport {
     int lowInventory; // qty
 
 
-    public SalesReport(float margin, float price, float turnover, float wages, float interestIncome, float rentalIncome, float taxes, float productionCost, int orders, int lowInventory) {
-        this.margin = margin;
-        this.price = price;
+    public SalesReport(double turnover, double wages, double interestIncome, double rentalIncome, double taxes, double productionCost, int orders, int lowInventory) {
         this.turnover = turnover;
         this.wages = wages;
         this.interestIncome = interestIncome;
         this.rentalIncome = rentalIncome;
         this.taxes = taxes;
         this.productionCost = productionCost;
-        this.orders = orders;
         this.lowInventory = lowInventory;
     }
 
 
 
-    public float calcGrossDomesticIncome (){
+    public double calcGrossDomesticIncome (){
 
-        float gdiValue;
+        double gdiValue;
         gdiValue = wages + turnover + interestIncome + rentalIncome + taxes - productionCost;
 
         return gdiValue;
     }
 
 
-    public float calcMarginPerProduct(){
 
 
-        return this.price * this.margin;
-    }
-
-
-    static int getOrders(UUID uuid){
+    static int getOrders(PriceInformation priceInformation){
         // Use a uuid to get all the orders made with that uuid from our database
 
         // Placeholder
         return 1;
     }
 
-    static double calcMargin(){
-        
+    static BigDecimal calcMargin(PriceInformation priceInformation){
+
+        BigDecimal one = new BigDecimal("1");
+        // This returns the margin for 1 item
+        return one.subtract(priceInformation.getPrice().divide(priceInformation.getBuyPrice()));
     }
+
 
 
 
