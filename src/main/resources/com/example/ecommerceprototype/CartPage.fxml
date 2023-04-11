@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.Cart">
+   <children>
+      <Button fx:id="pay_Button" layoutX="1828.0" layoutY="969.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="159.0" style="-fx-background-color: #1aab1e; -fx-background-radius: 30;" text="Pay" textFill="WHITE" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="24.0">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Button>
+      <VBox fx:id="cartProductView_Vbox" blendMode="DARKEN" layoutX="373.0" layoutY="415.0" prefHeight="664.0" prefWidth="1202.0" style="-fx-background-color: #ebebeb; -fx-border-color: #000000;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+      <Label layoutX="913.0" layoutY="775.0" text="Price excl. Moms:" AnchorPane.bottomAnchor="180.0" AnchorPane.rightAnchor="277.6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="924.0" layoutY="820.0" text="Moms:" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="277.6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="947.0" layoutY="891.0" text="Total:" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="277.6">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceEkslMoms_Label" layoutX="1121.0" layoutY="793.0" text="Kr. 9999,99" AnchorPane.bottomAnchor="180.0" AnchorPane.rightAnchor="40.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceMoms_Label" layoutX="1166.0" layoutY="825.0" text="Kr. 9999,99" AnchorPane.bottomAnchor="150.0" AnchorPane.rightAnchor="40.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="priceTotal_Label" layoutX="1194.0" layoutY="875.0" text="kr. 9999,99" AnchorPane.bottomAnchor="89.8" AnchorPane.rightAnchor="40.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="580.0" layoutY="36.0" text="CART" AnchorPane.leftAnchor="582.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
