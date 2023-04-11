@@ -142,7 +142,7 @@ public class Asset {
             throw new Exception("Det vandmærkede billede kunne ikke gemmes " + e.getMessage());
         }
 
-        // til allersidst opdaterer vi dette assets eksisterende filepath med den nye og vandmærkede fil
+        // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
         this.filepath = watermarkedFilePath;
     }
 
