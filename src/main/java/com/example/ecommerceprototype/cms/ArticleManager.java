@@ -24,7 +24,7 @@ public class ArticleManager implements IArticle{
 
     @Override
     public int getCount() { //Counts specifically text files in a directory
-        File f = new File("com/example/ecommerceprototype/CMS/Articles");
+        File f = new File("com/example/ecommerceprototype/cms/Articles");
         if (!f.exists())
             return 0;
 
