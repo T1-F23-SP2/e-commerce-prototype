@@ -126,7 +126,7 @@ public class Asset {
         // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
         g2d.drawImage(originaltBillede, 0, 0, null);
 
-        // herfter kan vi tegne vandmærket ovenpå det nye billede
+        // herfter må vi tegne vandmærket ovenpå det nye billede
         Font font = new Font("Purisa", Font.PLAIN, 48);
         Color color = Color.WHITE;
         g2d.setFont(font);
