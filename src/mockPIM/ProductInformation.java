@@ -1,3 +1,5 @@
+package mockPIM;
+
 import java.util.UUID;
 
 public class ProductInformation {
@@ -112,9 +114,9 @@ public class ProductInformation {
         this.priceInformation = priceInformation;
     }
 
-    public ProductInformation fromDB(ValueExtraxtor ve){
-        // Get something from the fucking database
-        return null;
-    }
+//    public ProductInformation fromDB(ValueExtraxtor ve){
+//        // Get something from the fucking database
+//        return null;
+//    }
 
 }

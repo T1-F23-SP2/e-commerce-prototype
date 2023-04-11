@@ -1,2 +1,4 @@
-package mockPIM;public class ProductSpecification {
+package mockPIM;
+
+public class ProductSpecification {
 }
