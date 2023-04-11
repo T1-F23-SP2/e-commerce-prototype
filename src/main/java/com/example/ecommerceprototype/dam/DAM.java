@@ -1,5 +1,9 @@
 package com.example.ecommerceprototype.dam;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
@@ -145,6 +149,173 @@ public class DAM {
                 sqlReturnValues.getDate(8)
         );
     }
+
+    // add "sale" logo to an existing picture and update the database
+    public void addSaleLogo(Asset asset) throws Exception {
+        // vi starter med at indlæse filen
+        File toBeWatermarked = new File(asset.filepath);
+
+        BufferedImage originaltBillede = null;
+        try {
+            originaltBillede = ImageIO.read(toBeWatermarked);
+        } catch (Exception e) {
+            throw new Exception("Filen kunne ikke indlæses" + e.getMessage());
+        }
+
+        // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke til
+        BufferedImage watermarkedImage = new BufferedImage(originaltBillede.getWidth(), originaltBillede.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
+        Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
+
+        // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
+        g2d.drawImage(originaltBillede, 0, 0, null);
+
+        BufferedImage logo = null;
+
+        try {
+            logo = ImageIO.read(new File("sale.png"));
+        } catch (Exception e){
+            throw new Exception("logo kunne ikke indlæses " + e.getMessage());
+        }
+
+        // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
+
+        int logoWidth = logo.getWidth();
+        int logoHeight = logo.getHeight();
+        int logoMargin = 12;
+        int logoX = watermarkedImage.getWidth() - logoWidth - logoMargin;
+        int logoY = watermarkedImage.getHeight() - logoHeight - logoMargin;
+        g2d.drawImage(logo, logoX, logoY, null);
+
+        // vi gemmer nu det nye billede som en fil
+
+        String newFilePath = asset.filepath + ".watermarked.jpg";
+        try {
+            ImageIO.write(watermarkedImage, "jpg", new File(newFilePath));
+        } catch (Exception e) {
+            throw new Exception("Billedet med vandmærke kunne ikke gemmes: " + e.getMessage());
+        }
+
+        // vi opdaterer nu databasen så det passer
+        String sql = "UPDATE assets SET file_path = ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, asset.filepath);
+            pstmt.setInt(2, asset.id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("filepath kunne ikke opdateres i databasen " + e.getMessage());
+        }
+
+        // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
+        asset.filepath = newFilePath;
+    }
+
+    // add a copyright © to an existing picture and update the database
+    public void addCopyrightLogo(Asset asset) throws Exception {
+        // vi starter med at indlæse filen
+        File toBeWatermarked = new File(asset.filepath);
+
+        BufferedImage originaltBillede = null;
+        try {
+            originaltBillede = ImageIO.read(toBeWatermarked);
+        } catch (Exception e) {
+            throw new Exception("Filen kunne ikke indlæses" + e.getMessage());
+        }
+
+        // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke til
+        BufferedImage watermarkedImage = new BufferedImage(originaltBillede.getWidth(), originaltBillede.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
+        Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
+
+        // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
+        g2d.drawImage(originaltBillede, 0, 0, null);
+
+        BufferedImage logo = null;
+
+        try {
+            logo = ImageIO.read(new File("copyrightbillede.png"));
+        } catch (Exception e){
+            throw new Exception("logo kunne ikke indlæses " + e.getMessage());
+        }
+
+        // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
+
+        int logoWidth = logo.getWidth();
+        int logoHeight = logo.getHeight();
+        int logoMargin = 12;
+        int logoX = watermarkedImage.getWidth() - logoWidth - logoMargin;
+        int logoY = watermarkedImage.getHeight() - logoHeight - logoMargin;
+        g2d.drawImage(logo, logoX, logoY, null);
+
+        // vi gemmer nu det nye billede som en fil
+
+        String newFilePath = asset.filepath + ".watermarked.jpg";
+        try {
+            ImageIO.write(watermarkedImage, "jpg", new File(newFilePath));
+        } catch (Exception e) {
+            throw new Exception("Billedet med vandmærke kunne ikke gemmes: " + e.getMessage());
+        }
+
+        // vi opdaterer nu databasen så det passer
+        String sql = "UPDATE assets SET file_path = ? WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, asset.filepath);
+            pstmt.setInt(2, asset.id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("filepath kunne ikke opdateres i databasen." +
+                    " Copyright logo kunne ikke tilføjes " + e.getMessage());
+        }
+
+        // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
+        asset.filepath = newFilePath;
+    }
+
+    // add a custom text-based watermark to an existing picture and update the database
+    public void addWatermark(String mark, Asset asset) throws Exception {
+
+        // vi starter med at indlæse filen
+        File toBeWatermarked = new File(asset.filepath);
+
+        BufferedImage originaltBillede = null;
+        try {
+            originaltBillede = ImageIO.read(toBeWatermarked);
+        } catch (Exception e) {
+            throw new Exception("Filen kunne ikke indlæses" + e.getMessage());
+        }
+
+        // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke til
+        BufferedImage watermarkedImage = new BufferedImage(originaltBillede.getWidth(), originaltBillede.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
+        Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
+
+        // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
+        g2d.drawImage(originaltBillede, 0, 0, null);
+
+        // herfter må vi tegne vandmærket ovenpå det nye billede
+        Font font = new Font("Purisa", Font.PLAIN, 48);
+        Color color = Color.WHITE;
+        g2d.setFont(font);
+        g2d.setColor(color);
+        g2d.drawString(mark, 10, 50);
+
+        // vi gemmer nu billedet med vandmærket som en ny fil
+        String newFilePath = asset.filepath + ".watermarked.jpg";
+
+        try{
+            ImageIO.write(watermarkedImage, "jpg", new File(newFilePath));
+        } catch (Exception e) {
+            throw new Exception("Det vandmærkede billede kunne ikke gemmes " + e.getMessage());
+        }
+
+        // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
+        asset.filepath = newFilePath;
+    }
+
+
 
 }
 
