@@ -44,11 +44,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="itextpdf-5.5.10-sources" level="project" />
+    <orderEntry type="library" name="itextpdf-5.5.10" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-sync:4.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:4.9.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.mongodb:bson-record-codec:4.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:bson:4.9.0" level="project" />
-    <orderEntry type="library" name="itextpdf-5.5.10-sources" level="project" />
-    <orderEntry type="library" name="itextpdf-5.5.10" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.10" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:2.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:2.0.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
   </component>
 </module>
