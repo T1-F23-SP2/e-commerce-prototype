@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.CMS.ProductPage">
+   <children>
+      <Label fx:id="productName_Label" layoutX="14.0" layoutY="14.0" text="Label" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <ImageView fx:id="productImage_ImageView" fitHeight="200.0" fitWidth="300.0" layoutX="14.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="31.0" />
+      <TextArea fx:id="productAttributtes_TextArea" layoutX="386.0" layoutY="30.0" prefHeight="200.0" prefWidth="245.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" />
+      <TextArea fx:id="productSpecification_TextArea" layoutX="28.0" layoutY="250.0" prefHeight="130.0" prefWidth="574.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="231.0" text="Specification" AnchorPane.leftAnchor="14.0" />
+      <Label fx:id="productPrice_Label" layoutX="465.0" layoutY="234.0" text="Price" />
+      <Button fx:id="addToCart_Button" layoutX="534.0" layoutY="231.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" text="Add to cart" AnchorPane.rightAnchor="14.0" />
+   </children>
+</AnchorPane>
