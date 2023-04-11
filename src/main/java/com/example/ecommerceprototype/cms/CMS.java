@@ -3,17 +3,13 @@ package com.example.ecommerceprototype.cms;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class CMS implements ICMS{
-
-    public static void main(String[] args) { //Test main method
-        int i = CMS.getInstance().articles.getCount();
-        System.out.println(i);
-    }
     private static CMS instance;
     public final ArticleManager articles = ArticleManager.getInstance();
 
@@ -27,45 +23,74 @@ public class CMS implements ICMS{
     }
 
     @Override
-    public Pane fetch(String id) {
-        //String loadString = "com/example/ecommerceprototype/CMS/"+ id +".fxml";
+    public Pane fetchComponent(String id) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(id + ".fxml"));
-
-        Pane pane = new Pane();
-        try { pane = loader.load(); }
+        try {
+            return loader.load();
+        }
         catch (IOException ioe) { System.out.println(ioe.getMessage()); }
-        return pane;
+        return null;
     }
 
     @Override
-    public String[] getAllComponentId(Pane component) {
+    public ArrayList<String> getComponentList(Pane component) {
         ArrayList<String> nodes = new ArrayList<>();
+
         for(Node n : component.getChildren()) {
-            if (n.getId().length() > 0)
+            //Recursive
+            if (n instanceof Pane) {
+                Pane p = (Pane) n;
+                if (p.getChildren().size() > 0)
+                    nodes.addAll(getComponentList(p));
+            }
+
+            if (n instanceof ScrollPane) {
+                ScrollPane sp = (ScrollPane) n;
+                if (sp.getContent() != null && sp.getContent().getId() != null)
+                    nodes.add(sp.getContent().getId());
+            }
+
+            if (n.getId() != null)
                 nodes.add(n.getId());
         }
 
-        String[] result = new String[nodes.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = nodes.get(i);
-        }
+        return nodes;
+    }
 
-        return result;
+
+    @Override
+    public Button getButtonOnComponent(Pane component, String fxid) {
+        Node n = find(component, fxid);
+        if (n instanceof Button)
+            return (Button) n;
+        return null;
     }
 
     @Override
-    public String[] getAllButtonId(Pane component) {
-        ArrayList<String> nodes = new ArrayList<>();
-        for(Node n : component.getChildren()) {
-            if (n.getId().length() > 0 && n instanceof Button)
-                nodes.add(n.getId());
+    public ArrayList<Button> getButtonsOnComponent(Pane component) {
+        ArrayList<Button> buttons = new ArrayList<>();
+        ArrayList<String> ids = getComponentList(component);
+        for (int i = 0; i < ids.size(); i++) {
+            Button b = getButtonOnComponent(component, ids.get(i));
+            if (b != null)
+                buttons.add(b);
         }
 
-        String[] result = new String[nodes.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = nodes.get(i);
-        }
+        return buttons;
+    }
 
-        return result;
+    @Override
+    public Node find(Pane component, String fxid) {
+        for (Node n : component.getChildren()) {
+            System.out.println(n.getId() + " : " + fxid);
+            if (n.getId() != null && n.getId().equals(fxid)) {
+                return n;
+            }
+            else if (n instanceof Pane)
+                find((Pane) n, fxid);
+            else if (n instanceof ScrollPane && ((ScrollPane) n).getContent().getId().equals(fxid))
+                return ((ScrollPane) n).getContent();
+        }
+        return null;
     }
 }

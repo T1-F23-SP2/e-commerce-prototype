@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="250.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.CMS.CartProductView">
+<AnchorPane prefHeight="250.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="productImage_ImageView" fitHeight="236.0" fitWidth="297.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <Label fx:id="productName_Label" layoutX="315.0" layoutY="15.0" text="Product Name" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="15.0">
@@ -19,7 +19,7 @@
       </Label>
       <TextArea fx:id="productDescription_TextArea" editable="false" layoutX="315.0" layoutY="50.0" prefHeight="175.0" prefWidth="475.0" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="50.0" />
       <Label fx:id="warehouseStatus_Label" layoutX="330.0" layoutY="225.0" text="Label" />
-      <Label layoutX="883.0" layoutY="127.0" text="Price" AnchorPane.leftAnchor="883.0">
+      <Label fx:id="price_Label" layoutX="883.0" layoutY="127.0" text="Price" AnchorPane.leftAnchor="883.0">
          <font>
             <Font size="15.0" />
          </font>
