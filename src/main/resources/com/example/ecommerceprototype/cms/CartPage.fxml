@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="pay_Button" layoutX="1828.0" layoutY="969.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="159.0" style="-fx-background-color: #1aab1e; -fx-background-radius: 30;" text="Pay" textFill="WHITE" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="24.0">
          <font>
@@ -44,7 +44,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="580.0" layoutY="36.0" text="CART" AnchorPane.leftAnchor="582.0" AnchorPane.topAnchor="20.0">
+      <Label layoutX="890.0" layoutY="17.0" prefHeight="70.0" prefWidth="120.0" text="CART" textAlignment="JUSTIFY" AnchorPane.leftAnchor="890.0" AnchorPane.rightAnchor="910.0" AnchorPane.topAnchor="17.0">
          <font>
             <Font size="48.0" />
          </font>
