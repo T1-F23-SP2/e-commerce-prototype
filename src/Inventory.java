@@ -23,6 +23,16 @@ public class Inventory {
         return price*margin;
     }
 
+
+    static int getItemsQty(String UUID){
+
+        // Query our database for item qty.
+
+
+        return 0;
+    }
+
+
     public static void main(String[] args) {
         System.out.println();
 

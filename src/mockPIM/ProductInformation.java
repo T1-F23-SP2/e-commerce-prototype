@@ -1,10 +1,12 @@
 package mockPIM;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class ProductInformation {
 
-    UUID productUUID;
+    String productUUID;
     String name;
     String serialNumber;
     String shortDescription;
@@ -15,7 +17,7 @@ public class ProductInformation {
     ManufacturingInformation manufacturingInformation;
     PriceInformation priceInformation;
 
-    public ProductInformation(UUID productUUID, String name, String serialNumber, String shortDescription, String longDescription, boolean isHidden, ProductCategory productCategory, ProductSpecification productSpecification, ManufacturingInformation manufacturingInformation, PriceInformation priceInformation) {
+    public ProductInformation(String productUUID, String name, String serialNumber, String shortDescription, String longDescription, boolean isHidden, ProductCategory productCategory, ProductSpecification productSpecification, ManufacturingInformation manufacturingInformation, PriceInformation priceInformation) {
         this.productUUID = productUUID;
         this.name = name;
         this.serialNumber = serialNumber;
@@ -29,8 +31,9 @@ public class ProductInformation {
     }
 
 
+
     // Getters
-    public UUID getProductUUID() {
+    public String getProductUUID() {
         return productUUID;
     }
 
@@ -71,10 +74,9 @@ public class ProductInformation {
     }
 
 
+
     // Setters
-
-
-    public void setProductUUID(UUID productUUID) {
+    public void setProductUUID(String productUUID) {
         this.productUUID = productUUID;
     }
 

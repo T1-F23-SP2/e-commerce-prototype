@@ -1,3 +1,4 @@
+import OutDatedClasses.Items;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -12,14 +13,14 @@ import java.util.List;
 
 public class TableCreator {
 
-//    static ArrayList<Items> listOfItems = new ArrayList<>();
+//    static ArrayList<OutDatedClasses.Items> listOfItems = new ArrayList<>();
 
     static public void showTable(){
        JFrame frame = new JFrame("Table Example");
 
-       //Items item1 = new Items(1, "Tv LG", 10, 499);
-        //Items item2 = new Items(2, "Macbook pro 4k", 53, 13684);
-        //Items item3 = new Items(3, "Iphone 24", 15, 29999);
+       //OutDatedClasses.Items item1 = new OutDatedClasses.Items(1, "Tv LG", 10, 499);
+        //OutDatedClasses.Items item2 = new OutDatedClasses.Items(2, "Macbook pro 4k", 53, 13684);
+        //OutDatedClasses.Items item3 = new OutDatedClasses.Items(3, "Iphone 24", 15, 29999);
 
 //        listOfItems.add(item1);
 //        listOfItems.add(item2);
