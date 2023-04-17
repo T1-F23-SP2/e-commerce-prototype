@@ -1,7 +1,5 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
-public interface ObjectReconstructor {
-    public default E getObject(){
-        throw new UnsupportedOperationException();
-    }
+public interface ObjectReconstructor<E> {
+    public E getObject();
 }

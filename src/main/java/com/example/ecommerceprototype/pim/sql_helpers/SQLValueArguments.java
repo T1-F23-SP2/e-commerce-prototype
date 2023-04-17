@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
-public class SQLValueArguments<E> extends ArrayList<E> {
+public class SQLValueArguments extends ArrayList<SQLValueSetter<?>> {
 
     public boolean setArgument(Integer i){
         throw new UnsupportedOperationException();

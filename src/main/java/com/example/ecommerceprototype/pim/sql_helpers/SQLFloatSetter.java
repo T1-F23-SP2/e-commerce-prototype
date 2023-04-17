@@ -1,4 +1,10 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
-public class SQLFloatSetter extends SQLValueSetter{
+import java.sql.PreparedStatement;
+
+public class SQLFloatSetter extends SQLValueSetter<Float> {
+    @Override
+    public void setInPreparedStatement(PreparedStatement ps, int offset) {
+        throw new UnsupportedOperationException();
+    }
 }
