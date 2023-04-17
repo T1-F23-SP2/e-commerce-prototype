@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      minHeight="1080" minWidth="1920" maxHeight="1080" maxWidth="1920">
+    <Pane fx:id="topBannerPlaceholder_Pane" prefWidth="1920" prefHeight="80"/>
+    <HBox minWidth="1920" minHeight="1000" maxWidth="1920" maxHeight="1000">
+        <Pane fx:id="sidebarPlaceholder_Pane" prefWidth="180" prefHeight="1000"/>
+        <VBox fx:id="contentPlaceholder_Pane" prefWidth="1740" prefHeight="1000" spacing="25">
+            <padding>
+                <Insets top="20" right="0" bottom="20" left="0" />
+            </padding>
+        </VBox>
+    </HBox>
+</VBox>
