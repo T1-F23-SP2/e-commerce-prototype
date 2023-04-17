@@ -16,7 +16,7 @@ public class OrderConfirmation {
 
 
 
-    // Delete
+    // TODO: Delete
 //    String color;
 //    BigDecimal price;
 //    String str;
