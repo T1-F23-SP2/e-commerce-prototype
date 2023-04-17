@@ -11,7 +11,7 @@ public class ProductInformationUpdater extends ProductInformationWorker {
         throw new UnsupportedOperationException();
     }
 
-    private Productinformation getProductInformationFromUUID(String productUUID) {
+    private ProductInformation getProductInformationFromUUID(String productUUID) {
         throw new UnsupportedOperationException();
     }
 }

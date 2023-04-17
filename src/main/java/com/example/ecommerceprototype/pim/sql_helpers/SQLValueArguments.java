@@ -1,5 +1,9 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+
 public class SQLValueArguments<E> extends ArrayList<E> {
 
     public boolean setArgument(Integer i){

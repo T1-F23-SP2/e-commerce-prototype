@@ -1,5 +1,7 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
