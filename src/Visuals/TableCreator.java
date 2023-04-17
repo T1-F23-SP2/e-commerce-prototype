@@ -1,3 +1,5 @@
+package Visuals;
+
 import OutDatedClasses.Items;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

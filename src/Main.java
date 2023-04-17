@@ -1,8 +1,4 @@
-import mockPIM.PriceInformation;
-import mockPIM.ProductInformation;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import Visuals.TableCreator;
 
 public class Main {
     public static void main(String[] args) {
