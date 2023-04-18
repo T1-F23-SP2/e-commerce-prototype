@@ -28,7 +28,7 @@ public class CMS implements ICMS{
         try {
             return loader.load();
         }
-        catch (IOException ioe) { System.out.println(ioe.getMessage()); }
+        catch (IOException ioe) { System.out.println("Error on load!:\n" + ioe.getMessage()); }
         return null;
     }
 

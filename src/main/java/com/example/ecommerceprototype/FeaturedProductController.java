@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.cms;
+package com.example.ecommerceprototype;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,21 +15,18 @@ public class FeaturedProductController implements Initializable {
     Button productBtn_Button, right_Button, left_Button;
     @FXML
     ImageView productImage_ImageView;
-    @FXML
+
     Image[] images;
 
     int currentImage = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        images = new Image[2];
-        try{
-            for(int i = 1; i <images.length; i++){
-                images[i] = new Image(getClass().getResource("src/main/resources/com/example/ecommerceprototype/cms/TestImages/ComputerImage" + i + ".png").toURI().toString());
-            }
-        }        catch(URISyntaxException ue){
-            System.out.println(ue);
+        images = new Image[3];
+        for(int i = 0; i <images.length; i++){
+            images[i] = new Image(getClass().getResourceAsStream("cms/TestImages/ComputerImage" + (i+1) + ".jpg"));
         }
+
         productImage_ImageView.setImage(images[currentImage]);
         left_Button.setDisable(true);
         left_Button.setOpacity(0);
@@ -38,9 +35,26 @@ public class FeaturedProductController implements Initializable {
     public void NextImageRight(){
         currentImage+=1;
         productImage_ImageView.setImage(images[currentImage]);
-        if(currentImage == images.length-1){
+        if(currentImage == images.length-1) {
             right_Button.setDisable(true);
             right_Button.setOpacity(0);
+        }
+        if(left_Button.isDisabled() == true){
+            left_Button.setDisable(false);
+            left_Button.setOpacity(100);
+        }
+    }
+
+    public void NextImageLeft(){
+        currentImage-=1;
+        productImage_ImageView.setImage(images[currentImage]);
+        if(currentImage == 0) {
+            left_Button.setDisable(true);
+            left_Button.setOpacity(0);
+        }
+        if(right_Button.isDisabled() == true){
+            right_Button.setDisable(false);
+            right_Button.setOpacity(100);
         }
     }
 }
