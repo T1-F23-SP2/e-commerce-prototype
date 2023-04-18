@@ -11,23 +11,23 @@ public class PriceInformation {
     private DiscountInformation discountInformation;
 
     public BigDecimal getPrice() {
-        throw new UnsupportedOperationException();
+        return price;
     }
 
     public LocalDate getPriceCreation() {
-        throw new UnsupportedOperationException();
+        return priceCreation;
     }
 
     public DiscountInformation getDiscountInformation() {
-        throw new UnsupportedOperationException();
+        return discountInformation;
     }
 
     protected void setPrice(BigDecimal n) {
-        throw new UnsupportedOperationException();
+        this.price = n;
     }
 
     protected void setDiscountInformation(DiscountInformation di) {
-        throw new UnsupportedOperationException();
+        this.discountInformation = di;
     }
 
     protected PriceInformation fromDB(ValueExtractor ve) {
