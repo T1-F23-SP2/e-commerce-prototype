@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.CategorySidebar">
+<AnchorPane prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="categoryTitle_Label" alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Category">
          <font>
@@ -29,7 +29,7 @@
                            <children>
                               <ImageView fx:id="categoryComputer_ImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@Temp%20Images/categoryComputer.png" />
+                                    <Image url="@TempImages/categoryComputer.png" />
                                  </image>
                               </ImageView>
                               <Label fx:id="categoryComputer_Label" prefHeight="40.0" prefWidth="140.0" text="Computer">
