@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,10 +33,14 @@ public class CMSExample extends Application{
         Pane side = (Pane) CMS.getInstance().find(plate, "sidebarPlaceholder_Pane");
         side.getChildren().add(CMS.getInstance().fetchComponent("ArticleSidebar"));
 
-        Pane content = (VBox) CMS.getInstance().find(plate, "contentPlaceholder_Pane");
+        ScrollPane content = (ScrollPane) CMS.getInstance().find(plate, "contentPlaceholder_ScrollPane");
         Random random = new Random();
 
-        for (int i = 0; i < 3; i++) {
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.TOP_CENTER);
+        vbox.setSpacing(30);
+
+        for (int i = 0; i < 5; i++) {
             HBox hbox = new HBox();
             hbox.minHeight(450);
             hbox.minWidth(1740);
@@ -45,14 +50,18 @@ public class CMSExample extends Application{
             for (int j = 0; j < 4; j++) {
                 Pane view = CMS.getInstance().fetchComponent("ProductView");
                 ((Label) CMS.getInstance().find(view, "productName_Label")).setText("Product " + (j + 4 * i));
-                ((Label) CMS.getInstance().find(view, "productPrice_Label")).setText("$" + random.nextInt(20) * 5);
+                ((Label) CMS.getInstance().find(view, "productPrice_Label")).setText("$" + ((2 + random.nextInt(20)) * 5));
                 ((Label) CMS.getInstance().find(view, "productStatus_Label")).setText(random.nextInt(2)==0?"Sold out":"In stock");
-                ((TextArea) CMS.getInstance().find(view, "productDescription_TextArea")).setText("This item goes hard!\nLiterally worth every buck!\n40 Volts fully autonomous!");
-                ((ImageView) CMS.getInstance().find(view, "productImage_ImageView")).setImage(new Image("C:\\Users\\marcu\\Documents\\GitHub\\e-commerce-prototype\\src\\main\\resources\\com\\example\\ecommerceprototype\\cms\\Placeholder.jpg"));
+                ((TextArea) CMS.getInstance().find(view, "productDescription_TextArea")).setText("- This item goes hard!\n- Literally worth every buck!\n- 40 Volts fully autonomous!");
+                Image productImage = new Image(getClass().getResourceAsStream("cms/Placeholder.jpg"));
+                ((ImageView) CMS.getInstance().find(view, "productImage_ImageView")).setImage(productImage);
+
                 hbox.getChildren().add(view);
             }
-            content.getChildren().add(hbox);
+            vbox.getChildren().add(hbox);
         }
+        content.setContent(vbox);
+
 
 
         Scene scene = new Scene(plate, 1920, 1080);

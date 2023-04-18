@@ -10,10 +10,10 @@
     <Pane fx:id="topBannerPlaceholder_Pane" prefWidth="1920" prefHeight="80"/>
     <HBox minWidth="1920" minHeight="1000" maxWidth="1920" maxHeight="1000">
         <Pane fx:id="sidebarPlaceholder_Pane" prefWidth="180" prefHeight="1000"/>
-        <VBox fx:id="contentPlaceholder_Pane" prefWidth="1740" prefHeight="1000" spacing="25">
+        <ScrollPane fx:id="contentPlaceholder_ScrollPane" prefWidth="1740" prefHeight="1000" fitToWidth="true">
             <padding>
-                <Insets top="20" right="0" bottom="20" left="0" />
+                <Insets top="30" right="10" bottom="20" left="10" />
             </padding>
-        </VBox>
+        </ScrollPane>
     </HBox>
 </VBox>

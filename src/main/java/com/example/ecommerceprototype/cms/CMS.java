@@ -70,8 +70,8 @@ public class CMS implements ICMS{
     public ArrayList<Button> getButtonsOnComponent(Pane component) {
         ArrayList<Button> buttons = new ArrayList<>();
         ArrayList<String> ids = getComponentList(component);
-        for (int i = 0; i < ids.size(); i++) {
-            Button b = getButtonOnComponent(component, ids.get(i));
+        for (String id : ids) {
+            Button b = getButtonOnComponent(component, id);
             if (b != null)
                 buttons.add(b);
         }
