@@ -1,5 +1,7 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
+
 import java.util.List;
 
 public class DBDriver {
