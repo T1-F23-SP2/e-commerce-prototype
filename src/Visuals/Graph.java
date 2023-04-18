@@ -41,6 +41,7 @@ class BarGraphExample extends JFrame {
 
         org.bson.Document query = new org.bson.Document("Price", new org.bson.Document("$gt", 200));
         List<org.bson.Document> results = collection.find(query).into(new ArrayList<>());
+//        String results = collection.find();
 
         List<Integer> dataList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();

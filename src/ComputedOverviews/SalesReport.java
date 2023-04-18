@@ -1,12 +1,13 @@
 package ComputedOverviews;
 
+import DB.DBManager;
 import mockPIM.PriceInformation;
 import mockPIM.ProductInformation;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-class SalesReport {
+public class SalesReport {
 
 
 
@@ -54,14 +55,14 @@ class SalesReport {
 
 
 
-    static int getOrders(PriceInformation priceInformation){
+    public static int getOrders(PriceInformation priceInformation){
         // TODO: Use a uuid to get all the orders made with that uuid from our database
 
         // Placeholder
         return 1;
     }
 
-    static BigDecimal calcMargin(PriceInformation priceInformation){
+    public static BigDecimal calcMargin(PriceInformation priceInformation){
 
         BigDecimal one = new BigDecimal("1");
         // TODO: This returns the margin for 1 item
@@ -72,17 +73,23 @@ class SalesReport {
 
 
 
-    static int getAmountOfOrders(String UUID){
+    public static int getAmountOfOrders(String UUID){
 
         // TODO: Query database for amount of orders of a specific product(UUID)
 
-        return 0;
+
+        org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), UUID);
+        int amountOfOrders = result.getInteger("AmountSold");
+
+        return amountOfOrders;
     }
 
 
-    static String getFavoriteProduct(){
+    public static String getFavoriteProduct(){
 
         // TODO: Query database for product with most "items quantity" and return UUID
+
+
 
         return null;
     }

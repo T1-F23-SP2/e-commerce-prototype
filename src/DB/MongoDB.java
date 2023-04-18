@@ -19,7 +19,7 @@ class MongoClientConnectionExample {
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
         MongoClient mongoClient = MongoClients.create(uri);
         MongoDatabase database = mongoClient.getDatabase("TesterInvoice");
-        MongoCollection<Document> collection = database.getCollection("Products");
+        MongoCollection<Document> collection = database.getCollection("Item");
 
         Document query = new Document("Price", new Document("$gt", 0));
         List<Document> results = collection.find(query).into(new ArrayList<>());

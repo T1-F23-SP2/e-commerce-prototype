@@ -15,15 +15,15 @@ public class PlaceHolderInstGet {
     static ProductInformation inst3 = new ProductInformation("1U2U3I4D3", "LG Tv", "123456987", "An amazing LG Tv Short Desc", "This LG Tv can this and this Long Desc", false, null, null, null, new PriceInformation(new BigDecimal("24999"), new BigDecimal("20000"), LocalDate.of(2023, 5, 12), null));
 
 
-    static ProductInformation getInst1() {
+    public static ProductInformation getInst1() {
         return inst1;
     }
 
-    static ProductInformation getInst2() {
+    public static ProductInformation getInst2() {
         return inst2;
     }
 
-    static ProductInformation getInst3() {
+    public static ProductInformation getInst3() {
         return inst3;
     }
 }

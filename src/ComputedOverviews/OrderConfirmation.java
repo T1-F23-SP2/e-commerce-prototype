@@ -16,7 +16,7 @@ public class OrderConfirmation {
     ArrayList<ProductInformation> itemList;
     Customer customer;
 
-    
+
 
     BigDecimal amountSpent;
     BigDecimal totalTaxes;
