@@ -1,3 +1,5 @@
+import org.bson.*;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfTemplate;
@@ -6,7 +8,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,20 +23,25 @@ class BarGraphExample extends JFrame {
     private Integer[] data;
     int price;
     private String[] names;
+    JPanel jPanel = new JPanel();
+    JLabel jLabel = new JLabel();
+    Document document1iText = new Document();
+    org.bson.Document doc = new org.bson.Document();
 
 
     public void DB() {
+
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
         MongoClient mongoClient = MongoClients.create(uri);
         MongoDatabase database = mongoClient.getDatabase("TesterInvoice");
-        MongoCollection<Document> collection = database.getCollection("Products");
+        MongoCollection<org.bson.Document> collection = database.getCollection("Products");
 
-        Document query = new Document("Price", new Document("$gt", 200));
-        List<Document> results = collection.find(query).into(new ArrayList<>());
+        org.bson.Document query = new org.bson.Document("Price", new org.bson.Document("$gt", 200));
+        List<org.bson.Document> results = collection.find(query).into(new ArrayList<>());
 
         List<Integer> dataList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();
-        for (Document doc : results) {
+        for (org.bson.Document doc : results) {
             int price = doc.getInteger("Price");
             String name = doc.getString("Name");
             dataList.add(price);
@@ -125,7 +131,6 @@ class BarGraphExample extends JFrame {
                 g2.drawString(yAxisLabel, -yAxisLabelY, yAxisLabelX);
             }
         };
-
         panel.setBackground(Color.WHITE);
         getContentPane().add(panel);
         panel.repaint();
@@ -133,43 +138,44 @@ class BarGraphExample extends JFrame {
         setVisible(true);
     }
 
-    public void PrintFrameToPDF(File file) {
-        com.itextpdf.text.Document Doc = null;
+    public void printPDF(File file) {
+        com.itextpdf.text.Document document1 = null;
+        document1 = new com.itextpdf.text.Document();
+        //just to ensure that the panel has content...
+        jPanel.add(jLabel);
+        jPanel.setSize(100,100);
+//so that even if the label doesnt get added...
+//i can see that the panel does
+        jPanel.setBackground(Color.red);
+
+//the frame containing the panel
+        JFrame f = new JFrame();
+        f.add(jPanel);
+        f.setVisible(true);
+        f.setSize(100,100);
+
+//print the panel to pdf
         try {
-            Doc = new com.itextpdf.text.Document();
-
-            PdfWriter writer = PdfWriter.getInstance(Doc, new FileOutputStream(file));
-            Doc.open();
-
-            PdfContentByte cb = writer.getDirectContent();
-            PdfTemplate template = cb.createTemplate(PageSize.A4.getWidth(), PageSize.A4.getHeight());
-            cb.addTemplate(template, 0, 0);
-
-            Graphics2D g2d = template.createGraphics(PageSize.A4.getWidth(), PageSize.A4.getHeight());
-            g2d.scale(0.4, 0.4);
-
-            for (int i = 0; i < this.getContentPane().getComponents().length; i++) {
-                Component c = this.getContentPane().getComponent(i);
-                if (c instanceof JLabel || c instanceof JScrollPane) {
-                    g2d.translate(c.getBounds().x, c.getBounds().y);
-                    if (c instanceof JScrollPane) {
-                        c.setBounds(0, 0, (int) PageSize.A4.getWidth() * 2, (int) PageSize.A4.getHeight() * 2);
-                    }
-                    c.paintAll(g2d);
-                    c.addNotify();
-                }
-            }
-
-            g2d.dispose();
-
-
+            PdfWriter writer = PdfWriter.getInstance(document1, new FileOutputStream("C:\\Users\\Nicolai\\Desktop\\SMP2_Test\\src\\output.pdf"));
+            document1.open();
+            PdfContentByte contentByte = writer.getDirectContent();
+            PdfTemplate template = contentByte.createTemplate(500, 500);
+            Graphics2D g2 = template.createGraphics(500, 500);
+            jPanel.print(g2);
+            g2.dispose();
+            contentByte.addTemplate(template, 30, 300);
+            jPanel.setVisible(true);
+            System.out.println(g2);
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.toString());
+            System.out.println("hello2");
             e.printStackTrace();
-        } finally {
-            if (Doc != null) {
-                Doc.close();
+        }
+        finally{
+            if(document1 != null) {
+                document1.close();
+                System.out.println("Hello");
             }
+
         }
     }
 
@@ -177,7 +183,9 @@ class BarGraphExample extends JFrame {
         new BarGraphExample();
         BarGraphExample graph = new BarGraphExample();
         File outputFile = new File("src/output.pdf");
-        graph.PrintFrameToPDF(outputFile);
+        graph.printPDF(outputFile);
+        System.out.println(graph);
+
 
 
     }

@@ -1,5 +1,7 @@
 package Customers;
 
+import java.time.LocalDate;
+
 public class Customer {
 
     String name;
@@ -7,6 +9,8 @@ public class Customer {
     int phone;
     String address;
     int zipcode;
+
+    //LocalDate date;
 
     Customer(String name, String email, int phone, String address, int zipcode)
     {
@@ -61,4 +65,5 @@ public class Customer {
     public void setZipcode(int zipcode) {
         this.zipcode = zipcode;
     }
+
 }
