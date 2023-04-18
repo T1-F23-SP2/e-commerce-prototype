@@ -1,6 +1,5 @@
-package com.example.ecommerceprototype;
+package com.example.ecommerceprototype.cms;
 
-import com.example.ecommerceprototype.cms.CMS;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,14 +24,18 @@ public class CMSExample extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
+        //Load page template
         Pane plate = CMS.getInstance().fetchComponent("Template1");
 
+        //Load top banner onto template
         Pane top = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
         top.getChildren().add(CMS.getInstance().fetchComponent("TopBanner"));
 
+        //Load sidebar onto template
         Pane side = (Pane) CMS.getInstance().find(plate, "sidebarPlaceholder_Pane");
         side.getChildren().add(CMS.getInstance().fetchComponent("ArticleSidebar"));
 
+        //Create new content layout, and load productViews into layout
         ScrollPane content = (ScrollPane) CMS.getInstance().find(plate, "contentPlaceholder_ScrollPane");
         Random random = new Random();
 
@@ -52,8 +55,8 @@ public class CMSExample extends Application{
                 ((Label) CMS.getInstance().find(view, "productName_Label")).setText("Product " + (j + 4 * i));
                 ((Label) CMS.getInstance().find(view, "productPrice_Label")).setText("$" + ((2 + random.nextInt(20)) * 5));
                 ((Label) CMS.getInstance().find(view, "productStatus_Label")).setText(random.nextInt(2)==0?"Sold out":"In stock");
-                ((TextArea) CMS.getInstance().find(view, "productDescription_TextArea")).setText("- This item goes hard!\n- Literally worth every buck!\n- 40 Volts fully autonomous!");
-                Image productImage = new Image(getClass().getResourceAsStream("cms/Placeholder.jpg"));
+                ((TextArea) CMS.getInstance().find(view, "productDescription_TextArea")).setText("- This is an item!\n- You should buy this product!\n- Great quality!");
+                Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
                 ((ImageView) CMS.getInstance().find(view, "productImage_ImageView")).setImage(productImage);
 
                 hbox.getChildren().add(view);
@@ -62,10 +65,8 @@ public class CMSExample extends Application{
         }
         content.setContent(vbox);
 
-
-
         Scene scene = new Scene(plate, 1920, 1080);
-        stage.setTitle("Hello!");
+        stage.setTitle("Arnes ElectroShop!");
         stage.setScene(scene);
         stage.show();
     }
