@@ -43,9 +43,9 @@ public class SQLValueArguments extends ArrayList<SQLValueSetter<?>> {
         return this.add(setter);
     }
 
-    public void setArgumentsInStatement(PreparedStatement ps, int offset) throws SQLException {
+    public void setArgumentsInStatement(PreparedStatement ps, int startPosition) throws SQLException {
         for (int i = 0; i < this.size() ; i++) {
-            this.get(i).setInPreparedStatement(ps, i + offset);
+            this.get(i).setInPreparedStatement(ps, i + startPosition);
         }
     }
 

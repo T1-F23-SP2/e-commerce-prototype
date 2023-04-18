@@ -11,7 +11,7 @@ public class SQLStringSetter extends SQLValueSetter<String> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setString(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setString(position, this.getValue());
     }
 }

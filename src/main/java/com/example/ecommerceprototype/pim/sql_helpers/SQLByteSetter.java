@@ -11,7 +11,7 @@ public class SQLByteSetter extends SQLValueSetter<Byte> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setByte(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setByte(position, this.getValue());
     }
 }

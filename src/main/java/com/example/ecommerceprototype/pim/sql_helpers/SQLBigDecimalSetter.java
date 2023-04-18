@@ -12,7 +12,7 @@ public class SQLBigDecimalSetter extends SQLValueSetter<BigDecimal> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setBigDecimal(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setBigDecimal(position, this.getValue());
     }
 }

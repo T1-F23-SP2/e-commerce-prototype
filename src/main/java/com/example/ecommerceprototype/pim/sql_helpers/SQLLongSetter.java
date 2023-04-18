@@ -11,7 +11,7 @@ public class SQLLongSetter extends SQLValueSetter<Long> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setLong(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setLong(position, this.getValue());
     }
 }

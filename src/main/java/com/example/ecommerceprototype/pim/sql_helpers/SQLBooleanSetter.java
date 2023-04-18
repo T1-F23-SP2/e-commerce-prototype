@@ -11,7 +11,7 @@ public class SQLBooleanSetter extends SQLValueSetter<Boolean> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setBoolean(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setBoolean(position, this.getValue());
     }
 }

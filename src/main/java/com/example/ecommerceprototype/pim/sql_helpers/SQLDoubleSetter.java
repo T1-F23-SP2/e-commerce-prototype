@@ -11,7 +11,7 @@ public class SQLDoubleSetter extends SQLValueSetter<Double> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setDouble(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setDouble(position, this.getValue());
     }
 }

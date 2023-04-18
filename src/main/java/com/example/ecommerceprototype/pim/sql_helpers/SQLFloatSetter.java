@@ -11,7 +11,7 @@ public class SQLFloatSetter extends SQLValueSetter<Float> {
     }
 
     @Override
-    public void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException {
-        ps.setFloat(index, this.getValue());
+    public void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException {
+        ps.setFloat(position, this.getValue());
     }
 }

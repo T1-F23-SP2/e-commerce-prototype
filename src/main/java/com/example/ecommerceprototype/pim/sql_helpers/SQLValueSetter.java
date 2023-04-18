@@ -20,5 +20,5 @@ public abstract class SQLValueSetter<E> {
         this.value = val;
     }
 
-    public abstract void setInPreparedStatement(PreparedStatement ps, int index) throws SQLException;
+    public abstract void setInPreparedStatement(PreparedStatement ps, int position) throws SQLException;
 }
