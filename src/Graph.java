@@ -24,6 +24,7 @@ class BarGraphExample extends JFrame {
     int price;
     private String[] names;
     JPanel jPanel = new JPanel();
+    // Skriv herinde til PDF
     JLabel jLabel = new JLabel();
     Document document1iText = new Document();
     org.bson.Document doc = new org.bson.Document();
@@ -156,7 +157,7 @@ class BarGraphExample extends JFrame {
 
 //print the panel to pdf
         try {
-            PdfWriter writer = PdfWriter.getInstance(document1, new FileOutputStream("C:\\Users\\Nicolai\\Desktop\\SMP2_Test\\src\\output.pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document1, new FileOutputStream("/Users/dj/Desktop/Software_ingeniør/2_Semester/Semesterprojekt_2/SMP2_Test/src/output.pdf"));
             document1.open();
             PdfContentByte contentByte = writer.getDirectContent();
             PdfTemplate template = contentByte.createTemplate(500, 500);
