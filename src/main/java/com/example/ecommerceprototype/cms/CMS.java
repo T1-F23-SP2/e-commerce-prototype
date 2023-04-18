@@ -25,6 +25,7 @@ public class CMS implements ICMS{
     @Override
     public Pane fetchComponent(String id) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(id + ".fxml"));
+        System.out.println(loader);
         try {
             return loader.load();
         }
