@@ -15,10 +15,8 @@ public class OrderConfirmation {
 
     ArrayList<ProductInformation> itemList;
     Customer customer;
-    List<Integer> productqty = new ArrayList<>();
 
-
-
+    
 
     BigDecimal amountSpent;
     BigDecimal totalTaxes;
@@ -85,10 +83,12 @@ public class OrderConfirmation {
 
 
 
+
     public void displayProductInformation(){
         // TODO: Code to display all the product information
 
     }
+
 
     public void convertToPDF(){
         // TODO: Code to convert it to PDF
