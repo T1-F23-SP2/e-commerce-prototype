@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ class SQLValueArgumentsTest {
         this.arguments = new SQLValueArguments();
     }
 
+    @DisplayName("Test for setting argument for Big decimal")
     @Test
     void setArgumentBigDecimal() {
         BigDecimal test = new BigDecimal("2.300");
@@ -26,6 +28,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for boolean")
     @Test
     void setArgumentBoolean() {
         Boolean test = true;
@@ -34,6 +37,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for byte")
     @Test
     void setArgumentByte() {
         Byte test = (byte) 2;
@@ -42,6 +46,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for double")
     @Test
     void setArgumentDouble() {
         Double test = 8D;
@@ -50,6 +55,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for float")
     @Test
     void setArgumentFloat() {
         Float test = 2.3F;
@@ -58,6 +64,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for integer")
     @Test
     void setArgumentInteger() {
         Integer test = 2;
@@ -66,6 +73,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for long")
     @Test
     void setArgumentLong() {
         Long test = 2L;
@@ -74,6 +82,7 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for string")
     @Test
     void setArgumentString() {
         String test = "Hello world";
@@ -82,9 +91,12 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for no-args constructors")
     @Test
     void setGenericArgument() {
-        SQLValueSetter<?> test = new SQLBigDecimalSetter();
+        SQLValueSetter<?> test;
+
+        test = new SQLBigDecimalSetter();
         this.arguments.setArgument(test);
         assertInstanceOf(SQLValueSetter.class, this.arguments.get(this.arguments.size() - 1));
         assertEquals(test, this.arguments.get(this.arguments.size() - 1));
