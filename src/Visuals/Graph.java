@@ -27,7 +27,7 @@ class BarGraphExample extends JFrame {
     private String[] names;
     JPanel jPanel = new JPanel();
     // Skriv herinde til PDF
-    JLabel jLabel = new JLabel();
+    JLabel jLabel = new JLabel("e");
     Document document1iText = new Document();
     org.bson.Document doc = new org.bson.Document();
 
