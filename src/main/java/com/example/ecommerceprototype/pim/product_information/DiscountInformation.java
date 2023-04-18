@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class DiscountInformation {
@@ -10,37 +11,45 @@ public class DiscountInformation {
     private LocalDate expiringDate;
 
     public DiscountInformation() {
-        throw new UnsupportedOperationException();
+
     }
 
-    public int calculateDiscountPeriod() {
-        throw new UnsupportedOperationException();
+    public DiscountInformation(String name, LocalDate startingDate, LocalDate expiringDate) {
+        this.name = name;
+        this.startingDate = startingDate;
+        this.expiringDate = expiringDate;
+    }
+
+    // Returns amount of hours that a given discount is valid, as a Long.
+    public long calculateDiscountPeriod() {
+        return Duration.between(startingDate, expiringDate).toHours();
     }
 
     public LocalDate getStartingDate() {
-        throw new UnsupportedOperationException();
+        return this.startingDate;
     }
 
     public LocalDate getExpiringDate() {
-        throw new UnsupportedOperationException();
+        return this.expiringDate;
     }
 
     public String getName() {
-        throw new UnsupportedOperationException();
+        return this.name;
     }
 
     protected void setName(String s) {
-        throw new UnsupportedOperationException();
+        this.name = s;
     }
 
     protected void setStartingDate(LocalDate ld) {
-        throw new UnsupportedOperationException();
+        this.startingDate = ld;
     }
 
     protected void setExpiringDate(LocalDate ld) {
-        throw new UnsupportedOperationException();
+        this.expiringDate = ld;
     }
 
+    // TODO: Implement fromDB
     protected DiscountInformation fromDB(ValueExtractor ve) {
         throw new UnsupportedOperationException();
     }

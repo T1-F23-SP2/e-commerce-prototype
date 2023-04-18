@@ -6,20 +6,26 @@ import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryIn
 import java.time.LocalDate;
 
 public abstract class DiscountInformationWorker {
+    DiscountInformation discountInformation;
+
+    public DiscountInformationWorker() {
+        this.discountInformation = new DiscountInformation();
+    }
+
     public void setName(String s) {
-        throw new UnsupportedOperationException();
+        this.discountInformation.setName(s);
     }
 
     public void setStartingDate(LocalDate ld) {
-        throw new UnsupportedOperationException();
+        this.discountInformation.setStartingDate(ld);
     }
 
     public void setExpiringDate(LocalDate ld) {
-        throw new UnsupportedOperationException();
+        this.discountInformation.setExpiringDate(ld);
     }
 
     public DiscountInformation getDiscountInformation() {
-        throw new UnsupportedOperationException();
+        return this.discountInformation;
     }
 
     public DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
