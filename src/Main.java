@@ -83,6 +83,7 @@ public class Main {
         //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
         //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
 
+
         System.out.println(SalesReport.getFavoriteProduct());
 
         //System.out.println(inventory1.calcMargin());
