@@ -4,20 +4,21 @@ import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
 public abstract class ProductCategoryWorker {
+    ProductCategory productCategory;
     public ProductCategoryWorker() {
-        throw new UnsupportedOperationException();
+        this.productCategory = new ProductCategory();
     }
 
     public void setName(String s) {
-        throw new UnsupportedOperationException();
+        this.productCategory.setName(s);
     }
 
     public void setCategoryParent(String name) {
-        throw new UnsupportedOperationException();
+        this.productCategory.setProductCategoryParent(name);
     }
 
     public ProductCategory getProductCategory() {
-        throw new UnsupportedOperationException();
+        return this.productCategory;
     }
 
     public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
