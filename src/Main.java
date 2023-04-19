@@ -78,14 +78,16 @@ public class Main {
 //                .append("Amount", 1)
 //        );
 
-        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
 
+        //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
+        //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
+        //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
 
+        System.out.println(SalesReport.getFavoriteProduct());
 
-
-        System.out.println(inventory1.calcMargin());
-        System.out.println(inventory2.calcMargin());
-        TableCreator.showTable();
+        //System.out.println(inventory1.calcMargin());
+        //System.out.println(inventory2.calcMargin());
+        //TableCreator.showTable();
 
 
 
