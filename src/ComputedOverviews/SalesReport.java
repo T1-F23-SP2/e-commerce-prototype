@@ -63,7 +63,20 @@ public class SalesReport {
 
     public static int getOrders(PriceInformation priceInformation){
         // TODO: Use a uuid to get all the orders made with that uuid from our database
+        MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
 
+        List<org.bson.Document> result = finder.find().into(new ArrayList<>());
+
+        List<String> Word = new ArrayList<>();
+        for (org.bson.Document ser : result) {
+            String UUIDs = ser.getString("UUID");
+            Word.add(UUIDs);
+        }
+            //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
+
+        String bWord = Word.get(0);
+        System.out.println(bWord);
+        Document query = new Document("AmountSold", new Document("$eq", bWord));
         // Placeholder
         return 1;
     }
@@ -80,8 +93,9 @@ public class SalesReport {
 
 
     public static int getAmountOfOrders(String UUID) {
-        MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
 
+
+        /*MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
         // Build query to retrieve documents with matching UUID
         Document query = new Document("UUID", UUID);
 
@@ -107,7 +121,18 @@ public class SalesReport {
         } else {
             // No matching documents found
             return 0;
-        }
+        }*/
+
+
+            // TODO: Query database for amount of orders of a specific product(UUID)
+
+
+            org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), "AmountSold");
+            int amountOfOrders = result.getInteger("AmountSold");
+
+            return amountOfOrders;
+
+
     }
 
 
