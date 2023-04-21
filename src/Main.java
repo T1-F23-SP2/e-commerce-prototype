@@ -18,6 +18,8 @@ public class Main {
         Inventory inventory2 = new Inventory("Danieal", 100);
 
 
+        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
+
 
         // Setup of database
 
@@ -79,7 +81,7 @@ public class Main {
 //        );
 
         //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
-        System.out.println(SalesReport.getOrders(PlaceHolderInstGet.getInst1().getPriceInformation()));
+//        System.out.println(SalesReport.getOrders(PlaceHolderInstGet.getInst1().getPriceInformation()));
 
         //System.out.println(SalesReport.getFavoriteProduct());
 

@@ -59,10 +59,8 @@ public class SalesReport {
     }
 
 
-
-
     public static int getOrders(PriceInformation priceInformation){
-        // TODO: Use a uuid to get all the orders made with that uuid from our database
+        // TODO: Get all orders from orderHistory database table, and save it 
         MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
 
         List<org.bson.Document> result = finder.find().into(new ArrayList<>());
@@ -126,6 +124,7 @@ public class SalesReport {
 
             // TODO: Query database for amount of orders of a specific product(UUID)
 
+        // Fix this, it has to get the right value and not 55 everytime
 
             org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), "AmountSold");
             int amountOfOrders = result.getInteger("AmountSold");
