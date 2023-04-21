@@ -1,5 +1,6 @@
 package Visuals;
 
+import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -65,7 +66,7 @@ class BarGraphExample extends JFrame {
         System.out.println(names[0]);
     }
 
-    /* public BarGraphExample() {
+    public BarGraphExample() {
         super("Bar Graph Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -140,6 +141,8 @@ class BarGraphExample extends JFrame {
                 at.rotate(-Math.PI / 2);
                 g2.setTransform(at);
                 g2.drawString(yAxisLabel, -yAxisLabelY, yAxisLabelX);
+                print(g);
+
             }
         };
         panel.setBackground(Color.WHITE);
@@ -147,7 +150,8 @@ class BarGraphExample extends JFrame {
         panel.repaint();
         setSize(720, 960);
         setVisible(true);
-    }*/
+
+    }
 
     /* public void printPDF(File file) {
         com.itextpdf.text.Document document1 = null;
@@ -190,7 +194,7 @@ class BarGraphExample extends JFrame {
         }
     }*/
 
-    public void PDFer(File file) throws IOException, DocumentException {
+    /*public void PDFer(File file) throws IOException, DocumentException {
         data = new Integer[] { 10000, 20000, 30000, 40000, 500000 };
         names = new String[] {"Price", "Ding", "Wrong"};
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -286,10 +290,11 @@ class BarGraphExample extends JFrame {
         doc.close();
 
     }
-
+*/
     public static void main(String[] args) throws DocumentException, IOException {
+
         BarGraphExample graph = new BarGraphExample();
-        graph.PDFer(null);
+        //graph.PDFer(null);
     }
 
 

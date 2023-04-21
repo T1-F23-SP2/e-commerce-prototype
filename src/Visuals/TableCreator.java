@@ -20,21 +20,6 @@ public class TableCreator {
     static public void showTable(){
        JFrame frame = new JFrame("Table Example");
 
-       //OutDatedClasses.Items item1 = new OutDatedClasses.Items(1, "Tv LG", 10, 499);
-        //OutDatedClasses.Items item2 = new OutDatedClasses.Items(2, "Macbook pro 4k", 53, 13684);
-        //OutDatedClasses.Items item3 = new OutDatedClasses.Items(3, "Iphone 24", 15, 29999);
-
-//        listOfItems.add(item1);
-//        listOfItems.add(item2);
-//        listOfItems.add(item3);
-
-//        Object[][] data;
-
-//        for(int i = 0; i<listOfItems.size(); i++){
-//            for(int j = 0; j<4; j++){
-//                data[i][j] =
-//            };
-//        };
 
         // Data for the table
         Items item = null;

@@ -1,58 +1,96 @@
 package Visuals;
 
-import java.awt.Font;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
 import java.io.FileOutputStream;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import com.itextpdf.awt.DefaultFontMapper;
+import java.awt.geom.Rectangle2D;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
 
 public class JPanelToPDF {
-
-    public static void main(String[] args) throws Exception {
-        // Create a new PDF document
+    /* chapter12/MyJTable.java */
+    public void createPdf(boolean shapes) {
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/krist/Desktop/SM2_Project/SMP2_Test/src/TEST.pdf"));
-        document.open();
+        try {
+            PdfWriter writer;
+            if (shapes)
+                writer = PdfWriter.getInstance(document,
+                        new FileOutputStream("my_jtable_shapes.pdf"));
+            else
+                writer = PdfWriter.getInstance(document,
+                        new FileOutputStream("my_jtable_fonts.pdf"));
+            document.open();
+            PdfContentByte cb = writer.getDirectContent();
+            PdfTemplate tp = cb.createTemplate(500, 500);
+            Graphics2D g2;
+            if (shapes)
 
-        // Create a JPanel that you want to add to the PDF
-        JPanel panel = new JPanel();
-        JLabel label = new JLabel("Hello, world!");
-        Font font = new Font("Helvetica", Font.PLAIN, 72);
-        label.setFont(font);
-        panel.add(label);
-
-        // Add the panel to a JFrame and make it visible
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(panel);
-        frame.pack();
-        frame.setVisible(true);
-
-        // Get the dimensions of the panel
-        int width = 700;
-        int height = 1620;
-
-        // Set the preferred size of the panel to the desired dimensions
-        panel.setPreferredSize(new java.awt.Dimension(width, height));
-
-        // Convert the JPanel to an image
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = image.createGraphics();
-        panel.paint(g2);
-
-        // Add the image to the PDF
-        Image pdfImage = Image.getInstance(writer, image, 1);
-        document.add(pdfImage);
-
-        // Close the document
+                g2 = tp.createGraphicsShapes(500, 500);
+            else
+                g2 = tp.createGraphics(500, 500);
+            //table.print(g2);
+            g2.dispose();
+            cb.addTemplate(tp, 30, 300);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         document.close();
     }
-
+    public static JFreeChart getBarChart() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.setValue(57, "students", "Asia");
+        dataset.setValue(36, "students", "Africa");
+        dataset.setValue(29, "students", "S-America");
+        dataset.setValue(17, "students", "N-America");
+        dataset.setValue(12, "students", "Australia");
+        return ChartFactory.createBarChart("T.U.F. Students",
+                "continent", "number of students", dataset,
+                PlotOrientation.VERTICAL, false, true, false);
+    }
+    public static JFreeChart getPieChart() {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        dataset.setValue("Europe", 302);
+        dataset.setValue("Asia", 57);
+        dataset.setValue("Africa", 17);
+        dataset.setValue("S-America", 29);
+        dataset.setValue("N-America", 17);
+        dataset.setValue("Australia", 12);
+        return ChartFactory.createPieChart("Students per continent",
+                dataset, true, true, false);
+    }
+    public static void convertToPdf(JFreeChart chart,
+                                    int width, int height, String filename) {
+        Document document = new Document(new com.itextpdf.text.Rectangle(width, height));
+        try {
+            PdfWriter writer;
+            writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+            document.open();
+            PdfContentByte cb = writer.getDirectContent();
+            PdfTemplate tp = cb.createTemplate(width, height);
+            Graphics2D g2d = tp.createGraphics(width, height, new DefaultFontMapper());
+            Rectangle2D r2d = new Rectangle2D.Double(0, 0, width, height);
+            chart.draw(g2d, r2d);
+            g2d.dispose();
+            cb.addTemplate(tp, 0, 0);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        document.close();
+    }
 }
-
