@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CMS implements ICMS{
     private static CMS instance;
-    public final ArticleManager articles = ArticleManager.getInstance();
+    public static final ArticleManager articles = ArticleManager.getInstance();
 
 
     private CMS() {}; //Zero-arg constructor
@@ -24,13 +24,14 @@ public class CMS implements ICMS{
     }
 
     @Override
-    public Pane fetchComponent(String id) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(id + ".fxml"));
+    public Pane fetchComponent(String id) throws FXMLLoadFailedException {
+        String errorMessage;
+        FXMLLoader loader = new FXMLLoader(CMS.class.getResource(id + ".fxml"));
         try {
             return loader.load();
         }
-        catch (IOException ioe) { System.out.println(ioe.getMessage()); }
-        return null;
+        catch (IOException ioe) { errorMessage = ioe.getMessage(); }
+        throw new FXMLLoadFailedException(errorMessage);
     }
 
     /*@Override
@@ -125,8 +126,14 @@ public class CMS implements ICMS{
                 if (rn != null)
                     return rn;
             }
-            else if (n instanceof ScrollPane && ((ScrollPane) n).getContent().getId().equals(fxid))
-                return ((ScrollPane) n).getContent();
+            else if (n instanceof ScrollPane)
+                if (((ScrollPane) n).getContent().getId().equals(fxid))
+                    return ((ScrollPane) n).getContent();
+                else if (((ScrollPane) n).getContent() instanceof Pane) {
+                    Node rn = find((Pane) ((ScrollPane) n).getContent(), fxid);
+                    if (rn != null)
+                        return rn;
+                }
         }
         System.out.println("Ending branch search!");
         return null;

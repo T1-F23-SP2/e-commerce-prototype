@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public interface ICMS {
-    Pane fetchComponent(String id);
+    Pane fetchComponent(String id) throws FXMLLoadFailedException;
     //Pane fetchComponentWithProduct(String fxid, ProductInformation p);
     ArrayList<String> getNodeList(Pane component);
     ArrayList<String> getComponentList();
