@@ -10,6 +10,6 @@ public class ProductCategoryBuilder extends ProductCategoryWorker {
 
     @Override // TODO: Implement CategoryBuilder submit()
     public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        return super.submit();
+        throw new UnsupportedOperationException();
     }
 }

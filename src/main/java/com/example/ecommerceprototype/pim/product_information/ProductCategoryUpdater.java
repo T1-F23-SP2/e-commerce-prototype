@@ -14,6 +14,6 @@ public class ProductCategoryUpdater extends ProductCategoryWorker { // TODO: Imp
 
     @Override
     public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        return super.submit();
+        throw new UnsupportedOperationException();
     }
 }

@@ -21,7 +21,5 @@ public abstract class ProductCategoryWorker {
         return this.productCategory;
     }
 
-    public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
-    }
+    public abstract ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }
