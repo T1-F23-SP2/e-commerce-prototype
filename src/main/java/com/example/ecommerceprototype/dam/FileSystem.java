@@ -10,9 +10,10 @@ public class FileSystem {
         tagSystem = new TagSystem();
     }
 
-    public void addFile(String fileName, List<String> tags) {
+    public boolean addFile(String fileName, List<String> tags) {
         fileTagMap.put(fileName, tags);
         tagSystem.addTags(fileName, tags);
+        return true;
     }
 
     public List<String> searchFiles(List<String> tags) {
