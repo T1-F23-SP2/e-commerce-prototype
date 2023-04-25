@@ -11,7 +11,8 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
     }
 
     protected ManufacturingInformationUpdater(String name) {
-        getManufactureByName() = name;
+        //Out commented because it gives error
+        //DBDriver.getManufactureByName() = name;
     }
 
     @Override
