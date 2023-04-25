@@ -28,12 +28,13 @@ public class ProductCategory {
         return this.productCategoryParent;
     }
 
-    protected void setName(String name) {
+    protected ProductCategory setName(String name) {
         this.name = name;
+        return this;
     }
 
     // TODO: Create below method, by searching for Category by name.
-    protected void setProductCategoryParent(String name) {
+    protected ProductCategory setProductCategoryParent(String name) {
         throw new UnsupportedOperationException();
     }
 
