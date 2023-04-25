@@ -15,23 +15,21 @@ public abstract class ManufacturingInformationWorker {
 
     }
 
-    public void setName(String s) {
-        this.manufacturingInformation.name = s;
+    public void setName(String name) {
+        this.manufacturingInformation.name = name;
     }
 
-    public void setSupportPhoneNumber(String s) {
-        this.manufacturingInformation.supportPhoneNumber = s;
+    public void setSupportPhoneNumber(String supportPhoneNumber) {
+        this.manufacturingInformation.supportPhoneNumber = supportPhoneNumber;
     }
 
-    public void setSupportMail(String s) {
-        this.manufacturingInformation.supportMail = s;
+    public void setSupportMail(String supportMail) {
+        this.manufacturingInformation.supportMail = supportMail;
     }
 
     public ManufacturingInformation getManufacturingInformation() {
         return manufacturingInformation;
     }
 
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
-    }
+    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }

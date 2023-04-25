@@ -29,16 +29,16 @@ public class ManufacturingInformation {
         return supportMail;
     }
 
-    protected void setName(String s) {
-        this.name = s;
+    protected void setName(String name) {
+        this.name = name;
     }
 
-    protected void setSupportPhoneNumber(String s) {
-        this.supportPhoneNumber = s;
+    protected void setSupportPhoneNumber(String supportPhoneNumber) {
+        this.supportPhoneNumber = supportPhoneNumber;
     }
 
-    protected void setSupportMail(String s) {
-        this.supportMail = s;
+    protected void setSupportMail(String supportMail) {
+        this.supportMail = supportMail;
     }
 
     protected ManufacturingInformation fromDB(ValueExtractor ve) {

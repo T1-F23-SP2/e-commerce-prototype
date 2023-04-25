@@ -11,11 +11,11 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
     }
 
     protected ManufacturingInformationUpdater(String name) {
-        super.getManufacturingInformation().name = name;
+        getManufactureByName() = name;
     }
 
     @Override
     public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        return super.submit();
+        throw new UnsupportedOperationException();
     }
 }

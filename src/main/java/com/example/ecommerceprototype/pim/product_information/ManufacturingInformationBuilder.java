@@ -13,7 +13,7 @@ public class ManufacturingInformationBuilder extends ManufacturingInformationWor
 
     @Override
     public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        return super.submit();
+        throw new UnsupportedOperationException();
     }
 
 }
