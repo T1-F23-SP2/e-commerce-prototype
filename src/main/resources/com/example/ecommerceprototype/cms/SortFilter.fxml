@@ -2,8 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,8 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.SortFilter">
+
    <children>
       <HBox prefHeight="40.0" prefWidth="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -27,23 +28,51 @@
             </Label>
          </children>
       </HBox>
-      <ScrollPane fx:id="filterScroll_ScrollPane" fitToWidth="true" prefHeight="960.0" prefWidth="180.0" AnchorPane.topAnchor="40.0">
+      <ScrollPane fx:id="filterScroll_ScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="960.0" prefWidth="180.0" AnchorPane.topAnchor="40.0">
          <content>
-            <TitledPane animated="false" text="Price">
-               <content>
-                  <VBox prefHeight="0.0" prefWidth="176.0">
-                     <children>
-                        <HBox prefHeight="20.0" prefWidth="180.0">
+            <VBox prefHeight="946.0" prefWidth="178.0">
+               <children>
+                  <TitledPane fx:id="brandsPane_TitledPane" prefHeight="200.0" prefWidth="200.0" text="Brands">
+                     <content>
+                        <VBox fx:id="brandBox_VBox" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Label prefHeight="20.0" prefWidth="60.0" text="Label" />
-                              <Label prefHeight="20.0" prefWidth="40.0" text="Label" textAlignment="RIGHT" />
+                              <RadioButton fx:id="brand1_RadioButton" mnemonicParsing="false" text="RadioButton" />
                            </children>
-                        </HBox>
-                        <Slider />
-                     </children>
-                  </VBox>
-               </content>
-            </TitledPane>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="pricePane_TitledPane" animated="false" text="Price">
+                     <content>
+                        <VBox prefHeight="0.0" prefWidth="176.0">
+                           <children>
+                              <HBox prefHeight="20.0" prefWidth="180.0">
+                                 <children>
+                                    <Label fx:id="priceMin_Label" prefHeight="18.0" prefWidth="88.0" text="Min. Price" />
+                                    <Label fx:id="priceMax_Label" prefHeight="19.0" prefWidth="64.0" text="Max. Price" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField fx:id="minPrice_TextField" />
+                                    <TextField fx:id="maxPrice_TextField" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+                  <TitledPane fx:id="stockPane_TitledPane" prefHeight="200.0" prefWidth="200.0" text="Stock Status">
+                     <content>
+                        <VBox fx:id="stockBox_VBox" prefHeight="96.0" prefWidth="176.0">
+                           <children>
+                              <RadioButton fx:id="inStock_RadioButton" mnemonicParsing="false" text="In stock" />
+                              <RadioButton fx:id="outStock_RadioButton" mnemonicParsing="false" text="Out of stock" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+               </children>
+            </VBox>
          </content>
       </ScrollPane>
    </children>
