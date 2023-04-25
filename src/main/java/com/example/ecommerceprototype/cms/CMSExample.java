@@ -1,19 +1,24 @@
 package com.example.ecommerceprototype.cms;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Random;
 
 public class CMSExample extends Application{
 
+    Stage window;
     public static void main(String[] args) {
         launch();
     }
@@ -21,18 +26,49 @@ public class CMSExample extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        /*
+        window = stage;
+        loadShopPage();
+
+        stage.setTitle("Arnes ElectroShop!");
+        stage.show();
+    }
+
+    public void loadShopPage() throws Exception {
         //Load page template
         Pane plate = CMS.getInstance().fetchComponent("ContentTemplate1");
         System.out.println(plate);
 
         //Load top banner onto template
-        Pane top = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
-        top.getChildren().add(CMS.getInstance().fetchComponent("TopBanner"));
+        Pane topPlaceholder = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
+        Pane topBanner = CMS.getInstance().fetchComponent("TopBanner");
+        ((Button) CMS.getInstance().find(topBanner, "home_Button")).setOnAction(actionEvent -> {
+            try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        topPlaceholder.getChildren().add(topBanner);
 
         //Load sidebar onto template
-        Pane side = (Pane) CMS.getInstance().find(plate, "sidebarPlaceholder_Pane");
-        side.getChildren().add(CMS.getInstance().fetchComponent("ArticleSidebar"));
+        Pane sidePlaceholder = (Pane) CMS.getInstance().find(plate, "sidebarPlaceholder_Pane");
+        Pane sidebar = (Pane) CMS.getInstance().fetchComponent("CategorySidebar");
+
+        //Set action for article button
+        ((Button) CMS.getInstance().find(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+            try {loadArticlePage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+
+        //Put some categories into the category sidebar
+        VBox categoryList = (VBox) CMS.getInstance().find(sidebar, "categoryList_VBox");
+
+        String[] categories = {"Computers", "Laptops", "Phones", "Watches", "Parts"};
+        for (int i = 0; i < categories.length; i++) {
+            VBox categoryItem = (VBox) CMS.getInstance().fetchComponent("CategoryItem");
+            Button b = (Button) CMS.getInstance().find(categoryItem, "categoryItem_Button");
+            b.setText(categories[i]);
+            categoryList.getChildren().add(b);
+        }
+
+        sidePlaceholder.getChildren().add(sidebar);
 
         //Load content into gridPane
         GridPane content = (GridPane) CMS.getInstance().find(plate, "contentPlaceholder_GridPane");
@@ -55,20 +91,23 @@ public class CMSExample extends Application{
                 content.getChildren().add(view);
             }
         }
-        */
+        window.setScene(new Scene(plate, 1920, 1080));
+    }
 
+    public void loadArticlePage() throws Exception{
         Pane plate = CMS.getInstance().fetchComponent("ContentTemplate2");
 
         Pane top = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
-        top.getChildren().add(CMS.getInstance().fetchComponent("TopBanner"));
+        Pane topBanner = CMS.getInstance().fetchComponent("TopBanner");
+        ((Button) CMS.getInstance().find(topBanner, "home_Button")).setOnAction(actionEvent -> {
+            try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        top.getChildren().add(topBanner);
 
         Pane content = (Pane) CMS.getInstance().find(plate, "contentPlaceholder_Pane");
         content.getChildren().add(CMS.getInstance().fetchComponent("ArticlePage"));
 
-
-        Scene scene = new Scene(plate, 1920, 1080);
-        stage.setTitle("Arnes ElectroShop!");
-        stage.setScene(scene);
-        stage.show();
+        window.setScene(new Scene(plate, 1920, 1080));
     }
 }

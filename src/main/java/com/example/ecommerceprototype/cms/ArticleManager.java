@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArticleManager implements IArticle{
@@ -59,7 +60,18 @@ public class ArticleManager implements IArticle{
                 System.out.println(fnfe.getMessage());
             }
         }
-
         return results;
+    }
+
+    @Override
+    public ArrayList<File> getArticleFiles() {
+        ArrayList<File> result = new ArrayList<>();
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        if (!infile.exists())
+            return result;
+
+        File[] allFiles = infile.listFiles();
+        result.addAll(Arrays.asList(allFiles));
+        return result;
     }
 }

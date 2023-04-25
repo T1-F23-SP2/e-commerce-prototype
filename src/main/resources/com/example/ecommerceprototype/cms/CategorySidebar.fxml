@@ -3,47 +3,28 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="categoryTitle_Label" alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Category">
+<VBox prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER">
+   <Label alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Category">
          <font>
             <Font size="24.0" />
          </font>
-      </Label>
-      <ScrollPane fx:id="categoryScrollPane" fitToWidth="true" prefHeight="960.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-         <content>
-            <VBox fx:id="categoryScrollPane_VBox" prefHeight="960.0" prefWidth="180.0">
-               <children>
-                  <AnchorPane fx:id="categoryComputer_AnchorPane" prefHeight="40.0" prefWidth="180.0">
-                     <children>
-                        <Button fx:id="categoryComputer_Button" mnemonicParsing="false" opacity="0.02" prefHeight="40.0" prefWidth="180.0" text="Button" />
-                        <HBox fx:id="categoryComputer_HBox" prefHeight="40.0" prefWidth="180.0">
-                           <children>
-                              <ImageView fx:id="categoryComputer_ImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@TempImages/categoryComputer.png" />
-                                 </image>
-                              </ImageView>
-                              <Label fx:id="categoryComputer_Label" prefHeight="40.0" prefWidth="140.0" text="Computer">
-                                 <padding>
-                                    <Insets left="5.0" />
-                                 </padding>
-                              </Label>
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-   </children>
-</AnchorPane>
+   </Label>
+   <VBox fx:id="categoryList_VBox" prefWidth="180.0" spacing="10">
+      <padding>
+         <Insets bottom="25"/>
+      </padding>
+   </VBox>
+   <Label alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Articles">
+      <font>
+         <Font size="24.0" />
+      </font>
+   </Label>
+   <Button fx:id="articlesButton_Button" text="Go To Articles" prefWidth="180" prefHeight="50">
+      <font>
+         <Font size="16"/>
+      </font>
+   </Button>
+</VBox>

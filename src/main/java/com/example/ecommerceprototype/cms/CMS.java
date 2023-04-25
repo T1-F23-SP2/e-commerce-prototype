@@ -112,16 +112,11 @@ public class CMS implements ICMS{
 
     @Override
     public Node find(Pane component, String fxid) {
-        System.out.println("\nSearching " + component);
-
         for (Node n : component.getChildren()) {
-            System.out.println(n.getId() + " : " + fxid);
             if (n.getId() != null && n.getId().equals(fxid)) {
-                System.out.println("Succes! returning " + n.getId() + " : " + n);
                 return n;
             }
             else if (n instanceof Pane) {
-                System.out.println("Searching deeper! Entering " + (n.getId()==null?n:n.getId()));
                 Node rn = find((Pane) n, fxid);
                 if (rn != null)
                     return rn;
@@ -135,7 +130,6 @@ public class CMS implements ICMS{
                         return rn;
                 }
         }
-        System.out.println("Ending branch search!");
         return null;
     }
 }
