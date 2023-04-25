@@ -1,5 +1,4 @@
 package com.example.ecommerceprototype.dam;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -12,26 +11,27 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import javax.print.attribute.standard.Media;
 import java.io.File;
-import java.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class HelloApplication extends Application {
 
-    private final FileSystem fileSystem = new FileSystem();
-    private final Map<String, Asset> fileListAssets = new HashMap<>();
-
-    public void music(){
-        String s = "navn på fil";
+    /*public void music(){
+        String s = "kanye.mp3";
         Media h = new Media(Paths.get(s).toUri().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(h);
         mediaPlayer.play();
-    }
+    }*/
+
+    private final FileSystem fileSystem = new FileSystem();
+    private final Map<String, Asset> fileListAssets = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) {
+
 
         DAM test2 = new DAM();
 
