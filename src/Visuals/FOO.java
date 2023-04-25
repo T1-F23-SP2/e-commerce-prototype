@@ -14,6 +14,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import mockPIM.PlaceHolderInstGet;
+import mockPIM.ProductInformation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -59,6 +60,7 @@ public class FOO {
         java.util.List<Integer> MoneyList = new ArrayList<>();
         List<String> NameList = new ArrayList<>();
         List<Object[]> tObjectList = new ArrayList<>();
+        // Old code
         for (org.bson.Document doc : results) {
             int price = doc.getInteger("Price");
             String name = doc.getString("Name");
@@ -68,11 +70,25 @@ public class FOO {
             MoneyList.add(price);
             NameList.add(name);
 
+
+
+            // Array/List måde
             Object[] itemData = new Object[] { name, Colour, price, Size, Stock };
+
             tObjectList.add(itemData);
 
 
         }
+
+        // Oliver new code
+//        for (ProductInformation obj : PlaceHolderInstGet.productArray) {
+//            Object[] itemData = new Object[] {obj.getName(), obj.getPriceInformation().getPrice(), obj.getProductUUID(), Integer.toString(SalesReport.getAmountOfOrders(obj.getProductUUID()))};
+//
+//            tObjectList.add(itemData);
+//
+//        }
+
+        
         data = MoneyList.toArray(new Integer[0]);
         names = NameList.toArray(new String[0]);
        // System.out.println(data[0].intValue());
@@ -84,7 +100,7 @@ public class FOO {
     }
     public static PdfPTable FUCKTable() {
         // Change this to the right column names
-        String[] columnHeaders = {"Name", "Price", "UUID", "Amount"};
+        String[] columnHeaders = {"Name", "Price", "UUID", "AmountSold"};
 
         PdfPTable table = new PdfPTable(columnHeaders.length);
         table.setWidthPercentage(100);
@@ -113,6 +129,10 @@ public class FOO {
 //            }
 //        }
 
+
+
+
+        // Cell måde
         for (int j = 0; j < PlaceHolderInstGet.productArray.length; j++) {
 
 
@@ -125,9 +145,9 @@ public class FOO {
             PdfPCell cell3 = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getProductUUID().toString()));
             table.addCell(cell3);
 
-            PdfPCell cell4 = new PdfPCell(new Phrase(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())
-            ));
+            PdfPCell cell4 = new PdfPCell(new Phrase(Integer.toString(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID()))));
             table.addCell(cell4);
+            //SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID()))
 
 
 
