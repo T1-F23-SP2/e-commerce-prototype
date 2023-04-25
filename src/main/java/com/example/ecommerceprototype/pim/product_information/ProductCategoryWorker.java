@@ -9,12 +9,14 @@ public abstract class ProductCategoryWorker {
         this.productCategory = new ProductCategory();
     }
 
-    public void setName(String name) {
+    public ProductCategoryWorker setName(String name) {
         this.productCategory.setName(name);
+        return this;
     }
 
-    public void setCategoryParent(String name) {
+    public ProductCategoryWorker setCategoryParent(String name) {
         this.productCategory.setProductCategoryParent(name);
+        return this;
     }
 
     public ProductCategory getProductCategory() {
