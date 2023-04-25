@@ -28,7 +28,5 @@ public abstract class DiscountInformationWorker {
         return this.discountInformation;
     }
 
-    public DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
-    }
+    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }

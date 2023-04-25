@@ -11,6 +11,6 @@ public class DiscountInformationBuilder extends DiscountInformationWorker {
 
     @Override // TODO Implement submit for Creating a discount
     public DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        return super.submit();
+        throw new UnsupportedOperationException();
     }
 }
