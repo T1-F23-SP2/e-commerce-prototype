@@ -15,16 +15,19 @@ public abstract class ManufacturingInformationWorker {
 
     }
 
-    public void setName(String name) {
+    public ManufacturingInformationWorker setName(String name) {
         this.manufacturingInformation.name = name;
+        return this;
     }
 
-    public void setSupportPhoneNumber(String supportPhoneNumber) {
+    public ManufacturingInformationWorker setSupportPhoneNumber(String supportPhoneNumber) {
         this.manufacturingInformation.supportPhoneNumber = supportPhoneNumber;
+        return this;
     }
 
-    public void setSupportMail(String supportMail) {
+    public ManufacturingInformationWorker setSupportMail(String supportMail) {
         this.manufacturingInformation.supportMail = supportMail;
+        return this;
     }
 
     public ManufacturingInformation getManufacturingInformation() {
