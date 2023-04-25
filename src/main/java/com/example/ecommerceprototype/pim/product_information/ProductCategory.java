@@ -5,28 +5,39 @@ import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 
 public class ProductCategory {
     private String name;
-    private ProductCategory productParent;
+    private ProductCategory productCategoryParent;
 
     public ProductCategory() {
-        throw new UnsupportedOperationException();
+
+    }
+
+    public ProductCategory(String name) {
+        this.name = name;
+    }
+
+    public ProductCategory(String name, ProductCategory productCategoryParent) {
+        this.name = name;
+        this.productCategoryParent = productCategoryParent;
     }
 
     public String getName() {
+        return this.name;
+    }
+
+    public ProductCategory getProductCategoryParent() {
+        return this.productCategoryParent;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    // TODO: Create below method, by searching for Category by name.
+    protected void setProductCategoryParent(String name) {
         throw new UnsupportedOperationException();
     }
 
-    public ProductCategory getProductParent() {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void setName(String s) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void setCategoryParent(String name) {
-        throw new UnsupportedOperationException();
-    }
-
+    // TODO: Create fromDB
     protected ProductCategory fromDB(ValueExtractor ve) {
         throw new UnsupportedOperationException();
     }
