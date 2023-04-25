@@ -4,23 +4,32 @@ import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
 public abstract class ManufacturingInformationWorker {
-    public void setName(String s) {
-        throw new UnsupportedOperationException();
+
+    ManufacturingInformation manufacturingInformation;
+
+    protected ManufacturingInformationWorker(ManufacturingInformation mi){
+        this.manufacturingInformation = mi;
     }
 
-    public void setSupportPhoneNumber(String s) {
-        throw new UnsupportedOperationException();
+    protected ManufacturingInformationWorker(){
+
     }
 
-    public void setSupportMail(String s) {
-        throw new UnsupportedOperationException();
+    public void setName(String name) {
+        this.manufacturingInformation.name = name;
+    }
+
+    public void setSupportPhoneNumber(String supportPhoneNumber) {
+        this.manufacturingInformation.supportPhoneNumber = supportPhoneNumber;
+    }
+
+    public void setSupportMail(String supportMail) {
+        this.manufacturingInformation.supportMail = supportMail;
     }
 
     public ManufacturingInformation getManufacturingInformation() {
-        throw new UnsupportedOperationException();
+        return manufacturingInformation;
     }
 
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
-    }
+    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }

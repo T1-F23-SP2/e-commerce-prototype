@@ -8,32 +8,37 @@ public class ManufacturingInformation {
     String supportPhoneNumber;
     String supportMail;
 
-    public ManufacturingInformation() {
-        throw new UnsupportedOperationException();
+    protected ManufacturingInformation(String name, String supportPhoneNumber, String supportMail) {
+        this.name = name;
+        this.supportPhoneNumber = supportPhoneNumber;
+        this.supportMail = supportMail;
+    }
+    protected ManufacturingInformation() {
+
     }
 
     public String getName() {
-        throw new UnsupportedOperationException();
+        return name;
     }
 
     public String getSupportPhoneNumber() {
-        throw new UnsupportedOperationException();
+        return supportPhoneNumber;
     }
 
     public String getSupportMail() {
-        throw new UnsupportedOperationException();
+        return supportMail;
     }
 
-    protected void setName(String s) {
-        throw new UnsupportedOperationException();
+    protected void setName(String name) {
+        this.name = name;
     }
 
-    protected void setSupportPhoneNumber(String s) {
-        throw new UnsupportedOperationException();
+    protected void setSupportPhoneNumber(String supportPhoneNumber) {
+        this.supportPhoneNumber = supportPhoneNumber;
     }
 
-    protected void setSupportMail(String s) {
-        throw new UnsupportedOperationException();
+    protected void setSupportMail(String supportMail) {
+        this.supportMail = supportMail;
     }
 
     protected ManufacturingInformation fromDB(ValueExtractor ve) {
