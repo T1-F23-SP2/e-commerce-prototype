@@ -101,16 +101,20 @@ public class ArticleManager implements IArticle{
             if (!f.getName().endsWith(".txt"))
                 continue;
 
+            String articleId = "";
             String title = "";
+            String author = "";
             String modDate = "";
 
             try (Scanner sc = new Scanner(f)) {
+                articleId = sc.nextLine();
                 title = sc.nextLine();
+                author = sc.nextLine();
                 modDate = sc.nextLine();
             }
             catch (FileNotFoundException fnfe) {System.out.println(fnfe.getMessage());};
 
-            allArticles.add(new ArticleData(title, modDate));
+            allArticles.add(new ArticleData(articleId, title, author, modDate));
         }
         return allArticles;
     }

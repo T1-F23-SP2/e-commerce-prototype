@@ -7,9 +7,10 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public interface ICMS {
-    Pane fetchComponent(String id);
-    //Pane fetchComponentWithProduct(String fxid, Product p); //Product should be defined by shop
-    ArrayList<String> getComponentList(Pane component);
+    Pane fetchComponent(String id) throws FXMLLoadFailedException;
+    //Pane fetchComponentWithProduct(String fxid, ProductInformation p);
+    ArrayList<String> getNodeList(Pane component);
+    ArrayList<String> getComponentList();
     Button getButtonOnComponent(Pane component, String fxid);
     ArrayList<Button> getButtonsOnComponent(Pane component);
     Node find(Pane component, String fxid);
