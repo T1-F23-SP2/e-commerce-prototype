@@ -37,16 +37,19 @@ public class DiscountInformation {
         return this.name;
     }
 
-    protected void setName(String name) {
+    protected DiscountInformation setName(String name) {
         this.name = name;
+        return this;
     }
 
-    protected void setStartingDate(LocalDate ld) {
+    protected DiscountInformation setStartingDate(LocalDate ld) {
         this.startingDate = ld;
+        return this;
     }
 
-    protected void setExpiringDate(LocalDate ld) {
+    protected DiscountInformation setExpiringDate(LocalDate ld) {
         this.expiringDate = ld;
+        return this;
     }
 
     // TODO: Implement fromDB
