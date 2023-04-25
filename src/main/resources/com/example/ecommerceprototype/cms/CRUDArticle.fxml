@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.CRUDArticleController">
+   <children>
+      <ListView fx:id="articleList_ListView" layoutX="47.0" layoutY="96.0" prefHeight="920.0" prefWidth="300.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="1570.0" AnchorPane.topAnchor="150.0" />
+      <Button fx:id="add_Button" layoutX="56.0" layoutY="121.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="+" AnchorPane.bottomAnchor="928.6666666666666" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="1770.0" AnchorPane.topAnchor="100.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="delete_Button" layoutX="191.0" layoutY="100.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="-" AnchorPane.bottomAnchor="928.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="1570.0" AnchorPane.topAnchor="100.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <TextField fx:id="titel_TextField" layoutX="742.0" layoutY="103.0" prefWidth="350.0" promptText="Titel" AnchorPane.bottomAnchor="928.6666666666666" AnchorPane.leftAnchor="950.0" AnchorPane.rightAnchor="620.0" AnchorPane.topAnchor="100.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="author_TextField" layoutX="1024.0" layoutY="187.0" prefWidth="250.0" promptText="Author" AnchorPane.bottomAnchor="840.6666666666666" AnchorPane.leftAnchor="1000.0" AnchorPane.rightAnchor="670.0" AnchorPane.topAnchor="200.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <TextArea fx:id="articleText_TextArea" layoutX="525.0" layoutY="308.0" prefHeight="650.0" prefWidth="1000.0" promptText="Text..." AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="625.0" AnchorPane.rightAnchor="295.0" AnchorPane.topAnchor="300.0" />
+      <Button fx:id="save_Button" layoutX="1670.0" layoutY="936.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Save" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="1650.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="930.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="discardChange_Button" layoutX="1676.0" layoutY="808.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Discard" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="1650.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="855.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

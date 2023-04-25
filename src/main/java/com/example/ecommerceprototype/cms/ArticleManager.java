@@ -89,7 +89,7 @@ public class ArticleManager implements IArticle{
         return null;
     }
 
-    private ArrayList<ArticleData> createArticleDataList() {
+    public ArrayList<ArticleData> createArticleDataList() {
         File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
         if (!infile.exists())
             return null;
