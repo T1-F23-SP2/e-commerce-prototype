@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.cms;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -35,13 +36,13 @@ public class FeaturedProductController implements Initializable {
         productImage_ImageView.setImage(images.get(currentImage));
     }
 
-    public void NextImageRight(){
+    public void nextImageRight(){
         //Circular array going up
         currentImage = (currentImage+1)%(images.size());
         productImage_ImageView.setImage(images.get(currentImage));
     }
 
-    public void NextImageLeft(){
+    public void nextImageLeft(){
         //Circular array going down
         currentImage-=1;
         if(currentImage%images.size() <= -1){
@@ -49,4 +50,9 @@ public class FeaturedProductController implements Initializable {
         }
         productImage_ImageView.setImage(images.get(currentImage));
     }
+
+    public void goToFeatured(ActionEvent event){
+        //Method for productBtn_Button to go to the featured product or article scene
+    }
+
 }
