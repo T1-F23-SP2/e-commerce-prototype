@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.CMS.ArticlePage">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1740.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label id="articleTitle_Label" fx:id="articleTitle_Label" alignment="CENTER" layoutX="444.0" layoutY="90.0" text="Title" AnchorPane.leftAnchor="920.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font size="60.0" />
          </font>
       </Label>
-      <Label id="articleDate_Label " fx:id="articleDate_Label" alignment="CENTER" layoutX="935.0" layoutY="193.0" prefHeight="26.0" prefWidth="100.0" text="Date" AnchorPane.leftAnchor="970.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="110.0">
+      <Label id="articleDate_Label" fx:id="articleDate_Label" alignment="CENTER" layoutX="935.0" layoutY="193.0" prefHeight="26.0" prefWidth="100.0" text="Date" AnchorPane.leftAnchor="970.0" AnchorPane.rightAnchor="750.0" AnchorPane.topAnchor="193.0">
          <font>
             <Font size="17.0" />
          </font>
@@ -22,7 +22,7 @@
          <content>
             <TextArea id="articletText_TextArea" fx:id="articletText_TextArea" editable="false" prefHeight="815.0" prefWidth="1590.0">
                <font>
-                  <Font size="96.0" />
+                  <Font size="30.0" />
                </font>
             </TextArea>
          </content>
