@@ -14,11 +14,14 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        Inventory inventory1 = new Inventory("Marcel", 6);
-        Inventory inventory2 = new Inventory("Danieal", 100);
+//        Inventory inventory1 = new Inventory("Marcel", 6);
+//        Inventory inventory2 = new Inventory("Danieal", 100);
 
 
         System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
+        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
+        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
+
 
 
         // Setup of database

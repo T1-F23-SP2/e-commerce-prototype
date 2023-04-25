@@ -1,5 +1,7 @@
 package Visuals;
 
+import ComputedOverviews.SalesReport;
+import DB.DBManager;
 import com.itextpdf.awt.DefaultFontMapper;
 import java.awt.geom.Rectangle2D;
 import com.itextpdf.text.Document;
@@ -11,6 +13,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import mockPIM.PlaceHolderInstGet;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -31,6 +34,8 @@ public class FOO {
     int price;
     private static String[] names;
     private static Object[] data2;
+
+
     public static void DB() {
 
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
@@ -38,8 +43,17 @@ public class FOO {
         MongoDatabase database = mongoClient.getDatabase("TesterInvoice");
         MongoCollection<org.bson.Document> collection = database.getCollection("Products");
 
+
         org.bson.Document query = new org.bson.Document("Price", new org.bson.Document("$gt", 200));
         java.util.List<org.bson.Document> results = collection.find(query).into(new ArrayList<>());
+
+
+//        org.bson.Document results2 = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), "UUID");
+//        System.out.println(results2);
+
+//        org.bson.Document query2 = new org.bson.Document("UUID", new org.bson.Document("$gt", 0));
+//        java.util.List<org.bson.Document> results2 = DBManager.databaseConn("SalesOverview").find(query2).into(new ArrayList<>());
+//        results.addAll(results2);
 
 
         java.util.List<Integer> MoneyList = new ArrayList<>();
@@ -69,7 +83,8 @@ public class FOO {
         System.out.println(data[0]);
     }
     public static PdfPTable FUCKTable() {
-        String[] columnHeaders = {"Name", "Colour", "Price", "Size", "Stock"};
+        // Change this to the right column names
+        String[] columnHeaders = {"Name", "Price", "UUID", "Amount"};
 
         PdfPTable table = new PdfPTable(columnHeaders.length);
         table.setWidthPercentage(100);
@@ -80,14 +95,54 @@ public class FOO {
         }
 
 
-        for (int i = 0; i < columnHeaders.length; i++) {
-            Object[] rowData = (Object[]) data2[i];
-            for (int j = 0; j < rowData.length; j++) {
+//        List<Object[]> tObjectList2 = new ArrayList<>();
+//        Object[] itemdata2 = new Object[] {PlaceHolderInstGet.getInst1().getName(), PlaceHolderInstGet.getInst1().getPriceInformation().getPrice()};
+//        tObjectList2.add(itemdata2);
+//        data2 = tObjectList2.toArray(new Object[0]);
 
-                PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
-                table.addCell(cell);
-            }
+
+//        for (int i = 0; i < columnHeaders.length; i++) {
+//            Object[] rowData = (Object[]) data2[i];
+//            for (int j = 0; j < rowData.length; j++) {
+//
+//
+//                PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
+//                table.addCell(cell);
+//
+//
+//            }
+//        }
+
+        for (int j = 0; j < PlaceHolderInstGet.productArray.length; j++) {
+
+
+            PdfPCell cell = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getName().toString()));
+            table.addCell(cell);
+
+            PdfPCell cell2 = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getPriceInformation().getPrice().toString()));
+            table.addCell(cell2);
+
+            PdfPCell cell3 = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getProductUUID().toString()));
+            table.addCell(cell3);
+
+            PdfPCell cell4 = new PdfPCell(new Phrase(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())
+            ));
+            table.addCell(cell4);
+
+
+
+
+//            // Name
+//            PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
+//            table.addCell(cell);
+//
+//            // Price
+//            PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
+//            table.addCell(cell);
+
         }
+
+
 
         return table;
     }
@@ -166,7 +221,7 @@ public class FOO {
         int width = 300;
         int height = 300;
         JFreeChart chart1 = FUCKPIE();
-        String fileName = "src\\TEST.pdf";
+        String fileName = "src/TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }
 }

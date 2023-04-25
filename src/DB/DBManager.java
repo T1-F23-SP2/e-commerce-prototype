@@ -41,12 +41,15 @@ public class DBManager {
 
     public static Document queryDB(MongoCollection<Document> conn, String search){
 
-        org.bson.Document query = new org.bson.Document(search, new org.bson.Document("$gt", 0));
+        org.bson.Document query = new org.bson.Document("UUID", search);
 //        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
         org.bson.Document results = conn.find(query).first();
 
         return results;
     }
+
+
+
 
 
 

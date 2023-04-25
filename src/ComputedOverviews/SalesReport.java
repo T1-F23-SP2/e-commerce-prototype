@@ -126,7 +126,7 @@ public class SalesReport {
 
         // Fix this, it has to get the right value and not 55 everytime
 
-            org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), "AmountSold");
+            org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), UUID);
             int amountOfOrders = result.getInteger("AmountSold");
 
             return amountOfOrders;
