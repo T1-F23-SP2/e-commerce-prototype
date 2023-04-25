@@ -12,8 +12,8 @@ public abstract class DiscountInformationWorker {
         this.discountInformation = new DiscountInformation();
     }
 
-    public void setName(String s) {
-        this.discountInformation.setName(s);
+    public void setName(String name) {
+        this.discountInformation.setName(name);
     }
 
     public void setStartingDate(LocalDate ld) {

@@ -37,8 +37,8 @@ public class DiscountInformation {
         return this.name;
     }
 
-    protected void setName(String s) {
-        this.name = s;
+    protected void setName(String name) {
+        this.name = name;
     }
 
     protected void setStartingDate(LocalDate ld) {
