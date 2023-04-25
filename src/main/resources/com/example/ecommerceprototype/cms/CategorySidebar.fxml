@@ -18,7 +18,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ScrollPane fx:id="categoryScrollPane" fitToWidth="true" prefHeight="960.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <ScrollPane fx:id="categoryScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="960.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <content>
             <VBox fx:id="categoryScrollPane_VBox" prefHeight="960.0" prefWidth="180.0">
                <children>
