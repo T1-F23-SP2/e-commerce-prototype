@@ -19,12 +19,9 @@ import java.util.*;
 
 public class HelloApplication extends Application {
 
-    /*public void music(){
-        String s = "kanye.mp3";
-        Media h = new Media(Paths.get(s).toUri().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(h);
-        mediaPlayer.play();
-    }*/
+    public void music(){
+        //kode til media
+    }
 
     private final FileSystem fileSystem = new FileSystem();
     private final Map<String, Asset> fileListAssets = new HashMap<>();
