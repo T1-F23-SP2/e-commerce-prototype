@@ -1,4 +1,3 @@
-DefaultArticle
 Welcome to Articles
 Arne
 11/4-2023

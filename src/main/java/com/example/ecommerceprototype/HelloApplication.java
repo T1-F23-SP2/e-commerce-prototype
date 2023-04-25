@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         Pane p = CMS.getInstance().fetchComponent("FeaturedProduct");
         Scene scene = new Scene(p, 1640, 750);
         stage.setTitle("Hello!");
