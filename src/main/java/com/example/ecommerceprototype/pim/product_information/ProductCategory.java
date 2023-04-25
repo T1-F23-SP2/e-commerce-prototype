@@ -28,8 +28,8 @@ public class ProductCategory {
         return this.productCategoryParent;
     }
 
-    protected void setName(String s) {
-        this.name = s;
+    protected void setName(String name) {
+        this.name = name;
     }
 
     // TODO: Create below method, by searching for Category by name.
