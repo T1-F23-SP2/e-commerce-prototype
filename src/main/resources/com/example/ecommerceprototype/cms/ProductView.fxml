@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.shape.Line?>
 <AnchorPane prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="productImage_ImageView" fitHeight="225.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -35,5 +36,9 @@
             <Font size="22.0" />
          </font>
       </Label>
+      <Line startX="10" endX="390"/>
+      <Line startX="10" endX="390" startY="455" endY="455"/>
+      <Line startX="0" endX="0" startY="10" endY="445"/>
+      <Line startX="400" endX="400" startY="10" endY="445"/>
    </children>
 </AnchorPane>

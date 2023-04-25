@@ -10,10 +10,15 @@
     <Pane fx:id="topBannerPlaceholder_Pane" prefWidth="1920" prefHeight="80"/>
     <HBox minWidth="1920" minHeight="1000" maxWidth="1920" maxHeight="1000">
         <Pane fx:id="sidebarPlaceholder_Pane" prefWidth="180" prefHeight="1000"/>
-        <ScrollPane fx:id="contentPlaceholder_ScrollPane" prefWidth="1740" prefHeight="1000" fitToWidth="true">
+        <ScrollPane prefWidth="1740" prefHeight="1000" fitToWidth="true">
             <padding>
                 <Insets top="30" right="10" bottom="20" left="10" />
             </padding>
+            <GridPane fx:id="contentPlaceholder_GridPane" prefWidth="1740" prefHeight="1000" alignment="TOP_CENTER" hgap="30" vgap="50">
+                <padding>
+                    <Insets top="20" right="0" bottom="20" left="0" />
+                </padding>
+            </GridPane>
         </ScrollPane>
     </HBox>
 </VBox>

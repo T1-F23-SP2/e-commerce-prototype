@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype;
+package com.example.ecommerceprototype.cms;
 
 import com.example.ecommerceprototype.cms.CMS;
 import javafx.application.Application;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Pane p = CMS.getInstance().fetchComponent("FeaturedProduct");
+        Scene scene = new Scene(p, 1640, 750);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
