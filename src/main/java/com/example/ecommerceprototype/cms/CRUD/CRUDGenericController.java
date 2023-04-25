@@ -62,14 +62,42 @@ public class CRUDGenericController {
         String[] fontText;
         while (s.hasNextLine()){
             String tempLine = s.nextLine();
-            lines.add(tempLine);
-            if (tempLine.contains("fx:id")){
-                tempLine = s.nextLine();
-                if (!tempLine.contains("<font>")){
-                    lines.add("<font>");
-                    lines.add("<Font name=\"SYSTEM\" size=\"12\" />");
-                    lines.add("</font>");
+            String tempLine2 = tempLine;
+            if (tempLine.contains("Button")){
+                if (tempLine.contains("fx:id")){
+                    tempLine2 = s.nextLine();
+                    if (!tempLine2.contains("<font>")){
+                        String[] tempArray = tempLine.split("/");
+                        tempLine = tempArray[0]+tempArray[1];
+                        lines.add(tempLine);
+                        lines.add("<font>");
+                        lines.add("<Font name=\"SYSTEM\" size=\"12\" />");
+                        lines.add("</font></Button>");
+                    }else {
+                        lines.add(tempLine);
+                    }
+                    lines.add(tempLine2);
+                }else {
+                    lines.add(tempLine);
                 }
+            } else if (tempLine.contains("Label")) {
+                if (tempLine.contains("fx:id")){
+                    tempLine2 = s.nextLine();
+                    if (!tempLine2.contains("<font>")){
+                        String[] tempArray = tempLine.split("/");
+                        tempLine = tempArray[0]+tempArray[1];
+                        lines.add(tempLine);
+                        lines.add("<font>");
+                        lines.add("<Font name=\"SYSTEM\" size=\"12\" />");
+                        lines.add("</font></Label>");
+                    }else {
+                        lines.add(tempLine);
+                    }
+                    lines.add(tempLine2);
+                }else {
+                    lines.add(tempLine);
+                }
+            } else{
                 lines.add(tempLine);
             }
 

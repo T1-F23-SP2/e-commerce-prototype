@@ -11,12 +11,12 @@
             <font>
                 <Font name="Bodoni MT Bold" size="100.0" />
             </font></Button>
-        <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" />
-            <font>
-                <Font name="SYSTEM" size="12" />
-            </font>
+        <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" >
+<font>
+<Font name="SYSTEM" size="12" />
+</font></Button>
         <Button fx:id="b3" layoutX="90.0" layoutY="221.0" mnemonicParsing="false" text="Button" />
-        <Label fx:id="l1" layoutX="117.0" layoutY="54.0" text="Label"> 
+        <Label fx:id="l1" layoutX="117.0" layoutY="54.0" text="Label">
             <font>
                 <Font size="69.0" /> 
             </font></Label>
