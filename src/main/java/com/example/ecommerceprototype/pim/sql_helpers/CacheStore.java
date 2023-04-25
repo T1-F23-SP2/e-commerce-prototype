@@ -27,6 +27,11 @@ public class CacheStore<K, V> extends HashMap<K, V> {
         return cacheStore.get(id);
     }
 
+    static public <K, V> V removeFromCache(K id, Class<V> type) {
+        CacheStore<K, V> cacheStore = CacheStore.getCacheStore(type);
+        return cacheStore.remove(id);
+    }
+
     static public <K, V> V putInCache(K id, V object) {
         CacheStore<K, V> cacheStore = CacheStore.getCacheStore(object.getClass());
         return cacheStore.put(id, object);
@@ -35,6 +40,7 @@ public class CacheStore<K, V> extends HashMap<K, V> {
 
 
 
+    // *** Reference usage ONLY ***
     public static void main(String[] args) {
         int productId = 2;
 
@@ -45,6 +51,9 @@ public class CacheStore<K, V> extends HashMap<K, V> {
             // Get pi object from cache store
             ProductInformation pi = CacheStore.getFromCache(productId, ProductInformation.class);
 
+
+            // Remove from cache;
+            CacheStore.removeFromCache(productId, ProductInformation.class);
         } else {
             ProductInformation pi = new ProductInformation();
 
