@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.print.attribute.standard.Media;
@@ -34,7 +35,8 @@ public class HelloApplication extends Application {
 
         // Create UI components
         Label titleLabel = new Label("DAM");
-        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 50px; -fx-font-weight: bold;");
+        titleLabel.setFont(Font.font("Arial", 20));
 
         // File search UI components
         Label fileSearchLabel = new Label("Search for files:");
@@ -78,7 +80,7 @@ public class HelloApplication extends Application {
             if (searchResults.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
-                alert.setContentText("No files found.");
+                alert.setContentText("The requested file couldn't be found");
                 alert.showAndWait();
             } else {
                 // Clear the previous search results
@@ -89,7 +91,7 @@ public class HelloApplication extends Application {
 
                 // Set up event handling for the fileList
                 fileList.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getClickCount() == 1) {
+                    if (mouseEvent.getClickCount() >= 1) {
                         String selectedFileName = fileList.getSelectionModel().getSelectedItem();
                         Asset selectedFile = fileListAssets.get(selectedFileName);
 
