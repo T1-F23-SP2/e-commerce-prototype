@@ -57,15 +57,15 @@ public class CMSExample extends Application{
         }
         */
 
-        Pane plate = CMS.getInstance().fetchComponent("ContentTemplate2");
+        /*Pane plate = CMS.getInstance().fetchComponent("ContentTemplate2");
 
         Pane top = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
         top.getChildren().add(CMS.getInstance().fetchComponent("TopBanner"));
 
         Pane content = (Pane) CMS.getInstance().find(plate, "contentPlaceholder_Pane");
         content.getChildren().add(CMS.getInstance().fetchComponent("ArticlePage"));
-
-
+*/
+        Pane plate = CMS.getInstance().fetchComponent("articlecrud/CRUDArticle");
         Scene scene = new Scene(plate, 1920, 1080);
         stage.setTitle("Arnes ElectroShop!");
         stage.setScene(scene);

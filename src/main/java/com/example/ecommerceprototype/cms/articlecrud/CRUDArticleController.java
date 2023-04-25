@@ -1,6 +1,5 @@
 package com.example.ecommerceprototype.cms.articlecrud;
 
-import com.example.ecommerceprototype.cms.ArticleData;
 import com.example.ecommerceprototype.cms.ArticleManager;
 import com.example.ecommerceprototype.cms.CMS;
 import javafx.collections.FXCollections;
@@ -9,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.input.MouseEvent;
+
 
 import java.io.File;
 
@@ -27,10 +28,13 @@ public class CRUDArticleController {
     @FXML
     public void initialize(){
         articleManager = CMS.articles;
-        items = FXCollections.observableList(articleManager.createArticleDataList());
+        items = FXCollections.observableList(articleManager.getArticleNames());
         articleList_ListView.setItems(items);
+
         articleList_ListView.setEditable(true);
         articleList_ListView.setCellFactory(TextFieldListCell.forListView());
+        articleList_ListView.setOnMouseClicked(this::listHandler);
+
         add_Button.setOnAction(this::addArticle);
         delete_Button.setOnAction(this::removeArticle);
         discardChange_Button.setOnAction(this::discardChange);
@@ -54,20 +58,10 @@ public class CRUDArticleController {
 
     }
     private void saveArticle(ActionEvent save){
-        if (titel_TextField.getText() != null){
-            file.renameTo(new File(titel_TextField.getText()));
-
-        }
-        else {
-            showErrorAlert("Error", "Failed in renaming file");
-        }
-        add_Button.setDisable(false);
+        articleList_ListView.edit(articleList_ListView.getSelectionModel().getSelectedIndex());
+        articleList_ListView.requestFocus();
     }
-    private void showErrorAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+    private void listHandler(MouseEvent list){
+        
     }
 }
