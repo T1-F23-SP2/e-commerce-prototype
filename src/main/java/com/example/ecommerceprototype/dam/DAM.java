@@ -11,9 +11,9 @@ import java.sql.*;
 public class DAM {
 
     //Database info
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/db";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/semesteropg";
     private static final String DB_user = "postgres";
-    private static final String DB_Password = "MyPassw0rd";
+    private static final String DB_Password = "Supermand1";
 
     private static DAM instance;
     private Connection connection = null;

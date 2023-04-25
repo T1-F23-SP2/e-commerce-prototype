@@ -1,28 +1,39 @@
 package com.example.ecommerceprototype.dam;
 
-import com.example.ecommerceprototype.dam.FileSystem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import javax.print.attribute.standard.Media;
+import java.io.File;
+import java.scene.media.MediaPlayer;
 import java.util.*;
 
-import java.io.File;
-
-public class GUI extends Application {
+public class HelloApplication extends Application {
 
     private final FileSystem fileSystem = new FileSystem();
     private final Map<String, Asset> fileListAssets = new HashMap<>();
 
+    public void music(){
+        String s = "navn på fil";
+        Media h = new Media(Paths.get(s).toUri().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(h);
+        mediaPlayer.play();
+    }
+
     @Override
     public void start(Stage primaryStage) {
+
+        DAM test2 = new DAM();
 
         // Create UI components
         Label titleLabel = new Label("DAM");
@@ -141,7 +152,7 @@ public class GUI extends Application {
         root.setRight(rightBox);
 
         // Create and show the scene
-        Scene scene = new Scene(root, 2048, 1080);
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("E-commerce Prototype");
         primaryStage.setScene(scene);
         primaryStage.show();
