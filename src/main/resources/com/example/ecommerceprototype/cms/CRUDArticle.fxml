@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.CRUDArticleController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.articlecrud.CRUDArticleController">
    <children>
       <ListView fx:id="articleList_ListView" layoutX="47.0" layoutY="96.0" prefHeight="920.0" prefWidth="300.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="1570.0" AnchorPane.topAnchor="150.0" />
       <Button fx:id="add_Button" layoutX="56.0" layoutY="121.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="+" AnchorPane.bottomAnchor="928.6666666666666" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="1770.0" AnchorPane.topAnchor="100.0">

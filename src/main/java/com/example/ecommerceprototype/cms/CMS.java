@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class CMS implements ICMS{
     private static CMS instance;
-    public final ArticleManager articles = ArticleManager.getInstance();
+    public static final ArticleManager articles = ArticleManager.getInstance();
 
 
     private CMS() {}; //Zero-arg constructor
