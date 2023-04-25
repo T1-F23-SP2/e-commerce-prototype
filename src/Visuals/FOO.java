@@ -166,7 +166,7 @@ public class FOO {
         int width = 300;
         int height = 300;
         JFreeChart chart1 = FUCKPIE();
-        String fileName = "C:\\Users\\krist\\Desktop\\Prog_SEM2\\SMP2_Test\\src\\TEST.pdf";
+        String fileName = "src\\TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }
 }
