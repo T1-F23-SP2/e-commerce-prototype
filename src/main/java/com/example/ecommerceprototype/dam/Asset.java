@@ -11,9 +11,7 @@ import java.awt.*;
 public class Asset {
     public String filepath;
     public int id;
-    private int id;
     private String filename;
-    private String filepath;
     private String filetype;
     private int filesize;
     private String uuid;
