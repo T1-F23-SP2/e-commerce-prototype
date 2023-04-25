@@ -1,17 +1,13 @@
 package com.example.ecommerceprototype.cms;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -25,8 +21,9 @@ public class CMSExample extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
+        /*
         //Load page template
-        Pane plate = CMS.getInstance().fetchComponent("Template1");
+        Pane plate = CMS.getInstance().fetchComponent("ContentTemplate1");
         System.out.println(plate);
 
         //Load top banner onto template
@@ -58,6 +55,16 @@ public class CMSExample extends Application{
                 content.getChildren().add(view);
             }
         }
+        */
+
+        Pane plate = CMS.getInstance().fetchComponent("ContentTemplate2");
+
+        Pane top = (Pane) CMS.getInstance().find(plate, "topBannerPlaceholder_Pane");
+        top.getChildren().add(CMS.getInstance().fetchComponent("TopBanner"));
+
+        Pane content = (Pane) CMS.getInstance().find(plate, "contentPlaceholder_Pane");
+        content.getChildren().add(CMS.getInstance().fetchComponent("ArticlePage"));
+
 
         Scene scene = new Scene(plate, 1920, 1080);
         stage.setTitle("Arnes ElectroShop!");
