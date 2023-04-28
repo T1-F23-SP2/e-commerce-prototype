@@ -183,15 +183,31 @@ public class DBDriver {
         throw new UnsupportedOperationException();
     }
 
-
-
-
-    protected void insertNewProduct(ProductInformation productInformation) {
-        // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-        // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription', 'productCategoryName', 'manufactureName', 'longDescription');
+    protected String insertNewProduct(ProductInformation productInformation) {
+        // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
+        //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
+        // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
+        //                                          'productCategoryName', 'manufactureName', 'longDescription');
         // Look at the database_initialization.sql file for return types and return values.
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("SELECT product_uuid FROM insertnewproduct(?,?,?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(productInformation.getName());
+            sqlValueArguments.setArgument(productInformation.getSerialNumber());
+            sqlValueArguments.setArgument(productInformation.getShortDescription());
+            sqlValueArguments.setArgument(productInformation.getProductCategory().getName());
+            sqlValueArguments.setArgument(productInformation.getManufacturingInformation().getName());
+            sqlValueArguments.setArgument(productInformation.getLongDescription());
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+
+            return insertStatement.getResultSet().getString("product_uuid");
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     protected void insertNewProductCategory(ProductCategory productCategory) {
