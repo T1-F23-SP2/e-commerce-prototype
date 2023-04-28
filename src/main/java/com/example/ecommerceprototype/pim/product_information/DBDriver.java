@@ -220,11 +220,21 @@ public class DBDriver {
         throw new UnsupportedOperationException();
     }
 
-    protected void insertNewPriceChange(SQLValueArguments uuid, SQLValueArguments price, SQLValueArguments wholeSalePrice) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234);
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewPriceChange(?, ?, ?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments()
+                    .setArgument(uuid)
+                    .setArgument(price)
+                    .setArgument(wholeSalePrice);
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) {
