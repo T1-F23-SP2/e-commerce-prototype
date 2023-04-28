@@ -12,6 +12,37 @@ import java.util.Scanner;
 
 public class DBDriver {
 
+    // TODO: Keep DB-login details correct
+
+    private static DBDriver instance;
+    private String url = "localhost";
+    private int port = 5432;
+    private String databaseName = "postgres";
+    private String username = "postgres";
+    private String password = "password";
+    private Connection connection = null;
+
+    private DBDriver(){
+        initializePostgresqlDatabase();
+    }
+    public static DBDriver getInstance(){
+        if (instance == null) {
+            instance = new DBDriver();
+        }
+        return instance;
+    }
+
+    private void initializePostgresqlDatabase() {
+        try {
+            DriverManager.registerDriver(new org.postgresql.Driver());
+            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+        } catch (SQLException | IllegalArgumentException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            if (connection == null) System.exit(-1);
+        }
+    }
+
     protected ProductInformation getProductByUUID(SQLValueArguments uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
