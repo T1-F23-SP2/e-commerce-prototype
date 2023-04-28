@@ -8,7 +8,7 @@ public abstract class ProductInformationWorker {
     ProductInformation productInformation;
 
     public ProductInformationWorker() {
-        this.productInformation = new ProductInformation()
+        this.productInformation = new ProductInformation();
     }
 
     public void setProductCategory(ProductCategory pc) {
@@ -47,5 +47,5 @@ public abstract class ProductInformationWorker {
         return productInformation;
     }
 
-    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract ProductInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }
