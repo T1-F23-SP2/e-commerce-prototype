@@ -483,13 +483,21 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
+/* Inserting a new product category */
+CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR)
+AS $$
+BEGIN
+    INSERT INTO Product_categories (name, parent_id)
+    VALUES (argName, null);
+END; $$
+    LANGUAGE plpgsql;
+
 
 /* Inserting a new product category */
 CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR, argParentCategoryName VARCHAR)
 AS $$
 BEGIN
-    INSERT INTO Product_categories
-        (name, parent_id)
+    INSERT INTO Product_categories (name, parent_id)
     VALUES (argName, (SELECT id FROM Product_categories WHERE name = argParentCategoryName));
 END; $$
 LANGUAGE plpgsql;
