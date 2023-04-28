@@ -7,40 +7,49 @@ import java.util.ArrayList;
 
 public class SQLValueArguments extends ArrayList<SQLValueSetter<?>> {
 
-    public boolean setArgument(Integer i) {
-        return this.add(new SQLIntegerSetter(i));
+    public SQLValueArguments setArgument(Integer i) {
+        this.add(new SQLIntegerSetter(i));
+        return this;
     }
 
-    public boolean setArgument(String s) {
-        return this.add(new SQLStringSetter(s));
+    public SQLValueArguments setArgument(String s) {
+        this.add(new SQLStringSetter(s));
+        return this;
     }
 
-    public boolean setArgument(Boolean b) {
-        return this.add(new SQLBooleanSetter(b));
+    public SQLValueArguments setArgument(Boolean b) {
+        this.add(new SQLBooleanSetter(b));
+        return this;
     }
 
-    public boolean setArgument(Byte b) {
-        return this.add(new SQLByteSetter(b));
+    public SQLValueArguments setArgument(Byte b) {
+        this.add(new SQLByteSetter(b));
+        return this;
     }
 
-    public boolean setArgument(Long l) {
-        return this.add(new SQLLongSetter(l));
+    public SQLValueArguments setArgument(Long l) {
+        this.add(new SQLLongSetter(l));
+        return this;
     }
 
-    public boolean setArgument(Float f) {
-        return this.add(new SQLFloatSetter(f));
+    public SQLValueArguments setArgument(Float f) {
+        this.add(new SQLFloatSetter(f));
+        return this;
     }
 
-    public boolean setArgument(BigDecimal n) {
-        return this.add(new SQLBigDecimalSetter(n));
+    public SQLValueArguments setArgument(BigDecimal n) {
+        this.add(new SQLBigDecimalSetter(n));
+        return this;
     }
 
-    public boolean setArgument(Double d) {
-        return this.add(new SQLDoubleSetter(d));
+    public SQLValueArguments setArgument(Double d) {
+        this.add(new SQLDoubleSetter(d));
+        return this;
     }
 
-    public boolean setArgument(SQLValueSetter<?> setter) {
-        return this.add(setter);
+    public SQLValueArguments setArgument(SQLValueSetter<?> setter) {
+        this.add(setter);
+        return this;
     }
 
     public void setArgumentsInStatement(PreparedStatement ps, int startPosition) throws SQLException {
