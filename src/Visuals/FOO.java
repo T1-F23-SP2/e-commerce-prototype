@@ -88,10 +88,10 @@ public class FOO {
 //
 //        }
 
-        
+
         data = MoneyList.toArray(new Integer[0]);
         names = NameList.toArray(new String[0]);
-       // System.out.println(data[0].intValue());
+        // System.out.println(data[0].intValue());
         //System.out.println("");
         //System.out.println(names[0]);
         data2 = tObjectList.toArray(new Object[0]);
@@ -209,27 +209,41 @@ public class FOO {
 
 
     public static void convertToPdf(List<JFreeChart> charts, int width, int height, String filename) {
+        //Initialize document
         Document document = new Document(PageSize.A4);
         try {
+            // Initialize writer
             PdfWriter writer;
+            // Calls instance of document with the file output
             writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+            //Open document to write to the pdf
             document.open();
+            // Adding the FUCKTable to the pdf - (CellTable)
             PdfPTable table = FUCKTable();
             document.add(table);
+            //user positioned text and graphic contents of a page | how to apply the proper font encoding.
             PdfContentByte cb = writer.getDirectContent();
+            //Set template
             PdfTemplate tp = cb.createTemplate(width*2, height);
+            //Set Graphics (
             Graphics2D g2d = tp.createGraphics(width*2, height, new DefaultFontMapper());
+            //Define area to graphs
             Rectangle2D r2d1 = new Rectangle2D.Double(0, 0, width, height);
             Rectangle2D r2d2 = new Rectangle2D.Double(width, 0, width, height);
+            //Draw
             charts.get(0).draw(g2d, r2d1);
             charts.get(1).draw(g2d, r2d2);
+            //Remove content
             g2d.dispose();
+            //Set X Y Values
             float x = 0;
             float y = 0;
+            //Add Content to PdfContentByte
             cb.addTemplate(tp, x, y);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Close document
         document.close();
     }
 
