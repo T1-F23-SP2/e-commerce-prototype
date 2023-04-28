@@ -8,39 +8,47 @@ public abstract class ProductInformationWorker {
     ProductInformation productInformation;
 
     public ProductInformationWorker() {
-        this.productInformation = new ProductInformation()
+        this.productInformation = new ProductInformation();
     }
 
-    public void setProductCategory(ProductCategory pc) {
+    public ProductInformationWorker setProductCategory(ProductCategory pc) {
         this.productInformation.setProductCategory(pc);
+        return this;
     }
 
-    public void setProductSpecification(ProductSpecification ps) {
+    public ProductInformationWorker setProductSpecification(ProductSpecification ps) {
         this.productInformation.setProductSpecification(ps);
+        return this;
     }
 
-    public void setManufacturingInformation(ManufacturingInformation mi) {
+    public ProductInformationWorker setManufacturingInformation(ManufacturingInformation mi) {
         this.productInformation.setManufacturingInformation(mi);
+        return this;
     }
 
-    public void setPriceInformation(PriceInformation pi) {
+    public ProductInformationWorker setPriceInformation(PriceInformation pi) {
         this.productInformation.setPriceInformation(pi);
+        return this;
     }
 
-    public void setName(String name) {
+    public ProductInformationWorker setName(String name) {
         this.productInformation.setName(name);
+        return this;
     }
 
-    public void setShortDescription(String shortDescription) {
+    public ProductInformationWorker setShortDescription(String shortDescription) {
         this.productInformation.setShortDescription(shortDescription);
+        return this;
     }
 
-    public void setLongDescription(String longDescription) {
+    public ProductInformationWorker setLongDescription(String longDescription) {
         this.productInformation.setLongDescription(longDescription);
+        return this;
     }
 
-    public void setIsHidden(boolean isHidden) {
+    public ProductInformationWorker setIsHidden(boolean isHidden) {
         this.productInformation.setIsHidden(isHidden);
+        return this;
     }
 
     public ProductInformation getProductInformation() {
