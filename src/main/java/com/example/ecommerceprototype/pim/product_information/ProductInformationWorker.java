@@ -55,5 +55,5 @@ public abstract class ProductInformationWorker {
         return productInformation;
     }
 
-    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract ProductInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
 }

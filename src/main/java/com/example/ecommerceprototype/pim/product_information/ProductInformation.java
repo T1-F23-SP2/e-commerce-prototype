@@ -9,88 +9,119 @@ public class ProductInformation {
     private String shortDescription;
     private String longDescription;
     private boolean isHidden;
+    private ProductCategory productCategory;
     private ProductSpecification productSpecification;
     private ManufacturingInformation manufacturingInformation;
     private PriceInformation priceInformation;
 
+    public ProductInformation(String productUUID, String name, String serialNumber,
+                              String shortDescription, String longDescription, ProductCategory productCategory,
+                              boolean isHidden, ProductSpecification productSpecification,
+                              ManufacturingInformation manufacturingInformation, PriceInformation priceInformation)
+    {
+        this.productUUID = productUUID;
+        this.name = name;
+        this.serialNumber = serialNumber;
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
+        this.productCategory = productCategory;
+        this.isHidden = isHidden;
+        this.productSpecification = productSpecification;
+        this.manufacturingInformation = manufacturingInformation;
+        this.priceInformation = priceInformation;
+    }
+    public ProductInformation() {
+
+    }
+
     public String getProductUUID() {
-        throw new UnsupportedOperationException();
+        return productUUID;
     }
 
     public String getName() {
-        throw new UnsupportedOperationException();
+        return name;
     }
 
     public String getSerialNumber() {
-        throw new UnsupportedOperationException();
+        return serialNumber;
     }
 
     public String getShortDescription() {
-        throw new UnsupportedOperationException();
+        return shortDescription;
     }
 
     public String getLongDescription() {
-        throw new UnsupportedOperationException();
+        return longDescription;
     }
 
     public boolean getIsHidden() {
-        throw new UnsupportedOperationException();
+        return isHidden;
     }
 
     public ProductCategory getProductCategory() {
-        throw new UnsupportedOperationException();
+        return productCategory;
     }
 
     public ProductSpecification getProductSpecification() {
-        throw new UnsupportedOperationException();
+        return productSpecification;
     }
 
     public ManufacturingInformation getManufacturingInformation() {
-        throw new UnsupportedOperationException();
+        return manufacturingInformation;
     }
 
     public PriceInformation getPriceInformation() {
-        throw new UnsupportedOperationException();
+        return priceInformation;
     }
 
-    protected void setUUID(String s) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setUUID(String productUUID) {
+        this.productUUID = productUUID;
+        return this;
     }
 
-    protected void setName(String s) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setName(String name) {
+        this.name = name;
+        return  this;
     }
 
-    protected void setSerialNumber(String s) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+        return this;
     }
 
-    protected void setShortDescription(String s) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+        return this;
     }
 
-    protected void setLongDescription(String s) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
+        return this;
     }
 
-    protected void setIsHidden(boolean b) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setIsHidden(boolean isHidden) {
+        this.isHidden = isHidden;
+        return this;
     }
 
-    protected void setProductCategory(ProductCategory pc) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setProductCategory(ProductCategory pc) {
+        this.productCategory = pc;
+        return this;
     }
 
-    protected void setProductSpecification(ProductSpecification ps) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setProductSpecification(ProductSpecification ps) {
+        this.productSpecification = ps;
+        return this;
     }
 
-    protected void setManufacturingInformation(ManufacturingInformation mi) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setManufacturingInformation(ManufacturingInformation mi) {
+        this.manufacturingInformation = mi;
+        return this;
     }
 
-    protected void setPriceInformation(PriceInformation pi) {
-        throw new UnsupportedOperationException();
+    protected ProductInformation setPriceInformation(PriceInformation pi) {
+        this.priceInformation = pi;
+        return this;
     }
 
     protected ProductInformation fromDB(ValueExtractor ve) {
