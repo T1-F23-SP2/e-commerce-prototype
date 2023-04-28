@@ -36,6 +36,7 @@ class FOOTest {
 
     @Test
     void DB() {
+        //Tester at der bliver hentet UUID fra database
         Document result = collection.find(Filters.eq("UUID","1U2U3I4D1")).first();
         System.out.println(result.toJson());
         assertEquals("{\"_id\": {\"$oid\": \"643e9afcced88a178463cfb2\"}, \"UUID\": \"1U2U3I4D1\", \"QTY\": 10}", result.toJson());
@@ -43,6 +44,7 @@ class FOOTest {
 
     @Test
     void FUCKTable() {
+        // Tester at der er indhold i pdf
         table.addCell(headerCell);
         assertTrue(table.isContent());
     }
