@@ -202,8 +202,18 @@ public class DBDriver {
     protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) {
         // SQL function: insertNewManufacture(argName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL insertNewManufacture('manufactureName', 'supportPhone', 'supportMail');
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewmanufacture(?, ?, ?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(manufacturingInformation.getName());
+            sqlValueArguments.setArgument(manufacturingInformation.getSupportPhoneNumber());
+            sqlValueArguments.setArgument(manufacturingInformation.getSupportMail());
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     protected void insertNewDiscount(DiscountInformation discountInformation) {
