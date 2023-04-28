@@ -210,7 +210,19 @@ public class DBDriver {
         // SQL function: insertNewManufacture(argName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
-        throw new UnsupportedOperationException();
+        try {
+
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewdiscount(?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(discountInformation.getName());
+            sqlValueArguments.setArgument(discountInformation.getStartingDate());
+            sqlValueArguments.setArgument(discountInformation.getExpiringDate());
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
     protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) {
