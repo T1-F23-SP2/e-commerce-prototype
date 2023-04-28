@@ -227,10 +227,23 @@ public class DBDriver {
         throw new UnsupportedOperationException();
     }
 
-    protected void insertNewPriceChange(SQLValueArguments uuid, SQLValueArguments price, SQLValueArguments wholeSalePrice, DiscountInformation discountInformation) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234, 'discountName');
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewpricechange(?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
+            sqlValueArguments.setArgument(uuid);
+            sqlValueArguments.setArgument(price);
+            sqlValueArguments.setArgument(wholeSalePrice);
+            sqlValueArguments.setArgument(discountInformation.getName());
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e){
+            System.out.println(e);
+        }
         throw new UnsupportedOperationException();
     }
 
@@ -275,7 +288,7 @@ public class DBDriver {
 
 
 
-    // TODO: The following procedures are missing before they can be implementded:
+    // TODO: The following procedures are missing before they can be implemented:
     // deleteProductByUUID()
     // deleteCategoryByName()
     // deleteSpecificationByProductUUID()
