@@ -22,8 +22,8 @@ public class PriceInformation {
         return discountInformation;
     }
 
-    protected PriceInformation setPrice(BigDecimal n) {
-        this.price = n;
+    protected PriceInformation setPrice(BigDecimal price) {
+        this.price = price;
         return this;
     }
 
