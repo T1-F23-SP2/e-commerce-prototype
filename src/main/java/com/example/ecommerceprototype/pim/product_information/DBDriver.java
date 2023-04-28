@@ -1,11 +1,13 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
+import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -194,9 +196,29 @@ public class DBDriver {
 
     protected void insertNewProductCategory(ProductCategory productCategory) {
         // SQL function: insertNewProduct(argName VARCHAR, argParentCategoryName VARCHAR)
-        // Call by: CALL insertNewProductCategory('name', 'parentCategoryName'); // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
+        // Call by: CALL insertNewProductCategory('name', 'parentCategoryName');
+        // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
+        try {
+            PreparedStatement insertStatement;
+            SQLValueArguments sqlValueArguments;
 
-        throw new UnsupportedOperationException();
+            if(productCategory.getProductCategoryParent() != null) {
+                insertStatement = connection.prepareStatement("CALL insertnewproductcategory(?, ?)");
+                sqlValueArguments = new SQLValueArguments();
+                sqlValueArguments.setArgument(productCategory.getName());
+                sqlValueArguments.setArgument(productCategory.getProductCategoryParent().getName());
+            } else {
+                insertStatement = connection.prepareStatement("CALL insertnewproductcategory(?)");
+                sqlValueArguments = new SQLValueArguments();
+                sqlValueArguments.setArgument(productCategory.getName());
+            }
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) {

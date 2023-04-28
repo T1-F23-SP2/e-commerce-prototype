@@ -5,7 +5,7 @@ import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 
 import java.util.HashMap;
 
-public class ProductSpecification extends HashMap {
+public class ProductSpecification extends HashMap<String, String> {
     protected ProductCategory fromDB(ValueExtractor ve) {
         throw new UnsupportedOperationException();
     }
