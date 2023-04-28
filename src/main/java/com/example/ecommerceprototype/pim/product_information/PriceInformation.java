@@ -22,12 +22,14 @@ public class PriceInformation {
         return discountInformation;
     }
 
-    protected void setPrice(BigDecimal n) {
-        this.price = n;
+    protected PriceInformation setPrice(BigDecimal price) {
+        this.price = price;
+        return this;
     }
 
-    protected void setDiscountInformation(DiscountInformation di) {
+    protected PriceInformation setDiscountInformation(DiscountInformation di) {
         this.discountInformation = di;
+        return this;
     }
 
     protected PriceInformation fromDB(ValueExtractor ve) {
