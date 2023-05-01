@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype;
 
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
