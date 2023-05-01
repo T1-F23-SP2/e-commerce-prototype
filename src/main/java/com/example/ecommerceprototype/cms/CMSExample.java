@@ -36,29 +36,28 @@ public class CMSExample extends Application{
     public void loadShopPage() throws Exception {
         //Load page template (Template 1 has space for a topbanner, a sidebar and content to be arranged in a grid)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
-        System.out.println(plate);
+
 
         //Load top banner onto template and set home button functionality
-        Pane topPlaceholder = (Pane) CMS.getInstance().findNode(plate, "topBannerPlaceholder_Pane");
         Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
         ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
             try {loadShopPage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
-        topPlaceholder.getChildren().add(topBanner);
+        CMS.getInstance().loadOnto(plate, topBanner, "topBannerPlaceholder_Pane");
+
 
         //Load sidebar onto template
-        Pane sidePlaceholder = (Pane) CMS.getInstance().findNode(plate, "sidebarPlaceholder_Pane");
         Pane sidebar = (Pane) CMS.getInstance().loadComponent("CategorySidebar");
-        sidePlaceholder.getChildren().add(sidebar);
+        CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
-        //Set action for article button
+        //Set action for article button (on the sidebar)
         ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        //Put some categories into the category sidebar
+        //Put some categories into the category sidebar (for testing)
         VBox categoryList = (VBox) CMS.getInstance().findNode(sidebar, "categoryList_VBox");
 
         String[] categories = {"Computers", "Laptops", "Phones", "Watches", "Parts"};
@@ -69,8 +68,9 @@ public class CMSExample extends Application{
             categoryList.getChildren().add(b);
         }
 
-        //Load content into gridPane
-        GridPane content = (GridPane) CMS.getInstance().findNode(plate, "contentPlaceholder_GridPane");
+
+
+        //Load product views into gridPane
         Random random = new Random();
 
         //Loading 12 product views into a 3x4 grid
@@ -89,7 +89,7 @@ public class CMSExample extends Application{
                 GridPane.setColumnIndex(view, i);
                 GridPane.setRowIndex(view, j);
 
-                content.getChildren().add(view);
+                CMS.getInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
             }
         }
 
@@ -101,17 +101,15 @@ public class CMSExample extends Application{
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
         //Load top banner onto template and set home button functionality
-        Pane top = (Pane) CMS.getInstance().findNode(plate, "topBannerPlaceholder_Pane");
         Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
         ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
             try {loadShopPage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
-        top.getChildren().add(topBanner);
+        CMS.getInstance().loadOnto(plate, topBanner, "topBannerPlaceholder_Pane");
 
         //Load article page onto template (article page has functionality by default, since CMS already has all the files for displaying the needed information)
-        Pane content = (Pane) CMS.getInstance().findNode(plate, "contentPlaceholder_Pane");
-        content.getChildren().add(CMS.getInstance().loadComponent("ArticlePage"));
+        CMS.getInstance().loadOnto(plate, CMS.getInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
     }
