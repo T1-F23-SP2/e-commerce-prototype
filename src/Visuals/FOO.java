@@ -3,10 +3,11 @@ package Visuals;
 import ComputedOverviews.SalesReport;
 import DB.DBManager;
 import com.itextpdf.awt.DefaultFontMapper;
+
+import java.awt.Font;
 import java.awt.geom.Rectangle2D;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Phrase;
+
+import com.itextpdf.text.*;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 import com.mongodb.client.MongoClient;
@@ -96,7 +97,6 @@ public class FOO {
         //System.out.println(names[0]);
         data2 = tObjectList.toArray(new Object[0]);
 
-        System.out.println(data[0]);
     }
     public static PdfPTable FUCKTable() {
         // Change this to the right column names
@@ -240,11 +240,45 @@ public class FOO {
             float y = 0;
             //Add Content to PdfContentByte
             cb.addTemplate(tp, x, y);
+
+            //Pay no attention to this:
+            document.newPage();
+
+
+
+            PdfPTable tables = new PdfPTable(names.length);
+            table.setWidthPercentage(100);
+
+
+
+           for (int i = 0; i < table.getRows().size(); i++) {
+                PdfPCell cell = table.getRow(i).getCells()[0]; // Get the first row of data
+
+                String f_RowData = cell.getPhrase().getContent();
+                System.out.println(f_RowData);
+               System.out.println(table.getRows().size());
+                PdfAction action = PdfAction.gotoLocalPage(1, new PdfDestination(0), writer);
+                Chunk chunk = new Chunk(f_RowData);
+                chunk.setAction(action);
+                document.add(chunk);
+//                Paragraph para = new Paragraph("dx");
+//                document.add(para);
+                document.newPage();
+            }
+
+
+
+
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         //Close document
         document.close();
+
     }
 
 
@@ -255,7 +289,7 @@ public class FOO {
         int width = 300;
         int height = 300;
         JFreeChart chart1 = FUCKPIE();
-        String fileName = "src/TEST.pdf";
+        String fileName = "TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }
 }
