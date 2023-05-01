@@ -24,7 +24,7 @@ public class CMS implements ICMS{
     }
 
     @Override
-    public Pane fetchComponent(String id) throws FXMLLoadFailedException {
+    public Pane loadComponent(String id) throws FXMLLoadFailedException {
         String errorMessage;
         FXMLLoader loader = new FXMLLoader(CMS.class.getResource(id + ".fxml"));
         try {
@@ -59,6 +59,9 @@ public class CMS implements ICMS{
                 ScrollPane sp = (ScrollPane) n;
                 if (sp.getContent() != null && sp.getContent().getId() != null)
                     nodes.add(sp.getContent().getId());
+                if (sp.getContent() != null && sp.getContent() instanceof Pane)
+                    nodes.addAll(getNodeList((Pane) sp.getContent()));
+
             }
 
             if (n.getId() != null)
@@ -91,7 +94,7 @@ public class CMS implements ICMS{
 
     @Override
     public Button getButtonOnComponent(Pane component, String fxid) {
-        Node n = find(component, fxid);
+        Node n = findNode(component, fxid);
         if (n instanceof Button)
             return (Button) n;
         return null;
@@ -111,13 +114,13 @@ public class CMS implements ICMS{
     }
 
     @Override
-    public Node find(Pane component, String fxid) {
+    public Node findNode(Pane component, String fxid) {
         for (Node n : component.getChildren()) {
             if (n.getId() != null && n.getId().equals(fxid)) {
                 return n;
             }
             else if (n instanceof Pane) {
-                Node rn = find((Pane) n, fxid);
+                Node rn = findNode((Pane) n, fxid);
                 if (rn != null)
                     return rn;
             }
@@ -125,7 +128,7 @@ public class CMS implements ICMS{
                 if (((ScrollPane) n).getContent().getId().equals(fxid))
                     return ((ScrollPane) n).getContent();
                 else if (((ScrollPane) n).getContent() instanceof Pane) {
-                    Node rn = find((Pane) ((ScrollPane) n).getContent(), fxid);
+                    Node rn = findNode((Pane) ((ScrollPane) n).getContent(), fxid);
                     if (rn != null)
                         return rn;
                 }
