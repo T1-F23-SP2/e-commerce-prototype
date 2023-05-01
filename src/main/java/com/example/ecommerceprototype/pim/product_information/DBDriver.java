@@ -1,23 +1,76 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
+import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class DBDriver {
+
+    // TODO: Keep DB-login details correct
+
+    private static DBDriver instance;
+    private String url = "localhost";
+    private int port = 5432;
+    private String databaseName = "postgres";
+    private String username = "postgres";
+    private String password = "password";
+    private Connection connection = null;
+
+    private DBDriver(){
+        initializePostgresqlDatabase();
+    }
+    public static DBDriver getInstance(){
+        if (instance == null) {
+            instance = new DBDriver();
+        }
+        return instance;
+    }
+
+    private void initializePostgresqlDatabase() {
+        try {
+            DriverManager.registerDriver(new org.postgresql.Driver());
+            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+        } catch (SQLException | IllegalArgumentException ex) {
+            ex.printStackTrace(System.err);
+        } finally {
+            if (connection == null) System.exit(-1);
+        }
+    }
+
 
     protected ProductInformation getProductByUUID(SQLValueArguments uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments(uuid);
+            ProductInformationBuilder.ProductInformationBuilder();
+
+            /* sqlValueArguments.setArgument(SQLValueSetter.setValue(String uuid)); */
+
+            /* sqlValueArguments.setArgument(productInformation.getProductUUID); */
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            ResultSet queryResultSet = queryStatement.executeQuery();
+
+            return ProductInformation;
+
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     protected ProductInformation getProductByName(SQLValueArguments name) {
