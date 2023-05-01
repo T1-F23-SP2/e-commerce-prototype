@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException, FXMLLoadFailedException {
-        Pane p = CMS.getInstance().fetchComponent("CategorySidebar");
-        Scene scene = new Scene(p, 1640, 750);
+    public void start(Stage stage) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1640, 750);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

@@ -1,6 +1,4 @@
-DefaultArticle
 Welcome to Articles
 Arne
 11/4-2023
-
 This is the default article site.

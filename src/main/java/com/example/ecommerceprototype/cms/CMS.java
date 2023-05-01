@@ -24,7 +24,7 @@ public class CMS implements ICMS{
     }
 
     @Override
-    public Pane fetchComponent(String id) throws FXMLLoadFailedException {
+    public Pane loadComponent(String id) throws FXMLLoadFailedException {
         String errorMessage;
         FXMLLoader loader = new FXMLLoader(CMS.class.getResource(id + ".fxml"));
         try {
@@ -44,8 +44,8 @@ public class CMS implements ICMS{
     }*/
 
     @Override
-    public ArrayList<String> getNodeList(Pane component) {
-        ArrayList<String> nodes = new ArrayList<>();
+    public ArrayList<Node> getNodeList(Pane component) {
+        ArrayList<Node> nodes = new ArrayList<>();
 
         for(Node n : component.getChildren()) {
             //Recursive
@@ -58,11 +58,14 @@ public class CMS implements ICMS{
             if (n instanceof ScrollPane) {
                 ScrollPane sp = (ScrollPane) n;
                 if (sp.getContent() != null && sp.getContent().getId() != null)
-                    nodes.add(sp.getContent().getId());
+                    nodes.add(sp.getContent());
+                if (sp.getContent() != null && sp.getContent() instanceof Pane)
+                    nodes.addAll(getNodeList((Pane) sp.getContent()));
+
             }
 
             if (n.getId() != null)
-                nodes.add(n.getId());
+                nodes.add(n);
         }
 
         return nodes;
@@ -91,7 +94,7 @@ public class CMS implements ICMS{
 
     @Override
     public Button getButtonOnComponent(Pane component, String fxid) {
-        Node n = find(component, fxid);
+        Node n = findNode(component, fxid);
         if (n instanceof Button)
             return (Button) n;
         return null;
@@ -100,29 +103,22 @@ public class CMS implements ICMS{
     @Override
     public ArrayList<Button> getButtonsOnComponent(Pane component) {
         ArrayList<Button> buttons = new ArrayList<>();
-        ArrayList<String> ids = getNodeList(component);
-        for (String id : ids) {
-            Button b = getButtonOnComponent(component, id);
-            if (b != null)
-                buttons.add(b);
+        ArrayList<Node> nodes = getNodeList(component);
+        for (Node n : nodes) {
+            if (n instanceof Button)
+                buttons.add((Button) n);
         }
-
         return buttons;
     }
 
     @Override
-    public Node find(Pane component, String fxid) {
-        System.out.println("\nSearching " + component);
-
+    public Node findNode(Pane component, String fxid) {
         for (Node n : component.getChildren()) {
-            System.out.println(n.getId() + " : " + fxid);
             if (n.getId() != null && n.getId().equals(fxid)) {
-                System.out.println("Succes! returning " + n.getId() + " : " + n);
                 return n;
             }
             else if (n instanceof Pane) {
-                System.out.println("Searching deeper! Entering " + (n.getId()==null?n:n.getId()));
-                Node rn = find((Pane) n, fxid);
+                Node rn = findNode((Pane) n, fxid);
                 if (rn != null)
                     return rn;
             }
@@ -130,12 +126,31 @@ public class CMS implements ICMS{
                 if (((ScrollPane) n).getContent().getId().equals(fxid))
                     return ((ScrollPane) n).getContent();
                 else if (((ScrollPane) n).getContent() instanceof Pane) {
-                    Node rn = find((Pane) ((ScrollPane) n).getContent(), fxid);
+                    Node rn = findNode((Pane) ((ScrollPane) n).getContent(), fxid);
                     if (rn != null)
                         return rn;
                 }
         }
-        System.out.println("Ending branch search!");
         return null;
+    }
+
+    @Override
+    public Node findNode(Pane component, int index) {
+        try {
+            return getNodeList(component).get(index);
+        }
+        catch (IndexOutOfBoundsException iobe) {
+            System.out.println("CMS:findNode(PaneComponent, int index);;; 'Bad index, returned null!'");
+            return null;
+        }
+    }
+
+    @Override
+    public void loadOnto(Pane plate, Pane component, String replaces) {
+        Node holder = CMS.getInstance().findNode(plate, replaces);
+        if (holder instanceof Pane)
+            ((Pane) holder).getChildren().add(component);
+        else if (holder instanceof ScrollPane)
+            ((ScrollPane) holder).setContent(component);
     }
 }
