@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
@@ -183,7 +184,7 @@ public class DBDriver {
         throw new UnsupportedOperationException();
     }
 
-    protected String insertNewProduct(ProductInformation productInformation) {
+    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
         // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
         //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
         // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
@@ -191,6 +192,7 @@ public class DBDriver {
         // Look at the database_initialization.sql file for return types and return values.
         try {
             PreparedStatement insertStatement = connection.prepareStatement("SELECT product_uuid FROM insertnewproduct(?,?,?,?,?,?)");
+            // TODO: After getters is implemented, make checks for the existence of the referenced productCategory and ManufacturingInformation.
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
             sqlValueArguments.setArgument(productInformation.getName());
             sqlValueArguments.setArgument(productInformation.getSerialNumber());
@@ -202,11 +204,21 @@ public class DBDriver {
             sqlValueArguments.setArgumentsInStatement(insertStatement);
             insertStatement.execute();
 
-            return insertStatement.getResultSet().getString("product_uuid");
+            ResultSet rs = insertStatement.getResultSet();
+            rs.next(); // Move "cursor" to first row
+            String UUID = rs.getString("product_UUID");
+
+            this.insertNewPriceChange(UUID,
+                    productInformation.getPriceInformation().getPrice(),
+                    productInformation.getPriceInformation().getWholeSalePrice());
+
+            this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+
+            return UUID;
 
         } catch (SQLException e) {
             System.out.println(e);
-            return null;
+            throw new IncompleteProductInformationException();
         }
     }
 
