@@ -6,11 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+import java.time.LocalTime;
+
 public class GUIOrderController {
 
     @FXML
     private Label timeLabel;
 
+    @FXML
     private Timeline timeline;
 
     public void initialize() {
