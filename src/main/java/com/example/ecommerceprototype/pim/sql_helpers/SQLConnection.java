@@ -45,7 +45,6 @@ public abstract class SQLConnection {
             properties.setProperty("host", properties.getProperty("host") + suffix);
         }
 
-
         return properties;
     }
 
@@ -57,7 +56,6 @@ public abstract class SQLConnection {
         return SQLConnection.loadProperties(PIMResourceRoot.class.getResourceAsStream(SQLConnection.FOLDER_PATH + "main.credentials"));
     }
 
-
     public static Properties loadTestProperties() throws IOException {
         Properties mainProperties = SQLConnection.loadMainProperties();
         Properties testProperties = SQLConnection.loadProperties(PIMResourceRoot.class.getResourceAsStream(SQLConnection.FOLDER_PATH + "test.credentials"), mainProperties);
@@ -68,7 +66,6 @@ public abstract class SQLConnection {
 
         return testProperties;
     }
-
 
     public static Connection getConnectionFromProperties(Properties properties) throws SQLException {
         String url = properties.getProperty("host") + properties.getProperty("database");
@@ -114,8 +111,6 @@ public abstract class SQLConnection {
         return dropDatabase(getAdminConnection(properties), properties.getProperty("database"), withForce);
     }
 
-
-
     public static Connection getMainConnection() throws IOException, SQLException {
         return getConnectionFromProperties(loadMainProperties());
     }
@@ -123,7 +118,4 @@ public abstract class SQLConnection {
     public static Connection getTestConnection() throws IOException, SQLException {
         return getConnectionFromProperties(loadTestProperties());
     }
-
-
-
 }
