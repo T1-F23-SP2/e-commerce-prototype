@@ -25,6 +25,7 @@ public class Main {
 
         System.out.println(PlaceholderInstShop.getInstShop1().getMap().get(PlaceHolderInstGet.getInst1().getProductUUID()));
 
+        System.out.println(DBManager.updateStock(PlaceholderInstShop.getInstShop1()));
 
 
 

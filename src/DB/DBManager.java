@@ -56,9 +56,21 @@ public class DBManager {
         MongoCollection<org.bson.Document> documentMongoCollection;
         documentMongoCollection = databaseConn("Item");
 
+        // Checks for every key if amount to that key is higher than qty in the database
+        // If it is higher it stops the method by returning false
+        for (String key : mockShopObject.getMap().keySet()) {
+            int qtyAmount = queryDB(documentMongoCollection,key).getInteger("QTY");
+            if(!(qtyAmount >= mockShopObject.getMap().get(key))) {
+                return false;
+            }
+        }
+
+        // Checks the database if the keys amounts is lower than in the database
+        // then decrements the database by the amount
         for (String key : mockShopObject.getMap().keySet()) {
             int qtyAmount = queryDB(documentMongoCollection,key).getInteger("QTY");
             if(qtyAmount >= mockShopObject.getMap().get(key)) {
+                decrementFieldByUUID(key, mockShopObject.getMap().get(key));
             }
 
         }
@@ -68,15 +80,15 @@ public class DBManager {
     }
 
 
-    public static void decrementFieldById(String uuid, int amount) {
+    public static void decrementFieldByUUID(String uuid, int amount) {
 
         MongoCollection<Document> collection = databaseConn("Item");
 
-        // Create a query that finds the document with the specified ID
+        // Create a query that finds the document with the specified UUID
 //        Document query = new Document("_id", id);
         Document query = queryDB(collection, uuid);
         // Create an update that decrements the "fieldToDecrement" field by 1
-        Document update = new Document("$inc", new Document("fieldToDecrement", -amount));
+        Document update = new Document("$inc", new Document("QTY", -amount));
 
         // Update the document with the specified ID
         collection.updateOne(query, update);

@@ -11,9 +11,9 @@ public class PlaceholderInstShop {
 
 
     static {
-        map.put(PlaceHolderInstGet.getInst1().getProductUUID(), 4);
+        map.put(PlaceHolderInstGet.getInst1().getProductUUID(), 1);
         map.put(PlaceHolderInstGet.getInst2().getProductUUID(), 2);
-        map.put(PlaceHolderInstGet.getInst3().getProductUUID(), 1);
+        map.put(PlaceHolderInstGet.getInst3().getProductUUID(), 55);
     }
     static MockShopObject instShop1 = new MockShopObject(map);
 
