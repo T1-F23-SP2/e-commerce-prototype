@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.print.attribute.standard.Media;
+import java.awt.List;
 import java.io.File;
 import javafx.scene.media.MediaPlayer;
 import java.io.IOException;
@@ -28,9 +29,9 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage window) throws IOException {
 
+        
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-
         window.setTitle("DAM login");
         window.setScene(scene);
         window.show();

@@ -26,17 +26,17 @@
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="addNewFile" layoutX="122.0" layoutY="181.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Add new file">
+            <Button fx:id="addNewFile" layoutX="122.0" layoutY="181.0" mnemonicParsing="false" onAction="#goToAddNewFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Add new files">
                <font>
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="editFiles" layoutX="122.0" layoutY="240.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Edit files">
+            <Button fx:id="editFiles" layoutX="122.0" layoutY="245.0" mnemonicParsing="false" onAction="#goToEditFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Edit files">
                <font>
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="returnButton" layoutX="271.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToLoginPage" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #71B3FF;" text="Return to main menu">
+            <Button fx:id="returnButton" layoutX="318.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToLoginPage" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #71B3FF;" text="Log out">
                <font>
                   <Font size="10.0" />
                </font></Button>

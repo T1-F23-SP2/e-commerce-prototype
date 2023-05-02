@@ -308,7 +308,7 @@ public class DAM {
         try{
             ImageIO.write(watermarkedImage, "jpg", new File(newFilePath));
         } catch (Exception e) {
-            throw new Exception("Det vandmærkede billede kunne ikke gemmes " + e.getMessage());
+            throw new Exception("The watermarked photo couldn't be saved " + e.getMessage());
         }
 
         // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
