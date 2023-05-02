@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ArticleManager implements IArticle{
@@ -23,40 +24,7 @@ public class ArticleManager implements IArticle{
     }
 
 
-    @Override
-    public Pane fetchArticle(String id) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(defaultArticleURL));
 
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles/"+id+".txt");
-        String title = "";
-        String date = "";
-        String text = "";
-
-        try(Scanner sc = new Scanner(infile)) {
-            title = sc.nextLine();
-            date = sc.nextLine();
-            while (sc.hasNextLine())
-                text += sc.nextLine() + "\n";
-        }
-        catch (FileNotFoundException fnfe) {System.out.println(fnfe.getMessage());}
-
-        Pane pane = new Pane();
-        try {
-            pane = loader.load();
-
-            Label titleLabel = (Label) CMS.getInstance().find(pane, "articleTitle_Label");
-            titleLabel.setText(title);
-
-            Label dateLabel = (Label) CMS.getInstance().find(pane, "articleDate_Label");
-            dateLabel.setText(date);
-
-            TextArea textTextArea = (TextArea) CMS.getInstance().find(pane, "articletText_TextArea");
-            textTextArea.setText(text);
-
-        }
-        catch (IOException ioe) { System.out.println(ioe.getMessage()); }
-        return pane;
-    }
 
     @Override
     public int getArticleCount() { //Counts specifically text files in a directory
@@ -76,42 +44,34 @@ public class ArticleManager implements IArticle{
     }
 
     @Override
-    public ArrayList<ArticleData> getArticlesByName() {
-        ArrayList<ArticleData> allArticles = createArticleDataList();
+    public ArrayList<String> getArticleNames() {
+        ArrayList<String> results = new ArrayList<>();
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        if (!infile.exists())
+            return results;
 
-        return null;
+        File[] allFiles = infile.listFiles();
+
+        for (File f : allFiles) {
+            try (Scanner sc = new Scanner(f)) {
+                results.add(sc.nextLine());
+            }
+            catch (FileNotFoundException fnfe) {
+                System.out.println(fnfe.getMessage());
+            }
+        }
+        return results;
     }
 
     @Override
-    public ArrayList<ArticleData> getArticlesByDate() {
-        ArrayList<ArticleData> allArticles = createArticleDataList();
-
-        return null;
-    }
-
-    private ArrayList<ArticleData> createArticleDataList() {
+    public ArrayList<File> getArticleFiles() {
+        ArrayList<File> result = new ArrayList<>();
         File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
         if (!infile.exists())
-            return null;
+            return result;
 
         File[] allFiles = infile.listFiles();
-        ArrayList<ArticleData> allArticles = new ArrayList<>();
-
-        for (File f : allFiles) {
-            if (!f.getName().endsWith(".txt"))
-                continue;
-
-            String title = "";
-            String modDate = "";
-
-            try (Scanner sc = new Scanner(f)) {
-                title = sc.nextLine();
-                modDate = sc.nextLine();
-            }
-            catch (FileNotFoundException fnfe) {System.out.println(fnfe.getMessage());};
-
-            allArticles.add(new ArticleData(title, modDate));
-        }
-        return allArticles;
+        result.addAll(Arrays.asList(allFiles));
+        return result;
     }
 }
