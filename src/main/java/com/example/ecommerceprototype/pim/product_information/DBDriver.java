@@ -222,7 +222,7 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewProductCategory(ProductCategory productCategory) {
+    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation {
         // SQL function: insertNewProduct(argName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL insertNewProductCategory('name', 'parentCategoryName');
         // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
@@ -246,10 +246,11 @@ public class DBDriver {
 
         } catch (SQLException e) {
             System.out.println(e);
+            throw new IncompleteProductCategoryInformation();
         }
     }
 
-    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) {
+    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation {
         // SQL function: insertNewManufacture(argName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL insertNewManufacture('manufactureName', 'supportPhone', 'supportMail');
         try {
@@ -263,10 +264,11 @@ public class DBDriver {
             insertStatement.execute();
         } catch (SQLException e) {
             System.out.println(e);
+            throw new IncompleteManufacturingInformation();
         }
     }
 
-    protected void insertNewDiscount(DiscountInformation discountInformation) {
+    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation {
         // SQL function: insertNewManufacture(argName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
@@ -282,6 +284,7 @@ public class DBDriver {
             insertStatement.execute();
         } catch (SQLException e){
             System.out.println(e);
+            throw new IncompleteDiscountInformation();
         }
     }
 
