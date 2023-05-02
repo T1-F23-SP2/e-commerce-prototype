@@ -459,7 +459,7 @@ LANGUAGE plpgsql;
 
 /* Inserting a new product */
 CREATE OR REPLACE FUNCTION insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-    RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
+    RETURNS TABLE (pId INT, product_UUID UUID, pName VARCHAR, pSerial_number VARCHAR, pShort_description VARCHAR, pIs_hidden BOOLEAN, pLong_description TEXT)
 AS $$
 BEGIN
     INSERT INTO Products
@@ -468,7 +468,8 @@ BEGIN
             argSerialNumber,
             argShortDescription,
             (SELECT id FROM Product_categories WHERE name = argProductCategoryName),
-            (SELECT id FROM Manufactures WHERE name = argManufactureName), argLongDescription);
+            (SELECT id FROM Manufactures WHERE name = argManufactureName),
+            argLongDescription);
 
     RETURN QUERY
         SELECT Products.id,
@@ -482,6 +483,7 @@ BEGIN
         WHERE name = argName;
 END; $$
 LANGUAGE plpgsql;
+
 
 /* Inserting a new product category */
 CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR)
