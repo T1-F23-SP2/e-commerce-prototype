@@ -3,6 +3,7 @@ package com.example.ecommerceprototype.pim.sql_helpers;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SQLValueArguments extends ArrayList<SQLValueSetter<?>> {
@@ -37,13 +38,18 @@ public class SQLValueArguments extends ArrayList<SQLValueSetter<?>> {
         return this;
     }
 
+    public SQLValueArguments setArgument(Double d) {
+        this.add(new SQLDoubleSetter(d));
+        return this;
+    }
+
     public SQLValueArguments setArgument(BigDecimal n) {
         this.add(new SQLBigDecimalSetter(n));
         return this;
     }
 
-    public SQLValueArguments setArgument(Double d) {
-        this.add(new SQLDoubleSetter(d));
+    public SQLValueArguments setArgument(LocalDate ld) {
+        this.add(new SQLLocalDateSetter(ld));
         return this;
     }
 

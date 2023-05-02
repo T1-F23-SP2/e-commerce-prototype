@@ -25,6 +25,9 @@ public class ProductCategory {
     }
 
     public ProductCategory getProductCategoryParent() {
+        if(this.productCategoryParent == null) {
+            return null;
+        }
         return this.productCategoryParent;
     }
 

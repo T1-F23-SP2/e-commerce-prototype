@@ -459,7 +459,7 @@ LANGUAGE plpgsql;
 
 /* Inserting a new product */
 CREATE OR REPLACE FUNCTION insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-    RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
+    RETURNS TABLE (pId INT, product_UUID UUID, pName VARCHAR, pSerial_number VARCHAR, pShort_description VARCHAR, pIs_hidden BOOLEAN, pLong_description TEXT)
 AS $$
 BEGIN
     INSERT INTO Products
@@ -468,7 +468,8 @@ BEGIN
             argSerialNumber,
             argShortDescription,
             (SELECT id FROM Product_categories WHERE name = argProductCategoryName),
-            (SELECT id FROM Manufactures WHERE name = argManufactureName), argLongDescription);
+            (SELECT id FROM Manufactures WHERE name = argManufactureName),
+            argLongDescription);
 
     RETURN QUERY
         SELECT Products.id,
@@ -485,11 +486,20 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new product category */
+CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR)
+AS $$
+BEGIN
+    INSERT INTO Product_categories (name, parent_id)
+    VALUES (argName, null);
+END; $$
+    LANGUAGE plpgsql;
+
+
+/* Inserting a new product category */
 CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR, argParentCategoryName VARCHAR)
 AS $$
 BEGIN
-    INSERT INTO Product_categories
-        (name, parent_id)
+    INSERT INTO Product_categories (name, parent_id)
     VALUES (argName, (SELECT id FROM Product_categories WHERE name = argParentCategoryName));
 END; $$
 LANGUAGE plpgsql;
@@ -518,7 +528,7 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new specification */
-CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
+CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID VARCHAR, argKey VARCHAR, argValue VARCHAR)
 AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM Specification_names WHERE name = argKey) < 1 THEN
@@ -528,15 +538,16 @@ BEGIN
     END IF;
     INSERT INTO Specifications
         (product_id, specification_names_id, specification_value)
-    VALUES ((SELECT id FROM Products WHERE product_UUID = argProductUUID),
+    VALUES ((SELECT id FROM Products WHERE CAST(product_UUID AS VARCHAR) = argProductUUID),
             (SELECT id FROM Specification_names WHERE name = argKey),
             argValue);
 END; $$
 LANGUAGE plpgsql;
 
 
+
 /* Inserting a new price change */
-CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
+CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID TEXT, argPrice NUMERIC, argWholesalePrice NUMERIC)
 AS $$
 BEGIN
     INSERT INTO Price_history
@@ -544,7 +555,7 @@ BEGIN
     VALUES (argPrice,
             argWholesalePrice,
             now(),
-            (SELECT id FROM Products WHERE product_UUID = argProductUUID));
+            (SELECT id FROM Products WHERE CAST(product_UUID AS TEXT) = argProductUUID));
 END; $$
 LANGUAGE plpgsql;
 

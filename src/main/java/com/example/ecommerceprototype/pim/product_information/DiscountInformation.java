@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class DiscountInformation {
     private String name;
-    private LocalDate startingDate;
+    private LocalDate startingDate; // NB: We use LocalDate, and thus Discounts can only last for whole days.
     private LocalDate expiringDate;
 
     public DiscountInformation() {

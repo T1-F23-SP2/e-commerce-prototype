@@ -9,6 +9,7 @@ public class PriceInformation {
     private BigDecimal price;
     private LocalDate priceCreation;
     private DiscountInformation discountInformation;
+    private BigDecimal wholeSalePrice;
 
     public BigDecimal getPrice() {
         return price;
@@ -22,8 +23,17 @@ public class PriceInformation {
         return discountInformation;
     }
 
+    public BigDecimal getWholeSalePrice() {
+        return this.wholeSalePrice;
+    }
+
     protected PriceInformation setPrice(BigDecimal price) {
         this.price = price;
+        return this;
+    }
+
+    protected PriceInformation setWholeSalePrice(BigDecimal wholeSalePrice) {
+        this.wholeSalePrice = wholeSalePrice;
         return this;
     }
 
