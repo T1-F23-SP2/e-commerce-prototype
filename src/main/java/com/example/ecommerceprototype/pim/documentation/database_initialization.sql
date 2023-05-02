@@ -544,9 +544,10 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
+DROP PROCEDURE insertNewSpecification();
 
 /* Inserting a new price change */
-CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
+CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID TEXT, argPrice NUMERIC, argWholesalePrice NUMERIC)
 AS $$
 BEGIN
     INSERT INTO Price_history
@@ -554,10 +555,11 @@ BEGIN
     VALUES (argPrice,
             argWholesalePrice,
             now(),
-            (SELECT id FROM Products WHERE product_UUID = argProductUUID));
+            (SELECT id FROM Products WHERE CAST(product_UUID AS TEXT) = argProductUUID));
 END; $$
 LANGUAGE plpgsql;
 
+DROP PROCEDURE insertNewPriceChange(argProductUUID VARCHAR, argPrice NUMERIC, argWholesalePrice NUMERIC);
 
 /* Inserting a new price change with discount */
 CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
