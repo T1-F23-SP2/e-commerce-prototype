@@ -21,7 +21,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="viewAllFiles" layoutX="122.0" layoutY="120.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="View all files">
+            <Button fx:id="viewAllFiles" layoutX="122.0" layoutY="120.0" mnemonicParsing="false" onAction="#goToViewAllFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="View all files">
                <font>
                   <Font size="19.0" />
                </font>
@@ -36,7 +36,10 @@
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="quitButton" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToLoginPage" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #71B3FF;" text="quit" />
+            <Button fx:id="returnButton" layoutX="271.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToLoginPage" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #71B3FF;" text="Return to main menu">
+               <font>
+                  <Font size="10.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </center>

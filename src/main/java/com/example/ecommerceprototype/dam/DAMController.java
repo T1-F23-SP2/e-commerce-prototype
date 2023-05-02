@@ -17,7 +17,7 @@ public class DAMController {
     private Parent root;
 
     @FXML
-    private Button quitButton;
+    private Button returnButton;
 
     @FXML
     private Button viewAllFiles;
@@ -41,6 +41,15 @@ public class DAMController {
     public void switchToDAM(ActionEvent event) throws IOException {
         // Setting the stage, scene and roots.
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("damMainScene.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    public void goToViewAllFiles(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("viewAllFiles.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
