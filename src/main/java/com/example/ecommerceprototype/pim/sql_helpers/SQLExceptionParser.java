@@ -5,11 +5,24 @@ import com.example.ecommerceprototype.pim.exceptions.sql.SQLDuplicateDatabaseExc
 import com.example.ecommerceprototype.pim.exceptions.sql.SQLInvalidPasswordException;
 import com.example.ecommerceprototype.pim.exceptions.sql.SQLRoleNotFoundException;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 /*
     Class providing a static method used to try to specify the cause of a given SQLException.
  */
 public class SQLExceptionParser {
+
+    /*
+        A method for executing PreparedStatement, and parsing any SQLExceptions thrown.
+     */
+    public static boolean executePreparedStatement(PreparedStatement statement) throws SQLException {
+        try {
+            return statement.execute();
+        } catch (SQLException e) {
+            throw parse(e);
+        }
+    }
 
     /*
         Method for trying to get a more descriptive exception if possible.

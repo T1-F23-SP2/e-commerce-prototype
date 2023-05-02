@@ -83,19 +83,24 @@ public abstract class SQLConnection {
         return testProperties;
     }
 
+
     public static Connection getConnectionFromProperties(Properties properties) throws SQLException {
         String url = properties.getProperty("host") + properties.getProperty("database");
 
         DriverManager.registerDriver(new org.postgresql.Driver());
-
-        return DriverManager.getConnection(
-                url,
-                properties.getProperty("username"),
-                properties.getProperty("password")
-        );
+        try {
+            return DriverManager.getConnection(
+                    url,
+                    properties.getProperty("username"),
+                    properties.getProperty("password")
+            );
+        } catch (SQLException e) {
+            throw SQLExceptionParser.parse(e); // Rethrow exception as a more descriptive exception.
+        }
     }
 
-    private static Connection getAdminConnection(Properties properties) throws SQLException {
+    // Returns a connection to the postgres database, based on the credentials in the properties.
+    private static Connection getConnectionForDefaultDB(Properties properties) throws SQLException {
         Properties adminProperties = new Properties(properties);
         adminProperties.setProperty("database", "postgres");
         return getConnectionFromProperties(adminProperties);
@@ -105,11 +110,14 @@ public abstract class SQLConnection {
         // Need to bypass SQL Injections preventions, because otherwise it won't work.
         // Should be low risk, as no user input is passed in.
         PreparedStatement statement = connection.prepareStatement("CREATE DATABASE " + name);
-        return statement.execute();
+        return SQLExceptionParser.executePreparedStatement(statement);
     }
 
     public static boolean createDatabase(Properties properties) throws SQLException {
-        return createDatabase(getAdminConnection(properties), properties.getProperty("database"));
+        // Wrap in try-with resource, so connection is automatically closed again.
+        try (Connection connection = getConnectionForDefaultDB(properties)) {
+            return createDatabase(connection, properties.getProperty("database"));
+        }
     }
 
     public static boolean dropDatabase(Connection connection, String name, boolean withForce) throws SQLException {
@@ -120,11 +128,16 @@ public abstract class SQLConnection {
         } else {
             statement = connection.prepareStatement(String.format("DROP DATABASE %s", name));
         }
-        return statement.execute();
+        return SQLExceptionParser.executePreparedStatement(statement);
     }
-
+    /*
+        Drop the database which the credentials in the properties points to.
+     */
     public static boolean dropDatabase(Properties properties, boolean withForce) throws SQLException {
-        return dropDatabase(getAdminConnection(properties), properties.getProperty("database"), withForce);
+        // Wrap in try-with resource, so connection is automatically closed again.
+        try (Connection connection = getConnectionForDefaultDB(properties)) {
+            return dropDatabase(connection, properties.getProperty("database"), withForce);
+        }
     }
 
     public static Connection getMainConnection() throws IOException, SQLException {
