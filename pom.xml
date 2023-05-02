@@ -43,6 +43,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.5.4</version>
         </dependency>
+        <dependency>
+            <!-- https://www.tutorialspoint.com/how-to-run-sql-script-using-jdbc -->
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.6</version>
+        </dependency>
     </dependencies>
 
     <build>
