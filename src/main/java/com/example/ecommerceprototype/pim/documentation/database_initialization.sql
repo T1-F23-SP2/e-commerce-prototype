@@ -528,7 +528,7 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new specification */
-CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
+CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID VARCHAR, argKey VARCHAR, argValue VARCHAR)
 AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM Specification_names WHERE name = argKey) < 1 THEN
@@ -538,7 +538,7 @@ BEGIN
     END IF;
     INSERT INTO Specifications
         (product_id, specification_names_id, specification_value)
-    VALUES ((SELECT id FROM Products WHERE product_UUID = argProductUUID),
+    VALUES ((SELECT id FROM Products WHERE CAST(product_UUID AS VARCHAR) = argProductUUID),
             (SELECT id FROM Specification_names WHERE name = argKey),
             argValue);
 END; $$
