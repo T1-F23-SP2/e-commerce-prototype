@@ -387,11 +387,40 @@ public class DBDriver {
 
 
 
-    // TODO: The following procedures are missing before they can be implemented:
-    // deleteProductByUUID()
-    // deleteCategoryByName()
-    // deleteSpecificationByProductUUID()
-    // deleteManufactureByName()
-    // deletePriceChangeByProductUUID()
-    // deleteDiscountByName()
+    protected void deleteProductByUUID(SQLValueArguments uuid) {
+        // SQL function: deleteProductByUUID(argUUID UUID)
+        // Call by: CALL deleteProductByUUID('someUUID');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteProductCategoryByName(SQLValueArguments name) {
+        // SQL function: deleteProductCategoryByName(argName VARCHAR)
+        // Call by: CALL deleteProductCategoryByName('someName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteManufactureByName(SQLValueArguments name) {
+        // SQL function: deleteManufactureByName(argName VARCHAR)
+        // Call by: CALL deleteManufactureByName('someManufactureName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteSpecificationByProductUUIDAndKey(SQLValueArguments uuid) {
+        // SQL function: deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
+        // Call by: CALL deleteSpecificationByProductUUIDAndKey('someUUID', 'someSpecificationKey');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteDiscountByName(SQLValueArguments name) {
+        // SQL function: deleteDiscountByName(argName VARCHAR)
+        // Call by: CALL deleteDiscountByName('someDiscountName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    /* There will not be a method for deleting a price change. This is a design choice. */
 }

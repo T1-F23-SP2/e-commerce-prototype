@@ -3,6 +3,7 @@ module com.example.ecommerceprototype {
     requires javafx.fxml;
     requires java.sql;
     requires org.postgresql.jdbc;
+    requires org.mybatis;
 
 
     opens com.example.ecommerceprototype to javafx.fxml;
