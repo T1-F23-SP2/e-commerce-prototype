@@ -310,7 +310,7 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234);
         try {
@@ -324,10 +324,11 @@ public class DBDriver {
             insertStatement.execute();
         } catch (SQLException e) {
             System.out.println(e);
+            throw new IncompleteProductInformationException();
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234, 'discountName');
         try {
@@ -343,12 +344,10 @@ public class DBDriver {
             insertStatement.execute();
         } catch (SQLException e){
             System.out.println(e);
+            throw new IncompleteProductInformationException();
         }
         throw new UnsupportedOperationException();
     }
-
-
-
 
     protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
         // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
