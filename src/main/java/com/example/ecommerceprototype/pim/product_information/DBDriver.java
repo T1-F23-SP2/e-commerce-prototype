@@ -1,6 +1,6 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
@@ -639,61 +639,170 @@ public class DBDriver {
         }
     }
 
-
-
-
-    protected void insertNewProduct(ProductInformation productInformation) {
-        // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-        // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription', 'productCategoryName', 'manufactureName', 'longDescription');
+    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
+        // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
+        //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
+        // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
+        //                                          'productCategoryName', 'manufactureName', 'longDescription');
         // Look at the database_initialization.sql file for return types and return values.
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("SELECT product_uuid FROM insertnewproduct(?,?,?,?,?,?)");
+            // TODO: After getters is implemented, make checks for the existence of the referenced productCategory and ManufacturingInformation.
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(productInformation.getName());
+            sqlValueArguments.setArgument(productInformation.getSerialNumber());
+            sqlValueArguments.setArgument(productInformation.getShortDescription());
+            sqlValueArguments.setArgument(productInformation.getProductCategory().getName());
+            sqlValueArguments.setArgument(productInformation.getManufacturingInformation().getName());
+            sqlValueArguments.setArgument(productInformation.getLongDescription());
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+
+            ResultSet rs = insertStatement.getResultSet();
+            rs.next(); // Move "cursor" to first row
+            String UUID = rs.getString("product_UUID");
+
+            this.insertNewPriceChange(UUID,
+                    productInformation.getPriceInformation().getPrice(),
+                    productInformation.getPriceInformation().getWholeSalePrice());
+
+            this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+
+            return UUID;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new IncompleteProductInformationException();
+        }
     }
 
-    protected void insertNewProductCategory(ProductCategory productCategory) {
+    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation {
         // SQL function: insertNewProduct(argName VARCHAR, argParentCategoryName VARCHAR)
-        // Call by: CALL insertNewProductCategory('name', 'parentCategoryName'); // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
+        // Call by: CALL insertNewProductCategory('name', 'parentCategoryName');
+        // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
+        try {
+            PreparedStatement insertStatement;
+            SQLValueArguments sqlValueArguments;
 
-        throw new UnsupportedOperationException();
+            if(productCategory.getProductCategoryParent() != null) {
+                insertStatement = connection.prepareStatement("CALL insertnewproductcategory(?, ?)");
+                sqlValueArguments = new SQLValueArguments();
+                sqlValueArguments.setArgument(productCategory.getName());
+                sqlValueArguments.setArgument(productCategory.getProductCategoryParent().getName());
+            } else {
+                insertStatement = connection.prepareStatement("CALL insertnewproductcategory(?)");
+                sqlValueArguments = new SQLValueArguments();
+                sqlValueArguments.setArgument(productCategory.getName());
+            }
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new IncompleteProductCategoryInformation();
+        }
     }
 
-    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) {
+    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation {
         // SQL function: insertNewManufacture(argName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL insertNewManufacture('manufactureName', 'supportPhone', 'supportMail');
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewmanufacture(?, ?, ?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(manufacturingInformation.getName());
+            sqlValueArguments.setArgument(manufacturingInformation.getSupportPhoneNumber());
+            sqlValueArguments.setArgument(manufacturingInformation.getSupportMail());
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new IncompleteManufacturingInformation();
+        }
     }
 
-    protected void insertNewDiscount(DiscountInformation discountInformation) {
+    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation {
         // SQL function: insertNewManufacture(argName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
-        throw new UnsupportedOperationException();
+        try {
+
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewdiscount(?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(discountInformation.getName());
+            sqlValueArguments.setArgument(discountInformation.getStartingDate());
+            sqlValueArguments.setArgument(discountInformation.getExpiringDate());
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e){
+            System.out.println(e);
+            throw new IncompleteDiscountInformation();
+        }
     }
 
-    protected void insertNewSpecification(ProductSpecification productSpecification) {
+    protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) {
         // SQL function: insertNewManufacture(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
         // Call by: CALL insertNewSpecification('71bce9bd-ef5f-48c2-af68-9e721cf4f181', 'CPU', 'testValue1243');
+        try {
+            if(productSpecification.isEmpty()) { // Avoid SQLException if no specifications are specified.
+                return;
+            }
+            for(String key : productSpecification.keySet()) { // As productSpecification is a HashMap...
+                PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewSpecification(?, ?, ?)");
+                SQLValueArguments sqlValueArguments = new SQLValueArguments()
+                        .setArgument(UUID)
+                        .setArgument(key)
+                        .setArgument(productSpecification.get(key));
 
-        throw new UnsupportedOperationException();
+                sqlValueArguments.setArgumentsInStatement(insertStatement);
+                insertStatement.execute();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    protected void insertNewPriceChange(SQLValueArguments uuid, SQLValueArguments price, SQLValueArguments wholeSalePrice) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234);
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewPriceChange(?, ?, ?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments()
+                    .setArgument(uuid)
+                    .setArgument(price)
+                    .setArgument(wholeSalePrice);
 
-        throw new UnsupportedOperationException();
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new IncompleteProductInformationException();
+        }
     }
 
-    protected void insertNewPriceChange(SQLValueArguments uuid, SQLValueArguments price, SQLValueArguments wholeSalePrice, DiscountInformation discountInformation) {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234, 'discountName');
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewpricechange(?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
+            sqlValueArguments.setArgument(uuid);
+            sqlValueArguments.setArgument(price);
+            sqlValueArguments.setArgument(wholeSalePrice);
+            sqlValueArguments.setArgument(discountInformation.getName());
+
+            sqlValueArguments.setArgumentsInStatement(insertStatement);
+            insertStatement.execute();
+        } catch (SQLException e){
+            System.out.println(e);
+            throw new IncompleteProductInformationException();
+        }
         throw new UnsupportedOperationException();
     }
-
-
-
 
     protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
         // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
@@ -733,11 +842,40 @@ public class DBDriver {
 
 
 
-    // TODO: The following procedures are missing before they can be implemented:
-    // deleteProductByUUID()
-    // deleteCategoryByName()
-    // deleteSpecificationByProductUUID()
-    // deleteManufactureByName()
-    // deletePriceChangeByProductUUID()
-    // deleteDiscountByName()
+    protected void deleteProductByUUID(SQLValueArguments uuid) {
+        // SQL function: deleteProductByUUID(argUUID UUID)
+        // Call by: CALL deleteProductByUUID('someUUID');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteProductCategoryByName(SQLValueArguments name) {
+        // SQL function: deleteProductCategoryByName(argName VARCHAR)
+        // Call by: CALL deleteProductCategoryByName('someName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteManufactureByName(SQLValueArguments name) {
+        // SQL function: deleteManufactureByName(argName VARCHAR)
+        // Call by: CALL deleteManufactureByName('someManufactureName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteSpecificationByProductUUIDAndKey(SQLValueArguments uuid) {
+        // SQL function: deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
+        // Call by: CALL deleteSpecificationByProductUUIDAndKey('someUUID', 'someSpecificationKey');
+
+        throw new UnsupportedOperationException();
+    }
+
+    protected void deleteDiscountByName(SQLValueArguments name) {
+        // SQL function: deleteDiscountByName(argName VARCHAR)
+        // Call by: CALL deleteDiscountByName('someDiscountName');
+
+        throw new UnsupportedOperationException();
+    }
+
+    /* There will not be a method for deleting a price change. This is a design choice. */
 }

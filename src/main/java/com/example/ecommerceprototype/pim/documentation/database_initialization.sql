@@ -26,8 +26,8 @@ CREATE TABLE Products
     name                  VARCHAR(256) NOT NULL UNIQUE,
     serial_number         VARCHAR(256) NOT NULL,
     short_description     VARCHAR(512) NOT NULL,
-    product_categories_id INT          NOT NULL REFERENCES Product_categories (id),
-    manufacture_id        INT          NOT NULL REFERENCES Manufactures (id),
+    product_categories_id INT REFERENCES Product_categories (id),
+    manufacture_id        INT REFERENCES Manufactures (id),
     is_hidden             BOOLEAN      NOT NULL        DEFAULT FALSE,
     long_description      TEXT                         DEFAULT NULL
 );
@@ -460,7 +460,7 @@ LANGUAGE plpgsql;
 
 /* Inserting a new product */
 CREATE OR REPLACE FUNCTION insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-    RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
+    RETURNS TABLE (pId INT, product_UUID UUID, pName VARCHAR, pSerial_number VARCHAR, pShort_description VARCHAR, pIs_hidden BOOLEAN, pLong_description TEXT)
 AS $$
 BEGIN
     INSERT INTO Products
@@ -469,7 +469,8 @@ BEGIN
             argSerialNumber,
             argShortDescription,
             (SELECT id FROM Product_categories WHERE name = argProductCategoryName),
-            (SELECT id FROM Manufactures WHERE name = argManufactureName), argLongDescription);
+            (SELECT id FROM Manufactures WHERE name = argManufactureName),
+            argLongDescription);
 
     RETURN QUERY
         SELECT Products.id,
@@ -486,11 +487,20 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new product category */
+CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR)
+AS $$
+BEGIN
+    INSERT INTO Product_categories (name, parent_id)
+    VALUES (argName, null);
+END; $$
+    LANGUAGE plpgsql;
+
+
+/* Inserting a new product category */
 CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR, argParentCategoryName VARCHAR)
 AS $$
 BEGIN
-    INSERT INTO Product_categories
-        (name, parent_id)
+    INSERT INTO Product_categories (name, parent_id)
     VALUES (argName, (SELECT id FROM Product_categories WHERE name = argParentCategoryName));
 END; $$
 LANGUAGE plpgsql;
@@ -519,7 +529,7 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new specification */
-CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
+CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID VARCHAR, argKey VARCHAR, argValue VARCHAR)
 AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM Specification_names WHERE name = argKey) < 1 THEN
@@ -529,15 +539,16 @@ BEGIN
     END IF;
     INSERT INTO Specifications
         (product_id, specification_names_id, specification_value)
-    VALUES ((SELECT id FROM Products WHERE product_UUID = argProductUUID),
+    VALUES ((SELECT id FROM Products WHERE CAST(product_UUID AS VARCHAR) = argProductUUID),
             (SELECT id FROM Specification_names WHERE name = argKey),
             argValue);
 END; $$
 LANGUAGE plpgsql;
 
 
+
 /* Inserting a new price change */
-CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
+CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID TEXT, argPrice NUMERIC, argWholesalePrice NUMERIC)
 AS $$
 BEGIN
     INSERT INTO Price_history
@@ -545,7 +556,7 @@ BEGIN
     VALUES (argPrice,
             argWholesalePrice,
             now(),
-            (SELECT id FROM Products WHERE product_UUID = argProductUUID));
+            (SELECT id FROM Products WHERE CAST(product_UUID AS TEXT) = argProductUUID));
 END; $$
 LANGUAGE plpgsql;
 
@@ -639,10 +650,82 @@ END; $$
 LANGUAGE plpgsql;
 
 
+/* Delete product by UUID */
+CREATE OR REPLACE PROCEDURE deleteProductByUUID(argUUID UUID)
+AS $$
+BEGIN
+    DELETE FROM specifications
+        WHERE
+            product_id = (SELECT id FROM products WHERE product_UUID = argUUID);
+
+    DELETE FROM price_history
+        WHERE
+            product_id = (SELECT id FROM products WHERE product_UUID = argUUID);
+
+    DELETE FROM products
+        WHERE
+            product_UUID = argUUID;
+END; $$
+LANGUAGE plpgsql;
 
 
--- TODO:
--- Delete product by UUID
--- Delete product category by name
--- Delete specification by name
--- Delete manufacture by name
+/* Delete product category by name */
+CREATE OR REPLACE PROCEDURE deleteProductCategoryByName(argName VARCHAR)
+AS $$
+BEGIN
+    UPDATE Products
+        SET product_categories_id = NULL
+        WHERE product_categories_id = (SELECT id FROM product_categories WHERE name = argName);
+
+    UPDATE product_categories
+        SET parent_id = NULL
+        WHERE parent_id = (SELECT id FROM product_categories WHERE name = argName);
+
+    DELETE FROM product_categories
+        WHERE
+            name = argName;
+END; $$
+LANGUAGE plpgsql;
+
+
+/* Delete manufacture by name */
+CREATE OR REPLACE PROCEDURE deleteManufactureByName(argName VARCHAR)
+AS $$
+BEGIN
+    UPDATE Products
+        SET manufacture_id = NULL
+        WHERE manufacture_id = (SELECT id FROM Manufactures WHERE name = argName);
+
+    DELETE FROM Manufactures
+        WHERE
+            name = argName;
+END; $$
+LANGUAGE plpgsql;
+
+
+/* Delete product specification by key  */
+CREATE OR REPLACE PROCEDURE deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
+AS $$
+BEGIN
+    DELETE FROM specifications
+        WHERE
+            specification_names_id = (SELECT id FROM specification_names WHERE name = argKey)
+        AND
+            product_id = (SELECT id FROM Products WHERE product_UUID = argProductUUID);
+END; $$
+LANGUAGE plpgsql;
+
+
+/* Delete discount by name */
+CREATE OR REPLACE PROCEDURE deleteDiscountByName(argName VARCHAR)
+AS $$
+BEGIN
+    UPDATE price_history
+        SET discount_id = NULL
+        WHERE discount_id = (SELECT id FROM discounts WHERE name = argName);
+
+    DELETE FROM discounts
+        WHERE
+            name = argName;
+END; $$
+    LANGUAGE plpgsql;
