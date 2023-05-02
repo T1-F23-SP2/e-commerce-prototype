@@ -103,6 +103,15 @@ public class Asset {
         return date_added;
     }
 
+    private String getFileType(String fileName) {
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex == -1) {
+            return "";
+        } else {
+            return fileName.substring(dotIndex + 1);
+        }
+    }
+
     public void setDate_added(Date date_added) {
         this.date_added = date_added;
     }
