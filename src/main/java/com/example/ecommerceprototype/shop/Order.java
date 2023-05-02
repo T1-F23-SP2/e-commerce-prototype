@@ -20,6 +20,10 @@ public class Order {
     private HashMap<String, Integer> products = new HashMap<>();
 
 
+
+    public void orderItemsFromHashMap(HashMap<String, Integer> products) {
+        this.products = products;
+    }
     public String getFirstName() {
         return getFirstName();
     }

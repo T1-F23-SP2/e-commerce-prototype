@@ -5,6 +5,13 @@ import java.util.HashMap;
 
 public class Basket {
 
+
+    private Basket(int pageSize) {
+        this.currentPage = 0;
+        this.pageSize = pageSize;
+        this.products = new ArrayList<>();
+    }
+
     private int currentPage;
     private int pageSize = 5;
     private ArrayList<BasketEntry> products;
@@ -32,7 +39,7 @@ public class Basket {
         return getPage(currentPage);
     }
 
-    private Basket basket = new Basket();
+    private Basket basket = new Basket(5);
 
     public Basket getInstance() {
         return basket;

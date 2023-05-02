@@ -23,4 +23,9 @@ public class BasketEntry {
         return UUID;
     }
 
+    public BasketEntry(String UUID, int quantity) {
+        this.UUID = UUID;
+        this.quantity = quantity;
+    }
+
 }
