@@ -2,24 +2,15 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
-import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
-import javax.xml.transform.Result;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.ProtectionDomain;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
 
 public class DBDriver {
 
     // TODO: Keep DB-login details correct
-
     private static DBDriver instance;
     private String url = "localhost";
     private int port = 5432;
@@ -48,35 +39,6 @@ public class DBDriver {
             if (connection == null) System.exit(-1);
         }
     }
-
-    public static void main(String[] args) {
-        DBDriver dbDriver = new DBDriver();
-
-        System.out.println("Product by UUID: " + dbDriver.getProductByUUID("60d13595-434e-4ecf-a791-396a761fb7e9"));
-        System.out.println("Product by name: " + dbDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch"));
-        System.out.println("Products by serial number: " + dbDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234"));
-        System.out.println("Products that are hidden: " + dbDriver.getProductsThatAreHidden());
-        System.out.println("Product by category name: " + dbDriver.getProductsByCategoryName("PC Laptops"));
-        System.out.println("Products by manufacture name: " + dbDriver.getProductsByManufactureName("Samsung"));
-        System.out.println("Products by discount name: " + dbDriver.getProductsByDiscountName("Spring sale"));
-
-        System.out.println("Category by product UUID: " + dbDriver.getCategoryByProductUUID("60d13595-434e-4ecf-a791-396a761fb7e9"));
-        System.out.println("Category by name: " + dbDriver.getCategoryByName("Monitors"));
-        System.out.println("Category by id: " + dbDriver.getCategoryByCategoryID(1));
-
-        System.out.println("Specification by product UUID: " + dbDriver.getSpecificationByProductUUID("60d13595-434e-4ecf-a791-396a761fb7e9"));
-
-        System.out.println("Manufacture by product UUID: " + dbDriver.getManufactureByProductUUID("60d13595-434e-4ecf-a791-396a761fb7e9"));
-        System.out.println("Manufacture by product name: " + dbDriver.getManufactureByName("Lenovo"));
-
-        System.out.println("Discount by product UUID: " + dbDriver.getDiscountByProductUUID("2710b731-55a9-491d-8d98-a5d488bbe02f"));
-        System.out.println("Discount by product name: " + dbDriver.getDiscountByName("Spring sale"));
-
-        System.out.println("Discount percentage by product UUID: " + dbDriver.getDiscountPercentageByProductUUID("2710b731-55a9-491d-8d98-a5d488bbe02f"));
-
-        System.out.println("All prices by product UUID: " + dbDriver.getPricesByProductUUID("60d13595-434e-4ecf-a791-396a761fb7e9"));
-    }
-
 
     protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
