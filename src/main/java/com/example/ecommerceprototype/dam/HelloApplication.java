@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.dam;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import javax.print.attribute.standard.Media;
 import java.io.File;
 import javafx.scene.media.MediaPlayer;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -24,13 +26,17 @@ public class HelloApplication extends Application {
     private final Map<String, Asset> fileListAssets = new HashMap<>();
 
     @Override
-    public void start(Stage window) {
+    public void start(Stage window) throws IOException {
 
-        DAM test2 = new DAM();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
+
+        window.setTitle("DAM login");
+        window.setScene(scene);
+        window.show();
     }
-
-    public static void main (String[]args){
-        launch(HelloApplication.class);
+    public static void main (String[] args){
+        launch();
     }
 }
 

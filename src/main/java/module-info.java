@@ -7,6 +7,10 @@ module com.example.ecommerceprototype {
     requires java.desktop;
     requires javafx.media;
     opens com.example.ecommerceprototype to javafx.fxml;
-    opens com.example.ecommerceprototype.dam to javafx.graphics;
+    opens com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype;
+    exports com.example.ecommerceprototype.dam;
 }
+
+
+
