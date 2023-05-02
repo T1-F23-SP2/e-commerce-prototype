@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.DAMController">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="198.0" style="-fx-background-color: #71E3FF;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="28.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DAM MANAGER">
+               <font>
+                  <Font name="Mukta Vaani Light" size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="viewAllFiles" layoutX="122.0" layoutY="120.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="View all files">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="addNewFile" layoutX="122.0" layoutY="181.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Add new file">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="editFiles" layoutX="122.0" layoutY="240.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Edit files">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="quitButton" layoutX="348.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnToLoginPage" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #71B3FF;" text="quit" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

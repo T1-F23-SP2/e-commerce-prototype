@@ -18,8 +18,8 @@
             <TextField fx:id="UsernameField" layoutX="272.0" layoutY="205.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #71E3FF; -fx-border-width: 0px 0px 2px;" />
             <PasswordField fx:id="passwordField" layoutX="271.0" layoutY="257.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #71E3FF; -fx-border-width: 0px 0px 2px;" />
             <Button fx:id="loginButton" layoutX="328.0" layoutY="348.0" mnemonicParsing="false" onAction="#login" style="-fx-background-color: #71E3FF;" text="Login" />
-            <Hyperlink ellipsisString="" layoutX="281.0" layoutY="423.0" text="Forgotten your password?" />
-            <Button layoutX="597.0" layoutY="-35.0" mnemonicParsing="false" prefHeight="124.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="x">
+            <Hyperlink fx:id="forgotPass" ellipsisString="" layoutX="281.0" layoutY="423.0" onAction="#forgotPassClicked" text="Forgotten your password?" />
+            <Button fx:id="quitButton" layoutX="597.0" layoutY="-35.0" mnemonicParsing="false" onAction="#quitButtonClicked" prefHeight="124.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="x">
                 <font>
                     <Font name="LingWai SC Medium" size="35.0" />
                 </font>
