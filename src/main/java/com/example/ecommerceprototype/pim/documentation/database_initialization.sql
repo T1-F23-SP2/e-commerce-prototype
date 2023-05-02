@@ -544,7 +544,7 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
-DROP PROCEDURE insertNewSpecification();
+
 
 /* Inserting a new price change */
 CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID TEXT, argPrice NUMERIC, argWholesalePrice NUMERIC)
@@ -559,7 +559,6 @@ BEGIN
 END; $$
 LANGUAGE plpgsql;
 
-DROP PROCEDURE insertNewPriceChange(argProductUUID VARCHAR, argPrice NUMERIC, argWholesalePrice NUMERIC);
 
 /* Inserting a new price change with discount */
 CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
