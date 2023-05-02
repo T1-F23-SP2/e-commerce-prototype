@@ -1,6 +1,8 @@
 package Visuals;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 
 
@@ -26,7 +28,13 @@ public class WTF {
             System.out.println(cell.getPhrase().getContent()+ ",");
         }
 
-
+        boolean b = true;
+        for(PdfPRow r: table.getRows()) {
+            for(PdfPCell c: r.getCells()) {
+                c.setBackgroundColor(b ? BaseColor.GREEN : BaseColor.WHITE);
+            }
+            b = !b;
+        }
 
 // Now the firstRow array contains the PdfPCell objects that represent the cells in the first row
 

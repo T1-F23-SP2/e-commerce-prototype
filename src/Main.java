@@ -19,17 +19,14 @@ public class Main {
 //        Inventory inventory2 = new Inventory("Danieal", 100);
 
 
-        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
-        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
-        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
-
-        System.out.println(PlaceholderInstShop.getInstShop1().getMap().get(PlaceHolderInstGet.getInst1().getProductUUID()));
-
-        System.out.println(DBManager.updateStock(PlaceholderInstShop.getInstShop1()));
-
-
-
-
+        //System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
+//        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
+//        System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
+//
+//        System.out.println(PlaceholderInstShop.getInstShop1().getMap().get(PlaceHolderInstGet.getInst1().getProductUUID()));
+          //System.out.println(SalesReport.calcMargin(PlaceHolderInstGet.getInst2().getPriceInformation()));
+        //System.out.println(SalesReport.getQTY(PlaceHolderInstGet.getInst2().getProductUUID()));
+        System.out.println(SalesReport.rev(PlaceHolderInstGet.getInst2().getPriceInformation()));
         // Setup of database
 
 //        MongoCollection<org.bson.Document> connDBItem = DBManager.databaseConn("Item");

@@ -2,15 +2,14 @@ package ComputedOverviews;
 
 import DB.DBManager;
 import com.mongodb.client.MongoCollection;
+import mockPIM.PlaceHolderInstGet;
 import mockPIM.PriceInformation;
-import mockPIM.ProductInformation;
 import org.bson.Document;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.*;
 
 public class SalesReport {
@@ -59,36 +58,54 @@ public class SalesReport {
     }
 
 
-    public static int getOrders(PriceInformation priceInformation){
+    public static boolean getOrders(){
         // TODO: Get all orders from orderHistory database table, and save it 
-        MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
+        MongoCollection<Document> finder = DBManager.databaseConn("Item");
 
         List<org.bson.Document> result = finder.find().into(new ArrayList<>());
 
-        List<String> Word = new ArrayList<>();
+        List<Integer> QTY = new ArrayList<>();
         for (org.bson.Document ser : result) {
-            String UUIDs = ser.getString("UUID");
-            Word.add(UUIDs);
+            int QTYs = ser.getInteger("QTY");
+            QTY.add(QTYs);
         }
             //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
 
-        String bWord = Word.get(0);
-        System.out.println(bWord);
-        Document query = new Document("AmountSold", new Document("$eq", bWord));
-        // Placeholder
-        return 1;
+
+        System.out.println(QTY);
+        Document query = new Document("QTY", new Document("$eq", 0));
+
+
+        return false;
     }
 
     public static BigDecimal calcMargin(PriceInformation priceInformation){
-
+        MathContext ones = new MathContext(1);
         BigDecimal one = new BigDecimal("1");
+        BigDecimal hundred = new BigDecimal("100");
         // TODO: This returns the margin for 1 item
-        return one.subtract(priceInformation.getPrice().divide(priceInformation.getBuyPrice()));
+
+        BigDecimal Res = priceInformation.getPrice().divide(priceInformation.getBuyPrice());
+        BigDecimal Res2 = one.divide(Res, new MathContext(3));
+        return Res2.multiply(hundred.round(ones));
     }
 
+    public static BigDecimal calcMarginKR(PriceInformation priceInformation){
+        MathContext ones = new MathContext(1);
+        BigDecimal one = new BigDecimal("1");
+        BigDecimal hundred = new BigDecimal("100");
+        // TODO: This returns the margin for 1 item
 
+        return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
+    }
 
-
+    public static BigDecimal rev(PriceInformation priceInformation) {
+        //TODO Skal ikke bruge instances til calc
+        BigDecimal qRev = BigDecimal.valueOf(getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID())).multiply(priceInformation.getPrice());
+        BigDecimal PRev =getQTY(PlaceHolderInstGet.getInst2().getProductUUID()).multiply(priceInformation.getBuyPrice());
+        BigDecimal tRev = qRev.subtract(PRev);
+        return tRev;
+    }
 
     public static int getAmountOfOrders(String UUID) {
 
@@ -167,6 +184,16 @@ public class SalesReport {
         return null;
     }
 
+    public static BigDecimal getQTY(String UUID)
+    {
+
+        org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("Item"), UUID);
+        BigDecimal QTY = BigDecimal.valueOf(result.getInteger("QTY"));
+
+        return QTY;
+
+
+    }
 
 
 

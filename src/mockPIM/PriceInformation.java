@@ -20,7 +20,7 @@ public class PriceInformation {
     public BigDecimal getPrice() {
         return price;
     }
-    public BigDecimal getBuyPrice(){return price;}
+    public BigDecimal getBuyPrice(){return buyPrice;}
 
     public void setPrice(BigDecimal price) {
         this.price = price;

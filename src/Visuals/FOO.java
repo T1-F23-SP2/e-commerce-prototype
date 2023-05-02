@@ -15,6 +15,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import mockPIM.PlaceHolderInstGet;
+import mockPIM.PriceInformation;
 import mockPIM.ProductInformation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -32,6 +33,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FOO {
+
+    static BaseColor color = BaseColor.LIGHT_GRAY;
+    static BaseColor color2 = new BaseColor(48, 213,200);
     private static Integer[] data;
     int price;
     private static String[] names;
@@ -73,7 +77,7 @@ public class FOO {
 
 
 
-            // Array/List måde
+            // Array/List
             Object[] itemData = new Object[] { name, Colour, price, Size, Stock };
 
             tObjectList.add(itemData);
@@ -100,13 +104,14 @@ public class FOO {
     }
     public static PdfPTable FUCKTable() {
         // Change this to the right column names
-        String[] columnHeaders = {"Name", "Price", "UUID", "AmountSold"};
+        String[] columnHeaders = {"Name", "UUID", "AmountOfOrders", "Price", "Buy Price", "CalcMargin (%)", "CalcMargin (KR)", "ItemQTY", "Revenue"};
 
         PdfPTable table = new PdfPTable(columnHeaders.length);
         table.setWidthPercentage(100);
 
         for (String columnHeader : columnHeaders) {
             PdfPCell headerCell = new PdfPCell(new Phrase(columnHeader));
+            headerCell.setBackgroundColor(color2);
             table.addCell(headerCell);
         }
 
@@ -132,33 +137,46 @@ public class FOO {
 
 
 
-        // Cell måde
+        // Cell mode
         for (int j = 0; j < PlaceHolderInstGet.productArray.length; j++) {
 
 
-            PdfPCell cell = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getName().toString()));
-            table.addCell(cell);
-
-            PdfPCell cell2 = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getPriceInformation().getPrice().toString()));
-            table.addCell(cell2);
-
-            PdfPCell cell3 = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getProductUUID().toString()));
-            table.addCell(cell3);
-
-            PdfPCell cell4 = new PdfPCell(new Phrase(Integer.toString(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID()))));
-            table.addCell(cell4);
-            //SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID()))
+            PdfPCell cell_name = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getName().toString()));
+            table.addCell(cell_name);
 
 
+            PdfPCell cell_UUID = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getProductUUID().toString()));
+            table.addCell(cell_UUID);
+
+            PdfPCell cell_AoO = new PdfPCell(new Phrase(Integer.toString(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID()))));
+//            cell_AoO.setBackgroundColor(color);
+            table.addCell(cell_AoO);
 
 
-//            // Name
-//            PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
-//            table.addCell(cell);
-//
-//            // Price
-//            PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
-//            table.addCell(cell);
+            PdfPCell cell_price = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getPriceInformation().getPrice().toString()));
+//            cell_price.setBackgroundColor(color);
+
+            table.addCell(cell_price);
+
+            PdfPCell cell_BuyPrice = new PdfPCell(new Phrase((PlaceHolderInstGet.getInst2().getPriceInformation().getBuyPrice().toString())));
+            table.addCell(cell_BuyPrice);
+            PdfPCell cell_calcMargin = new PdfPCell(new Phrase(((SalesReport.calcMargin(PlaceHolderInstGet.productArray[j].getPriceInformation())).toString())));
+            table.addCell(cell_calcMargin);
+
+            PdfPCell cell_calcMarginKR = new PdfPCell(new Phrase(((SalesReport.calcMarginKR(PlaceHolderInstGet.productArray[j].getPriceInformation())).toString())));
+            table.addCell(cell_calcMarginKR);
+
+            PdfPCell cell_itemQTY = new PdfPCell(new Phrase(((SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID())).toString())));
+            table.addCell(cell_itemQTY);
+
+            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j].getPriceInformation()).toString()));
+            table.addCell(cell_rev);
+
+
+
+
+
+
 
         }
 
@@ -220,6 +238,7 @@ public class FOO {
             document.open();
             // Adding the FUCKTable to the pdf - (CellTable)
             PdfPTable table = FUCKTable();
+
             document.add(table);
             //user positioned text and graphic contents of a page | how to apply the proper font encoding.
             PdfContentByte cb = writer.getDirectContent();
@@ -264,6 +283,7 @@ public class FOO {
 //                Paragraph para = new Paragraph("dx");
 //                document.add(para);
                 document.newPage();
+
             }
 
 
