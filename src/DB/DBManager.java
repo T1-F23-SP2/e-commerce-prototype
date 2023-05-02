@@ -67,6 +67,25 @@ public class DBManager {
 
     }
 
+
+    public static void decrementFieldById(String uuid, int amount) {
+
+        MongoCollection<Document> collection = databaseConn("Item");
+
+        // Create a query that finds the document with the specified ID
+//        Document query = new Document("_id", id);
+        Document query = queryDB(collection, uuid);
+        // Create an update that decrements the "fieldToDecrement" field by 1
+        Document update = new Document("$inc", new Document("fieldToDecrement", -amount));
+
+        // Update the document with the specified ID
+        collection.updateOne(query, update);
+
+        // Close the MongoDB connection
+//        collection.close();
+    }
+
+
     //public static Document dbForRealConnection() {
        // connection = DriverManager.getConnection("")
        // PreparedStatement insertStatement =
@@ -77,6 +96,7 @@ public class DBManager {
 
 
 
+    
 
 
 
