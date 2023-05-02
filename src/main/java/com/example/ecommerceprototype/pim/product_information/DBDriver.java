@@ -292,6 +292,9 @@ public class DBDriver {
         // SQL function: insertNewManufacture(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
         // Call by: CALL insertNewSpecification('71bce9bd-ef5f-48c2-af68-9e721cf4f181', 'CPU', 'testValue1243');
         try {
+            if(productSpecification.isEmpty()) { // Avoid SQLException if no specifications are specified.
+                return;
+            }
             for(String key : productSpecification.keySet()) { // As productSpecification is a HashMap...
                 PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewSpecification(?, ?, ?)");
                 SQLValueArguments sqlValueArguments = new SQLValueArguments()
