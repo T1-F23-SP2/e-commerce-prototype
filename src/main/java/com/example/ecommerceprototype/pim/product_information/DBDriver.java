@@ -2,27 +2,21 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
-import com.example.ecommerceprototype.pim.sql_helpers.SQLValueSetter;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class DBDriver {
 
     // TODO: Keep DB-login details correct
-
     private static DBDriver instance;
     private String url = "localhost";
     private int port = 5432;
     private String databaseName = "postgres";
     private String username = "postgres";
-    private String password = "password";
+    private String password = "";
     private Connection connection = null;
 
     private DBDriver(){
@@ -46,28 +40,107 @@ public class DBDriver {
         }
     }
 
-    protected ProductInformation getProductByUUID(SQLValueArguments uuid) {
+    protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ProductInformation productInformation = new ProductInformation();
+
+            productInformation.setUUID(resultSet.getString("product_UUID"))
+                    .setName(resultSet.getString("name"))
+                    .setSerialNumber(resultSet.getString("serial_number"))
+                    .setShortDescription(resultSet.getString("short_description"))
+                    .setIsHidden(resultSet.getBoolean("is_hidden"))
+                    .setLongDescription(resultSet.getString("long_description"));
+
+            return productInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ProductInformation getProductByName(SQLValueArguments name) {
+    protected ProductInformation getProductByName(String name) {
         // SQL function: getProductByName(argName TEXT)
         // Call by: SELECT * FROM getProductByName('some-name');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(name);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ProductInformation productInformation = new ProductInformation();
+
+            productInformation.setUUID(resultSet.getString("product_UUID"))
+                    .setName(resultSet.getString("name"))
+                    .setSerialNumber(resultSet.getString("serial_number"))
+                    .setShortDescription(resultSet.getString("short_description"))
+                    .setIsHidden(resultSet.getBoolean("is_hidden"))
+                    .setLongDescription(resultSet.getString("long_description"));
+
+            return productInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected List<ProductInformation> getProductsBySerialNumber(SQLValueArguments serialNumber) {
+    protected List<ProductInformation> getProductsBySerialNumber(String serialNumber) {
         // SQL function: getProductsBySerialNumber(argSerialNumber TEXT)
         // Call by: SELECT * FROM getProductsBySerialNumber('some-serial-number');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsBySerialNumber(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(serialNumber);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected List<ProductInformation> getProductsThatAreHidden() {
@@ -75,113 +148,457 @@ public class DBDriver {
         // Call by: SELECT * FROM getProductsThatAreHidden();
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsThatAreHidden()");
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected List<ProductInformation> getProductsByCategoryName(SQLValueArguments categoryName) {
+    protected List<ProductInformation> getProductsByCategoryName(String categoryName) {
         // SQL function: getProductsThatAreHidden(argCategoryName TEXT)
         // Call by: SELECT * FROM getProductsThatAreHidden('someCategoryName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByCategoryName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(categoryName);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected List<ProductInformation> getProductsByManufactureName(SQLValueArguments manufactureName) {
+    protected List<ProductInformation> getProductsByManufactureName(String manufactureName) {
         // SQL function: getProductsByManufactureName(argManufactureName TEXT)
         // Call by: SELECT * FROM getProductsByManufactureName('someManufactureName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByManufactureName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(manufactureName);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected List<ProductInformation> getProductsByDiscountName(SQLValueArguments discountName) {
+    protected List<ProductInformation> getProductsByDiscountName(String discountName) {
         // SQL function: getProductsByDiscountName(argDiscountName TEXT)
         // Call by: SELECT * FROM getProductsByDiscountName('someDiscountName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByDiscountName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(discountName);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ProductCategory getCategoryByProductUUID(SQLValueArguments uuid) {
+    protected ProductCategory getCategoryByProductUUID(String uuid) {
         // SQL function: getCategoryByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getCategoryByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ProductCategory productCategory = new ProductCategory();
+
+            productCategory.setName(resultSet.getString("name"));
+
+            if (resultSet.getInt("parent_id") != 0) {
+                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+                productCategory.setProductCategoryParent(parentCategory);
+            } else {
+                productCategory.setProductCategoryParent((ProductCategory) null);
+            }
+
+            return productCategory;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ProductCategory getCategoryByName(SQLValueArguments categoryName) {
+    protected ProductCategory getCategoryByName(String name) {
         // SQL function: getCategoryByName(argName TEXT)
         // Call by: SELECT * FROM getCategoryByName('someCategoryName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(name);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ProductCategory productCategory = new ProductCategory();
+
+            productCategory.setName(resultSet.getString("name"));
+
+            if (resultSet.getInt("parent_id") != 0) {
+                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+                productCategory.setProductCategoryParent(parentCategory);
+            } else {
+                productCategory.setProductCategoryParent((ProductCategory) null);
+            }
+
+            return productCategory;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ProductCategory getCategoryByCategoryID(SQLValueArguments categoryId) {
+    protected ProductCategory getCategoryByCategoryID(int categoryId) {
         // This method is most relevant for getting the parent category of a category.
 
         // SQL function: getCategoryByCategoryID(argID INT)
         // Call by: SELECT * FROM getCategoryByCategoryID('someCategoryId');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByCategoryID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(categoryId);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ProductCategory productCategory = new ProductCategory();
+
+            productCategory.setName(resultSet.getString("name"));
+
+            if (resultSet.getInt("parent_id") != 0) {
+                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+                productCategory.setProductCategoryParent(parentCategory);
+            } else {
+                productCategory.setProductCategoryParent((ProductCategory) null);
+            }
+
+            return productCategory;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ProductSpecification getSpecificationByProductUUID(SQLValueArguments uuid) {
+    protected ProductSpecification getSpecificationByProductUUID(String uuid) {
         // SQL function: getSpecificationByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getSpecificationByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        // T IS HERE...
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getSpecificationByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ProductSpecification productSpecification = new ProductSpecification();
+
+            while(resultSet.next()) {
+                productSpecification.put(resultSet.getString("name"), resultSet.getString("specification_value"));
+            }
+
+            return productSpecification;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            throw new RuntimeException();
+        }
     }
 
-    protected ManufacturingInformation getManufactureByProductUUID(SQLValueArguments uuid) {
+    protected ManufacturingInformation getManufactureByProductUUID(String uuid) {
         // SQL function: getManufactureByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getManufactureByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+
+            manufacturingInformation.setName(resultSet.getString("name"))
+                            .setSupportPhoneNumber(resultSet.getString("support_phone"))
+                            .setSupportMail(resultSet.getString("support_mail"));
+
+            return manufacturingInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected ManufacturingInformation getManufactureByName(SQLValueArguments name) {
+    protected ManufacturingInformation getManufactureByName(String name) {
         // SQL function: getManufactureByName(argName TEXT)
         // Call by: SELECT * FROM getManufactureByName('someName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(name);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+
+            manufacturingInformation.setName(resultSet.getString("name"))
+                    .setSupportPhoneNumber(resultSet.getString("support_phone"))
+                    .setSupportMail(resultSet.getString("support_mail"));
+
+            return manufacturingInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected DiscountInformation getDiscountByProductUUID(SQLValueArguments uuid) {
+    protected DiscountInformation getDiscountByProductUUID(String uuid) {
         // SQL function: getDiscountByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getDiscountByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            DiscountInformation discountInformation = new DiscountInformation();
+
+            discountInformation.setName(resultSet.getString("name"))
+                            .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
+                            .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
+
+            return discountInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected DiscountInformation getDiscountByName(SQLValueArguments name) {
+    protected DiscountInformation getDiscountByName(String name) {
         // SQL function: getDiscountByName(argName TEXT)
         // Call by: SELECT * FROM getDiscountByName('someName');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByName(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(name);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            DiscountInformation discountInformation = new DiscountInformation();
+
+            discountInformation.setName(resultSet.getString("name"))
+                    .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
+                    .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
+
+            return discountInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected BigDecimal getDiscountPercentageByProductUUID(SQLValueArguments uuid) {
+    protected BigDecimal getDiscountPercentageByProductUUID(String uuid) {
         // SQL function: getDiscountPercentageByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getDiscountPercentageByProductUUID('someUUID');
         // Returns a NUMERIC value of the discount.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountPercentageByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            return resultSet.getBigDecimal("percentage");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected List<PriceInformation> getPricesByProductUUID(SQLValueArguments uuid) {
+    protected List<PriceInformation> getPricesByProductUUID(String uuid) {
         // SQL function: getPricesByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getPricesByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getPricesByProductUUID(?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            sqlValueArguments.setArgument(uuid);
+
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+            resultSet.next();
+
+            ArrayList<PriceInformation> priceInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                PriceInformation priceInformation = new PriceInformation();
+
+                priceInformation.setPrice(resultSet.getBigDecimal("price"));
+
+                priceInformationArrayList.add(priceInformation);
+            }
+            return priceInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
