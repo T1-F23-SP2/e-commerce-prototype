@@ -1,4 +1,5 @@
 import DB.DBManager;
+import MockShop.PlaceholderInstShop;
 import Visuals.TableCreator;
 import com.mongodb.client.MongoCollection;
 import mockPIM.PlaceHolderInstGet;
@@ -21,6 +22,9 @@ public class Main {
         System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst1().getProductUUID()));
         System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID()));
         System.out.println(SalesReport.getAmountOfOrders(PlaceHolderInstGet.getInst3().getProductUUID()));
+
+        System.out.println(PlaceholderInstShop.getInstShop1().getMap().get(PlaceHolderInstGet.getInst1().getProductUUID()));
+
 
 
 
