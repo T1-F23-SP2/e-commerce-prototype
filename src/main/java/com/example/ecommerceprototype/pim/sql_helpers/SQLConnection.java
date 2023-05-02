@@ -45,20 +45,36 @@ public abstract class SQLConnection {
             properties.setProperty("host", properties.getProperty("host") + suffix);
         }
 
+
         return properties;
     }
 
-    public static Properties loadProperties(InputStream inputStream) throws IOException {
-        return SQLConnection.loadProperties(inputStream, SQLConnection.getDefaultProperties());
+    public static Properties loadProperties(String filename, Properties defaultProperties) throws IOException {
+        String path = SQLConnection.FOLDER_PATH + filename;
+        InputStream inputStream = PIMResourceRoot.class.getResourceAsStream(path);
+
+        if (inputStream == null) throw new IOException(String.format("""
+        Could not load credentials from file: %s
+        
+        Look in src/main/resources/com/example/ecommerceprototype/pim/credentials/README.md, for how to setup credentials.
+        
+        """, filename));
+
+        return loadProperties(inputStream, defaultProperties);
+    }
+
+    public static Properties loadProperties(String filename) throws IOException {
+        return SQLConnection.loadProperties(filename, SQLConnection.getDefaultProperties());
     }
 
     public static Properties loadMainProperties() throws IOException {
-        return SQLConnection.loadProperties(PIMResourceRoot.class.getResourceAsStream(SQLConnection.FOLDER_PATH + "main.credentials"));
+        return SQLConnection.loadProperties("main.credentials");
     }
+
 
     public static Properties loadTestProperties() throws IOException {
         Properties mainProperties = SQLConnection.loadMainProperties();
-        Properties testProperties = SQLConnection.loadProperties(PIMResourceRoot.class.getResourceAsStream(SQLConnection.FOLDER_PATH + "test.credentials"), mainProperties);
+        Properties testProperties = SQLConnection.loadProperties("test.credentials", mainProperties);
 
         if (testProperties.getProperty("database").equals(mainProperties.getProperty("database"))) {
             throw new IllegalArgumentException("Test connection cannot point to the same database as the main connection");
