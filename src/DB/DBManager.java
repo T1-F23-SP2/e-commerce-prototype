@@ -1,5 +1,7 @@
 package DB;
 
+import MockShop.MockShopObject;
+import MockShop.PlaceholderInstShop;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -10,12 +12,15 @@ import org.bson.Document;
 
 import javax.print.Doc;
 import java.awt.*;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBManager {
+
 
 
 
@@ -47,6 +52,26 @@ public class DBManager {
 
         return results;
     }
+    public static boolean updateStock(MockShopObject mockShopObject) {
+        MongoCollection<org.bson.Document> documentMongoCollection;
+        documentMongoCollection = databaseConn("Item");
+
+        for (String key : mockShopObject.getMap().keySet()) {
+            int qtyAmount = queryDB(documentMongoCollection,key).getInteger("QTY");
+            if(qtyAmount >= mockShopObject.getMap().get(key)) {
+            }
+
+        }
+
+        return true;
+
+    }
+
+    //public static Document dbForRealConnection() {
+       // connection = DriverManager.getConnection("")
+       // PreparedStatement insertStatement =
+    // databaseConn("Item").up
+    //}
 
 
 
