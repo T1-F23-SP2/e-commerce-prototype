@@ -25,6 +25,9 @@ public class ProductCategory {
     }
 
     public ProductCategory getProductCategoryParent() {
+        if(this.productCategoryParent == null) {
+            return null;
+        }
         return this.productCategoryParent;
     }
 
@@ -33,10 +36,16 @@ public class ProductCategory {
         return this;
     }
 
+    protected ProductCategory setProductCategoryParent(ProductCategory productCategoryParent) {
+        this.productCategoryParent = productCategoryParent;
+        return this;
+    }
+
     // TODO: Create below method, by searching for Category by name.
     protected ProductCategory setProductCategoryParent(String name) {
         throw new UnsupportedOperationException();
     }
+
 
     // TODO: Create fromDB
     protected ProductCategory fromDB(ValueExtractor ve) {

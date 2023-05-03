@@ -81,7 +81,7 @@ CREATE INDEX ON Products(product_UUID);
 /***** FUNCTIONS AND PROCEDURES *****/
 
 /* Get Product by UUID */
-CREATE OR REPLACE FUNCTION getProductByUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getProductByUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
 AS $$
 BEGIN
@@ -94,7 +94,7 @@ BEGIN
                Products.is_hidden,
                Products.long_description
         FROM Products
-        WHERE Products.product_UUID = argUUID;
+        WHERE Products.product_UUID = CAST (argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
@@ -237,7 +237,7 @@ LANGUAGE plpgsql;
 
 
 /* Get Category by Product UUID */
-CREATE OR REPLACE FUNCTION getCategoryByProductUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getCategoryByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, name VARCHAR, parent_id INT)
 AS $$
 BEGIN
@@ -247,7 +247,7 @@ BEGIN
                Product_categories.parent_id
         FROM Product_categories
                  INNER JOIN Products ON Products.product_categories_id = Product_categories.id
-        WHERE Products.product_UUID = argUUID;
+        WHERE Products.product_UUID = CAST (argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
@@ -283,8 +283,8 @@ LANGUAGE plpgsql;
 
 
 /* Get specification by Product UUID */
-CREATE OR REPLACE FUNCTION getSpecificationByProductUUID(argUUID UUID)
-    RETURNS TABLE (id INT, product_id INT, name VARCHAR, specification_value VARCHAR)
+CREATE OR REPLACE FUNCTION getSpecificationByProductUUID(argUUID VARCHAR)
+    RETURNS TABLE (product_id INT, name VARCHAR, specification_value VARCHAR)
 AS $$
 BEGIN
     RETURN QUERY
@@ -294,14 +294,15 @@ BEGIN
         FROM Specifications
                  INNER JOIN Specification_names
                             ON Specifications.specification_names_id = Specification_names.id
-                 INNER JOIN Products ON Specifications.product_id = Products.id
-        WHERE Products.product_UUID = argUUID;
+                 INNER JOIN Products
+                            ON Specifications.product_id = Products.id
+        WHERE Products.product_UUID = CAST (argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
 
 /* Get Manufacture by Product UUID */
-CREATE OR REPLACE FUNCTION getManufactureByProductUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getManufactureByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, name VARCHAR, support_phone VARCHAR, support_mail VARCHAR)
 AS $$
 BEGIN
@@ -312,7 +313,7 @@ BEGIN
                Manufactures.support_mail
         FROM Manufactures
                  INNER JOIN Products ON Products.manufacture_id = Manufactures.id
-        WHERE Products.product_UUID = argUUID;
+        WHERE Products.product_UUID = CAST (argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
@@ -350,7 +351,7 @@ LANGUAGE plpgsql;
 
 
 /* Get Discount by Product UUID */
-CREATE OR REPLACE FUNCTION getDiscountByProductUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getDiscountByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, name VARCHAR, start_date TIMESTAMP, end_date TIMESTAMP)
 AS $$
 BEGIN
@@ -362,7 +363,7 @@ BEGIN
         FROM Discounts
                  INNER JOIN Price_history ON Discounts.id = Price_history.discount_id
                  INNER JOIN Products ON Price_history.product_id = Products.id
-        WHERE Products.product_UUID = argUUID;
+        WHERE Products.product_UUID = CAST (argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
@@ -384,7 +385,7 @@ LANGUAGE plpgsql;
 
 
 /* Get Discount percentage by Product UUID */
-CREATE OR REPLACE FUNCTION getDiscountPercentageByProductUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getDiscountPercentageByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (percentage NUMERIC)
 AS $$
 DECLARE
@@ -396,14 +397,14 @@ BEGIN
     INTO newest_price
     FROM Price_history
              INNER JOIN Products ON Price_history.product_id = Products.id
-    WHERE Products.product_UUID = argUUID
+    WHERE Products.product_UUID = CAST (argUUID AS UUID)
     LIMIT 1;
 
     SELECT price
     INTO earlier_price
     FROM Price_history
              INNER JOIN Products ON Price_history.product_id = Products.id
-    WHERE Products.product_UUID = argUUID
+    WHERE Products.product_UUID = CAST (argUUID AS UUID)
     LIMIT 1 OFFSET 1;
 
     IF newest_price = 0 OR earlier_price = 0 THEN
@@ -438,7 +439,7 @@ LANGUAGE plpgsql;
 
 
 /* Get prices by Product UUID */
-CREATE OR REPLACE FUNCTION getPricesByProductUUID(argUUID UUID)
+CREATE OR REPLACE FUNCTION getPricesByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, price NUMERIC, wholesale_price NUMERIC, time_of_creation TIMESTAMP, product_id INT, discount_id INT)
 AS $$
 BEGIN
@@ -451,7 +452,7 @@ BEGIN
                Price_history.discount_id
         FROM Price_history
                  INNER JOIN Products ON Price_history.product_id = Products.id
-        WHERE Products.product_UUID = argUUID
+        WHERE Products.product_UUID = CAST (argUUID AS UUID)
         ORDER BY time_of_creation DESC;
 END; $$
 LANGUAGE plpgsql;
@@ -459,7 +460,7 @@ LANGUAGE plpgsql;
 
 /* Inserting a new product */
 CREATE OR REPLACE FUNCTION insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
-    RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
+    RETURNS TABLE (pId INT, product_UUID UUID, pName VARCHAR, pSerial_number VARCHAR, pShort_description VARCHAR, pIs_hidden BOOLEAN, pLong_description TEXT)
 AS $$
 BEGIN
     INSERT INTO Products
@@ -468,7 +469,8 @@ BEGIN
             argSerialNumber,
             argShortDescription,
             (SELECT id FROM Product_categories WHERE name = argProductCategoryName),
-            (SELECT id FROM Manufactures WHERE name = argManufactureName), argLongDescription);
+            (SELECT id FROM Manufactures WHERE name = argManufactureName),
+            argLongDescription);
 
     RETURN QUERY
         SELECT Products.id,
@@ -485,11 +487,20 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new product category */
+CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR)
+AS $$
+BEGIN
+    INSERT INTO Product_categories (name, parent_id)
+    VALUES (argName, null);
+END; $$
+    LANGUAGE plpgsql;
+
+
+/* Inserting a new product category */
 CREATE OR REPLACE PROCEDURE insertNewProductCategory(argName VARCHAR, argParentCategoryName VARCHAR)
 AS $$
 BEGIN
-    INSERT INTO Product_categories
-        (name, parent_id)
+    INSERT INTO Product_categories (name, parent_id)
     VALUES (argName, (SELECT id FROM Product_categories WHERE name = argParentCategoryName));
 END; $$
 LANGUAGE plpgsql;
@@ -518,7 +529,7 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new specification */
-CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
+CREATE OR REPLACE PROCEDURE insertNewSpecification(argProductUUID VARCHAR, argKey VARCHAR, argValue VARCHAR)
 AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM Specification_names WHERE name = argKey) < 1 THEN
@@ -528,15 +539,16 @@ BEGIN
     END IF;
     INSERT INTO Specifications
         (product_id, specification_names_id, specification_value)
-    VALUES ((SELECT id FROM Products WHERE product_UUID = argProductUUID),
+    VALUES ((SELECT id FROM Products WHERE CAST(product_UUID AS VARCHAR) = argProductUUID),
             (SELECT id FROM Specification_names WHERE name = argKey),
             argValue);
 END; $$
 LANGUAGE plpgsql;
 
 
+
 /* Inserting a new price change */
-CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
+CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID TEXT, argPrice NUMERIC, argWholesalePrice NUMERIC)
 AS $$
 BEGIN
     INSERT INTO Price_history
@@ -544,7 +556,7 @@ BEGIN
     VALUES (argPrice,
             argWholesalePrice,
             now(),
-            (SELECT id FROM Products WHERE product_UUID = argProductUUID));
+            (SELECT id FROM Products WHERE CAST(product_UUID AS TEXT) = argProductUUID));
 END; $$
 LANGUAGE plpgsql;
 
