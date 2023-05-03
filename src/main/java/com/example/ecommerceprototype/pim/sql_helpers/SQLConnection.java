@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
 import com.example.ecommerceprototype.pim.PIMResourceRoot;
+import com.example.ecommerceprototype.pim.exceptions.sql.SQLDatabaseNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -137,6 +138,19 @@ public abstract class SQLConnection {
         // Wrap in try-with resource, so connection is automatically closed again.
         try (Connection connection = getConnectionForDefaultDB(properties)) {
             return dropDatabase(connection, properties.getProperty("database"), withForce);
+        }
+    }
+
+
+    public static boolean isDatabaseInPropertiesPresent(Properties properties) throws SQLException {
+        // Wrap in try-with resource, so connection is automatically closed again.
+        try (Connection connection = getConnectionFromProperties(properties)) {
+            // If is able to connect to database, then database is present
+            return true;
+        } catch (SQLDatabaseNotFoundException e) {
+            // If throwing SQLDatabaseNotFoundException, then return false.
+            return false;
+            // Do not catch any other SQLRelated errors.
         }
     }
 
