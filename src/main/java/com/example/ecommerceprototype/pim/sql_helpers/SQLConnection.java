@@ -54,11 +54,11 @@ public abstract class SQLConnection {
         InputStream inputStream = PIMResourceRoot.class.getResourceAsStream(path);
 
         if (inputStream == null) throw new IOException(String.format("""
-        Could not load credentials from file: %s
+        Could not find file: %s
         
         Look in src/main/resources/com/example/ecommerceprototype/pim/credentials/README.md, for how to setup credentials.
         
-        """, filename));
+        """, PIMResourceRoot.getPathString(filename)));
 
         return loadProperties(inputStream, defaultProperties);
     }
