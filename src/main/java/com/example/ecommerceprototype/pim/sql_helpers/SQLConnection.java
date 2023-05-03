@@ -161,4 +161,27 @@ public abstract class SQLConnection {
     public static Connection getTestConnection() throws IOException, SQLException {
         return getConnectionFromProperties(loadTestProperties());
     }
+
+
+    // If database is not present in the system, then create the database. And execute initializer.
+    public static Connection getConnectionFromPropertiesInitializeIfNeeded(Properties properties, SQLInitializer initializer) throws SQLException, IOException {
+        Connection connection;
+        try {
+            connection = getConnectionFromProperties(properties);
+        } catch (SQLDatabaseNotFoundException e) {
+            createDatabase(properties);
+            connection = getConnectionFromProperties(properties);
+            initializer.initialize(connection);
+        }
+        return connection;
+    }
+
+
+    public static Connection getMainConnectionInitializeIfNeeded(SQLInitializer initializer) throws SQLException, IOException {
+        return getConnectionFromPropertiesInitializeIfNeeded(loadMainProperties(), initializer);
+    }
+
+    public static Connection getTestConnectionInitializeIfNeeded(SQLInitializer initializer) throws SQLException, IOException {
+        return getConnectionFromPropertiesInitializeIfNeeded(loadTestProperties(), initializer);
+    }
 }
