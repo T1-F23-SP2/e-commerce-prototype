@@ -75,9 +75,6 @@ public class DAMController {
     private ListView<File> myListView;
 
     @FXML
-    private List<File> fileBuffer = new ArrayList<>();
-
-    @FXML
     private Button openFile;
 
 
@@ -176,6 +173,8 @@ public class DAMController {
         alert.showAndWait();
     }
 
+
+
     public void openSelectedFile(ActionEvent event) throws IOException {
         File selectedFile = myListView.getSelectionModel().getSelectedItem();
         if (selectedFile != null) {
@@ -234,7 +233,8 @@ public class DAMController {
         }
     }
 
-    public void LoadFiles(ActionEvent event) throws IOException {
+    public void LoadFiles() throws IOException {
+
         myListView.getItems().clear();
 
         try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
@@ -243,11 +243,14 @@ public class DAMController {
             while (rs.next()) {
                 String name = rs.getString("name");
                 String type = rs.getString("type");
-                //myListView.getItems().add(new File(name + " (" + type + ")"));
                 myListView.getItems().add(new File(name));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+    public void LoadFiles(ActionEvent event) throws IOException {
+        LoadFiles();
+    }
+
 }

@@ -23,12 +23,9 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="myListView" layoutX="18.0" layoutY="55.0" prefHeight="331.0" prefWidth="363.0" style="-fx-border-color: #71E3FF;" />
-            <Text layoutX="176.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Files:">
-               <font>
-                  <Font name="Mukta Vaani Light" size="22.0" />
-               </font>
-            </Text>
             <Button fx:id="returnToMenu" layoutX="287.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Return to Menu" />
+            <Button fx:id="loadFilesButton" layoutX="18.0" layoutY="19.0" mnemonicParsing="false" onAction="#LoadFiles" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Load files" />
+            <Button fx:id="openFile" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" onAction="#openSelectedFile" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
          </children>
       </AnchorPane>
    </center>
