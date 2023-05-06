@@ -3,6 +3,7 @@ package com.example.ecommerceprototype.dam;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -15,10 +16,17 @@ import javafx.scene.Node;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class DAMController {
     private Parent root;
@@ -73,7 +81,7 @@ public class DAMController {
     private Button openFile;
 
 
-    public void returnToLoginPage(ActionEvent event) throws IOException{
+    public void returnToLoginPage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -92,7 +100,7 @@ public class DAMController {
         stage.centerOnScreen();
     }
 
-    public void goToViewAllFiles(ActionEvent event) throws IOException{
+    public void goToViewAllFiles(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("viewAllFiles.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -101,7 +109,7 @@ public class DAMController {
         stage.centerOnScreen();
     }
 
-    public void goToAddNewFiles(ActionEvent event) throws IOException{
+    public void goToAddNewFiles(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddNewFiles.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -110,7 +118,7 @@ public class DAMController {
         stage.centerOnScreen();
     }
 
-    public void goToEditFiles(ActionEvent event) throws IOException{
+    public void goToEditFiles(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("editFiles.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -120,23 +128,33 @@ public class DAMController {
     }
 
 
-    public void chooseFiles(ActionEvent event) throws IOException{
+    public void chooseFiles(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(null);
 
-        if (files != null){
+        if (files != null) {
 
-            for (File file : files){
-                System.out.println(file.getAbsolutePath());
-                myListView.getItems().add(file);
-                FileSaver.getFiles().add(file);
+            for (File file : files) {
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Files Added");
-                alert.setHeaderText(null);
-                alert.setContentText("The files have been added to the list.");
-                alert.showAndWait();
+                // first we need to load the content of the files into a byte array
+                byte[] fileContent = Files.readAllBytes(file.toPath());
 
+                try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
+                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data) VALUES (?, ?, ?)")) {
+                    stmt.setString(1, file.getAbsolutePath());
+                    stmt.setString(2, Files.probeContentType(file.toPath()));
+                    stmt.setBytes(3, fileContent);
+                    stmt.executeUpdate();
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Files Added");
+                    alert.setHeaderText(null);
+                    alert.setContentText("The files have been added to the list.");
+                    alert.showAndWait();
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -171,6 +189,38 @@ public class DAMController {
         }
     }
 
+
+
+    /*public void openSelectedFile(ActionEvent event) throws IOException {
+        File selectedFile = myListView.getSelectionModel().getSelectedItem();
+        if (selectedFile != null) {
+            try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
+                 PreparedStatement stmt = conn.prepareStatement("SELECT data FROM files WHERE name = ?")) {
+                stmt.setString(1, selectedFile.getName());
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        byte[] fileContent = rs.getBytes("data");
+                        File tempFile = File.createTempFile("temp", null);
+                        FileOutputStream fos = new FileOutputStream(tempFile);
+                        fos.write(fileContent);
+                        fos.close();
+                        Desktop.getDesktop().open(tempFile);
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Oops!");
+            alert.setHeaderText("You didn't select a file to open! Try Again");
+            alert.setContentText("");
+            alert.showAndWait();
+        }
+    }
+
+     */
+
     public void deleteSelectedFile(ActionEvent event) throws IOException {
         File selectedFile = myListView.getSelectionModel().getSelectedItem();
         if (selectedFile != null) {
@@ -185,32 +235,19 @@ public class DAMController {
     }
 
     public void LoadFiles(ActionEvent event) throws IOException {
-        if (!fileBuffer.isEmpty()) {
-            myListView.getItems().addAll(fileBuffer);
+        myListView.getItems().clear();
 
-            List<File> savedFiles = FileSaver.getFiles();
-            ListView<File> savedListView = new ListView<>();
-            savedListView.getItems().addAll(savedFiles);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Files Loaded");
-            alert.setHeaderText(null);
-            alert.setContentText("The files have been loaded from the list.");
-            alert.showAndWait();
-
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("ERROR 404");
-            alert.setHeaderText(null);
-            alert.setContentText("The aren't any files to load. Add files and try again.");
-            alert.showAndWait();
+        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT name, type FROM files")) {
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String type = rs.getString("type");
+                //myListView.getItems().add(new File(name + " (" + type + ")"));
+                myListView.getItems().add(new File(name));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
-
-    public void addWatermarkToPicture(ActionEvent event) throws IOException{
-
-    }
-
-
-
 }
