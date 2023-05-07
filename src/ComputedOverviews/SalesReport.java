@@ -87,7 +87,7 @@ public class SalesReport {
 
         BigDecimal Res = priceInformation.getPrice().divide(priceInformation.getBuyPrice());
         BigDecimal Res2 = one.divide(Res, new MathContext(3));
-        return Res2.multiply(hundred.round(ones));
+        return hundred.subtract(Res2.multiply(hundred.round(ones)));
     }
 
     public static BigDecimal calcMarginKR(PriceInformation priceInformation){
@@ -100,10 +100,12 @@ public class SalesReport {
     }
 
     public static BigDecimal rev(PriceInformation priceInformation) {
+        int j = 0;
         //TODO Skal ikke bruge instances til calc
-        BigDecimal qRev = BigDecimal.valueOf(getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID())).multiply(priceInformation.getPrice());
-        BigDecimal PRev =getQTY(PlaceHolderInstGet.getInst2().getProductUUID()).multiply(priceInformation.getBuyPrice());
+        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())).multiply(priceInformation.getPrice());
+        BigDecimal PRev =getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()).multiply(priceInformation.getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
+        j++;
         return tRev;
     }
 
