@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="465.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.testcopypastetest.HelloController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="508.0" prefWidth="366.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Orders">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="412.0" prefWidth="366.0">
+               <children>
+                  <ListView fx:id="ordersListId" prefHeight="346.0" prefWidth="600.0" />
+                  <ListView fx:id="ordersListStatus" prefHeight="346.0" prefWidth="600.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
