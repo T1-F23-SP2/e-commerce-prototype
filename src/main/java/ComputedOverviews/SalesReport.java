@@ -4,15 +4,13 @@ import DB.DBManager;
 import com.mongodb.client.MongoCollection;
 import mockPIM.PlaceHolderInstGet;
 import mockPIM.PriceInformation;
-import mockPIM.ProductInformation;
 import org.bson.Document;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class SalesReport {
 
@@ -61,7 +59,7 @@ public class SalesReport {
 
 
     public static boolean getOrders(){
-        // TODO: Get all orders from orderHistory database table, and save it 
+        // TODO: Get all orders from orderHistory database table, and save it
         MongoCollection<Document> finder = DBManager.databaseConn("Item");
 
         List<org.bson.Document> result = finder.find().into(new ArrayList<>());
@@ -71,7 +69,7 @@ public class SalesReport {
             int QTYs = ser.getInteger("QTY");
             QTY.add(QTYs);
         }
-            //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
+        //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
 
 
         System.out.println(QTY);
@@ -101,11 +99,13 @@ public class SalesReport {
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
 
-    public static BigDecimal rev(ProductInformation productInformation) {
+    public static BigDecimal rev(PriceInformation priceInformation) {
+        int j = 0;
         //TODO Skal ikke bruge instances til calc
-        BigDecimal qRev = BigDecimal.valueOf(getAmountOfOrders(PlaceHolderInstGet.getInst2().getProductUUID())).multiply(productInformation.getPriceInformation().getPrice());
-        BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
+        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())).multiply(priceInformation.getPrice());
+        BigDecimal PRev =getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()).multiply(priceInformation.getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
+        j++;
         return tRev;
     }
 
@@ -141,14 +141,14 @@ public class SalesReport {
         }*/
 
 
-            // TODO: Query database for amount of orders of a specific product(UUID)
+        // TODO: Query database for amount of orders of a specific product(UUID)
 
         // Fix this, it has to get the right value and not 55 everytime
 
-            org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), UUID);
-            int amountOfOrders = result.getInteger("AmountSold");
+        org.bson.Document result = DBManager.queryDB(DBManager.databaseConn("SalesOverview"), UUID);
+        int amountOfOrders = result.getInteger("AmountSold");
 
-            return amountOfOrders;
+        return amountOfOrders;
 
 
     }
@@ -179,10 +179,10 @@ public class SalesReport {
         String GetUUID = (String) (result2 != null ? result2.get("UUID") : null);
         int GetAmount = (int) Objects.requireNonNull(result2).get("AmountSold");
 
-       if (Max != null)
-       {
-           return "UUID: " + GetUUID + " Amount: " + GetAmount + "";
-       }
+        if (Max != null)
+        {
+            return "UUID: " + GetUUID + " Amount: " + GetAmount + "";
+        }
         return null;
     }
 

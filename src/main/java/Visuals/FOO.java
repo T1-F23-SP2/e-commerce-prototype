@@ -1,25 +1,38 @@
 package Visuals;
 
 import ComputedOverviews.SalesReport;
+import DB.DBManager;
 import com.itextpdf.awt.DefaultFontMapper;
+import com.itextpdf.text.pdf.PdfAction;
+
+import java.awt.Font;
+import java.awt.geom.Rectangle2D;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.events.PdfPCellEventForwarder;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import mockPIM.PlaceHolderInstGet;
+import mockPIM.PriceInformation;
 import mockPIM.ProductInformation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.awt.*;
-import java.awt.Font;
-import java.awt.geom.Rectangle2D;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FOO {
@@ -43,31 +56,8 @@ public class FOO {
             table.addCell(headerCell);
         }
 
-
-//        List<Object[]> tObjectList2 = new ArrayList<>();
-//        Object[] itemdata2 = new Object[] {PlaceHolderInstGet.getInst1().getName(), PlaceHolderInstGet.getInst1().getPriceInformation().getPrice()};
-//        tObjectList2.add(itemdata2);
-//        data2 = tObjectList2.toArray(new Object[0]);
-
-
-//        for (int i = 0; i < columnHeaders.length; i++) {
-//            Object[] rowData = (Object[]) data2[i];
-//            for (int j = 0; j < rowData.length; j++) {
-//
-//
-//                PdfPCell cell = new PdfPCell(new Phrase(rowData[j].toString()));
-//                table.addCell(cell);
-//
-//
-//            }
-//        }
-
-
-
-
         // Cell mode
         for (int j = 0; j < PlaceHolderInstGet.productArray.length; j++) {
-
 
             PdfPCell cell_name = new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[j].getName()));
             table.addCell(cell_name);
@@ -97,7 +87,7 @@ public class FOO {
             PdfPCell cell_itemQTY = new PdfPCell(new Phrase(((SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID())).toString())));
             table.addCell(cell_itemQTY);
 
-            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j]).toString()));
+            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j].getPriceInformation()).toString()));
             table.addCell(cell_rev);
 
         }
@@ -155,7 +145,7 @@ public class FOO {
             //Open document to write to the pdf
             document.open();
 
-            Image image = Image.getInstance("E:\\Programmering\\SemesterProject\\TestCopyPasteTest\\assets\\travel and tour - Made with PosterMyWall.jpg");
+            Image image = Image.getInstance("C:\\Users\\krist\\Desktop\\Prog_SEM2\\SMP2_Test\\assets\\travel and tour - Made with PosterMyWall.jpg");
             image.scaleToFit(PageSize.A4.getWidth(), 175);
             Paragraph paragraph = new Paragraph();
             paragraph.add(image);
@@ -214,46 +204,11 @@ public class FOO {
 
             }*/
 
+            int j = 0;
 
 
-
-
-
-                // Loop through the product array
-                for (ProductInformation product : PlaceHolderInstGet.productArray) {
-
-
-
-
-
-
-                    // Add a title for the page
-                    Paragraph title = new Paragraph(product.getName());
-                    document.add(title);
-
-                    // Create a table for the page
-                    PdfPTable Gentable = new PdfPTable(5);
-                    table.setWidthPercentage(100);
-                    // Add column headers to the table
-                    Gentable.addCell(new PdfPCell(new Phrase("Name")));
-                    Gentable.addCell(new PdfPCell(new Phrase("Price")));
-                    Gentable.addCell(new PdfPCell(new Phrase("Buy Price")));
-                    Gentable.addCell(new PdfPCell(new Phrase("Amount of Orders")));
-                    document.add(Gentable);
-                    // Populate the table with data for the current product
-                    Gentable.addCell(new PdfPCell(new Phrase(PlaceHolderInstGet.productArray[PlaceHolderInstGet.productArray.length - 1].getName())));
-                    Gentable.addCell(new PdfPCell(new Phrase((PlaceHolderInstGet.productArray[PlaceHolderInstGet.productArray.length - 1].getPriceInformation().getPrice().toString()))));
-                    Gentable.addCell(new PdfPCell(new Phrase(product.getPriceInformation().getBuyPrice().toString())));
-                    Gentable.addCell(new PdfPCell(new Phrase(Integer.toString(SalesReport.getAmountOfOrders(product.getProductUUID())))));
-
-                    document.add(Gentable);
-
-                    // Create a graph for the page
-
-
-                    DefaultPieDataset GenChart = new DefaultPieDataset<>();
-                    GenChart.setValue(PlaceHolderInstGet.productArray[PlaceHolderInstGet.productArray.length - 1].getName(), PlaceHolderInstGet.productArray[PlaceHolderInstGet.productArray.length - 1].getPriceInformation().getPrice());
-                    JFreeChart Genchart = ChartFactory.createPieChart("Revenue", GenChart);
+            // Loop through the product array
+            for (ProductInformation product : PlaceHolderInstGet.productArray) {
 
 
 
@@ -261,17 +216,61 @@ public class FOO {
 
 
 
-                    PdfContentByte GencontentByte = writer.getDirectContent();
-                    PdfTemplate template = GencontentByte.createTemplate(500, 300);
-                    Graphics2D graphics2d = template.createGraphics(500, 300, new DefaultFontMapper());
-                    Rectangle2D rectangle2d = new Rectangle2D.Double(0, 0, 500, 300);
-                    Genchart.draw(graphics2d, rectangle2d);
-                    graphics2d.dispose();
-                    GencontentByte.addTemplate(template, 0, 0);
 
-                    document.newPage();
 
-                }
+                // Add a title for the page
+                //Paragraph title = new Paragraph(product.getName());
+                //document.add(title);
+
+                // Create a table for the page
+                PdfPTable Gentable = new PdfPTable(4);
+                table.setWidthPercentage(100);
+
+// Add column headers to the table
+                Chunk chunk = new Chunk(PlaceHolderInstGet.productArray[j].getName());
+                //PdfPCell nameCell = new PdfPCell(new Phrase("Name"));
+                PdfAction action = PdfAction.gotoLocalPage(1, new PdfDestination(0), writer);
+                //Gentable.addCell(nameCell);
+                Gentable.addCell(new PdfPCell(new Phrase("Name")));
+                Gentable.addCell(new PdfPCell(new Phrase("Price")));
+                Gentable.addCell(new PdfPCell(new Phrase("Buy Price")));
+                Gentable.addCell(new PdfPCell(new Phrase("Amount of Orders")));
+
+// Populate the table with data for the current product
+                Gentable.addCell(new PdfPCell(new Phrase(chunk)));
+                chunk.setAction(action);
+                Gentable.addCell(new PdfPCell(new Phrase((PlaceHolderInstGet.productArray[j].getPriceInformation().getPrice().toString()))));
+                Gentable.addCell(new PdfPCell(new Phrase(product.getPriceInformation().getBuyPrice().toString())));
+                Gentable.addCell(new PdfPCell(new Phrase(Integer.toString(SalesReport.getAmountOfOrders(product.getProductUUID())))));
+
+                document.add(Gentable);
+
+
+                // Create a graph for the page
+
+
+                DefaultPieDataset GenChart = new DefaultPieDataset<>();
+                GenChart.setValue("AmountOfOrders", SalesReport.getAmountOfOrders(product.getProductUUID()));
+                GenChart.setValue("QTY",SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()));
+                JFreeChart Genchart = ChartFactory.createPieChart("Revenue", GenChart);
+
+
+
+
+
+
+
+                PdfContentByte GencontentByte = writer.getDirectContent();
+                PdfTemplate template = GencontentByte.createTemplate(500, 300);
+                Graphics2D graphics2d = template.createGraphics(500, 300, new DefaultFontMapper());
+                Rectangle2D rectangle2d = new Rectangle2D.Double(0, 0, 500, 300);
+                Genchart.draw(graphics2d, rectangle2d);
+                graphics2d.dispose();
+                GencontentByte.addTemplate(template, 0, 0);
+
+                document.newPage();
+                j++;
+            }
 
 
 
