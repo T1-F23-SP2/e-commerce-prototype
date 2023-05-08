@@ -77,6 +77,10 @@ public class DAMController {
     @FXML
     private Button openFile;
 
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/dam";
+    private static final String DB_USER = "postgres";
+    private static final String DB_PASSWORD = "Supermand1";
+
 
     public void returnToLoginPage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
@@ -224,6 +228,24 @@ public class DAMController {
         File selectedFile = myListView.getSelectionModel().getSelectedItem();
         if (selectedFile != null) {
             myListView.getItems().remove(selectedFile);
+
+            try {
+                DriverManager.registerDriver(new org.postgresql.Driver());
+                Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+                String sql = "DELETE FROM files WHERE name = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, String.valueOf(selectedFile));
+
+                pstmt.execute();
+
+
+            }
+            catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Oops!");
