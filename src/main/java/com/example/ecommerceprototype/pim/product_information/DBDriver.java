@@ -191,29 +191,41 @@ public class DBDriver {
         }
     }
 
+    private ProductCategory queryProductCategory(PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException {
+        sqlValueArguments.setArgumentsInStatement(queryStatement);
 
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
+        queryStatement.execute();
+        ResultSet resultSet = queryStatement.getResultSet();
+        resultSet.next();
 
-            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
-            while (resultSet.next()) {
+        ProductCategory productCategory = new ProductCategory();
 
-                ProductInformation productInformation = new ProductInformation();
+        productCategory.setName(resultSet.getString("name"));
 
-                productInformation.setUUID(resultSet.getString("product_UUID"))
-                        .setName(resultSet.getString("name"))
-                        .setSerialNumber(resultSet.getString("serial_number"))
-                        .setShortDescription(resultSet.getString("short_description"))
-                        .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
-
-                productInformationArrayList.add(productInformation);
-            }
-            return productInformationArrayList;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (resultSet.getInt("parent_id") != 0) {
+            ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+            productCategory.setProductCategoryParent(parentCategory);
+        } else {
+            productCategory.setProductCategoryParent((ProductCategory) null);
         }
+
+        return productCategory;
+    }
+
+    private ProductCategory getProductCategory(String name, PreparedStatement queryStatement) throws SQLException {
+        SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+        sqlValueArguments.setArgument(name);
+
+        return queryProductCategory(queryStatement, sqlValueArguments);
+    }
+
+    private ProductCategory getProductCategory(int id, PreparedStatement queryStatement) throws SQLException {
+        SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+        sqlValueArguments.setArgument(id);
+
+        return queryProductCategory(queryStatement, sqlValueArguments);
     }
 
     protected ProductCategory getCategoryByProductUUID(String uuid) {
@@ -223,28 +235,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByProductUUID(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(uuid);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ProductCategory productCategory = new ProductCategory();
-
-            productCategory.setName(resultSet.getString("name"));
-
-            if (resultSet.getInt("parent_id") != 0) {
-                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
-                productCategory.setProductCategoryParent(parentCategory);
-            } else {
-                productCategory.setProductCategoryParent((ProductCategory) null);
-            }
-
-            return productCategory;
+            return getProductCategory(uuid, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -258,28 +249,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(name);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ProductCategory productCategory = new ProductCategory();
-
-            productCategory.setName(resultSet.getString("name"));
-
-            if (resultSet.getInt("parent_id") != 0) {
-                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
-                productCategory.setProductCategoryParent(parentCategory);
-            } else {
-                productCategory.setProductCategoryParent((ProductCategory) null);
-            }
-
-            return productCategory;
+            return getProductCategory(name, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -295,28 +265,8 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByCategoryID(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
-            sqlValueArguments.setArgument(categoryId);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ProductCategory productCategory = new ProductCategory();
-
-            productCategory.setName(resultSet.getString("name"));
-
-            if (resultSet.getInt("parent_id") != 0) {
-                ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
-                productCategory.setProductCategoryParent(parentCategory);
-            } else {
-                productCategory.setProductCategoryParent((ProductCategory) null);
-            }
-
-            return productCategory;
+            return this.getProductCategory(categoryId,queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
