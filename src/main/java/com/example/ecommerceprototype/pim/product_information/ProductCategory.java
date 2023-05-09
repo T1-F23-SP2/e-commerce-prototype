@@ -1,7 +1,9 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.util.Nameable;
 
-public class ProductCategory {
+
+public class ProductCategory implements Nameable {
     private String name;
     private ProductCategory productCategoryParent;
 

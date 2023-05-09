@@ -1,6 +1,8 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-public class ProductInformation {
+import com.example.ecommerceprototype.pim.util.Nameable;
+
+public class ProductInformation implements Nameable {
     private String productUUID;
     private String name;
     private String serialNumber;
