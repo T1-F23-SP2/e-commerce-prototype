@@ -484,8 +484,9 @@ public class DAMController {
                 DriverManager.registerDriver(new org.postgresql.Driver());
                 Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO files (name, type, data, UUID) VALUES (?, ?, ?, ?)");
+
                 String sql = "UPDATE files SET name = ? WHERE name = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
 
                 pstmt.setString(1, newFilePath);
                 pstmt.setString(2, String.valueOf(selectedFile));
