@@ -24,7 +24,7 @@ import java.util.Scanner;
 
 public class CRUDArticleController implements Initializable {
     @FXML
-    private Button add_Button, delete_Button, save_Button, discardChange_Button;
+    private Button add_Button, delete_Button, save_Button, discardChange_Button, back_Button;
     @FXML
     private TextField titel_TextField, author_TextField;
     @FXML
@@ -46,9 +46,7 @@ public class CRUDArticleController implements Initializable {
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
-                items = FXCollections.observableList(articleManager.getArticleNames());
-                articleList_ListView.setItems(items);
-                articleList_ListView.refresh();
+                listUpdater();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -61,9 +59,7 @@ public class CRUDArticleController implements Initializable {
         if (fileSelected.exists()){
             if (fileSelected.delete()){
                 items.remove(fileSelected);
-                items = FXCollections.observableList(articleManager.getArticleNames());
-                articleList_ListView.setItems(items);
-                articleList_ListView.refresh();
+                listUpdater();
             }
         }
     }
@@ -84,9 +80,7 @@ public class CRUDArticleController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            items = FXCollections.observableList(articleManager.getArticleNames());
-            articleList_ListView.setItems(items);
-            articleList_ListView.refresh();
+            listUpdater();
         }
         articleList_ListView.requestFocus();
     }
@@ -105,6 +99,16 @@ public class CRUDArticleController implements Initializable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void backHandler(ActionEvent event){
+
+    }
+
+    private void listUpdater(){
+        items = FXCollections.observableList(articleManager.getArticleNames());
+        articleList_ListView.setItems(items);
+        articleList_ListView.refresh();
     }
 
     @Override
@@ -148,5 +152,7 @@ public class CRUDArticleController implements Initializable {
         delete_Button.setOnAction(this::removeArticle);
         discardChange_Button.setOnAction(this::discardChange);
         save_Button.setOnAction(this::saveArticle);
+
+        back_Button.setOnAction(this::backHandler);
     }
 }
