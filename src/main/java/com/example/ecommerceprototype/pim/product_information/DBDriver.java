@@ -20,7 +20,7 @@ public class DBDriver {
     }
 
     private DBDriver() throws SQLException, IOException {
-        this(SQLConnection.getMainConnectionInitializeIfNeeded(new SQLConnectionMainInitializer()));
+        this(SQLConnection.getMainConnectionInitializeIfNeeded());
     }
 
     public static DBDriver getInstance() throws SQLException, IOException {
