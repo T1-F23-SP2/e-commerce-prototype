@@ -9,7 +9,7 @@
    <children>
       <Button fx:id="b1" layoutX="91.0" layoutY="175.0" mnemonicParsing="false" text="Button">
          <font>
-            <Font name="Impact Bold" size="100.0" />
+            <Font name="SYSTEM Bold" size="100.0" />
          </font></Button>
       <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" >
          <font>

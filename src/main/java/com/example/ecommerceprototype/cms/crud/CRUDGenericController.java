@@ -143,9 +143,9 @@ public class CRUDGenericController implements Initializable {
                             fontText[j] = "size=\"" + sizeInput + "\"";
                             System.out.println("size has been updated");
                         }
-                        if (fontText[j].contains("name")) {
-                            fontText[j] = "name=\"" + font + "\"";
-                        }
+                        if (fontText[j].contains("name"))
+                            fontText[j]="name\""+font+(bold?"bold\"":"\"");
+
 
                     }
                     String tempString = "";
@@ -180,28 +180,28 @@ public class CRUDGenericController implements Initializable {
             String[] contentText;
             if (lines.get(i).contains(id)){
                 contentText = lines.get(i).split(" ");
-                for (int j = 0; j<contentText.length; j++){
-                    if (contentText[j].contains("text")){
-                        String[] text = contentText[j].split("\"");
+                for (String value : contentText) {
+                    if (value.contains("text")) {
+                        String[] text = value.split("\"");
                         contents = text[1];
                     }
                 }
                 fontText = lines.get(i+2).split(" ");
-                for (int j = 0; j<fontText.length; j++){
-                    if (fontText[j].contains("size")){
-                        String[] sizeText = fontText[j].split("\"");
+                for (String s : fontText) {
+                    if (s.contains("size")) {
+                        String[] sizeText = s.split("\"");
                         size = Float.parseFloat(sizeText[1]);
-                    } else if (fontText[j].contains("name")) {
-                        String[] sizeText = fontText[j].split("\"");
+                    } else if (s.contains("name")) {
+                        String[] sizeText = s.split("\"");
                         style = sizeText[1];
-                    } else if (fontText[j].contains("Bold")) {
-                        bold=true;
+                    } else if (s.contains("Bold")) {
+                        bold = true;
                     }
                 }
             }
         }
     }
-    private List loadFxml(String comp) throws FileNotFoundException {
+    private List<String> loadFxml(String comp) throws FileNotFoundException {
         File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ comp);
         Scanner s = new Scanner(file);
         List<String> lines = new ArrayList<>();
