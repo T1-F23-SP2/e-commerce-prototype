@@ -6,12 +6,20 @@ In this file you should put your credentials, like this:
 
 ```properties
 host=localhost:5432
+
+# The database name you want the system to use
 database=e_commerce_pim_db
+
 username=my_user
 password=My strong password
 ```
 
-> *Tip*: Look in the `example.credentials` file for an example. 
+> *Tip*: Look in the `example.credentials` file for an example.
+
+ 
+> *IMPORTANT*: You should not manually create the database in the postgres server, 
+> as the database is automatically created by the system, with the proper setup of
+> tables and procedures.
 
 ## *Rules*  
 * Quotations marks e.g. `"` & `'` are taken literally.   

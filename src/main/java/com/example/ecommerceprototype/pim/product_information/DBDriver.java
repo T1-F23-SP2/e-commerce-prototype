@@ -1,44 +1,35 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.*;
+import com.example.ecommerceprototype.pim.sql_helpers.SQLConnection;
+import com.example.ecommerceprototype.pim.sql_helpers.SQLConnectionMainInitializer;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBDriver {
-
-    // TODO: Keep DB-login details correct
     private static DBDriver instance;
-    private String url = "localhost";
-    private int port = 5432;
-    private String databaseName = "postgres";
-    private String username = "postgres";
-    private String password = "";
-    private Connection connection = null;
+    private final Connection connection;
 
-    private DBDriver(){
-        initializePostgresqlDatabase();
+    private DBDriver(Connection connection){
+        this.connection = connection;
     }
-    public static DBDriver getInstance(){
+
+    private DBDriver() throws SQLException, IOException {
+        this(SQLConnection.getMainConnectionInitializeIfNeeded(new SQLConnectionMainInitializer()));
+    }
+
+    public static DBDriver getInstance() throws SQLException, IOException {
         if (instance == null) {
             instance = new DBDriver();
         }
         return instance;
     }
 
-    private void initializePostgresqlDatabase() {
-        try {
-            DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
-        } catch (SQLException | IllegalArgumentException ex) {
-            ex.printStackTrace(System.err);
-        } finally {
-            if (connection == null) System.exit(-1);
-        }
-    }
 
     protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
