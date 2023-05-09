@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SQLConnectionTest {
+class SQLExampleTest {
 
     static Connection connection;
     static TestConnectionWrapper testConnectionWrapper;
