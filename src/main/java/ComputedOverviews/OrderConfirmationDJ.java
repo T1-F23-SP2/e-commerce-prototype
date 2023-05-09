@@ -106,7 +106,7 @@ public class OrderConfirmationDJ {
 
                 // Add picture to the document
                 //Finding the picture
-                Image image = Image.getInstance("/Users/dj/Desktop/Software_ingeniør/2_Semester/Semesterprojekt_2/SMP2_Test/src/ComputedOverviews/check for OC.png");
+                Image image = Image.getInstance("assets/check for OC.png");
 
                 //Centering the picture
                 image.setAbsolutePosition(150, 550); // set position in points (x,y)
@@ -203,28 +203,3 @@ public class OrderConfirmationDJ {
 //også give os entet adgang til databasen, eller et UUID
 
 // Følg op på linje 90
-
-
-    private void printToFile(String line) {
-            File f = new File("CamelOut.txt");
-            // you can use both PrintWriter and FileWriter
-
-           /* PrintWriter pw = null;
-            try {
-                pw = new PrintWriter(new FileOutputStream(f, true));
-                pw.println(line);
-                pw.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
-        */
-
-            try (FileWriter fw = new FileWriter(f, true)) {
-                fw.append(line);
-                fw.append("\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
