@@ -5,8 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,6 +90,15 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(0).getValue());
     }
 
+    @DisplayName("Test for setting argument for localDate")
+    @Test
+    void setArgumentLocalDAte() {
+        LocalDate test = LocalDate.now();
+        this.arguments.setArgument(test);
+        assertInstanceOf(SQLLocalDateSetter.class, this.arguments.get(0));
+        assertEquals(test, this.arguments.get(0).getValue());
+    }
+
     @DisplayName("Test for no-args constructors")
     @Test
     void setGenericArgument() {
@@ -132,6 +140,11 @@ class SQLValueArgumentsTest {
         assertEquals(test, this.arguments.get(this.arguments.size() - 1));
 
         test = new SQLStringSetter();
+        this.arguments.setArgument(test);
+        assertInstanceOf(SQLValueSetter.class, this.arguments.get(this.arguments.size() - 1));
+        assertEquals(test, this.arguments.get(this.arguments.size() - 1));
+
+        test = new SQLLocalDateSetter();
         this.arguments.setArgument(test);
         assertInstanceOf(SQLValueSetter.class, this.arguments.get(this.arguments.size() - 1));
         assertEquals(test, this.arguments.get(this.arguments.size() - 1));
