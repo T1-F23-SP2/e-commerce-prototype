@@ -3,12 +3,16 @@ package DB;
 import MockShop.MockShopObject;
 import MockShop.PlaceholderInstShop;
 import OrderStatus.OrderManager;
+import com.example.testcopypastetest.HelloController;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,11 +62,38 @@ public interface StockInterface {
         OrderManager.sendOrder(mockShopObject);
 
 
+
+        int listLength = 0;
+
         // Code to update the ui in OrderGUI
-        
+        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
+        for (Document inst: listDocument) {
+            listLength +=1;
+
+            HelloController.idList.add(inst.getInteger("_id"));
+            HelloController.statusList.add(false);
+
+            // Timer fuck thing
+            Timer timer = new Timer();
+            int finalListLength = listLength;
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    // Code to execute after a delay
+                    HelloController.statusList.remove(finalListLength -1);
+                    HelloController.statusList.add(true);
+
+                }
+            }, 500);
+        }
+
+        // Maybe method
 
 
+
+
+        // Maybe
         // Code to update the orderConfirmation
+
 
         // Code to generate the orderConfirmation
 

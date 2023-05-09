@@ -6,7 +6,12 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static com.mongodb.client.model.Indexes.descending;
 
 public class OrderManager {
 
@@ -25,8 +30,15 @@ public class OrderManager {
 
     public static void sendOrder(MockShopObject mockShopObject){
 
-        int id = 11;
 
+
+        // Get highest id out and plus id by one
+
+        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+        Document document = collection.find().sort(descending("_id")).first();
+        int highestId = (document == null) ? 0 : document.getInteger("_id");
+
+        int id = highestId+1;
 
 
         // Code to convert
