@@ -1,7 +1,8 @@
-package com.example.ecommerceprototype.cms.articlecrud;
+package com.example.ecommerceprototype.cms.crud;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
+import com.example.ecommerceprototype.cms.crud.CRUDHubApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,7 @@ public class CRUDHubController implements Initializable {
     private void articleCRUDView(ActionEvent event){
         try {
             // pane = CMS.getInstance().fetchComponent("crud/article/CRUDArticle");
-            pane = CMS.getInstance().fetchComponent("articlecrud/CRUDArticle");
+            pane = CMS.getInstance().loadComponent("crud/article/CRUDArticle", true);
             CRUDHubApplication.stage.setTitle("Article Manager Page");
             CRUDHubApplication.setStage(new Scene(pane, 1920, 1032));
         } catch (FXMLLoadFailedException e) {
@@ -33,7 +34,7 @@ public class CRUDHubController implements Initializable {
     }
     private void genericCRUDView(ActionEvent event){
         try {
-            pane = CMS.getInstance().fetchComponent("crud/generic/CRUDText");
+            pane = CMS.getInstance().loadComponent("crud/generic/CRUDText", true);
             CRUDHubApplication.stage.setTitle("Text Editor Manager Page");
             CRUDHubApplication.setStage(new Scene(pane, 1920, 1032));
         } catch (FXMLLoadFailedException e) {

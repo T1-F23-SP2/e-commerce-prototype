@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.cms.crud;
+package com.example.ecommerceprototype.cms.crud.generic;
 
 import com.example.ecommerceprototype.cms.CMS;
 import javafx.application.Application;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public interface ICMS {
     Pane loadComponent(String id) throws FXMLLoadFailedException;
+    Pane loadComponent(String id, boolean isCRUD) throws FXMLLoadFailedException;
     //Pane fetchComponentWithProduct(String fxid, ProductInformation p);
     ArrayList<Node> getNodeList(Pane component);
     ArrayList<String> getComponentList();
