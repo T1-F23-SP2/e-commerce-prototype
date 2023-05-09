@@ -31,7 +31,7 @@ public class CRUDGenericController implements Initializable {
 
     private final List<String> styles = Arrays.asList("System", "Arial", "Impact");
 
-    ObservableList<String> options = FXCollections.observableArrayList("System", "Arial", "Impact");
+    ObservableList<String> fonts = FXCollections.observableArrayList("system", "arial", "impact");
     ObservableList<String> components = FXCollections.observableArrayList();
 
     public File file;
@@ -56,6 +56,8 @@ public class CRUDGenericController implements Initializable {
     private ComboBox<String> compBox;
     @FXML
     private VBox vBox;
+    @FXML
+    private TextArea advancedTextArea;
 
     @FXML
     public void updateTestLabel(){
@@ -172,13 +174,7 @@ public class CRUDGenericController implements Initializable {
         bw.close();
     }
     private void updateFontData(String comp, String id) throws FileNotFoundException {
-        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ comp +".fxml");
-        Scanner s = new Scanner(file);
-        List<String> lines = new ArrayList<>();
-
-        while (s.hasNextLine()){
-            lines.add(s.nextLine());
-        }
+        List<String> lines = loadFxml(comp);
         for (int i = 0; i<lines.size();i++){
             String[] fontText;
             String[] contentText;
@@ -205,6 +201,42 @@ public class CRUDGenericController implements Initializable {
             }
         }
     }
+    private List loadFxml(String comp) throws FileNotFoundException {
+        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ comp);
+        Scanner s = new Scanner(file);
+        List<String> lines = new ArrayList<>();
+
+        while (s.hasNextLine()){
+            lines.add(s.nextLine());
+        }
+        s.close();
+        return lines;
+    }
+    @FXML
+    private void loadAdvanced() {
+        if (compBox.getValue()!=null){
+            try {
+                List<String> lines = loadFxml(compBox.getValue());
+                for (int i = 0; i < lines.size(); i++){
+                    advancedTextArea.setText(advancedTextArea.getText()+lines.get(i)+"\n");
+
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }else {
+            advancedTextArea.setText("please select a component in the dropdown");
+        }
+    }
+    @FXML
+    private void saveAdvanced() throws IOException {
+        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ compBox.getValue());
+        PrintWriter pw = new PrintWriter(file);
+        System.out.println(advancedTextArea.getText());
+        pw.print(advancedTextArea.getText());
+        pw.close();
+    }
 /*
     public static void main(String[] args) throws IOException {
         CRUDGenericController c = new CRUDGenericController();
@@ -216,7 +248,7 @@ public class CRUDGenericController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fontBox.setItems(options);
+        fontBox.setItems(fonts);
         System.out.println(fontBox.getValue());
         components.addAll(CMS.getInstance().getComponentList());
         compBox.setItems(components);
@@ -239,27 +271,23 @@ public class CRUDGenericController implements Initializable {
             for (int i = 0; i<nodes.size(); i++){
                 int index = i;
                 Button b = new Button(nodes.get(i).getId());
-
+                b.setFont(Font.font(24));
+                b.setMaxWidth(180);
+                b.setMinWidth(180);
                 b.setOnAction(event -> {
                     String tempId = nodes.get(index).getId();
                     IDField.setText(tempId);
                     try {
-                        updateFontData(newValue.split("\\.")[0], nodes.get(index).getId());
+                        updateFontData(newValue, nodes.get(index).getId());
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
-                    switch(style) {
-                        case "System":
-                            fontBox.setValue(style);
-                            break;
-                        case "Impact":
-                            fontBox.setValue(style);
-                            break;
-                        case "Arial":
-                            fontBox.setValue(style);
-                            break;
-                        default:
-                            fontBox.setValue(null);
+                    if (fonts.contains(style.toLowerCase())){
+                        fontBox.setValue(style);
+                        System.out.println(style);
+                    } else {
+                        fontBox.setValue(null);
+                        System.out.println("is not a style");
                     }
                     String tempSize = String.valueOf(size);
                     sizeField.setText(tempSize);
