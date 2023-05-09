@@ -1,11 +1,12 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
+import com.example.ecommerceprototype.pim.util.Nameable;
 
 import java.time.Duration;
 import java.time.LocalDate;
 
-public class DiscountInformation {
+public class DiscountInformation implements Nameable {
     private String name;
     private LocalDate startingDate; // NB: We use LocalDate, and thus Discounts can only last for whole days.
     private LocalDate expiringDate;
