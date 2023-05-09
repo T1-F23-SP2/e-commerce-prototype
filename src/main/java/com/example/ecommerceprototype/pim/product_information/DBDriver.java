@@ -304,6 +304,26 @@ public class DBDriver {
         }
     }
 
+    private static ManufacturingInformation queryManufacturingInformation(String uuid, PreparedStatement queryStatement) throws SQLException {
+        SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+        sqlValueArguments.setArgument(uuid);
+
+        sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+        queryStatement.execute();
+        ResultSet resultSet = queryStatement.getResultSet();
+        resultSet.next();
+
+        ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+
+        manufacturingInformation.setName(resultSet.getString("name"))
+                .setSupportPhoneNumber(resultSet.getString("support_phone"))
+                .setSupportMail(resultSet.getString("support_mail"));
+
+        return manufacturingInformation;
+    }
+
     protected ManufacturingInformation getManufactureByProductUUID(String uuid) {
         // SQL function: getManufactureByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getManufactureByProductUUID('someUUID');
@@ -311,23 +331,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByProductUUID(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(uuid);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
-
-            manufacturingInformation.setName(resultSet.getString("name"))
-                            .setSupportPhoneNumber(resultSet.getString("support_phone"))
-                            .setSupportMail(resultSet.getString("support_mail"));
-
-            return manufacturingInformation;
+            return queryManufacturingInformation(uuid, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -341,11 +345,13 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            return queryManufacturingInformation(name, queryStatement);
 
-            sqlValueArguments.setArgument(name);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
 
             queryStatement.execute();
             ResultSet resultSet = queryStatement.getResultSet();
