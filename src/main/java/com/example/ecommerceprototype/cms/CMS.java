@@ -17,7 +17,7 @@ public class CMS implements ICMS{
 
     private CMS() {}; //Zero-arg constructor
 
-    public static CMS getInstance() {
+    public static synchronized CMS getInstance() {
         if (instance == null)
             instance = new CMS();
         return instance;

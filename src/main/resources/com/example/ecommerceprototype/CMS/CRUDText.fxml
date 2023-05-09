@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.CRUDGenericController">
+   <children>
+      <HBox prefHeight="1080.0" prefWidth="1920.0">
+         <children>
+            <AnchorPane maxWidth="180.0" prefHeight="1080.0" prefWidth="180.0">
+               <children>
+                  <ComboBox fx:id="compBox" layoutX="-6.0" layoutY="48.0" prefHeight="46.0" prefWidth="180.0" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="8.0" layoutY="6.0" text="Component" AnchorPane.leftAnchor="5.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="vBox" layoutX="5.0" layoutY="100.0" prefHeight="969.0" prefWidth="180.0" AnchorPane.leftAnchor="5.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="1080.0" prefWidth="1740.0">
+               <children>
+                  <Label text="FX:ID" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="IDField" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="90.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Font size" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="250.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sizeField" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="290.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <RadioButton fx:id="boldRadio" mnemonicParsing="false" text="Bold" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="350.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <Label text="Contents" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="400.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="contentField" layoutX="40.0" layoutY="435.0" AnchorPane.topAnchor="435.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Font Style" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="fontBox" prefWidth="298.0" style="-fx-font-size: 24px" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="190.0" />
+                  <Button fx:id="updateButton" layoutX="430.0" layoutY="440.0" mnemonicParsing="false" onAction="#updateTestLabel" text="Update" AnchorPane.leftAnchor="430.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="testLabel" alignment="CENTER" layoutX="574.0" layoutY="107.0" maxWidth="700.0" text="Display Example" textAlignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="1498.0" layoutY="429.0" mnemonicParsing="false" onAction="#updateFXML" text="Save" AnchorPane.rightAnchor="128.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <TextArea fx:id="advancedTextArea" layoutX="430.0" layoutY="700.0" prefHeight="290.0" prefWidth="1182.0" AnchorPane.bottomAnchor="90.0" AnchorPane.rightAnchor="128.0" />
+                  <Button fx:id="advancedButton" layoutX="459.0" layoutY="634.0" mnemonicParsing="false" onAction="#loadAdvanced" text="Advanced" AnchorPane.bottomAnchor="395.0" AnchorPane.leftAnchor="430.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="1545.0" layoutY="1003.0" mnemonicParsing="false" text="save" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="128.0" onAction="#saveAdvanced">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="641.0" layoutY="1009.0" text="This saves the changes made in the text area above. These changes are permanent" AnchorPane.bottomAnchor="36.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="613.0" layoutY="651.0" text="Warning: This feature makes no checks to see if your code works. " AnchorPane.bottomAnchor="394.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
