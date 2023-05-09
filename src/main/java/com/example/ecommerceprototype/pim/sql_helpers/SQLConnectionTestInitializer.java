@@ -11,7 +11,9 @@ import java.sql.SQLException;
 public class SQLConnectionTestInitializer extends SQLConnectionMainInitializer{
     @Override
     public void initialize(Connection connection) throws SQLException, IOException {
+        // First run initialization code from the parent class.
         super.initialize(connection);
+
         SQLSetupHelper.setupFromResource(connection, "sql/custom_data_for_database.sql");
     }
 }
