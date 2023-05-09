@@ -2,11 +2,13 @@ package com.example.ecommerceprototype.cms.articlecrud;
 
 import com.example.ecommerceprototype.cms.ArticleManager;
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.image.Image;
@@ -102,7 +104,12 @@ public class CRUDArticleController implements Initializable {
     }
 
     private void backHandler(ActionEvent event){
-
+        try {
+            Pane pane = CMS.getInstance().fetchComponent("articlecrud/CRUDHub");
+            CRUDHubApplication.setStage(new Scene(pane, 600, 400));
+        } catch (FXMLLoadFailedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void listUpdater(){
