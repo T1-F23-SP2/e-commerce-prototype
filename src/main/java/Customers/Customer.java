@@ -10,7 +10,7 @@ public class Customer {
 
     //LocalDate date;
 
-    Customer(String name, String email, int phone, String address, int zipcode)
+    public Customer(String name, String email, int phone, String address, int zipcode)
     {
         this.name = name;
         this.email = email;

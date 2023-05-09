@@ -13,9 +13,9 @@ public class HelloController {
     private ListView<Boolean> ordersListStatus;
 
 
-    ObservableList<Integer> idList = FXCollections.observableArrayList(1, 2, 3);
+    public static ObservableList<Integer> idList = FXCollections.observableArrayList(1, 2, 3);
 
-    ObservableList<Boolean> statusList = FXCollections.observableArrayList(false, false, false);
+    public static ObservableList<Boolean> statusList = FXCollections.observableArrayList(false, false, false);
 
 
     public void initialize() {

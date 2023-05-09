@@ -1,5 +1,8 @@
 package DB;
 
+import MockShop.MockShopObject;
+import MockShop.PlaceholderInstShop;
+import OrderStatus.OrderManager;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -42,6 +45,30 @@ public interface StockInterface {
     public static int getStockValue(String UUID) {
         int qtyAmount = queryStockDB(databaseConn("Item"), UUID).getInteger("QTY");
         return qtyAmount;
+    }
+
+
+    public static void sendOrderOMS(MockShopObject mockShopObject){
+
+        // Code to run all the code in OMS that requires
+        //--
+
+
+        // Code to place in database
+        OrderManager.sendOrder(mockShopObject);
+
+
+        // Code to update the ui in OrderGUI
+        
+
+
+        // Code to update the orderConfirmation
+
+        // Code to generate the orderConfirmation
+
+
+
+
     }
 
 
