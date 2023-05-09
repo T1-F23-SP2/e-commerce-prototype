@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
+import java.util.HashMap;
+
 public class HelloController {
     @FXML
     private ListView<Integer> ordersListId;
@@ -16,6 +18,13 @@ public class HelloController {
     public static ObservableList<Integer> idList = FXCollections.observableArrayList(1, 2, 3);
 
     public static ObservableList<Boolean> statusList = FXCollections.observableArrayList(false, false, false);
+
+
+    public static HashMap orderMap = new HashMap<Integer, Boolean>();
+
+
+
+
 
 
     public void initialize() {
