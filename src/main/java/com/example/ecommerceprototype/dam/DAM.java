@@ -235,7 +235,7 @@ public class DAM {
         BufferedImage logo = null;
 
         try {
-            logo = ImageIO.read(new File("com/example/ecommerceprototype/dam/copyrightbillede.png"));
+            logo = ImageIO.read(new File("copyrightbillede.png"));
         } catch (Exception e){
             throw new Exception("logo kunne ikke indlæses " + e.getMessage());
         }

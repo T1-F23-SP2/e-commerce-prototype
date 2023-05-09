@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
@@ -27,9 +28,11 @@
             <Button fx:id="returnToMenu" layoutX="259.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToDAM" prefHeight="28.0" prefWidth="127.0" style="-fx-background-color: #95BDFF; -fx-border-color: #95BDFF;" text="Go To Main Menu" />
             <Button fx:id="deleteFile" layoutX="14.0" layoutY="139.0" mnemonicParsing="false" onAction="#deleteSelectedFile" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Delete File" />
             <Button fx:id="addWatermarkButton" layoutX="14.0" layoutY="180.0" mnemonicParsing="false" onAction="#addWatermark" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Watermark" />
-            <Button fx:id="addSaleLogoButton" layoutX="14.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Sale Logo" />
-            <Button fx:id="addCopyrightLogoButton" layoutX="6.0" layoutY="259.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="144.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Copyright Logo" />
+            <Button fx:id="addSaleLogoButton" layoutX="14.0" layoutY="219.0" mnemonicParsing="false" onAction="#addSaleLogo" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Sale Logo" />
+            <Button fx:id="addCopyrightLogoButton" layoutX="6.0" layoutY="259.0" mnemonicParsing="false" onAction="#addCopyrightLogo" prefHeight="28.0" prefWidth="144.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Copyright Logo" />
             <Button fx:id="loadFilesButton" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#LoadFiles" prefHeight="25.0" prefWidth="128.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Load Files" />
+            <Button fx:id="addTextWatermarkButton" layoutX="7.0" layoutY="300.0" mnemonicParsing="false" onAction="#addTextmark" prefHeight="28.0" prefWidth="142.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Add Text Watermark" />
+            <TextField fx:id="getWatermarkText" layoutX="7.0" layoutY="336.0" prefHeight="26.0" prefWidth="143.0" promptText="Watermark Text" />
          </children>
       </AnchorPane>
    </center>
