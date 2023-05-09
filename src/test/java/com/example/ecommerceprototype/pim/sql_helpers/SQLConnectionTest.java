@@ -58,4 +58,30 @@ class SQLConnectionTest {
         // Assert that the dropped database is no longer in the server
         assertFalse(SQLConnection.isDatabaseInPropertiesPresent(credentials));
     }
+
+
+
+    /*
+        This is the only test allowed to interact with the main system.
+        This test simple assures that it can successfully connect to the main system.
+     */
+    @Test
+    void getMainConnectionInitializeIfNeeded() {
+        assertDoesNotThrow(() -> {
+            Connection connection = SQLConnection.getMainConnectionInitializeIfNeeded();
+
+            // Close connection after test.
+            connection.close();
+        });
+    }
+
+    @Test
+    void getTestConnectionInitializeIfNeeded() {
+        assertDoesNotThrow(() -> {
+            Connection connection = SQLConnection.getTestConnectionInitializeIfNeeded();
+
+            // Close connection after test.
+            connection.close();
+        });
+    }
 }
