@@ -1,5 +1,8 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
+import com.example.ecommerceprototype.pim.exceptions.sql.SQLDuplicateDatabaseException;
+import com.example.ecommerceprototype.pim.exceptions.sql.SQLInvalidPasswordException;
+import com.example.ecommerceprototype.pim.exceptions.sql.SQLRoleNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -83,5 +86,41 @@ class SQLConnectionTest {
             // Close connection after test.
             connection.close();
         });
+    }
+
+
+    @Test
+    void testInvalidUser() throws IOException {
+        Properties credentials = SQLConnection.loadTestProperties();
+        credentials.setProperty("username", "non_existing_user_b652c7e4");
+        assertThrows(SQLRoleNotFoundException.class, () -> {
+           SQLConnection.getConnectionFromProperties(credentials);
+        });
+    }
+
+
+    @Test
+    void testInvalidPassword() throws IOException {
+        Properties credentials = SQLConnection.loadTestProperties();
+        credentials.setProperty("password", "wrong password ddd342a805e8");
+        assertThrows(SQLInvalidPasswordException.class, () -> {
+            SQLConnection.getConnectionFromProperties(credentials);
+        });
+    }
+
+
+    @Test
+    void testCreateDuplicateDatabase() throws IOException, SQLException {
+        Properties credentials = SQLConnection.loadTestProperties();
+
+        // Try to create a database
+        // Sets the database to a name which is unlikely to already be present in system
+        credentials.setProperty("database", "pim_test_930c507f_1902_4127_bad6_c51c15ee6244");
+        assertDoesNotThrow(() -> SQLConnection.createDatabase(credentials));
+
+        assertThrows(SQLDuplicateDatabaseException.class, () -> SQLConnection.createDatabase(credentials));
+
+        // Then drop the database again
+        assertDoesNotThrow(() -> SQLConnection.dropDatabase(credentials, false));
     }
 }
