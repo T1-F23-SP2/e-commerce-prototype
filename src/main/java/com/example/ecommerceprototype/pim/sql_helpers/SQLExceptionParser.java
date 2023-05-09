@@ -43,7 +43,6 @@ public class SQLExceptionParser {
     }
 
     private static boolean isRoleNotFound(SQLException e) {
-        System.out.println(e.getMessage());
         return e.getMessage().matches("^FATAL: role \"[^\"'\\s]*\" does not exist$");
     }
 
