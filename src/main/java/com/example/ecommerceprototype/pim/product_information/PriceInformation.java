@@ -1,7 +1,5 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -40,9 +38,5 @@ public class PriceInformation {
     protected PriceInformation setDiscountInformation(DiscountInformation di) {
         this.discountInformation = di;
         return this;
-    }
-
-    protected PriceInformation fromDB(ValueExtractor ve) {
-        throw new UnsupportedOperationException();
     }
 }

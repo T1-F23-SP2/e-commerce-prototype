@@ -1,7 +1,5 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
-
 import java.time.Duration;
 import java.time.LocalDate;
 
@@ -50,10 +48,5 @@ public class DiscountInformation {
     protected DiscountInformation setExpiringDate(LocalDate ld) {
         this.expiringDate = ld;
         return this;
-    }
-
-    // TODO: Implement fromDB
-    protected DiscountInformation fromDB(ValueExtractor ve) {
-        throw new UnsupportedOperationException();
     }
 }
