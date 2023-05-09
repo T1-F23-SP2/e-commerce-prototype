@@ -11,7 +11,7 @@ public class CRUDHubApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         CRUDHubApplication.stage = stage;
-        Pane plate = CMS.getInstance().loadComponent("articlecrud/CRUDHub");
+        Pane plate = CMS.getInstance().loadComponent("CRUDHub", true);
         Scene scene = new Scene(plate, 600, 400);
         stage.setTitle("Arnes Manager");
         stage.setScene(scene);

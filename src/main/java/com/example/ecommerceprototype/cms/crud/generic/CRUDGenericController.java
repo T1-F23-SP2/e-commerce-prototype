@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.cms.crud.generic;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
+import com.example.ecommerceprototype.cms.crud.CRUDHubApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -58,6 +60,8 @@ public class CRUDGenericController implements Initializable {
     private VBox vBox;
     @FXML
     private TextArea advancedTextArea;
+    @FXML
+    private Button back_Button;
 
     @FXML
     public void updateTestLabel(){
@@ -244,10 +248,18 @@ public class CRUDGenericController implements Initializable {
     }
 
  */
-
+    private void backHandler(ActionEvent event){
+        try {
+            Pane pane = CMS.getInstance().loadComponent("crud/CRUDHub");
+            CRUDHubApplication.setStage(new Scene(pane, 600, 400));
+        } catch (FXMLLoadFailedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        back_Button.setOnAction(this::backHandler);
         fontBox.setItems(fonts);
         System.out.println(fontBox.getValue());
         components.addAll(CMS.getInstance().getComponentList());

@@ -33,15 +33,21 @@ public class CMS implements ICMS{
         catch (IOException ioe) { errorMessage = ioe.getMessage(); }
         throw new FXMLLoadFailedException(errorMessage);
     }
+
+    // Overloaded method
     @Override
     public Pane loadComponent(String id, boolean isCRUD) throws FXMLLoadFailedException {
         String errorMessage;
-        FXMLLoader loader = new FXMLLoader(CMS.class.getResource("crud/"+id + ".fxml"));
-        try {
-            return loader.load();
+        if (isCRUD) {
+            FXMLLoader loader = new FXMLLoader(CMS.class.getResource("crud/"+id + ".fxml"));
+            try {
+                return loader.load();
+            }
+            catch (IOException ioe) { errorMessage = ioe.getMessage(); }
+            throw new FXMLLoadFailedException(errorMessage);
+        } else {
+            return null;
         }
-        catch (IOException ioe) { errorMessage = ioe.getMessage(); }
-        throw new FXMLLoadFailedException(errorMessage);
     }
     /*@Override
     public Pane fetchComponentWithProduct(String fxid, ProductInformation prod) {
@@ -84,7 +90,7 @@ public class CMS implements ICMS{
     public ArrayList<String> getComponentList() {
         ArrayList<String> result = new ArrayList<>();
 
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml");
         if (!infile.exists())
             return result;
 

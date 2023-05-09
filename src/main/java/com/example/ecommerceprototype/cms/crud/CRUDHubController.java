@@ -24,8 +24,7 @@ public class CRUDHubController implements Initializable {
     }
     private void articleCRUDView(ActionEvent event){
         try {
-            // pane = CMS.getInstance().fetchComponent("crud/article/CRUDArticle");
-            pane = CMS.getInstance().loadComponent("crud/article/CRUDArticle", true);
+            pane = CMS.getInstance().loadComponent("article/CRUDArticle", true);
             CRUDHubApplication.stage.setTitle("Article Manager Page");
             CRUDHubApplication.setStage(new Scene(pane, 1920, 1032));
         } catch (FXMLLoadFailedException e) {
@@ -34,7 +33,7 @@ public class CRUDHubController implements Initializable {
     }
     private void genericCRUDView(ActionEvent event){
         try {
-            pane = CMS.getInstance().loadComponent("crud/generic/CRUDText", true);
+            pane = CMS.getInstance().loadComponent("generic/CRUDText", true);
             CRUDHubApplication.stage.setTitle("Text Editor Manager Page");
             CRUDHubApplication.setStage(new Scene(pane, 1920, 1032));
         } catch (FXMLLoadFailedException e) {

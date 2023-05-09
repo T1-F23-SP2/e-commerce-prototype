@@ -96,7 +96,7 @@ public class CRUDArticleController implements Initializable {
             sc.nextLine(); // skips Date line
             articleText_TextArea.setText("");
             while (sc.hasNextLine()){
-                articleText_TextArea.appendText(sc.nextLine() + "\n");
+                articleText_TextArea.appendText(sc.nextLine());
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -105,7 +105,7 @@ public class CRUDArticleController implements Initializable {
 
     private void backHandler(ActionEvent event){
         try {
-            Pane pane = CMS.getInstance().loadComponent("crud/CRUDHub");
+            Pane pane = CMS.getInstance().loadComponent("CRUDHub", true);
             CRUDHubApplication.setStage(new Scene(pane, 600, 400));
         } catch (FXMLLoadFailedException e) {
             throw new RuntimeException(e);
