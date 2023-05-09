@@ -1,6 +1,5 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 import com.example.ecommerceprototype.pim.util.Nameable;
 
 
@@ -44,12 +43,6 @@ public class ProductCategory implements Nameable {
 
     // TODO: Create below method, by searching for Category by name.
     protected ProductCategory setProductCategoryParent(String name) {
-        throw new UnsupportedOperationException();
-    }
-
-
-    // TODO: Create fromDB
-    protected ProductCategory fromDB(ValueExtractor ve) {
         throw new UnsupportedOperationException();
     }
 }

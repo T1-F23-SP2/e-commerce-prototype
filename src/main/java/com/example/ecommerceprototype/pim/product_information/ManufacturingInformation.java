@@ -1,6 +1,5 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 import com.example.ecommerceprototype.pim.util.Nameable;
 
 
@@ -43,9 +42,5 @@ public class ManufacturingInformation implements Nameable {
     protected ManufacturingInformation setSupportMail(String supportMail) {
         this.supportMail = supportMail;
         return this;
-    }
-
-    protected ManufacturingInformation fromDB(ValueExtractor ve) {
-        throw new UnsupportedOperationException();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 import com.example.ecommerceprototype.pim.util.Nameable;
 
 public class ProductInformation implements Nameable {
@@ -18,8 +17,7 @@ public class ProductInformation implements Nameable {
     public ProductInformation(String productUUID, String name, String serialNumber,
                               String shortDescription, String longDescription, ProductCategory productCategory,
                               boolean isHidden, ProductSpecification productSpecification,
-                              ManufacturingInformation manufacturingInformation, PriceInformation priceInformation)
-    {
+                              ManufacturingInformation manufacturingInformation, PriceInformation priceInformation) {
         this.productUUID = productUUID;
         this.name = name;
         this.serialNumber = serialNumber;
@@ -31,6 +29,7 @@ public class ProductInformation implements Nameable {
         this.manufacturingInformation = manufacturingInformation;
         this.priceInformation = priceInformation;
     }
+
     public ProductInformation() {
 
     }
@@ -82,7 +81,7 @@ public class ProductInformation implements Nameable {
 
     protected ProductInformation setName(String name) {
         this.name = name;
-        return  this;
+        return this;
     }
 
     protected ProductInformation setSerialNumber(String serialNumber) {
@@ -123,9 +122,5 @@ public class ProductInformation implements Nameable {
     protected ProductInformation setPriceInformation(PriceInformation pi) {
         this.priceInformation = pi;
         return this;
-    }
-
-    protected ProductInformation fromDB(ValueExtractor ve) {
-        throw new UnsupportedOperationException();
     }
 }
