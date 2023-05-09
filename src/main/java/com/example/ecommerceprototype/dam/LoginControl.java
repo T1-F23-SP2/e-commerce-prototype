@@ -37,9 +37,9 @@ public class LoginControl {
     @FXML
     private Hyperlink forgotPass;
 
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/dam";
-    private static final String DB_USER = "postgres";
-    private static final String DB_PASSWORD = "Supermand1";
+    private static final String DB_URL = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/dam";
+    private static final String DB_USER = "padmin";
+    private static final String DB_PASSWORD = "Dam2.semester";
 
     @FXML
     public void forgotPassClicked(javafx.event.ActionEvent event){

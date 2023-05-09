@@ -80,9 +80,9 @@ public class DAMController {
     @FXML
     private Button openFile;
 
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/dam";
-    private static final String DB_USER = "postgres";
-    private static final String DB_PASSWORD = "Supermand1";
+    private static final String DB_URL = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/dam";
+    private static final String DB_USER = "padmin";
+    private static final String DB_PASSWORD = "Dam2.semester";
 
 
     public void returnToLoginPage(ActionEvent event) throws IOException {
@@ -146,7 +146,7 @@ public class DAMController {
                 UUID uu_id = UUID.randomUUID();
                 String uu_id_string = uu_id.toString();
 
-                try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
+                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                      PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data, UUID) VALUES (?, ?, ?, ?)")) {
                     stmt.setString(1, file.getAbsolutePath());
                     stmt.setString(2, Files.probeContentType(file.toPath()));
@@ -240,7 +240,7 @@ public class DAMController {
 
         myListView.getItems().clear();
 
-        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT name, type FROM files")) {
             while (rs.next()) {
