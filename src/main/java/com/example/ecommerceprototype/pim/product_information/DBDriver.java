@@ -40,6 +40,54 @@ public class DBDriver {
         }
     }
 
+    private static ProductInformation getProductInformation(ResultSet resultSet) throws SQLException {
+        ProductInformation productInformation = new ProductInformation();
+
+        productInformation.setUUID(resultSet.getString("product_UUID"))
+                .setName(resultSet.getString("name"))
+                .setSerialNumber(resultSet.getString("serial_number"))
+                .setShortDescription(resultSet.getString("short_description"))
+                .setIsHidden(resultSet.getBoolean("is_hidden"))
+                .setLongDescription(resultSet.getString("long_description"));
+        return productInformation;
+    }
+    
+    private static ProductInformation queryProductInformation(String uniqueIdentifier, PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException {
+        sqlValueArguments.setArgument(uniqueIdentifier);
+
+        sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+        queryStatement.execute();
+        ResultSet resultSet = queryStatement.getResultSet();
+        resultSet.next();
+
+        return getProductInformation(resultSet);
+    }
+
+    private static ArrayList<ProductInformation> getProductInformations(PreparedStatement queryStatement) throws SQLException {
+        queryStatement.execute();
+        ResultSet resultSet = queryStatement.getResultSet();
+
+        ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+        while (resultSet.next()) {
+
+            ProductInformation productInformation = getProductInformation(resultSet);
+
+            productInformationArrayList.add(productInformation);
+        }
+        return productInformationArrayList;
+    }
+
+    private static ArrayList<ProductInformation> getMultipleProductInformations(String serialNumber, PreparedStatement queryStatement) throws SQLException {
+        SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+        sqlValueArguments.setArgument(serialNumber);
+
+        sqlValueArguments.setArgumentsInStatement(queryStatement);
+
+        return getProductInformations(queryStatement);
+    }
+
     protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
@@ -49,24 +97,7 @@ public class DBDriver {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
-            sqlValueArguments.setArgument(uuid);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ProductInformation productInformation = new ProductInformation();
-
-            productInformation.setUUID(resultSet.getString("product_UUID"))
-                    .setName(resultSet.getString("name"))
-                    .setSerialNumber(resultSet.getString("serial_number"))
-                    .setShortDescription(resultSet.getString("short_description"))
-                    .setIsHidden(resultSet.getBoolean("is_hidden"))
-                    .setLongDescription(resultSet.getString("long_description"));
-
-            return productInformation;
+            return queryProductInformation(uuid, queryStatement, sqlValueArguments);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -82,24 +113,7 @@ public class DBDriver {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByName(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
-            sqlValueArguments.setArgument(name);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            ProductInformation productInformation = new ProductInformation();
-
-            productInformation.setUUID(resultSet.getString("product_UUID"))
-                    .setName(resultSet.getString("name"))
-                    .setSerialNumber(resultSet.getString("serial_number"))
-                    .setShortDescription(resultSet.getString("short_description"))
-                    .setIsHidden(resultSet.getBoolean("is_hidden"))
-                    .setLongDescription(resultSet.getString("long_description"));
-
-            return productInformation;
+            return queryProductInformation(name, queryStatement, sqlValueArguments);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -113,30 +127,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsBySerialNumber(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(serialNumber);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-
-            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
-            while (resultSet.next()) {
-
-                ProductInformation productInformation = new ProductInformation();
-
-                productInformation.setUUID(resultSet.getString("product_UUID"))
-                        .setName(resultSet.getString("name"))
-                        .setSerialNumber(resultSet.getString("serial_number"))
-                        .setShortDescription(resultSet.getString("short_description"))
-                        .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
-
-                productInformationArrayList.add(productInformation);
-            }
-            return productInformationArrayList;
+            return getMultipleProductInformations(serialNumber, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -151,24 +142,7 @@ public class DBDriver {
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsThatAreHidden()");
 
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-
-            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
-            while (resultSet.next()) {
-
-                ProductInformation productInformation = new ProductInformation();
-
-                productInformation.setUUID(resultSet.getString("product_UUID"))
-                        .setName(resultSet.getString("name"))
-                        .setSerialNumber(resultSet.getString("serial_number"))
-                        .setShortDescription(resultSet.getString("short_description"))
-                        .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
-
-                productInformationArrayList.add(productInformation);
-            }
-            return productInformationArrayList;
+            return getProductInformations(queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -182,30 +156,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByCategoryName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(categoryName);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-
-            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
-            while (resultSet.next()) {
-
-                ProductInformation productInformation = new ProductInformation();
-
-                productInformation.setUUID(resultSet.getString("product_UUID"))
-                        .setName(resultSet.getString("name"))
-                        .setSerialNumber(resultSet.getString("serial_number"))
-                        .setShortDescription(resultSet.getString("short_description"))
-                        .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
-
-                productInformationArrayList.add(productInformation);
-            }
-            return productInformationArrayList;
+            return getMultipleProductInformations(categoryName, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -219,30 +170,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByManufactureName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(manufactureName);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-
-            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
-            while (resultSet.next()) {
-
-                ProductInformation productInformation = new ProductInformation();
-
-                productInformation.setUUID(resultSet.getString("product_UUID"))
-                        .setName(resultSet.getString("name"))
-                        .setSerialNumber(resultSet.getString("serial_number"))
-                        .setShortDescription(resultSet.getString("short_description"))
-                        .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
-
-                productInformationArrayList.add(productInformation);
-            }
-            return productInformationArrayList;
+            return getMultipleProductInformations(manufactureName, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -256,11 +184,13 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByDiscountName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            return getMultipleProductInformations(discountName, queryStatement);
 
-            sqlValueArguments.setArgument(discountName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
 
             queryStatement.execute();
             ResultSet resultSet = queryStatement.getResultSet();
