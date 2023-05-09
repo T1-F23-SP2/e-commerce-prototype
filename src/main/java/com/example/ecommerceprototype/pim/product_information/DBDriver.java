@@ -352,22 +352,24 @@ public class DBDriver {
         }
     }
 
+    private static DiscountInformation queryDiscountInformation(String uuid, PreparedStatement queryStatement) throws SQLException {
+        SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
+        sqlValueArguments.setArgument(uuid);
 
-            ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+        sqlValueArguments.setArgumentsInStatement(queryStatement);
 
-            manufacturingInformation.setName(resultSet.getString("name"))
-                    .setSupportPhoneNumber(resultSet.getString("support_phone"))
-                    .setSupportMail(resultSet.getString("support_mail"));
+        queryStatement.execute();
+        ResultSet resultSet = queryStatement.getResultSet();
+        resultSet.next();
 
-            return manufacturingInformation;
+        DiscountInformation discountInformation = new DiscountInformation();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        discountInformation.setName(resultSet.getString("name"))
+                .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
+                .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
+
+        return discountInformation;
     }
 
     protected DiscountInformation getDiscountByProductUUID(String uuid) {
@@ -377,23 +379,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByProductUUID(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(uuid);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            DiscountInformation discountInformation = new DiscountInformation();
-
-            discountInformation.setName(resultSet.getString("name"))
-                            .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
-                            .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
-
-            return discountInformation;
+            return queryDiscountInformation(uuid, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -407,23 +393,7 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(name);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
-
-            queryStatement.execute();
-            ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
-
-            DiscountInformation discountInformation = new DiscountInformation();
-
-            discountInformation.setName(resultSet.getString("name"))
-                    .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
-                    .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
-
-            return discountInformation;
+            return queryDiscountInformation(name, queryStatement);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
