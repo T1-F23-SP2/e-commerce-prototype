@@ -108,17 +108,4 @@ public class DBManager {
        // PreparedStatement insertStatement =
     // databaseConn("Item").up
     //}
-
-
-
-
-
-    
-
-
-
-
-
-
-
 }

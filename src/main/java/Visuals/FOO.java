@@ -1,7 +1,6 @@
 package Visuals;
 
 import ComputedOverviews.SalesReport;
-import DB.DBManager;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.text.pdf.PdfAction;
 
@@ -10,20 +9,12 @@ import java.awt.geom.Rectangle2D;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.events.PdfPCellEventForwarder;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import mockPIM.PlaceHolderInstGet;
-import mockPIM.PriceInformation;
 import mockPIM.ProductInformation;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -32,18 +23,17 @@ import org.jfree.data.general.DefaultPieDataset;
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class FOO {
 
-    static BaseColor color = BaseColor.LIGHT_GRAY;
+
+public class FOO {
     static BaseColor color2 = new BaseColor(48, 213,200);
 
 
 
 
-    public static PdfPTable FUCKTable() {
+    public static PdfPTable Table_Table() {
         // Change this to the right column names
         String[] columnHeaders = {"Name", "UUID", "AmountOfOrders", "Price", "Buy Price", "CalcMargin (%)", "CalcMargin (KR)", "QTY", "Revenue"};
 
@@ -96,18 +86,18 @@ public class FOO {
     }
 
 
-    public static JFreeChart FUCK() {
+    public static JFreeChart Chart_BARchart() {
 
-        DefaultCategoryDataset Penis = new DefaultCategoryDataset();
+        DefaultCategoryDataset BarData = new DefaultCategoryDataset();
         for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++)
         {
-            Penis.setValue(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()),"matt",PlaceHolderInstGet.productArray[i].getName());
+            BarData.setValue(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()),"matt",PlaceHolderInstGet.productArray[i].getName());
 
         }
 
         JFreeChart chart = ChartFactory.createBarChart("SALES REPORT",
-                "Names", "Amount Sold", Penis,
-                PlotOrientation.VERTICAL, false, true, false);
+                "Names", "Amount Sold", BarData,
+                PlotOrientation.VERTICAL, false, true, true);
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         CategoryAxis axis = plot.getDomainAxis();
@@ -116,18 +106,18 @@ public class FOO {
 
         return chart;
     }
-    public static JFreeChart FUCKPIE() {
+    public static JFreeChart Chart_PIEchart() {
 
 
-        DefaultPieDataset Penis = new DefaultPieDataset();
+        DefaultPieDataset PieData = new DefaultPieDataset();
         for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++)
         {
-            Penis.setValue(PlaceHolderInstGet.productArray[i].getName(),SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()));
+            PieData.setValue(PlaceHolderInstGet.productArray[i].getName(),SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()));
 
         }
 
-        JFreeChart chart = ChartFactory.createPieChart("SALES REPORT",
-                Penis, false, true, false);
+        JFreeChart chart = ChartFactory.createPieChart("Amount of orders",
+                PieData, true, true, true);
 
         return chart;
     }
@@ -145,7 +135,7 @@ public class FOO {
             //Open document to write to the pdf
             document.open();
 
-            Image image = Image.getInstance("C:\\Users\\krist\\Desktop\\Prog_SEM2\\SMP2_Test\\assets\\travel and tour - Made with PosterMyWall.jpg");
+            Image image = Image.getInstance("assets/travel and tour - Made with PosterMyWall.jpg");
             image.scaleToFit(PageSize.A4.getWidth(), 175);
             Paragraph paragraph = new Paragraph();
             paragraph.add(image);
@@ -155,7 +145,7 @@ public class FOO {
 
 
             // Adding the FUCKTable to the pdf - (CellTable)
-            PdfPTable table = FUCKTable();
+            PdfPTable table = Table_Table();
 
             document.add(table);
             //user positioned text and graphic contents of a page | how to apply the proper font encoding.
@@ -182,13 +172,13 @@ public class FOO {
             document.newPage();
 
 
-
+/*
             PdfPTable tables = new PdfPTable(PlaceHolderInstGet.productArray.length);
             table.setWidthPercentage(100);
 
 
 
-/*           for (int i = 0; i < table.getRows().size(); i++) {
+           for (int i = 0; i < table.getRows().size(); i++) {
                 PdfPCell cell = table.getRow(i).getCells()[0]; // Get the first row of data
 
                 String f_RowData = cell.getPhrase().getContent();
@@ -205,19 +195,8 @@ public class FOO {
             }*/
 
             int j = 0;
-
-
             // Loop through the product array
             for (ProductInformation product : PlaceHolderInstGet.productArray) {
-
-
-
-
-
-
-
-
-
                 // Add a title for the page
                 //Paragraph title = new Paragraph(product.getName());
                 //document.add(title);
@@ -245,19 +224,11 @@ public class FOO {
 
                 document.add(Gentable);
 
-
                 // Create a graph for the page
-
-
                 DefaultPieDataset GenChart = new DefaultPieDataset<>();
                 GenChart.setValue("AmountOfOrders", SalesReport.getAmountOfOrders(product.getProductUUID()));
                 GenChart.setValue("QTY",SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()));
-                JFreeChart Genchart = ChartFactory.createPieChart("Revenue", GenChart);
-
-
-
-
-
+                JFreeChart Genchart = ChartFactory.createPieChart("Amount sold VS QTY", GenChart);
 
 
                 PdfContentByte GencontentByte = writer.getDirectContent();
@@ -271,14 +242,6 @@ public class FOO {
                 document.newPage();
                 j++;
             }
-
-
-
-
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -292,10 +255,10 @@ public class FOO {
 
     public static void main(String[] args) {
         List<JFreeChart> charts = new ArrayList<>();
-        charts.add(FUCK());
-        charts.add(FUCKPIE());
+        charts.add(Chart_BARchart());
+        charts.add(Chart_PIEchart());
         int width = 300;
-        int height = 300;
+        int height = 350;
         String fileName = "TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }
