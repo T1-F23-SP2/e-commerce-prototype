@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.1272799365582871" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="669.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.shop.ShopController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="80.0" prefWidth="738.0" style="-fx-background-color: #4E149E;">
+         <children>
+            <TextField layoutX="339.0" layoutY="27.0" prefHeight="26.0" prefWidth="300.0" text="Search" />
+            <Button layoutX="828.0" layoutY="28.0" mnemonicParsing="false" text="Basket" />
+            <Pane layoutY="-5.0" prefHeight="90.0" prefWidth="174.0" />
+            <ImageView fitHeight="82.0" fitWidth="140.0">
+               <image>
+                  <Image url="@../Downloads/ArnesLogo.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="738.0">
+         <children>
+            <AnchorPane layoutX="310.0" layoutY="47.0" prefHeight="115.0" prefWidth="125.0" />
+            <TabPane fx:id="mainTabPane" prefHeight="580.0" prefWidth="932.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Home">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="203.0" fitWidth="930.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="268.0" fitWidth="429.0" layoutX="252.0" layoutY="8.0">
+                                 <image>
+                                    <Image url="@../Downloads/ArnesLogo.png" />
+                                 </image>
+                              </ImageView>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="tabProducts" onSelectionChanged="#tabProductsSelectionChanged" text="Products">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="37.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product " textAlignment="CENTER" wrappingWidth="103.7367172241211" />
+                              <Text layoutX="183.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
+                              <Text layoutX="351.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
+                              <Text layoutX="513.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
+                              <Text layoutX="690.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
+                              <Pane layoutX="51.0" layoutY="41.0" prefHeight="89.0" prefWidth="826.0">
+                                 <children>
+                                    <ImageView fx:id="prod1Image" fitHeight="82.0" fitWidth="80.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="prod1Name" layoutX="114.0" layoutY="4.0" prefHeight="74.0" prefWidth="142.0" text="IPhone 14 GOLD - 256 GB" />
+                                    <Label fx:id="prod1Price" layoutX="330.0" layoutY="4.0" prefHeight="74.0" prefWidth="65.0" text="9000 KR" />
+                                    <Label fx:id="prod1Stock" layoutX="487.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
+                                    <Button fx:id="prod1AddToCart" layoutX="665.0" layoutY="29.0" mnemonicParsing="false" text="Button" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="55.0" layoutY="146.0" prefHeight="89.0" prefWidth="826.0">
+                                 <children>
+                                    <Label fx:id="prod2Name" layoutX="106.0" layoutY="8.0" prefHeight="74.0" prefWidth="172.0" text="IPhone 13 STARLIGHT - 256 GB" />
+                                    <Label fx:id="prod2Price" layoutX="322.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="7000 KR" textAlignment="CENTER" />
+                                    <Label fx:id="prod2Stock" layoutX="480.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
+                                    <Button fx:id="prod2AddToCart" layoutX="662.0" layoutY="32.0" mnemonicParsing="false" text="Button" />
+                                    <ImageView fx:id="prod2Image" fitHeight="92.0" fitWidth="80.0">
+                                       <image>
+                                          <Image url="@../Downloads/Iphone%2013%20Starlight-p.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="51.0" layoutY="243.0" prefHeight="89.0" prefWidth="826.0">
+                                 <children>
+                                    <Label fx:id="prod3Name" layoutX="108.0" layoutY="8.0" prefHeight="74.0" prefWidth="146.0" text="IPhone 12 BLUE - 256 GB" />
+                                    <ImageView fx:id="prod3Image" fitHeight="93.0" fitWidth="75.0" layoutX="8.0" layoutY="-2.0">
+                                       <image>
+                                          <Image url="@../Downloads/IPhone%2012%20-%20Blue.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="prod3Price" layoutX="323.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="6500 KR" textAlignment="CENTER" />
+                                    <Label fx:id="prod3Stock" layoutX="480.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
+                                    <Button fx:id="prod3AddToCart" layoutX="668.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="55.0" layoutY="346.0" prefHeight="89.0" prefWidth="826.0">
+                                 <children>
+                                    <ImageView fx:id="prod4Image" fitHeight="96.0" fitWidth="77.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone%20x%20space%20gray_132068959.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="prod4Price" layoutX="316.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="5000 KR" textAlignment="CENTER" />
+                                    <Label fx:id="prod4Name" layoutX="103.0" layoutY="8.0" prefHeight="74.0" prefWidth="146.0" text="IPhone 11 GREY - 256 GB" />
+                                    <Label fx:id="prod4Stock" layoutX="473.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
+                                    <Button fx:id="prod4AddToCart" layoutX="661.0" layoutY="32.0" mnemonicParsing="false" text="Button" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="paginationProducts" layoutX="51.0" layoutY="458.0" prefHeight="68.0" prefWidth="856.0">
+                                 <children>
+                                    <Button fx:id="buttonProductsNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" text="Next" />
+                                    <Button fx:id="buttonProductsLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" text="Last" />
+                                    <Text fx:id="labelProductsPageAmount" layoutX="439.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of XY" textAlignment="CENTER" wrappingWidth="43.33672332763672" />
+                                    <Text layoutX="332.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page" textAlignment="CENTER" wrappingWidth="57.33672332763672" />
+                                    <Button fx:id="buttonProductsFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" text="First" />
+                                    <Button fx:id="buttonProductsPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" text="Previous" />
+                                    <TextField fx:id="currentProductsPage" layoutX="389.0" layoutY="22.0" prefHeight="26.0" prefWidth="41.0" promptText="1" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Content Pages">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Pane layoutX="282.0" prefHeight="43.0" prefWidth="367.0">
+                                 <children>
+                                    <Text layoutX="41.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="RECENT ARTICLES">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="16.0" layoutY="54.0" prefHeight="82.0" prefWidth="532.0">
+                                 <children>
+                                    <Text layoutX="31.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Writer:" />
+                                    <Text layoutX="31.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
+                                    <Text layoutX="92.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="289.3367156982422" />
+                                    <Text layoutX="92.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" wrappingWidth="289.3367156982422" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="38.0" layoutY="145.0" prefHeight="378.0" prefWidth="843.0">
+                                 <children>
+                                    <TextArea layoutX="7.0" prefHeight="382.0" prefWidth="839.0" />
+                                 </children>
+                              </Pane>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#tabProductsSelectionChanged" text="Basket">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="142.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="228.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
+                              <Text layoutX="74.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name" textAlignment="CENTER" wrappingWidth="78.93669891357422" />
+                              <Text layoutX="222.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warehouse Status" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                              <Text layoutX="375.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                              <Pane layoutX="6.0" layoutY="67.0" prefHeight="102.0" prefWidth="921.0">
+                                 <children>
+                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                 </children>
+                              </Pane>
+                              <Text layoutX="531.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                              <Text layoutX="660.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                              <Text layoutX="797.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clear" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                              <Pane layoutX="6.0" layoutY="169.0" prefHeight="102.0" prefWidth="921.0">
+                                 <children>
+                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="6.0" layoutY="348.0" prefHeight="102.0" prefWidth="921.0">
+                                 <children>
+                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="6.0" layoutY="260.0" prefHeight="102.0" prefWidth="921.0">
+                                 <children>
+                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
+                                       <image>
+                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                 </children>
+                              </Pane>
+                              <Pane fx:id="paginationBasket" layoutX="42.0" layoutY="466.0" prefHeight="68.0" prefWidth="856.0">
+                                 <children>
+                                    <Button fx:id="buttonBasketNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" text="Next" />
+                                    <Button fx:id="buttonBasketLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" text="Last" />
+                                    <Text fx:id="labelBasketPageAmount" layoutX="439.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of XY" textAlignment="CENTER" wrappingWidth="43.33672332763672" />
+                                    <Text layoutX="332.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page" textAlignment="CENTER" wrappingWidth="57.33672332763672" />
+                                    <Button fx:id="buttonBasketFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" text="First" />
+                                    <Button fx:id="buttonBasketPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" text="Previous" />
+                                    <TextField fx:id="currentBasketPage" layoutX="389.0" layoutY="22.0" prefHeight="26.0" prefWidth="41.0" promptText="1" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

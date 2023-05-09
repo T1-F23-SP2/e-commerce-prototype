@@ -12,11 +12,20 @@ public class Basket {
         this.products = new ArrayList<>();
     }
 
+    private static int defaultPageSize = 4;
+
     private int currentPage;
-    private int pageSize = 5;
+    private int pageSize = 4;
     private ArrayList<BasketEntry> products;
 
 
+    public void setProducts(ArrayList<BasketEntry> products) {
+        this.products = products;
+    }
+
+    public ArrayList<BasketEntry> getProducts() {
+        return products;
+    }
 
     public ArrayList<BasketEntry> getPage(int page) {
         return (ArrayList<BasketEntry>) products.subList(page * pageSize, page * pageSize + pageSize);
@@ -39,9 +48,13 @@ public class Basket {
         return getPage(currentPage);
     }
 
-    private Basket basket = new Basket(5);
+    private static Basket basket = new Basket(defaultPageSize);
 
-    public Basket getInstance() {
+    public static Basket getInstance() {
+
+        if(basket == null)
+            basket = new Basket(defaultPageSize);
+
         return basket;
     }
 
