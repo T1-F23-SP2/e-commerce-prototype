@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.cms;
 
+import com.example.ecommerceprototype.cms.articlecrud.CRUDArticleController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

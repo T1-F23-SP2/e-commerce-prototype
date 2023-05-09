@@ -6,7 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public interface IArticle {
+    ArrayList<File> getArticleFiles();
     int getArticleCount();
     ArrayList<String> getArticleNames();
-    ArrayList<File> getArticleFiles();
+    File getArticle(String articleName);
 }
