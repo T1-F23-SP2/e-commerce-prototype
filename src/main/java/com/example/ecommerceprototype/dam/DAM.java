@@ -174,7 +174,7 @@ public class DAM {
         BufferedImage logo = null;
 
         try {
-            logo = ImageIO.read(new File("com/example/ecommerceprototype/dam/sale.png"));
+            logo = ImageIO.read(new File("sale.png"));
         } catch (Exception e){
             throw new Exception("logo couldn't be loaded: " + e.getMessage());
         }
