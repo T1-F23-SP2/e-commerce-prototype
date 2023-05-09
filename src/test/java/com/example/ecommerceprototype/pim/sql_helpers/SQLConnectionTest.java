@@ -4,12 +4,42 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SQLConnectionTest {
+
+    @Test
+    void testLoadProperties() throws IOException {
+        Properties exampleCredentials = SQLConnection.loadProperties("example.credentials");
+
+        assertNotNull(exampleCredentials);
+        assertEquals("jdbc:postgresql://localhost:5432/", exampleCredentials.getProperty("host"));
+        assertEquals("e_commerce_pim_db", exampleCredentials.getProperty("database"));
+        assertEquals("my_user", exampleCredentials.getProperty("username"));
+        assertEquals("My strong password", exampleCredentials.getProperty("password"));
+    }
+
+    @Test
+    void testNotFoundPropertiesFile() {
+        Exception exception = assertThrows(IOException.class, () -> {
+            SQLConnection.loadProperties("non-existing.credentials");
+        });
+
+        String expectedMsg = """
+                Could not find file: src/main/resources/com/example/ecommerceprototype/pim/non-existing.credentials
+                                
+                Look in src/main/resources/com/example/ecommerceprototype/pim/credentials/README.md, for how to setup credentials.
+                
+                """;
+
+        assertEquals(expectedMsg, exception.getMessage());
+    }
+
+
     @DisplayName("Test creating and dropping database")
     @Test
     void testDropAndCreateDatabase() throws IOException, SQLException {
