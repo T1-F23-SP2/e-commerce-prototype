@@ -181,7 +181,23 @@ public abstract class SQLConnection {
         return getConnectionFromPropertiesInitializeIfNeeded(loadMainProperties(), initializer);
     }
 
+    /*
+        Get main connection and run default initializer if needed
+     */
+    public static Connection getMainConnectionInitializeIfNeeded() throws SQLException, IOException {
+        return getMainConnectionInitializeIfNeeded(new SQLConnectionMainInitializer());
+    }
+
     public static Connection getTestConnectionInitializeIfNeeded(SQLInitializer initializer) throws SQLException, IOException {
         return getConnectionFromPropertiesInitializeIfNeeded(loadTestProperties(), initializer);
+    }
+
+
+
+    /*
+        Get test connection and run default initializer if needed
+     */
+    public static Connection getTestConnectionInitializeIfNeeded() throws SQLException, IOException {
+        return getTestConnectionInitializeIfNeeded(new SQLConnectionTestInitializer());
     }
 }
