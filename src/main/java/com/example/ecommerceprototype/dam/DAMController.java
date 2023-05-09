@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.Node;
-
+import java.util.UUID;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -58,6 +58,9 @@ public class DAMController {
     private Button deleteFileButton;
     @FXML
     private Button addWatermarkButton;
+
+    @FXML
+    private Button UUIDbutton;
 
     @FXML
     private Button addSaleLogoButton;
@@ -133,30 +136,34 @@ public class DAMController {
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(null);
 
+
         if (files != null) {
 
             for (File file : files) {
 
                 // first we need to load the content of the files into a byte array
                 byte[] fileContent = Files.readAllBytes(file.toPath());
+                UUID uu_id = UUID.randomUUID();
+                String uu_id_string = uu_id.toString();
 
                 try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
-                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data) VALUES (?, ?, ?)")) {
+                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data, UUID) VALUES (?, ?, ?, ?)")) {
                     stmt.setString(1, file.getAbsolutePath());
                     stmt.setString(2, Files.probeContentType(file.toPath()));
                     stmt.setBytes(3, fileContent);
+                    stmt.setString(4, uu_id_string);
                     stmt.executeUpdate();
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Files Added");
-                    alert.setHeaderText(null);
-                    alert.setContentText("The files have been added to the list.");
-                    alert.showAndWait();
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Files Added");
+            alert.setHeaderText(null);
+            alert.setContentText("The files have been added to the list.");
+            alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Oops!");
@@ -192,38 +199,6 @@ public class DAMController {
         }
     }
 
-
-
-    /*public void openSelectedFile(ActionEvent event) throws IOException {
-        File selectedFile = myListView.getSelectionModel().getSelectedItem();
-        if (selectedFile != null) {
-            try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dam", "postgres", "Supermand1");
-                 PreparedStatement stmt = conn.prepareStatement("SELECT data FROM files WHERE name = ?")) {
-                stmt.setString(1, selectedFile.getName());
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        byte[] fileContent = rs.getBytes("data");
-                        File tempFile = File.createTempFile("temp", null);
-                        FileOutputStream fos = new FileOutputStream(tempFile);
-                        fos.write(fileContent);
-                        fos.close();
-                        Desktop.getDesktop().open(tempFile);
-                    }
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Oops!");
-            alert.setHeaderText("You didn't select a file to open! Try Again");
-            alert.setContentText("");
-            alert.showAndWait();
-        }
-    }
-
-     */
-
     public void deleteSelectedFile(ActionEvent event) throws IOException {
         File selectedFile = myListView.getSelectionModel().getSelectedItem();
         if (selectedFile != null) {
@@ -239,6 +214,12 @@ public class DAMController {
                 pstmt.setString(1, String.valueOf(selectedFile));
 
                 pstmt.execute();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Files Deleted");
+                alert.setHeaderText(null);
+                alert.setContentText("The Chosen File Has Been Deleted");
+                alert.showAndWait();
 
 
             }

@@ -204,7 +204,7 @@ public class DAM {
             pstmt.setInt(2, asset.id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new Exception("filepath couldn't be updated in the database: " + e.getMessage());
+            throw new Exception("Filepath couldn't be updated in the database: " + e.getMessage());
         }
 
         // til allersidst opdaterer vi dette assets eksisterende opgave filepath med den nye og vandmærkede fil
