@@ -6,70 +6,91 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1740.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.CRUD.CRUDGenericController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.CRUDGenericController">
    <children>
-      <Label layoutX="41.0" layoutY="37.0" text="FX:ID" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="IDField" layoutX="24.0" layoutY="80.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="90.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label layoutX="45.0" layoutY="142.0" text="Font size" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="250.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="sizeField" layoutX="60.0" layoutY="200.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="290.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <RadioButton fx:id="boldRadio" layoutX="44.0" layoutY="290.0" mnemonicParsing="false" text="Bold" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="350.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </RadioButton>
-      <Label layoutX="45.0" layoutY="350.0" text="Contents" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="400.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="contentField" layoutX="39.0" layoutY="417.0" AnchorPane.topAnchor="440.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label layoutX="54.0" layoutY="166.0" text="Font Style" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="150.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label fx:id="fileLabel" layoutX="835.0" layoutY="44.0" text="Label" AnchorPane.leftAnchor="835.0" AnchorPane.rightAnchor="821.0" AnchorPane.topAnchor="40.0">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="61.0" layoutY="189.0" prefWidth="298.0" style="-fx-font-size: 24px" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="190.0" />
-      <Button fx:id="updateButton" layoutX="42.0" layoutY="511.0" mnemonicParsing="false" onAction="#updateTestLabel" text="Update" AnchorPane.leftAnchor="40.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-      <Label fx:id="testLabel" layoutX="1208.0" layoutY="282.0" text="Display Example">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
-      <Button layoutX="1492.0" layoutY="528.0" mnemonicParsing="false" text="Save" AnchorPane.rightAnchor="40.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
+      <HBox prefHeight="1080.0" prefWidth="1920.0">
+         <children>
+            <AnchorPane maxWidth="180.0" prefHeight="1080.0" prefWidth="180.0">
+               <children>
+                  <ComboBox fx:id="compBox" layoutX="-6.0" layoutY="48.0" prefHeight="46.0" prefWidth="185.0" />
+                  <Label layoutX="8.0" layoutY="6.0" text="Component">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="vBox" layoutX="-7.0" layoutY="100.0" prefHeight="969.0" prefWidth="180.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="1080.0" prefWidth="1740.0">
+               <children>
+                  <Label text="FX:ID" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="IDField" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="90.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Font size" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="250.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="sizeField" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="290.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <RadioButton fx:id="boldRadio" mnemonicParsing="false" text="Bold" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="350.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <Label text="Contents" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="400.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="contentField" layoutX="40.0" layoutY="435.0" AnchorPane.topAnchor="435.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Font Style" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fileLabel" layoutX="634.0" layoutY="40.0" text="Label" AnchorPane.leftAnchor="634.0" AnchorPane.rightAnchor="1022.0" AnchorPane.topAnchor="40.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="fontBox" prefWidth="298.0" style="-fx-font-size: 24px" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="190.0" />
+                  <Button fx:id="updateButton" layoutX="631.0" layoutY="433.0" mnemonicParsing="false" onAction="#updateTestLabel" text="Update" AnchorPane.leftAnchor="631.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="testLabel" alignment="CENTER" layoutX="881.0" layoutY="235.0" maxWidth="700.0" text="Display Example" textAlignment="CENTER">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="1345.0" layoutY="427.0" mnemonicParsing="false" onAction="#updateFXML" text="Save" AnchorPane.rightAnchor="313.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
