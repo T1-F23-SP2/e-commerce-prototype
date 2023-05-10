@@ -24,12 +24,27 @@ public class HelloController {
 
 
 
+//    public static
 
 
 
     public void initialize() {
         ordersListId.setItems(idList);
         ordersListStatus.setItems(statusList);
+    }
+
+
+
+    public static void updateTables(){
+        idList.addAll(orderMap.keySet());
+
+        statusList.removeAll(true);
+
+        for (int i = 0; i < idList.size(); i++) {
+            statusList.add((Boolean) orderMap.get(i));
+        }
+
+
     }
 
 

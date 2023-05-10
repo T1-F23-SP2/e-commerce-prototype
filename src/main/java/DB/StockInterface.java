@@ -69,13 +69,21 @@ public interface StockInterface {
 
 
         // Code to update the ui in OrderGUI
-        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
-        for (Document inst: listDocument) {
-            listLength +=1;
+        HelloController.orderMap.put(id, false);
 
-            HelloController.idList.add(inst.getInteger("_id"));
-            HelloController.statusList.add(false);
-        }
+
+//        HelloController.idList.toArray() = HelloController.orderMap.keySet().toArray();
+
+
+
+
+//        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
+//        for (Document inst: listDocument) {
+//            listLength +=1;
+//
+//            HelloController.idList.add(inst.getInteger("_id"));
+//            HelloController.statusList.add(false);
+//        }
 
 
         // Code to place in database Code to process
@@ -85,14 +93,18 @@ public interface StockInterface {
 
 //        int listLength = 0;
 
+
+
+        //-------------------------------------------------------------------
         // Code to update the ui in OrderGUI Code to update the false to true
+        HelloController.orderMap.put(id, true);
 
 
-        HelloController.statusList.removeAll();
-        for (int i = 0; i < listLength; i++) {
-
-            HelloController.statusList.add(true);
-        }
+//        HelloController.statusList.removeAll();
+//        for (int i = 0; i < listLength; i++) {
+//
+//            HelloController.statusList.add(true);
+//        }
 
 
 //        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
