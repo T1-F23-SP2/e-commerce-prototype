@@ -14,25 +14,8 @@ public class ProductInformation {
     private ManufacturingInformation manufacturingInformation;
     private PriceInformation priceInformation;
 
-    public ProductInformation(String productUUID, String name, String serialNumber,
-                              String shortDescription, String longDescription, ProductCategory productCategory,
-                              boolean isHidden, ProductSpecification productSpecification,
-                              ManufacturingInformation manufacturingInformation, PriceInformation priceInformation)
-    {
-        this.productUUID = productUUID;
-        this.name = name;
-        this.serialNumber = serialNumber;
-        this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
-        this.productCategory = productCategory;
-        this.isHidden = isHidden;
-        this.productSpecification = productSpecification;
-        this.manufacturingInformation = manufacturingInformation;
-        this.priceInformation = priceInformation;
-    }
-    public ProductInformation() {
-
-    }
+    // Should the empty constructor be removed?
+    public ProductInformation() {}
 
     public String getProductUUID() {
         return productUUID;

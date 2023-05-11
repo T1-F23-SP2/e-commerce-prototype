@@ -1,17 +1,17 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteProductInformationException;
 
 public class ProductInformationBuilder extends ProductInformationWorker {
-    ProductInformation productInformation;
 
     protected ProductInformationBuilder() {
-        productInformation = new ProductInformation();
+        super(new ProductInformation());
     }
 
+    // TODO: Implement this method.
     @Override
-    public ProductInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
+    public ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException {
         throw new UnsupportedOperationException();
     }
 }
