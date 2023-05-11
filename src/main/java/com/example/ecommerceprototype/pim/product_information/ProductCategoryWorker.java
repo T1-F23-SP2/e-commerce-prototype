@@ -4,9 +4,15 @@ import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
 public abstract class ProductCategoryWorker {
-    ProductCategory productCategory;
+
+    protected ProductCategory productCategory;
+
     public ProductCategoryWorker() {
         this.productCategory = new ProductCategory();
+    }
+
+    public ProductCategoryWorker(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public ProductCategoryWorker setName(String name) {

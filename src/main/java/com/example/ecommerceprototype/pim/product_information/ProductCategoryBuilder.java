@@ -4,8 +4,9 @@ import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
 public class ProductCategoryBuilder extends ProductCategoryWorker {
+
     public ProductCategoryBuilder() {
-        super();
+        super(new ProductCategory());
     }
 
     @Override // TODO: Implement CategoryBuilder submit()

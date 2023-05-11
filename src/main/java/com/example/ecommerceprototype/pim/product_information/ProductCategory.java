@@ -2,22 +2,13 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 
-
 public class ProductCategory {
     private String name;
     private ProductCategory productCategoryParent;
 
+    // Should the empty constructor be removed?
     public ProductCategory() {
 
-    }
-
-    public ProductCategory(String name) {
-        this.name = name;
-    }
-
-    public ProductCategory(String name, ProductCategory productCategoryParent) {
-        this.name = name;
-        this.productCategoryParent = productCategoryParent;
     }
 
     public String getName() {
@@ -25,7 +16,7 @@ public class ProductCategory {
     }
 
     public ProductCategory getProductCategoryParent() {
-        if(this.productCategoryParent == null) {
+        if (this.productCategoryParent == null) {
             return null;
         }
         return this.productCategoryParent;
