@@ -723,11 +723,15 @@ public class DBDriver {
             rs.next(); // Move "cursor" to first row
             String UUID = rs.getString("product_UUID");
 
-            this.insertNewPriceChange(UUID,
-                    productInformation.getPriceInformation().getPrice(),
-                    productInformation.getPriceInformation().getWholeSalePrice());
+            try {
+                this.insertNewPriceChange(UUID,
+                        productInformation.getPriceInformation().getPrice(),
+                        productInformation.getPriceInformation().getWholeSalePrice());
 
-            this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+                this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+            } catch(UUIDNotFoundException e) {
+                throw new RuntimeException("Database issue: Invalid UUID received when creating product.");
+            }
 
             return UUID;
 
@@ -803,13 +807,18 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) {
+    protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) throws UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
         // Call by: CALL insertNewSpecification('71bce9bd-ef5f-48c2-af68-9e721cf4f181', 'CPU', 'testValue1243');
         try {
             if(productSpecification.isEmpty()) { // Avoid SQLException if no specifications are specified.
                 return;
             }
+
+            if(!this.productUUIDExists(UUID)) {
+                throw new UUIDNotFoundException();
+            }
+
             for(String key : productSpecification.keySet()) { // As productSpecification is a HashMap...
                 PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewSpecification(?, ?, ?)");
                 SQLValueArguments sqlValueArguments = new SQLValueArguments()
@@ -825,10 +834,14 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException, UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234);
         try {
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewPriceChange(?, ?, ?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments()
                     .setArgument(uuid)
