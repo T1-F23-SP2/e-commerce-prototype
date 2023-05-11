@@ -965,11 +965,30 @@ public class DBDriver {
         }
     }
 
-    protected void updateDiscountByName(String name, ProductCategory productCategory) {
+    protected void updateDiscountByName(String name, DiscountInformation discountInformation) throws NotFoundException{
         // SQL function: updateDiscountByName(argName VARCHAR, argNewName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL updateDiscountByName('oldDiscountName', 'newDiscountName', '01-01-2023', '01-02-2023');
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateDiscountByName(?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            if(!this.manufacturerNameExists(name)) {
+                throw new NotFoundException();
+            }else {
+
+                sqlValueArguments.setArgument(name);
+                sqlValueArguments.setArgument(discountInformation.getName());
+                sqlValueArguments.setArgument(discountInformation.getStartingDate());
+                sqlValueArguments.setArgument(discountInformation.getExpiringDate());
+
+                updateStatement.execute();
+
+            }
+
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
     protected void updateProductCategoryByName(String name, ProductCategory productCategory) {
