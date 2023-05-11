@@ -870,10 +870,18 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException, NotFoundException, UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234, 'discountName');
         try {
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+            }
+            if(!this.discountNameExists(discountInformation.getName())) {
+                System.out.println("No such Discount name could be found.");
+                throw new NotFoundException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewpricechange(?,?,?,?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
@@ -888,7 +896,6 @@ public class DBDriver {
             System.out.println(e);
             throw new IncompleteProductInformationException();
         }
-        throw new UnsupportedOperationException();
     }
 
     protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
