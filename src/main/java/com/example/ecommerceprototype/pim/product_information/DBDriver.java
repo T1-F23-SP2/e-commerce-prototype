@@ -30,12 +30,115 @@ public class DBDriver {
         return instance;
     }
 
+    private boolean productUUIDExists(String uuid) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE product_uuid = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(uuid);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the UUID not being valid. If used w. get-method, the method should throw UUIDNotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean productNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT product_uuid FROM products WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the name not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean productSerialNumberExists(String serialNumber) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE serial_number = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(serialNumber);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the serial not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean categoryNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM product_categories WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean categoryIdExists(int id) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM product_categories WHERE id = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(id);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean manufacturerNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM manufactures WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean discountNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM discounts WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
 
     protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
         // Look at the database_initialization.sql file for return types and return values.
-
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -592,13 +695,17 @@ public class DBDriver {
         }
     }
 
-    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
+    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException, DuplicateEntryException {
         // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
         //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
         // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
         //                                          'productCategoryName', 'manufactureName', 'longDescription');
         // Look at the database_initialization.sql file for return types and return values.
         try {
+            if(this.productNameExists(productInformation.getName()) | this.productSerialNumberExists(productInformation.getSerialNumber())) { // Does not check whether UUID exists, as this is only given afterwards.
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("SELECT product_uuid FROM insertnewproduct(?,?,?,?,?,?)");
             // TODO: After getters is implemented, make checks for the existence of the referenced productCategory and ManufacturingInformation.
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -616,11 +723,15 @@ public class DBDriver {
             rs.next(); // Move "cursor" to first row
             String UUID = rs.getString("product_UUID");
 
-            this.insertNewPriceChange(UUID,
-                    productInformation.getPriceInformation().getPrice(),
-                    productInformation.getPriceInformation().getWholeSalePrice());
+            try {
+                this.insertNewPriceChange(UUID,
+                        productInformation.getPriceInformation().getPrice(),
+                        productInformation.getPriceInformation().getWholeSalePrice());
 
-            this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+                this.insertNewSpecification(UUID, productInformation.getProductSpecification());
+            } catch(UUIDNotFoundException e) {
+                throw new RuntimeException("Database issue: Invalid UUID received when creating product.");
+            }
 
             return UUID;
 
@@ -630,11 +741,16 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation {
+    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation, DuplicateEntryException {
         // SQL function: insertNewProduct(argName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL insertNewProductCategory('name', 'parentCategoryName');
         // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
         try {
+            // Check if discount name already exists:
+            if(this.categoryNameExists(productCategory.getName())) {
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement;
             SQLValueArguments sqlValueArguments;
 
@@ -658,10 +774,15 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation {
+    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation, DuplicateEntryException {
         // SQL function: insertNewManufacture(argName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL insertNewManufacture('manufactureName', 'supportPhone', 'supportMail');
         try {
+            // Check if discount name already exists:
+            if(this.manufacturerNameExists(manufacturingInformation.getName())) {
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewmanufacture(?, ?, ?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
             sqlValueArguments.setArgument(manufacturingInformation.getName());
@@ -676,11 +797,15 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation {
+    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation, DuplicateEntryException {
         // SQL function: insertNewManufacture(argName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
         try {
+            // Check if discount name already exists:
+            if(this.discountNameExists(discountInformation.getName())) {
+                throw new DuplicateEntryException();
+            }
 
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewdiscount(?,?,?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -696,13 +821,18 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) {
+    protected void insertNewSpecification(String UUID, ProductSpecification productSpecification) throws UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argKey VARCHAR, argValue VARCHAR)
         // Call by: CALL insertNewSpecification('71bce9bd-ef5f-48c2-af68-9e721cf4f181', 'CPU', 'testValue1243');
         try {
             if(productSpecification.isEmpty()) { // Avoid SQLException if no specifications are specified.
                 return;
             }
+
+            if(!this.productUUIDExists(UUID)) {
+                throw new UUIDNotFoundException();
+            }
+
             for(String key : productSpecification.keySet()) { // As productSpecification is a HashMap...
                 PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewSpecification(?, ?, ?)");
                 SQLValueArguments sqlValueArguments = new SQLValueArguments()
@@ -718,10 +848,14 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException, UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234);
         try {
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertNewPriceChange(?, ?, ?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments()
                     .setArgument(uuid)
@@ -736,10 +870,18 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException, NotFoundException, UUIDNotFoundException {
         // SQL function: insertNewManufacture(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
         // Call by: CALL insertNewPriceChange('someUUID', 1234, 1234, 'discountName');
         try {
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+            }
+            if(!this.discountNameExists(discountInformation.getName())) {
+                System.out.println("No such Discount name could be found.");
+                throw new NotFoundException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewpricechange(?,?,?,?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
@@ -754,38 +896,55 @@ public class DBDriver {
             System.out.println(e);
             throw new IncompleteProductInformationException();
         }
+    }
+
+    protected void updateProductByUUID(String uuid, ProductInformation productInformation)  {
+        // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR,
+        //                                  argSerialNumber VARCHAR, argShortDescription VARCHAR,
+        //                                  argProductCategoryName VARCHAR, argManufactureName VARCHAR,
+        //                                  argIsHidden BOOLEAN, argLongDescription TEXT)
+
+        // Call by: CALL updateProductByUUID('someUUID', 'newName', 'newSerialNumber',
+        //                                  'newShortDescription', 'newCategoryName',
+        //                                  'newManufactureName', false, 'newLongDescription');
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateProductByUUID(?,?,?,?,?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+
+            }
+
+
+        }catch (SQLException | UUIDNotFoundException e){
+            System.out.println(" " +e);
+        }
         throw new UnsupportedOperationException();
     }
 
-    protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
-        // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
-        // Call by: CALL updateProductByUUID('someUUID', 'newName', 'newSerialNumber', 'newShortDescription', 'newCategoryName', 'newManufactureName', false, 'newLongDescription');
-
-        throw new UnsupportedOperationException();
-    }
-
-    protected void updateManufactureByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateManufactureByName(String name, ProductCategory productCategory) {
         // SQL function: updateManufactureByName(argName VARCHAR, argNewName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL updateManufactureByName('oldName', 'newName', 'newSupportPhone', 'newSupportMail');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateDiscountByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateDiscountByName(String name, ProductCategory productCategory) {
         // SQL function: updateDiscountByName(argName VARCHAR, argNewName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL updateDiscountByName('oldDiscountName', 'newDiscountName', '01-01-2023', '01-02-2023');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateProductCategoryByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateProductCategoryByName(String name, ProductCategory productCategory) {
         // SQL function: updateProductCategoryByName(argName VARCHAR, argNewName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL updateProductCategoryByName('oldCategoryName', 'newCategoryName', 'parentCategoryName');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateSpecificationByProductUUIDAndKey(SQLValueArguments uuid, ProductCategory productCategory) {
+    protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductCategory productCategory) {
         // SQL function: updateSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR, argNewKey VARCHAR, argNewValue VARCHAR)
         // Call by: CALL updateSpecificationByProductUUIDAndKey('someUUID', 'oldKeyName', 'newKeyName', 'newValue');
 
