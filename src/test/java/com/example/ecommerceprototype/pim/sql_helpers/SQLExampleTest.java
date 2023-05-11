@@ -39,7 +39,7 @@ class SQLExampleTest {
 
 
             // Executing the sql script in the connection `conn` variable.
-            SQLSetupHelper.setupFromResource(conn, "sql/test_connection_table_setup.sql");
+            SQLSetupHelper.setupFromResource(conn, "sql/tests/test_connection_table_setup.sql");
             /*
                 The path provided is relative to pim resource folder.
                 However, an InputStream can also be provided.
