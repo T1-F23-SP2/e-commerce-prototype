@@ -1019,11 +1019,27 @@ public class DBDriver {
         }
     }
 
-    protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductCategory productCategory) {
+    protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductSpecification productSpecification) throws UUIDNotFoundException {
         // SQL function: updateSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR, argNewKey VARCHAR, argNewValue VARCHAR)
         // Call by: CALL updateSpecificationByProductUUIDAndKey('someUUID', 'oldKeyName', 'newKeyName', 'newValue');
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateSpecificationByProductUUIDAndKey(?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+            }else {
+                //What do you mean with this method???
+                sqlValueArguments.setArgument(uuid);
+
+                updateStatement.execute();
+
+            }
+
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
 
