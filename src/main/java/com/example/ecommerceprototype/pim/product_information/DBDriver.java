@@ -36,7 +36,7 @@ public class DBDriver {
         }
         return instance;
     }
-
+    
 
     private static ProductInformation getProductInformation(ResultSet resultSet) throws SQLException {
         ProductInformation productInformation = new ProductInformation();
@@ -275,8 +275,6 @@ public class DBDriver {
         // SQL function: getSpecificationByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getSpecificationByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
-
-        // T IS HERE...
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getSpecificationByProductUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -384,7 +382,7 @@ public class DBDriver {
         }
     }
 
-    protected DiscountInformation getDiscountByName(String name) {
+    protected DiscountInformation getDiscountByName(String name) throws NotFoundException {
         // SQL function: getDiscountByName(argName TEXT)
         // Call by: SELECT * FROM getDiscountByName('someName');
         // Look at the database_initialization.sql file for return types and return values.
@@ -394,7 +392,7 @@ public class DBDriver {
             return queryDiscountInformation(name, queryStatement);
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException();
         }
     }
 
