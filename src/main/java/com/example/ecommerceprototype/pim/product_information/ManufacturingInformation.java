@@ -2,20 +2,13 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.sql_helpers.ValueExtractor;
 
-
 public class ManufacturingInformation {
     String name;
     String supportPhoneNumber;
     String supportMail;
 
-    protected ManufacturingInformation(String name, String supportPhoneNumber, String supportMail) {
-        this.name = name;
-        this.supportPhoneNumber = supportPhoneNumber;
-        this.supportMail = supportMail;
-    }
-    protected ManufacturingInformation() {
-
-    }
+    // Should the empty constructor be removed?
+    public ManufacturingInformation() {}
 
     public String getName() {
         return name;

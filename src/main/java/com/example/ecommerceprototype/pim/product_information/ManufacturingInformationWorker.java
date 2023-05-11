@@ -1,18 +1,18 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
 
 public abstract class ManufacturingInformationWorker {
 
-    ManufacturingInformation manufacturingInformation;
+    protected ManufacturingInformation manufacturingInformation;
 
-    protected ManufacturingInformationWorker(ManufacturingInformation mi){
-        this.manufacturingInformation = mi;
+    protected ManufacturingInformationWorker() {
+        this.manufacturingInformation = new ManufacturingInformation();
     }
 
-    protected ManufacturingInformationWorker(){
-
+    protected ManufacturingInformationWorker(ManufacturingInformation mi) {
+        this.manufacturingInformation = mi;
     }
 
     public ManufacturingInformationWorker setName(String name) {
@@ -31,8 +31,8 @@ public abstract class ManufacturingInformationWorker {
     }
 
     public ManufacturingInformation getManufacturingInformation() {
-        return manufacturingInformation;
+        return this.manufacturingInformation;
     }
 
-    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation;
 }
