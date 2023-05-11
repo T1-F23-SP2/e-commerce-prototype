@@ -30,12 +30,115 @@ public class DBDriver {
         return instance;
     }
 
+    private boolean productUUIDExists(String uuid) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE product_uuid = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(uuid);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the UUID not being valid. If used w. get-method, the method should throw UUIDNotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean productNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT product_uuid FROM products WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the name not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean productSerialNumberExists(String serialNumber) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE serial_number = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(serialNumber);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // Assumes that an error in this step of the execution is a result of the serial not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean categoryNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM product_categories WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean categoryIdExists(int id) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM product_categories WHERE id = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(id);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean manufacturerNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM manufactures WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
+
+    private boolean discountNameExists(String name) {
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT id FROM discounts WHERE name = ?");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(name);
+            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            queryStatement.execute();
+
+        } catch (SQLException e) {
+            return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
+        }
+
+        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+    }
 
     protected ProductInformation getProductByUUID(String uuid) {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
         // Look at the database_initialization.sql file for return types and return values.
-
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
