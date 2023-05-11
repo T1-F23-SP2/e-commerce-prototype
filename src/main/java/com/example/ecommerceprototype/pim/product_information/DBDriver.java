@@ -741,11 +741,16 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation {
+    protected void insertNewProductCategory(ProductCategory productCategory) throws IncompleteProductCategoryInformation, DuplicateEntryException {
         // SQL function: insertNewProduct(argName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL insertNewProductCategory('name', 'parentCategoryName');
         // OBS! The argParentCategoryName should be null if it doesn't have a parent category.
         try {
+            // Check if discount name already exists:
+            if(this.categoryNameExists(productCategory.getName())) {
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement;
             SQLValueArguments sqlValueArguments;
 
@@ -769,10 +774,15 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation {
+    protected void insertNewManufacture(ManufacturingInformation manufacturingInformation) throws IncompleteManufacturingInformation, DuplicateEntryException {
         // SQL function: insertNewManufacture(argName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL insertNewManufacture('manufactureName', 'supportPhone', 'supportMail');
         try {
+            // Check if discount name already exists:
+            if(this.manufacturerNameExists(manufacturingInformation.getName())) {
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewmanufacture(?, ?, ?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
             sqlValueArguments.setArgument(manufacturingInformation.getName());
@@ -787,11 +797,15 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation {
+    protected void insertNewDiscount(DiscountInformation discountInformation) throws IncompleteDiscountInformation, DuplicateEntryException {
         // SQL function: insertNewManufacture(argName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
         try {
+            // Check if discount name already exists:
+            if(this.discountNameExists(discountInformation.getName())) {
+                throw new DuplicateEntryException();
+            }
 
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewdiscount(?,?,?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
