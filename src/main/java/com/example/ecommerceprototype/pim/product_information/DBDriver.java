@@ -898,7 +898,7 @@ public class DBDriver {
         }
     }
 
-    protected void updateProductByUUID(String uuid, ProductInformation productInformation)  {
+    protected void updateProductByUUID(String uuid, ProductInformation productInformation) throws CategoryNotFoundException, NotFoundException  {
         // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR,
         //                                  argSerialNumber VARCHAR, argShortDescription VARCHAR,
         //                                  argProductCategoryName VARCHAR, argManufactureName VARCHAR,
@@ -913,14 +913,31 @@ public class DBDriver {
 
             if(!this.productUUIDExists(uuid)) {
                 throw new UUIDNotFoundException();
+            }else {
+
+                sqlValueArguments.setArgument(uuid);
+                sqlValueArguments.setArgument(productInformation.getName());
+                sqlValueArguments.setArgument(productInformation.getSerialNumber());
+                sqlValueArguments.setArgument(productInformation.getShortDescription());
+                sqlValueArguments.setArgument(productInformation.getProductCategory().getName());
+                sqlValueArguments.setArgument(productInformation.getManufacturingInformation().getName());
+                sqlValueArguments.setArgument(productInformation.getIsHidden());
+                sqlValueArguments.setArgument(productInformation.getLongDescription());
+
+                updateStatement.execute();
+
+                if (!categoryNameExists(productInformation.getProductCategory().getName())){
+                    throw new CategoryNotFoundException();
+                }
+                if (!manufacturerNameExists(productInformation.getManufacturingInformation().getName())){
+                    throw new NotFoundException();
+                }
 
             }
 
-
         }catch (SQLException | UUIDNotFoundException e){
-            System.out.println(" " +e);
+            System.out.println(e);
         }
-        throw new UnsupportedOperationException();
     }
 
     protected void updateManufactureByName(String name, ProductCategory productCategory) {
