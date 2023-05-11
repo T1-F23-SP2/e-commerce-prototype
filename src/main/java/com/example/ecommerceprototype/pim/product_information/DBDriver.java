@@ -991,11 +991,32 @@ public class DBDriver {
         }
     }
 
-    protected void updateProductCategoryByName(String name, ProductCategory productCategory) {
+    protected void updateProductCategoryByName(String name, ProductCategory productCategory) throws CategoryNotFoundException {
         // SQL function: updateProductCategoryByName(argName VARCHAR, argNewName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL updateProductCategoryByName('oldCategoryName', 'newCategoryName', 'parentCategoryName');
 
-        throw new UnsupportedOperationException();
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateProductCategoryByName(?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            if(!this.categoryNameExists(name)) {
+                throw new CategoryNotFoundException();
+            }else {
+
+                sqlValueArguments.setArgument(name);
+                sqlValueArguments.setArgument(productCategory.getName());
+                sqlValueArguments.setArgument(productCategory.getProductCategoryParent().getName());
+
+                updateStatement.execute();
+
+            }
+            if (!this.categoryNameExists(productCategory.getProductCategoryParent().getName())) {
+                throw new CategoryNotFoundException();
+            }
+
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
     protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductCategory productCategory) {
