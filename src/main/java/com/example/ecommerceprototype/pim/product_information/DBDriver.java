@@ -940,11 +940,29 @@ public class DBDriver {
         }
     }
 
-    protected void updateManufactureByName(String name, ProductCategory productCategory) {
+    protected void updateManufactureByName(String name, ManufacturingInformation manufacturingInformation) throws NotFoundException{
         // SQL function: updateManufactureByName(argName VARCHAR, argNewName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL updateManufactureByName('oldName', 'newName', 'newSupportPhone', 'newSupportMail');
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateManufactureByName(?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
-        throw new UnsupportedOperationException();
+            if(!this.manufacturerNameExists(name)) {
+                throw new NotFoundException();
+            }else {
+
+                sqlValueArguments.setArgument(name);
+                sqlValueArguments.setArgument(manufacturingInformation.getName());
+                sqlValueArguments.setArgument(manufacturingInformation.getSupportPhoneNumber());
+                sqlValueArguments.setArgument(manufacturingInformation.getSupportMail());
+
+                updateStatement.execute();
+
+            }
+
+        }catch (SQLException e){
+            System.out.println(e);
+        }
     }
 
     protected void updateDiscountByName(String name, ProductCategory productCategory) {
