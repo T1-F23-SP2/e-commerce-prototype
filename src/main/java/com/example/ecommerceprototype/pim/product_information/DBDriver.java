@@ -898,35 +898,53 @@ public class DBDriver {
         }
     }
 
-    protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
-        // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
-        // Call by: CALL updateProductByUUID('someUUID', 'newName', 'newSerialNumber', 'newShortDescription', 'newCategoryName', 'newManufactureName', false, 'newLongDescription');
+    protected void updateProductByUUID(String uuid, ProductInformation productInformation)  {
+        // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR,
+        //                                  argSerialNumber VARCHAR, argShortDescription VARCHAR,
+        //                                  argProductCategoryName VARCHAR, argManufactureName VARCHAR,
+        //                                  argIsHidden BOOLEAN, argLongDescription TEXT)
 
+        // Call by: CALL updateProductByUUID('someUUID', 'newName', 'newSerialNumber',
+        //                                  'newShortDescription', 'newCategoryName',
+        //                                  'newManufactureName', false, 'newLongDescription');
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateProductByUUID(?,?,?,?,?,?,?,?)");
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+
+            if(!this.productUUIDExists(uuid)) {
+                throw new UUIDNotFoundException();
+
+            }
+
+
+        }catch (SQLException | UUIDNotFoundException e){
+            System.out.println(" " +e);
+        }
         throw new UnsupportedOperationException();
     }
 
-    protected void updateManufactureByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateManufactureByName(String name, ProductCategory productCategory) {
         // SQL function: updateManufactureByName(argName VARCHAR, argNewName VARCHAR, argSupportPhone VARCHAR(32), argSupportMail VARCHAR)
         // Call by: CALL updateManufactureByName('oldName', 'newName', 'newSupportPhone', 'newSupportMail');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateDiscountByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateDiscountByName(String name, ProductCategory productCategory) {
         // SQL function: updateDiscountByName(argName VARCHAR, argNewName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL updateDiscountByName('oldDiscountName', 'newDiscountName', '01-01-2023', '01-02-2023');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateProductCategoryByName(SQLValueArguments name, ProductCategory productCategory) {
+    protected void updateProductCategoryByName(String name, ProductCategory productCategory) {
         // SQL function: updateProductCategoryByName(argName VARCHAR, argNewName VARCHAR, argParentCategoryName VARCHAR)
         // Call by: CALL updateProductCategoryByName('oldCategoryName', 'newCategoryName', 'parentCategoryName');
 
         throw new UnsupportedOperationException();
     }
 
-    protected void updateSpecificationByProductUUIDAndKey(SQLValueArguments uuid, ProductCategory productCategory) {
+    protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductCategory productCategory) {
         // SQL function: updateSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR, argNewKey VARCHAR, argNewValue VARCHAR)
         // Call by: CALL updateSpecificationByProductUUIDAndKey('someUUID', 'oldKeyName', 'newKeyName', 'newValue');
 
