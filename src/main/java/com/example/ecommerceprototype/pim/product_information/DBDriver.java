@@ -695,13 +695,17 @@ public class DBDriver {
         }
     }
 
-    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
+    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException, DuplicateEntryException {
         // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
         //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
         // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
         //                                          'productCategoryName', 'manufactureName', 'longDescription');
         // Look at the database_initialization.sql file for return types and return values.
         try {
+            if(this.productNameExists(productInformation.getName()) | this.productSerialNumberExists(productInformation.getSerialNumber())) { // Does not check whether UUID exists, as this is only given afterwards.
+                throw new DuplicateEntryException();
+            }
+
             PreparedStatement insertStatement = connection.prepareStatement("SELECT product_uuid FROM insertnewproduct(?,?,?,?,?,?)");
             // TODO: After getters is implemented, make checks for the existence of the referenced productCategory and ManufacturingInformation.
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
