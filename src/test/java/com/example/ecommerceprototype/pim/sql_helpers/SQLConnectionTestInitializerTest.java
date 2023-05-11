@@ -191,7 +191,7 @@ public class SQLConnectionTestInitializerTest {
 
 
     @AfterAll
-    static void tearDown() throws SQLException {
+    public static void tearDown() throws SQLException {
         testConnectionWrapper.teardown();
     }
 
