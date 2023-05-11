@@ -30,6 +30,13 @@ public class DBDriver {
         return instance;
     }
 
+    protected static DBDriver getInstance(Connection connection) throws SQLException, IOException {
+        if (instance == null) {
+            instance = new DBDriver(connection);
+        }
+        return instance;
+    }
+
 
     private static ProductInformation getProductInformation(ResultSet resultSet) throws SQLException {
         ProductInformation productInformation = new ProductInformation();
