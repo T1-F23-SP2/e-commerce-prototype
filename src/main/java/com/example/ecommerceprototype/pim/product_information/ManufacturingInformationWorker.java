@@ -16,17 +16,17 @@ public abstract class ManufacturingInformationWorker {
     }
 
     public ManufacturingInformationWorker setName(String name) {
-        this.manufacturingInformation.name = name;
+        this.manufacturingInformation.setName(name);
         return this;
     }
 
     public ManufacturingInformationWorker setSupportPhoneNumber(String supportPhoneNumber) {
-        this.manufacturingInformation.supportPhoneNumber = supportPhoneNumber;
+        this.manufacturingInformation.setSupportPhoneNumber(supportPhoneNumber);
         return this;
     }
 
     public ManufacturingInformationWorker setSupportMail(String supportMail) {
-        this.manufacturingInformation.supportMail = supportMail;
+        this.manufacturingInformation.setSupportMail(supportMail);
         return this;
     }
 
