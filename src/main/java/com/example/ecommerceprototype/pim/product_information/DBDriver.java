@@ -88,7 +88,7 @@ public class DBDriver {
     
     private boolean productUUIDExists(String uuid) {
         try {
-            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE product_uuid = ?");
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT name FROM products WHERE product_uuid = CAST(? AS UUID)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
             sqlValueArguments.setArgument(uuid);
             sqlValueArguments.setArgumentsInStatement(queryStatement);
@@ -191,10 +191,14 @@ public class DBDriver {
         return true; // If used in an insert-method a DuplicateEntryException should be thrown.
     }
 
-    protected ProductInformation getProductByUUID(String uuid) {
+    protected ProductInformation getProductByUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getProductByUUID(argUUID UUID)
         // Call by: SELECT * FROM getProductByUUID('some-uuid');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
+
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -206,10 +210,13 @@ public class DBDriver {
         }
     }
 
-    protected ProductInformation getProductByName(String name) {
+    protected ProductInformation getProductByName(String name) throws NotFoundException {
         // SQL function: getProductByName(argName TEXT)
         // Call by: SELECT * FROM getProductByName('some-name');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!productNameExists(name)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByName(?)");
@@ -222,10 +229,13 @@ public class DBDriver {
         }
     }
 
-    protected List<ProductInformation> getProductsBySerialNumber(String serialNumber) {
+    protected List<ProductInformation> getProductsBySerialNumber(String serialNumber) throws NotFoundException {
         // SQL function: getProductsBySerialNumber(argSerialNumber TEXT)
         // Call by: SELECT * FROM getProductsBySerialNumber('some-serial-number');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productSerialNumberExists(serialNumber)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsBySerialNumber(?)");
@@ -251,10 +261,13 @@ public class DBDriver {
         }
     }
 
-    protected List<ProductInformation> getProductsByCategoryName(String categoryName) {
+    protected List<ProductInformation> getProductsByCategoryName(String categoryName) throws NotFoundException {
         // SQL function: getProductsThatAreHidden(argCategoryName TEXT)
         // Call by: SELECT * FROM getProductsThatAreHidden('someCategoryName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.categoryNameExists(categoryName)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByCategoryName(?)");
@@ -265,10 +278,13 @@ public class DBDriver {
         }
     }
 
-    protected List<ProductInformation> getProductsByManufactureName(String manufactureName) {
+    protected List<ProductInformation> getProductsByManufactureName(String manufactureName) throws NotFoundException {
         // SQL function: getProductsByManufactureName(argManufactureName TEXT)
         // Call by: SELECT * FROM getProductsByManufactureName('someManufactureName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.manufacturerNameExists(manufactureName)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByManufactureName(?)");
@@ -279,10 +295,13 @@ public class DBDriver {
         }
     }
 
-    protected List<ProductInformation> getProductsByDiscountName(String discountName) {
+    protected List<ProductInformation> getProductsByDiscountName(String discountName) throws NotFoundException {
         // SQL function: getProductsByDiscountName(argDiscountName TEXT)
         // Call by: SELECT * FROM getProductsByDiscountName('someDiscountName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.discountNameExists(discountName)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsByDiscountName(?)");
@@ -305,7 +324,12 @@ public class DBDriver {
         productCategory.setName(resultSet.getString("name"));
 
         if (resultSet.getInt("parent_id") != 0) {
-            ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+            ProductCategory parentCategory = null;
+            try {
+                parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
+            }
             productCategory.setProductCategoryParent(parentCategory);
         } else {
             productCategory.setProductCategoryParent((ProductCategory) null);
@@ -330,10 +354,13 @@ public class DBDriver {
         return queryProductCategory(queryStatement, sqlValueArguments);
     }
 
-    protected ProductCategory getCategoryByProductUUID(String uuid) {
+    protected ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getCategoryByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getCategoryByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByProductUUID(?)");
@@ -344,10 +371,13 @@ public class DBDriver {
         }
     }
 
-    protected ProductCategory getCategoryByName(String name) {
+    protected ProductCategory getCategoryByName(String name) throws NotFoundException {
         // SQL function: getCategoryByName(argName TEXT)
         // Call by: SELECT * FROM getCategoryByName('someCategoryName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.categoryNameExists(name)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByName(?)");
@@ -358,12 +388,15 @@ public class DBDriver {
         }
     }
 
-    protected ProductCategory getCategoryByCategoryID(int categoryId) {
+    protected ProductCategory getCategoryByCategoryID(int categoryId) throws NotFoundException {
         // This method is most relevant for getting the parent category of a category.
 
         // SQL function: getCategoryByCategoryID(argID INT)
         // Call by: SELECT * FROM getCategoryByCategoryID('someCategoryId');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.categoryIdExists(categoryId)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByCategoryID(?)");
@@ -375,10 +408,14 @@ public class DBDriver {
         }
     }
 
-    protected ProductSpecification getSpecificationByProductUUID(String uuid) {
+    protected ProductSpecification getSpecificationByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getSpecificationByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getSpecificationByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
+
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getSpecificationByProductUUID(?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
@@ -424,10 +461,13 @@ public class DBDriver {
         return manufacturingInformation;
     }
 
-    protected ManufacturingInformation getManufactureByProductUUID(String uuid) {
+    protected ManufacturingInformation getManufactureByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getManufactureByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getManufactureByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByProductUUID(?)");
@@ -438,10 +478,13 @@ public class DBDriver {
         }
     }
 
-    protected ManufacturingInformation getManufactureByName(String name) {
+    protected ManufacturingInformation getManufactureByName(String name) throws NotFoundException {
         // SQL function: getManufactureByName(argName TEXT)
         // Call by: SELECT * FROM getManufactureByName('someName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.manufacturerNameExists(name)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByName(?)");
@@ -472,10 +515,13 @@ public class DBDriver {
         return discountInformation;
     }
 
-    protected DiscountInformation getDiscountByProductUUID(String uuid) {
+    protected DiscountInformation getDiscountByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getDiscountByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getDiscountByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByProductUUID(?)");
@@ -490,6 +536,9 @@ public class DBDriver {
         // SQL function: getDiscountByName(argName TEXT)
         // Call by: SELECT * FROM getDiscountByName('someName');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.discountNameExists(name)) {
+            throw new NotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByName(?)");
@@ -500,10 +549,13 @@ public class DBDriver {
         }
     }
 
-    protected BigDecimal getDiscountPercentageByProductUUID(String uuid) {
+    protected BigDecimal getDiscountPercentageByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getDiscountPercentageByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getDiscountPercentageByProductUUID('someUUID');
         // Returns a NUMERIC value of the discount.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountPercentageByProductUUID(?)");
@@ -524,10 +576,13 @@ public class DBDriver {
         }
     }
 
-    protected List<PriceInformation> getPricesByProductUUID(String uuid) {
+    protected List<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException {
         // SQL function: getPricesByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getPricesByProductUUID('someUUID');
         // Look at the database_initialization.sql file for return types and return values.
+        if(!this.productUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        }
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getPricesByProductUUID(?)");

@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
+import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLConnectionTestInitializerTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,7 +46,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ProductInformation returnedProduct = dbDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
+        ProductInformation returnedProduct = null;
+        try {
+            returnedProduct = dbDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(expectedUUID, returnedProduct.getProductUUID());
     }
@@ -68,7 +74,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ProductInformation returnedProduct = dbDriver.getProductByUUID(uuid);
+        ProductInformation returnedProduct = null;
+        try {
+            returnedProduct = dbDriver.getProductByUUID(uuid);
+        } catch (UUIDNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals(expectedName, returnedProduct.getName());
     }
@@ -101,7 +112,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
@@ -193,7 +209,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("TV");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("TV");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
@@ -203,7 +224,12 @@ public class DBDriverTest {
 
     @Test
     void testGetNoProductByCategoryName() {
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("PC & tablets");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("PC & tablets");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(returnedList.isEmpty());
     }
@@ -236,7 +262,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("Lenovo");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("Lenovo");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
@@ -253,7 +284,12 @@ public class DBDriverTest {
         } catch (SQLException e) {
             throw new RuntimeException(e.toString());
         }
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(returnedList.isEmpty());
     }
@@ -286,7 +322,12 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByDiscountName("Spring sale");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByDiscountName("Spring sale");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
@@ -303,7 +344,12 @@ public class DBDriverTest {
         } catch (SQLException e) {
             throw new RuntimeException(e.toString());
         }
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(returnedList.isEmpty());
     }
@@ -323,17 +369,29 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        assertEquals("TV", dbDriver.getCategoryByProductUUID(uuid).getName());
+        try {
+            assertEquals("TV", dbDriver.getCategoryByProductUUID(uuid).getName());
+        } catch (UUIDNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testGetCategoryByCategoryID() {
-        assertEquals("TV", dbDriver.getCategoryByCategoryID(8).getName());
+        try {
+            assertEquals("TV", dbDriver.getCategoryByCategoryID(8).getName());
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testGetCategoryByName() {
-        assertEquals(dbDriver.getCategoryByCategoryID(8).getName(), dbDriver.getCategoryByName("TV").getName());
+        try {
+            assertEquals(dbDriver.getCategoryByCategoryID(8).getName(), dbDriver.getCategoryByName("TV").getName());
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -351,7 +409,11 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        assertEquals("AMD Ryzen 5600U", dbDriver.getSpecificationByProductUUID(uuid).get("CPU"));
+        try {
+            assertEquals("AMD Ryzen 5600U", dbDriver.getSpecificationByProductUUID(uuid).get("CPU"));
+        } catch (UUIDNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -369,12 +431,20 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        assertEquals("Lenovo", dbDriver.getManufactureByProductUUID(uuid).getName());
+        try {
+            assertEquals("Lenovo", dbDriver.getManufactureByProductUUID(uuid).getName());
+        } catch (UUIDNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testGetManufactureByName() {
-        assertEquals("12345678", dbDriver.getManufactureByName("Lenovo").getSupportPhoneNumber());
+        try {
+            assertEquals("12345678", dbDriver.getManufactureByName("Lenovo").getSupportPhoneNumber());
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -393,7 +463,11 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        assertEquals("Spring sale", dbDriver.getDiscountByProductUUID(uuid).getName());
+        try {
+            assertEquals("Spring sale", dbDriver.getDiscountByProductUUID(uuid).getName());
+        } catch (UUIDNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
