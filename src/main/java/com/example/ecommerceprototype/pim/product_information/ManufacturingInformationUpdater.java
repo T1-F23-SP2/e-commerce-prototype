@@ -27,6 +27,8 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
         if (originalName == null) {
             throw new IncompleteManufacturingInformation();
         }
+        // TODO: Implement the rest of this method
         throw new UnsupportedOperationException();
+        //return super.manufacturingInformation;
     }
 }

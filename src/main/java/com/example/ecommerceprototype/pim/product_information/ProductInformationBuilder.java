@@ -5,13 +5,13 @@ import com.example.ecommerceprototype.pim.exceptions.IncompleteProductInformatio
 
 public class ProductInformationBuilder extends ProductInformationWorker {
 
-    protected ProductInformationBuilder() {
+    public ProductInformationBuilder() {
         super(new ProductInformation());
     }
 
     // TODO: Implement this method.
     @Override
     public ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException {
-        throw new UnsupportedOperationException();
+        return DBDriver.getInstance().insertNewProduct(super.getProductInformation());
     }
 }

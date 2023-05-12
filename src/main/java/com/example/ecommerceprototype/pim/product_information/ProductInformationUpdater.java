@@ -11,7 +11,7 @@ public class ProductInformationUpdater extends ProductInformationWorker {
 
     @Override
     public ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException {
-        DBDriver.getInstance().updateProductByUUID(super.productInformation.getProductUUID(), super.productInformation);
-        return super.productInformation;
+        DBDriver.getInstance().updateProductByUUID(super.getProductInformation().getProductUUID(), super.getProductInformation());
+        return super.getProductInformation();
     }
 }

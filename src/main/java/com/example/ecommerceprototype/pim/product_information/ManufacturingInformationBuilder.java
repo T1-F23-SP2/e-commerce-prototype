@@ -5,7 +5,7 @@ import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInfo
 
 public class ManufacturingInformationBuilder extends ManufacturingInformationWorker {
 
-    protected ManufacturingInformationBuilder() {
+    public ManufacturingInformationBuilder() {
         super(new ManufacturingInformation());
     }
 

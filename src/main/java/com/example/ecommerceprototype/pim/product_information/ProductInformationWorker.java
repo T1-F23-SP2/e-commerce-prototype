@@ -5,7 +5,7 @@ import com.example.ecommerceprototype.pim.exceptions.IncompleteProductInformatio
 
 public abstract class ProductInformationWorker {
 
-    protected ProductInformation productInformation;
+    private final ProductInformation productInformation;
 
     protected ProductInformationWorker() {
         this.productInformation = new ProductInformation();
