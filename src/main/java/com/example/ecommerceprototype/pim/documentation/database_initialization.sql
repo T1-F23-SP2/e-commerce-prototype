@@ -577,7 +577,7 @@ LANGUAGE plpgsql;
 
 
 /* Update product by UUID */
-CREATE OR REPLACE PROCEDURE updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
+CREATE OR REPLACE PROCEDURE updateProductByUUID(argUUID VARCHAR, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
 AS $$
 BEGIN
     UPDATE Products
@@ -588,7 +588,7 @@ BEGIN
         manufacture_id        = (SELECT id FROM Manufactures WHERE name = argManufactureName),
         is_hidden             = argIsHidden,
         long_description      = argLongDescription
-    WHERE product_UUID = argUUID;
+    WHERE product_UUID = CAST(argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
