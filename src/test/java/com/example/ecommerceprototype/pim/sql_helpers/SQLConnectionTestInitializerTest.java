@@ -34,7 +34,7 @@ class SQLConnectionTestInitializerTest {
         private String[] columns;
         private int counter = 0;
 
-        public ExpectedColumns(String ...columns) {
+        public ExpectedColumns(String... columns) {
             this.columns = columns;
         }
 
@@ -49,11 +49,11 @@ class SQLConnectionTestInitializerTest {
         public Boolean isDone() {
             return counter >= columns.length;
         }
-
     }
 
     private static TestConnectionWrapper testConnectionWrapper;
     private static Connection connection;
+
     @BeforeAll
     static void setup() throws SQLException, IOException {
         testConnectionWrapper = new TestConnectionWrapper();
@@ -186,8 +186,6 @@ class SQLConnectionTestInitializerTest {
         // Assert that all expected columns have been checked.
         assertTrue(expectedColumns.isDone());
     }
-
-
 
 
     @AfterAll

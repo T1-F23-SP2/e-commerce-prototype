@@ -30,12 +30,11 @@ public class SQLExceptionParser {
      */
     public static SQLException parse(SQLException e) {
         if (isDatabaseNotFound(e)) return new SQLDatabaseNotFoundException(e);
-        if(isRoleNotFound(e)) return new SQLRoleNotFoundException(e);
+        if (isRoleNotFound(e)) return new SQLRoleNotFoundException(e);
         if (isInvalidPassword(e)) return new SQLInvalidPasswordException(e);
         if (isDuplicateDatabase(e)) return new SQLDuplicateDatabaseException(e);
         else return e;
     }
-
 
 
     private static boolean isInvalidPassword(SQLException e) {

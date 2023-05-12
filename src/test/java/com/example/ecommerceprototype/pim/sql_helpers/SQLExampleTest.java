@@ -81,8 +81,6 @@ class SQLExampleTest {
     }
 
 
-
-
     @AfterAll
     static void teardown() throws SQLException {
         testConnectionWrapper.teardown();

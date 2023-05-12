@@ -154,7 +154,6 @@ class SQLValueArgumentsTest {
     }
 
 
-
     @DisplayName("Test for setting arguments in prepared statement")
     @Test
     void testSetInPreparedStatement() throws Exception {
@@ -182,7 +181,6 @@ class SQLValueArgumentsTest {
                 .setArgument(localDate);
 
 
-
         // Wrap in try with resource, so that teardown is automatcially run
         try (TestConnectionWrapper testConnectionWrapper = new TestConnectionWrapper()) {
 
@@ -201,7 +199,6 @@ class SQLValueArgumentsTest {
             });
 
             statement.execute();
-
 
 
             PreparedStatement query = connection.prepareStatement("SELECT  * from test_value_arguments_setters");
