@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.DAMController">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="217.0" style="-fx-background-color: #71E3FF;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="14.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resize and Crop photos">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="383.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="returnToMenu" layoutX="252.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: #95BDFF; -fx-border-color: #95BDFF;" text="Go To Main Menu" />
+            <ListView fx:id="myListView" layoutX="168.0" layoutY="57.0" prefHeight="326.0" prefWidth="200.0" />
+            <Button fx:id="loadFilesButton" layoutX="38.0" layoutY="57.0" mnemonicParsing="false" onAction="#LoadFiles" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Load All Files" />
+            <Button fx:id="openFile" layoutX="42.0" layoutY="98.0" mnemonicParsing="false" onAction="#openSelectedFile" prefHeight="28.0" prefWidth="84.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Open File" />
+            <Button fx:id="deleteFileButton" layoutX="42.0" layoutY="140.0" mnemonicParsing="false" onAction="#deleteSelectedFile" prefHeight="28.0" prefWidth="84.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Delete File" />
+            <Button fx:id="resizeImageButton" layoutX="28.0" layoutY="320.0" mnemonicParsing="false" onAction="#resizeImage" prefHeight="28.0" prefWidth="111.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Resize image" />
+            <Text layoutX="14.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crop or resize your photo:" />
+            <TextField fx:id="targetWidthField" alignment="CENTER" layoutX="14.0" layoutY="246.0" prefHeight="26.0" prefWidth="140.0" promptText="Target Width" />
+            <TextField fx:id="targetHeightField" alignment="CENTER" layoutX="14.0" layoutY="281.0" prefHeight="26.0" prefWidth="140.0" promptText="Target Height" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

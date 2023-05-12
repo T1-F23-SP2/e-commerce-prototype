@@ -21,17 +21,17 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="viewAllFiles" layoutX="122.0" layoutY="120.0" mnemonicParsing="false" onAction="#goToViewAllFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="View all files">
+            <Button fx:id="viewAllFiles" layoutX="122.0" layoutY="44.0" mnemonicParsing="false" onAction="#goToViewAllFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="View all files">
                <font>
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="addNewFile" layoutX="122.0" layoutY="181.0" mnemonicParsing="false" onAction="#goToAddNewFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Add new files">
+            <Button fx:id="addNewFile" layoutX="122.0" layoutY="102.0" mnemonicParsing="false" onAction="#goToAddNewFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Add new files">
                <font>
                   <Font size="19.0" />
                </font>
             </Button>
-            <Button fx:id="editFiles" layoutX="122.0" layoutY="245.0" mnemonicParsing="false" onAction="#goToEditFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Edit files">
+            <Button fx:id="editFiles" layoutX="122.0" layoutY="161.0" mnemonicParsing="false" onAction="#goToEditFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Edit files">
                <font>
                   <Font size="19.0" />
                </font>
@@ -40,6 +40,11 @@
                <font>
                   <Font size="10.0" />
                </font></Button>
+            <Button fx:id="goToResizefiles" layoutX="122.0" layoutY="218.0" mnemonicParsing="false" onAction="#goToResizeFiles" prefHeight="39.0" prefWidth="159.0" style="-fx-background-color: #71E3FF; -fx-border-color: #71E3FF;" text="Resize images">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </center>

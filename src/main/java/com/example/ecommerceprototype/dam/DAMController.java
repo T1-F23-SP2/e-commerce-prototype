@@ -40,6 +40,9 @@ public class DAMController {
     private Button returnButton;
 
     @FXML
+    private Button goToResizefiles;
+
+    @FXML
     private Button viewAllFiles;
 
     @FXML
@@ -89,6 +92,15 @@ public class DAMController {
     @FXML
     private Button openFile;
 
+    @FXML
+    private TextField targetWidthField;
+
+    @FXML
+    private TextField targetHeightField;
+
+    @FXML
+    private Button resizeImageButton;
+
     private static final String DB_URL = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/dam";
     private static final String DB_USER = "padmin";
     private static final String DB_PASSWORD = "Dam2.semester";
@@ -133,6 +145,15 @@ public class DAMController {
 
     public void goToEditFiles(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("editFiles.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    public void goToResizeFiles(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("resizeAndCrop.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -588,6 +609,76 @@ public class DAMController {
         }
 
     }
+
+    public void resizeImage(ActionEvent event) throws Exception {
+
+        int targetWidth = Integer.parseInt(targetWidthField.getText());
+        int targetHeight = Integer.parseInt(targetWidthField.getText());
+
+        File selectedFile = myListView.getSelectionModel().getSelectedItem();
+
+        File toBeResized = new File(String.valueOf(selectedFile));
+        BufferedImage originalImage = null;
+
+        if (selectedFile != null) {
+
+            try {
+                originalImage = ImageIO.read(toBeResized);
+            } catch (Exception e) {
+                throw new Exception("Image couldn't be loaded" + e.getMessage());
+            }
+
+            BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+
+            Graphics2D graphics2D = resizedImage.createGraphics();
+
+            graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+            graphics2D.dispose();
+
+            // vi gemmer nu det nye billede som en fil
+
+            String newFilePath = String.valueOf(selectedFile) + ".resized.jpg";
+            try {
+                ImageIO.write(resizedImage, "jpg", new File(newFilePath));
+            } catch (Exception e) {
+                throw new Exception("The resized picture couldn't be saved: " + e.getMessage());
+            }
+
+            try {
+                DriverManager.registerDriver(new org.postgresql.Driver());
+                Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+                String sql = "UPDATE files SET name = ? WHERE name = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+
+                pstmt.setString(1, newFilePath);
+                pstmt.setString(2, String.valueOf(selectedFile));
+
+                pstmt.execute();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("File resized");
+                alert.setHeaderText(null);
+                alert.setContentText("The Chosen File Has Been Resized. Reload the files to view the result");
+                alert.showAndWait();
+
+
+            }
+            catch (SQLException e) {
+                throw new Exception("The Filepath couldn't be saved in the database" + e.getMessage());
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Oops!");
+            alert.setHeaderText("You didn't select a file to resize! Try Again");
+            alert.setContentText("");
+            alert.showAndWait();
+        }
+
+    }
+
+
 
 
 
