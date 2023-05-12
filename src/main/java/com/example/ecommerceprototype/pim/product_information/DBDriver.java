@@ -19,9 +19,10 @@ public class DBDriver {
     private String password = "";
     private Connection connection = null;
 
-    private DBDriver(){
+    private DBDriver() {
         initializePostgresqlDatabase();
     }
+
     public static DBDriver getInstance(){
         if (instance == null) {
             instance = new DBDriver();
@@ -37,6 +38,39 @@ public class DBDriver {
             ex.printStackTrace(System.err);
         } finally {
             if (connection == null) System.exit(-1);
+        }
+    }
+
+    protected List<ProductInformation> getAllProducts() {
+        // TODO: Should be replaced by procedure
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT product_uuid, name, serial_number, short_description, is_hidden, long_description FROM Products");
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductInformation productInformation = new ProductInformation();
+
+                productInformation.setUUID(resultSet.getString("product_UUID"))
+                        .setName(resultSet.getString("name"))
+                        .setSerialNumber(resultSet.getString("serial_number"))
+                        .setShortDescription(resultSet.getString("short_description"))
+                        .setIsHidden(resultSet.getBoolean("is_hidden"))
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
+
+                productInformationArrayList.add(productInformation);
+            }
+            return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,7 +98,11 @@ public class DBDriver {
                     .setSerialNumber(resultSet.getString("serial_number"))
                     .setShortDescription(resultSet.getString("short_description"))
                     .setIsHidden(resultSet.getBoolean("is_hidden"))
-                    .setLongDescription(resultSet.getString("long_description"));
+                    .setLongDescription(resultSet.getString("long_description"))
+                    .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                    .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                    .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                    .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
             return productInformation;
 
@@ -97,7 +135,11 @@ public class DBDriver {
                     .setSerialNumber(resultSet.getString("serial_number"))
                     .setShortDescription(resultSet.getString("short_description"))
                     .setIsHidden(resultSet.getBoolean("is_hidden"))
-                    .setLongDescription(resultSet.getString("long_description"));
+                    .setLongDescription(resultSet.getString("long_description"))
+                    .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                    .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                    .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                    .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
             return productInformation;
 
@@ -132,7 +174,11 @@ public class DBDriver {
                         .setSerialNumber(resultSet.getString("serial_number"))
                         .setShortDescription(resultSet.getString("short_description"))
                         .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
                 productInformationArrayList.add(productInformation);
             }
@@ -164,7 +210,11 @@ public class DBDriver {
                         .setSerialNumber(resultSet.getString("serial_number"))
                         .setShortDescription(resultSet.getString("short_description"))
                         .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
                 productInformationArrayList.add(productInformation);
             }
@@ -201,7 +251,11 @@ public class DBDriver {
                         .setSerialNumber(resultSet.getString("serial_number"))
                         .setShortDescription(resultSet.getString("short_description"))
                         .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
                 productInformationArrayList.add(productInformation);
             }
@@ -238,7 +292,11 @@ public class DBDriver {
                         .setSerialNumber(resultSet.getString("serial_number"))
                         .setShortDescription(resultSet.getString("short_description"))
                         .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
                 productInformationArrayList.add(productInformation);
             }
@@ -275,11 +333,46 @@ public class DBDriver {
                         .setSerialNumber(resultSet.getString("serial_number"))
                         .setShortDescription(resultSet.getString("short_description"))
                         .setIsHidden(resultSet.getBoolean("is_hidden"))
-                        .setLongDescription(resultSet.getString("long_description"));
+                        .setLongDescription(resultSet.getString("long_description"))
+                        .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
+                        .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
+                        .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
+                        .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
                 productInformationArrayList.add(productInformation);
             }
             return productInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<ProductCategory> getAllCategories() {
+        // TODO: Should be replaced by procedure
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Product_categories");
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ProductCategory> productCategoryArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+
+                ProductCategory productCategory = new ProductCategory();
+
+                productCategory.setName(resultSet.getString("name"));
+
+                if (resultSet.getInt("parent_id") != 0) {
+                    ProductCategory parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
+                    productCategory.setProductCategoryParent(parentCategory);
+                } else {
+                    productCategory.setProductCategoryParent((ProductCategory) null);
+                }
+
+                productCategoryArrayList.add(productCategory);
+            }
+            return productCategoryArrayList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -328,11 +421,9 @@ public class DBDriver {
 
         try {
             PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByName(?)");
-            SQLValueArguments sqlValueArguments = new SQLValueArguments();
-
-            sqlValueArguments.setArgument(name);
-
-            sqlValueArguments.setArgumentsInStatement(queryStatement);
+            new SQLValueArguments()
+                    .setArgument(name)
+                    .setArgumentsInStatement(queryStatement);
 
             queryStatement.execute();
             ResultSet resultSet = queryStatement.getResultSet();
@@ -424,6 +515,31 @@ public class DBDriver {
         }
     }
 
+    public List<ManufacturingInformation> getAllManufactures() {
+        // TODO: Should be replaced by procedure
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Manufactures");
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<ManufacturingInformation> manufacturingInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+                ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+
+                manufacturingInformation.setName(resultSet.getString("name"))
+                        .setSupportPhoneNumber(resultSet.getString("support_phone"))
+                        .setSupportMail(resultSet.getString("support_mail"));
+
+                manufacturingInformationArrayList.add(manufacturingInformation);
+            }
+            return manufacturingInformationArrayList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected ManufacturingInformation getManufactureByProductUUID(String uuid) {
         // SQL function: getManufactureByProductUUID(argUUID UUID)
         // Call by: SELECT * FROM getManufactureByProductUUID('someUUID');
@@ -478,6 +594,32 @@ public class DBDriver {
                     .setSupportMail(resultSet.getString("support_mail"));
 
             return manufacturingInformation;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<DiscountInformation> getAllDiscounts() {
+        // TODO: Should be replaced by procedure
+        try {
+            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Discounts");
+
+            queryStatement.execute();
+            ResultSet resultSet = queryStatement.getResultSet();
+
+            ArrayList<DiscountInformation> discountInformationArrayList = new ArrayList<>();
+            while (resultSet.next()) {
+                DiscountInformation discountInformation = new DiscountInformation();
+
+                discountInformation.setName(resultSet.getString("name"))
+                        .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
+                        .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
+
+
+                discountInformationArrayList.add(discountInformation);
+            }
+            return discountInformationArrayList;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -583,7 +725,6 @@ public class DBDriver {
 
             queryStatement.execute();
             ResultSet resultSet = queryStatement.getResultSet();
-            resultSet.next();
 
             ArrayList<PriceInformation> priceInformationArrayList = new ArrayList<>();
             while (resultSet.next()) {
@@ -601,7 +742,10 @@ public class DBDriver {
         }
     }
 
-    protected String insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
+
+
+
+    protected ProductInformation insertNewProduct(ProductInformation productInformation) throws IncompleteProductInformationException {
         // SQL function: insertNewProduct(argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR,
         //                                argProductCategoryName VARCHAR, argManufactureName VARCHAR, argLongDescription TEXT)
         // Call by: SELECT * FROM insertNewProduct('name', 'serialNumber', 'shortDescription',
@@ -625,13 +769,9 @@ public class DBDriver {
             rs.next(); // Move "cursor" to first row
             String UUID = rs.getString("product_UUID");
 
-            this.insertNewPriceChange(UUID,
-                    productInformation.getPriceInformation().getPrice(),
-                    productInformation.getPriceInformation().getWholeSalePrice());
-
             this.insertNewSpecification(UUID, productInformation.getProductSpecification());
 
-            return UUID;
+            return new ProductInformation().setUUID(UUID);
 
         } catch (SQLException e) {
             System.out.println(e);
@@ -690,7 +830,6 @@ public class DBDriver {
         // Call by: CALL insertNewDiscount('testDiscount', '01-06-2023', '01-07-2023');
 
         try {
-
             PreparedStatement insertStatement = connection.prepareStatement("CALL insertnewdiscount(?,?,?)");
             SQLValueArguments sqlValueArguments = new SQLValueArguments();
             sqlValueArguments.setArgument(discountInformation.getName());
@@ -766,9 +905,36 @@ public class DBDriver {
         throw new UnsupportedOperationException();
     }
 
-    protected void updateProductByUUID(SQLValueArguments uuid, ProductInformation productInformation) {
+
+
+
+    protected void updateProductByUUID(String uuid, ProductInformation productInformation) {
         // SQL function: updateProductByUUID(argUUID UUID, argName VARCHAR, argSerialNumber VARCHAR, argShortDescription VARCHAR, argProductCategoryName VARCHAR, argManufactureName VARCHAR, argIsHidden BOOLEAN, argLongDescription TEXT)
         // Call by: CALL updateProductByUUID('someUUID', 'newName', 'newSerialNumber', 'newShortDescription', 'newCategoryName', 'newManufactureName', false, 'newLongDescription');
+
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement("CALL updateProductByUUID(?,?,?,?,?,?,?,?)");
+
+            SQLValueArguments sqlValueArguments = new SQLValueArguments();
+            sqlValueArguments.setArgument(productInformation.getProductUUID());
+            sqlValueArguments.setArgument(productInformation.getName());
+            sqlValueArguments.setArgument(productInformation.getSerialNumber());
+            sqlValueArguments.setArgument(productInformation.getShortDescription());
+            sqlValueArguments.setArgument(productInformation.getProductCategory().getName());
+            sqlValueArguments.setArgument(productInformation.getManufacturingInformation().getName());
+            sqlValueArguments.setArgument(productInformation.getIsHidden());
+            sqlValueArguments.setArgument(productInformation.getLongDescription());
+
+            sqlValueArguments.setArgumentsInStatement(updateStatement);
+            updateStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void updateProductCategoryByName(String name, ProductCategory productCategory) {
+        // SQL function: updateProductCategoryByName(argName VARCHAR, argNewName VARCHAR, argParentCategoryName VARCHAR)
+        // Call by: CALL updateProductCategoryByName('oldCategoryName', 'newCategoryName', 'parentCategoryName');
 
         throw new UnsupportedOperationException();
     }
@@ -783,13 +949,6 @@ public class DBDriver {
     protected void updateDiscountByName(SQLValueArguments name, ProductCategory productCategory) {
         // SQL function: updateDiscountByName(argName VARCHAR, argNewName VARCHAR, argStartDate TIMESTAMP, argEndDate TIMESTAMP)
         // Call by: CALL updateDiscountByName('oldDiscountName', 'newDiscountName', '01-01-2023', '01-02-2023');
-
-        throw new UnsupportedOperationException();
-    }
-
-    protected void updateProductCategoryByName(SQLValueArguments name, ProductCategory productCategory) {
-        // SQL function: updateProductCategoryByName(argName VARCHAR, argNewName VARCHAR, argParentCategoryName VARCHAR)
-        // Call by: CALL updateProductCategoryByName('oldCategoryName', 'newCategoryName', 'parentCategoryName');
 
         throw new UnsupportedOperationException();
     }
