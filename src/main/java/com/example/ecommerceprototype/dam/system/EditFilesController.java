@@ -239,7 +239,7 @@ public class EditFilesController {
             BufferedImage logo = null;
 
             try {
-                logo = ImageIO.read(new File("src/main/resources/sale.png"));
+                logo = ImageIO.read(new File("src/main/resources/dam/images/sale.png"));
             } catch (Exception e){
                 throw new Exception("logo couldn't be loaded: " + e.getMessage());
             }
@@ -321,7 +321,7 @@ public class EditFilesController {
             BufferedImage logo = null;
 
             try {
-                logo = ImageIO.read(new File("src/main/resources/copyrightbillede.png"));
+                logo = ImageIO.read(new File("src/main/resources/dam/images/copyrightbillede.png"));
             } catch (Exception e){
                 throw new Exception("logo couldn't be loaded: " + e.getMessage());
             }
