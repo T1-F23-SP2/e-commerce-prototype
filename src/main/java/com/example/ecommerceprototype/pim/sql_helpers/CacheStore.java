@@ -41,24 +41,24 @@ public class CacheStore<K, V> extends HashMap<K, V> {
 
 
     // *** Reference usage ONLY ***
-    public static void main(String[] args) {
-        int productId = 2;
-
-        // Check that an object with given id and type, is present in cache
-        if (CacheStore.isInCacheStore(productId, ProductInformation.class)) {
-            System.out.println("id is present in cache");
-
-            // Get pi object from cache store
-            ProductInformation pi = CacheStore.getFromCache(productId, ProductInformation.class);
-
-
-            // Remove from cache;
-            CacheStore.removeFromCache(productId, ProductInformation.class);
-        } else {
-            ProductInformation pi = new ProductInformation();
-
-            // Put created ProductInformation object in cache store
-            CacheStore.putInCache(productId, pi);
-        }
-    }
+//    public static void main(String[] args) {
+//        int productId = 2;
+//
+//        // Check that an object with given id and type, is present in cache
+//        if (CacheStore.isInCacheStore(productId, ProductInformation.class)) {
+//            System.out.println("id is present in cache");
+//
+//            // Get pi object from cache store
+//            ProductInformation pi = CacheStore.getFromCache(productId, ProductInformation.class);
+//
+//
+//            // Remove from cache;
+//            CacheStore.removeFromCache(productId, ProductInformation.class);
+//        } else {
+//            ProductInformation pi = new ProductInformation();
+//
+//            // Put created ProductInformation object in cache store
+//            CacheStore.putInCache(productId, pi);
+//        }
+//    }
 }

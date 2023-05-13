@@ -188,11 +188,14 @@ public abstract class SQLConnection {
         return getMainConnectionInitializeIfNeeded(new SQLConnectionMainInitializer());
     }
 
+
+
+
+
+
     public static Connection getTestConnectionInitializeIfNeeded(SQLInitializer initializer) throws SQLException, IOException {
         return getConnectionFromPropertiesInitializeIfNeeded(loadTestProperties(), initializer);
     }
-
-
 
     /*
         Get test connection and run default initializer if needed
