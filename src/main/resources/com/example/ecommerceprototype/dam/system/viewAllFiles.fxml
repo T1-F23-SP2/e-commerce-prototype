@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.DAMController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.system.ViewAllFilesController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #71E3FF;" BorderPane.alignment="CENTER">
          <children>
@@ -23,9 +23,9 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="myListView" layoutX="18.0" layoutY="55.0" prefHeight="331.0" prefWidth="363.0" style="-fx-border-color: #71E3FF;" />
-            <Button fx:id="returnToMenu" layoutX="287.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Return to Menu" />
-            <Button fx:id="loadFilesButton" layoutX="18.0" layoutY="19.0" mnemonicParsing="false" onAction="#LoadFiles" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Load files" />
-            <Button fx:id="openFile" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" onAction="#openSelectedFile" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
+            <Button fx:id="returnButton" layoutX="287.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Return to Menu" />
+            <Button fx:id="loadFilesButton" layoutX="18.0" layoutY="19.0" mnemonicParsing="false" onAction="#loadFiles" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Load files" />
+            <Button fx:id="openFileButton" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" onAction="#openFile" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
          </children>
       </AnchorPane>
    </center>

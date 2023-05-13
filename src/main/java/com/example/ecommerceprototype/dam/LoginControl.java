@@ -1,15 +1,11 @@
 package com.example.ecommerceprototype.dam;
 
+import com.example.ecommerceprototype.dam.system.DAMController;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Window;
 
-import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
