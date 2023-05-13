@@ -162,46 +162,6 @@ public class DAMController {
     }
 
 
-    public void chooseFiles(ActionEvent event) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        List<File> files = fileChooser.showOpenMultipleDialog(null);
-
-
-        if (files != null) {
-
-            for (File file : files) {
-
-                // first we need to load the content of the files into a byte array
-                byte[] fileContent = Files.readAllBytes(file.toPath());
-                UUID uu_id = UUID.randomUUID();
-                String uu_id_string = uu_id.toString();
-
-                try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data, UUID) VALUES (?, ?, ?, ?)")) {
-                    stmt.setString(1, file.getAbsolutePath());
-                    stmt.setString(2, Files.probeContentType(file.toPath()));
-                    stmt.setBytes(3, fileContent);
-                    stmt.setString(4, uu_id_string);
-                    stmt.executeUpdate();
-
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Files Added");
-            alert.setHeaderText(null);
-            alert.setContentText("The files have been added to the list.");
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Oops!");
-            alert.setHeaderText("You didn't select any files! Try Again");
-            alert.setContentText("");
-            alert.showAndWait();
-        }
-    }
 
     public void saveFiles(ActionEvent event) throws IOException {
         List<File> filesToSave = new ArrayList<>(myListView.getItems());
