@@ -3,7 +3,7 @@ package com.example.ecommerceprototype.dam.constants;
 public class Constants {
 
     //DATABASE
-    public static final String DB_URL = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/Test";
+    public static final String DB_URL = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/dam";
     public static final String DB_USER = "padmin";
     public static final String DB_PASSWORD = "Dam2.semester";
 

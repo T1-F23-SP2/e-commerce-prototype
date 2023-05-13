@@ -1,6 +1,5 @@
-package com.example.ecommerceprototype.dam;
+package com.example.ecommerceprototype.dam.system;
 
-import com.example.ecommerceprototype.dam.system.DAMController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
