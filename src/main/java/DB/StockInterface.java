@@ -1,7 +1,6 @@
 package DB;
 
 import MockShop.MockShopObject;
-import MockShop.PlaceholderInstShop;
 import OrderStatus.OrderManager;
 import com.example.testcopypastetest.HelloController;
 import com.mongodb.client.MongoClient;
@@ -10,9 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,10 +52,7 @@ public interface StockInterface {
 
 
     public static void sendOrderOMS(MockShopObject mockShopObject){
-        int listLength = 0;
 
-        // Code to run all the code in OMS that requires
-        //--
 
         // Code to add id and false to the list
         MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
@@ -69,21 +63,22 @@ public interface StockInterface {
 
 
         // Code to update the ui in OrderGUI
-        HelloController.orderMap.put(id, false);
+        // Add to list
+//        HelloController.orderMap.put(id, false);
+        HelloController.idList.clear();
+        HelloController.statusList.clear();
+        HelloController.idList.add(id);
+        HelloController.statusList.add(Boolean.FALSE);
+
+        ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
+
+        for (int i = 0; i < dbIdList.size(); i++) {
+            HelloController.idList.add(dbIdList.get(i));
+            HelloController.statusList.add(Boolean.TRUE);
+        }
 
 
-//        HelloController.idList.toArray() = HelloController.orderMap.keySet().toArray();
 
-
-
-
-//        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
-//        for (Document inst: listDocument) {
-//            listLength +=1;
-//
-//            HelloController.idList.add(inst.getInteger("_id"));
-//            HelloController.statusList.add(false);
-//        }
 
 
         // Code to place in database Code to process
@@ -91,44 +86,12 @@ public interface StockInterface {
 
 
 
-//        int listLength = 0;
 
 
 
         //-------------------------------------------------------------------
         // Code to update the ui in OrderGUI Code to update the false to true
-        HelloController.orderMap.put(id, true);
-
-
-//        HelloController.statusList.removeAll();
-//        for (int i = 0; i < listLength; i++) {
-//
-//            HelloController.statusList.add(true);
-//        }
-
-
-//        List<Document> listDocument=DBManager.getRecentObjects("OrderHistory");
-//        for (Document inst: listDocument) {
-//            listLength +=1;
-
-//            HelloController.idList.add(inst.getInteger("_id"));
-//            HelloController.statusList.add(true);
-
-
-//            // Timer fuck thing
-//            Timer timer = new Timer();
-//            int finalListLength = listLength;
-//            timer.schedule(new TimerTask() {
-//                public void run() {
-//                    // Code to execute after a delay
-//                    HelloController.statusList.remove(finalListLength -1);
-//                    HelloController.statusList.add(true);
-//
-//                }
-//            }, 500);
-//        }
-
-        // Maybe method
+//        HelloController.orderMap.put(id, true);
 
 
 

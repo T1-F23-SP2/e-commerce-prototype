@@ -59,6 +59,31 @@ public class DBManager {
     }
 
 
+    public static ArrayList<Integer> queryDBAllId(MongoCollection<Document> conn){
+
+        var filter = new Document();
+
+        // Define a projection to only retrieve the _id field of each document
+        var projection = new Document("_id", 1);
+
+        // Execute the query and retrieve a cursor over the resulting documents
+        var cursor = conn.find(filter).projection(projection).iterator();
+
+        // Iterate over the cursor and add each document ID to a list
+        var documentIds = new ArrayList<Integer>();
+        while (cursor.hasNext()) {
+            var document = cursor.next();
+            documentIds.add(document.getInteger("_id"));
+        }
+
+        return documentIds;
+
+    }
+
+
+
+
+
     // Method to take everything that is max one day ago
     public static List<Document> getRecentObjects(String database) {
 
