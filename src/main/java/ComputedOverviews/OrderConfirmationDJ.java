@@ -3,9 +3,17 @@ package ComputedOverviews;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import static ComputedOverviews.MongoDBOC.getUUIDInfo;
 
 public class OrderConfirmationDJ {
 
@@ -129,25 +137,25 @@ public class OrderConfirmationDJ {
                     table.addCell(headerCell).setBackgroundColor(new BaseColor(186, 225, 255));
                 }
 
+                //Connect to database
+                String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
+                MongoClient mongoClient = MongoClients.create(uri);
+                MongoDatabase database = mongoClient.getDatabase("StockDB");
+                MongoCollection<org.bson.Document> OrderHistoryCollection = database.getCollection("OrderHistory");
+
+                //  Add data from database to and arraylist
+                String[] UUIDArray = getUUIDInfo(10, "UUID");
+                String[] AmountArray = getUUIDInfo(10, "Amount");
+
                 // Add row data to the table
-                table.addCell("Produkt 1");
-                table.addCell("2");
-                table.addCell("25 kr");
-                table.addCell("Produkt 2");
-                table.addCell("1");
-                table.addCell("50 kr");
-                table.addCell("Produkt 3");
-                table.addCell("3");
-                table.addCell("10 kr");
-                table.addCell("Produkt 4");
-                table.addCell("3");
-                table.addCell("15 kr");
-                table.addCell("Produkt 5");
-                table.addCell("3");
-                table.addCell("30 kr");
-                table.addCell("Produkt 6");
-                table.addCell("3");
-                table.addCell("20 kr");
+                int i = -1 ;
+                for (String UUID : UUIDArray) {
+                    i++;
+                    System.out.println(i);
+                    table.addCell(UUIDArray[i]);
+                    table.addCell(AmountArray[i]);
+                    table.addCell(UUIDArray[i]);
+                }
 
                 // Add the table to the document + Setting the position of the table
                 table.setTotalWidth(500);
@@ -243,6 +251,7 @@ public class OrderConfirmationDJ {
                 document.close();
                 System.out.println("Order confirmation file #" + OrderConfirmationNumber + " created successfully.");
                 AmountOfOrders -= 1;
+                System.out.println(Arrays.toString(getUUIDInfo(10, "Amount")));
             } catch (DocumentException | IOException e) {
                 e.printStackTrace();
             }
