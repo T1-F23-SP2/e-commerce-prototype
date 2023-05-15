@@ -151,7 +151,6 @@ public class OrderConfirmationDJ {
                 int i = -1 ;
                 for (String UUID : UUIDArray) {
                     i++;
-                    System.out.println(i);
                     table.addCell(UUIDArray[i]);
                     table.addCell(AmountArray[i]);
                     table.addCell(UUIDArray[i]);
@@ -221,37 +220,10 @@ public class OrderConfirmationDJ {
                 tableColum.setTotalWidth(500);
                 tableColum.writeSelectedRows(0, -1, 50, 220, writer.getDirectContent());
 
-
-
-                // adding product to OC
-
-                // Create the table
-                PdfPTable productTable = new PdfPTable(columnHeaders.length);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                // Close the document
-                document.close();
-
                 // Close the document
                 document.close();
                 System.out.println("Order confirmation file #" + OrderConfirmationNumber + " created successfully.");
                 AmountOfOrders -= 1;
-                System.out.println(Arrays.toString(getUUIDInfo(10, "Amount")));
             } catch (DocumentException | IOException e) {
                 e.printStackTrace();
             }
