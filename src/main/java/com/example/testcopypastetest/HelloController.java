@@ -23,7 +23,7 @@ public class HelloController {
     private ListView<Integer> ordersListId;
 
     @FXML
-    private ListView<Boolean> ordersListStatus;
+    private ListView<String> ordersListStatus;
 
     @FXML
     private Button addOrderMock;
@@ -31,7 +31,7 @@ public class HelloController {
 
     public static ObservableList<Integer> idList = FXCollections.observableArrayList(1, 2, 3);
 
-    public static ObservableList<Boolean> statusList = FXCollections.observableArrayList(false, false, false);
+    public static ObservableList<String> statusList = FXCollections.observableArrayList("Processed", "Processed", "Processed");
 
 
     public static HashMap orderMap = new HashMap<Integer, Boolean>();
@@ -43,6 +43,7 @@ public class HelloController {
     @FXML
     void bottomCheckDB(ActionEvent event) {
 
+
         idList.clear();
         statusList.clear();
 
@@ -50,8 +51,9 @@ public class HelloController {
         idList.addAll(DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory")));
 
         for (int i = 0; i < idList.size(); i++) {
-            statusList.add(Boolean.TRUE);
+            statusList.add("Processed");
         }
+
 
 //        initialize();
 
@@ -78,13 +80,13 @@ public class HelloController {
         HelloController.idList.clear();
         HelloController.statusList.clear();
         HelloController.idList.add(id);
-        HelloController.statusList.add(Boolean.FALSE);
+        HelloController.statusList.add("Not processed");
 
         ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
 
         for (int i = 0; i < dbIdList.size(); i++) {
             HelloController.idList.add(dbIdList.get(i));
-            HelloController.statusList.add(Boolean.TRUE);
+            HelloController.statusList.add("Processed");
         }
 
 
@@ -106,7 +108,7 @@ public class HelloController {
 
         }
         for (int i = 0; i < idList.size(); i++) {
-            statusList.add((Boolean) orderMap.get(idList.get(i)));
+            statusList.add((String) orderMap.get(idList.get(i)));
         }
 
         initialize();
@@ -133,10 +135,10 @@ public class HelloController {
     public static void updateTables(){
         idList.addAll(orderMap.keySet());
 
-        statusList.removeAll(true);
+//        statusList.removeAll(true);
 
         for (int i = 0; i < idList.size(); i++) {
-            statusList.add((Boolean) orderMap.get(i));
+//            statusList.add((String) orderMap.get(i));
         }
 
 

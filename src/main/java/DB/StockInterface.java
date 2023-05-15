@@ -68,13 +68,13 @@ public interface StockInterface {
         HelloController.idList.clear();
         HelloController.statusList.clear();
         HelloController.idList.add(id);
-        HelloController.statusList.add(Boolean.FALSE);
+        HelloController.statusList.add("Not processed");
 
         ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
 
         for (int i = 0; i < dbIdList.size(); i++) {
             HelloController.idList.add(dbIdList.get(i));
-            HelloController.statusList.add(Boolean.TRUE);
+            HelloController.statusList.add("Processed");
         }
 
 
