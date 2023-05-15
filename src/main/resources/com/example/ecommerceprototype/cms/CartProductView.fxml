@@ -32,7 +32,7 @@
           <VBox alignment="TOP_RIGHT" prefHeight="200">
               <Button fx:id="remove_Button" minHeight="35" maxHeight="35" maxWidth="35" minWidth="35" text="X" style="-fx-background-color: #d78c7d;">
                   <font>
-                      <Font size="18"/>
+                      <Font name="System Bold" size="16"/>
                   </font>
               </Button>
           </VBox>

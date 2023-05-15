@@ -61,11 +61,10 @@
          </Label>
       </HBox>
       <VBox minHeight="20" maxHeight="20"/>
-      <Button fx:id="pay_Button" minHeight="50" maxHeight="50" minWidth="160" maxWidth="160" style="-fx-background-color: #1aab1e; -fx-background-radius: 15;" text="Pay" textFill="WHITE">
+      <Button fx:id="pay_Button" minHeight="50" maxHeight="50" minWidth="160" maxWidth="160" textAlignment="CENTER" style="-fx-background-color: #82cd50; -fx-background-radius: 10;" text="Pay" textFill="WHITE">
          <font>
-            <Font size="26.0" />
+            <Font name="System bold" size="26" />
          </font>
       </Button>
-
    </VBox>
 </VBox>

@@ -9,21 +9,26 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<HBox prefHeight="1000" prefWidth="1740" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" spacing="20">
-   <VBox maxWidth="900" minWidth="900" alignment="TOP_CENTER" spacing="20">
-      <ImageView fx:id="primaryProductImage_ImageView" fitHeight="500.0" fitWidth="800"/>
-      <ImageView fx:id="secondaryProductImage_ImageView" fitHeight="500.0" fitWidth="800"/>
+<?import javafx.geometry.Insets?>
+<HBox minHeight="800" prefWidth="1740" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" spacing="20">
+   <padding>
+      <Insets top="30"/>
+   </padding>
+
+   <VBox maxWidth="900" minWidth="900" alignment="TOP_CENTER" spacing="30">
+      <ImageView fx:id="primaryProductImage_ImageView" fitHeight="375" fitWidth="600"/>
+      <ImageView fx:id="secondaryProductImage_ImageView" fitHeight="375" fitWidth="600"/>
    </VBox>
    <VBox maxWidth="800" minWidth="800" spacing="40" alignment="TOP_CENTER">
       <VBox spacing="10" maxWidth="700" minWidth="700">
          <Label fx:id="productName_Label" text="Product Name">
             <font>
-               <Font size="36.0" />
+               <Font size="32.0" />
             </font>
          </Label>
          <Label fx:id="productPrice_Label" text="Price">
             <font>
-               <Font size="24.0" />
+               <Font name="System bold" size="24.0" />
             </font>
          </Label>
          <Label fx:id="productStatus_Label" text="5 in stock">
@@ -37,22 +42,24 @@
             </font>
          </Button>
       </VBox>
-      <Line startX="0" endX="750" strokeWidth="3"/>
-      <VBox alignment="TOP_CENTER" spacing="10">
+      <Line endX="750" strokeWidth="2"/>
+
+      <VBox spacing="10" maxWidth="600">
          <Label text="Description">
             <font>
                <Font size="24.0" />
             </font>
          </Label>
-         <TextArea fx:id="productDescription_TextArea" minHeight="400" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
+         <TextArea fx:id="productDescription_TextArea" minHeight="100" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
       </VBox>
-      <VBox alignment="TOP_CENTER" spacing="10">
+
+      <VBox spacing="10" maxWidth="600">
          <Label text="Specifications">
             <font>
                <Font size="24.0" />
             </font>
          </Label>
-         <TextArea fx:id="productSpecification_TextArea" minHeight="400" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
+         <TextArea fx:id="productSpecification_TextArea" minHeight="100" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
       </VBox>
    </VBox>
 </HBox>

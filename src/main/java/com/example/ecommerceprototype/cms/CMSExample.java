@@ -221,13 +221,115 @@ public class CMSExample extends Application{
         Pane cartPage = CMS.getInstance().loadComponent("CartPage");
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
         }
 
+        ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
+            try {loadPaymentPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+
+
+        window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void loadPaymentPage() throws Exception{
+        //Load page template (Template 2 has space for a top banner and some content pane)
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
+
+        //Load top banner onto template and set home button functionality
+        Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
+        ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
+            try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        ((Button) CMS.getInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
+            try {loadCartPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        CMS.getInstance().loadOnto(plate, topBanner, "topBannerPlaceholder_Pane");
+
+
+
+        //Load sidebar onto template
+        Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
+        CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
+
+        //Set action for article button (on the sidebar)
+        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+            try {loadArticlePage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+
+        //Put some categories into the category sidebar (for testing)
+        VBox categoryList = (VBox) CMS.getInstance().findNode(sidebar, "categoryList_VBox");
+
+        String[] categories = {"Computers", "Laptops", "Phones", "Watches", "Parts"};
+        for (int i = 0; i < categories.length; i++) {
+            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
+            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            b.setText(categories[i]);
+            categoryList.getChildren().add(b);
+        }
+
+
+        Pane paymentPage = CMS.getInstance().loadComponent("PaymentPage");
+        CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
+
+        ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
+            try {loadPurchaseComplete();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+
+        window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void loadPurchaseComplete() throws Exception{
+        //Load page template (Template 2 has space for a top banner and some content pane)
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
+
+        //Load top banner onto template and set home button functionality
+        Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
+        ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
+            try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        ((Button) CMS.getInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
+            try {loadCartPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        CMS.getInstance().loadOnto(plate, topBanner, "topBannerPlaceholder_Pane");
+
+
+
+        //Load sidebar onto template
+        Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
+        CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
+
+        //Set action for article button (on the sidebar)
+        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+            try {loadArticlePage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+
+        //Put some categories into the category sidebar (for testing)
+        VBox categoryList = (VBox) CMS.getInstance().findNode(sidebar, "categoryList_VBox");
+
+        String[] categories = {"Computers", "Laptops", "Phones", "Watches", "Parts"};
+        for (int i = 0; i < categories.length; i++) {
+            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
+            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            b.setText(categories[i]);
+            categoryList.getChildren().add(b);
+        }
+
+
+        Pane paymentPage = CMS.getInstance().loadComponent("PurchaseCompletePage");
+        CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
     }

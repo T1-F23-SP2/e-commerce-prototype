@@ -10,7 +10,7 @@
     <Pane fx:id="topBannerPlaceholder_Pane" prefWidth="1920" prefHeight="80"/>
     <HBox minWidth="1920" minHeight="1000" maxWidth="1920" maxHeight="1000">
         <Pane fx:id="sidebarPlaceholder_Pane" prefWidth="180" prefHeight="1000"/>
-        <ScrollPane prefWidth="1740" prefHeight="1000" fitToWidth="true">
+        <ScrollPane prefWidth="1740" prefHeight="1000" maxWidth="1740" maxHeight="1000" fitToWidth="true">
             <padding>
                 <Insets top="30" right="10" bottom="20" left="10" />
             </padding>

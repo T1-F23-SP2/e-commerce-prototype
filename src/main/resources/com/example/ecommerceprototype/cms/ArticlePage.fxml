@@ -20,40 +20,41 @@
                 <Font size="26.0" />
             </font>
         </Label>
-        <ScrollPane prefHeight="947.0" prefWidth="180.0" fitToWidth="true">
+        <ScrollPane prefWidth="180.0" fitToWidth="true">
             <content>
-                <VBox fx:id="articleList_VBox" prefWidth="180" spacing="10" alignment="TOP_CENTER"/>
+                <VBox fx:id="articleList_VBox" prefWidth="180" spacing="1" alignment="TOP_CENTER"/>
             </content>
         </ScrollPane>
     </VBox>
-            <VBox prefHeight="1000.0" prefWidth="1740.0" alignment="TOP_CENTER" spacing="5">
+    <Line endY="2000" strokeWidth="2" stroke="#464646c8"/>
+    <VBox prefHeight="1000.0" prefWidth="1740.0" alignment="TOP_CENTER" spacing="5">
+        <padding>
+            <Insets top="50" right="30" left="30" bottom="50"/>
+        </padding>
+            <Label fx:id="articleTitle_Label" alignment="CENTER" text="Title">
+                <font>
+                    <Font size="60.0" />
+                </font>
+            </Label>
+            <Label fx:id="articleAuthor_Label" alignment="CENTER" text="Date">
+                <font>
+                    <Font size="32.0" />
+                </font>
+            </Label>
+            <Label fx:id="articleDate_Label" alignment="CENTER" text="Date">
+                <font>
+                    <Font size="20.0" />
+                </font>
+            </Label>
+            <Line endX="800">
+            </Line>
+            <TextArea fx:id="articleText_TextArea" editable="false" maxWidth="1000" minHeight="700" style="-fx-background-color: transparent" wrapText="true">
+                <font>
+                    <Font size="30.0" />
+                </font>
                 <padding>
-                    <Insets top="50" right="30" left="30" bottom="50"/>
+                    <Insets top="15" bottom="15"/>
                 </padding>
-                    <Label fx:id="articleTitle_Label" alignment="CENTER" text="Title">
-                        <font>
-                            <Font size="60.0" />
-                        </font>
-                    </Label>
-                    <Label fx:id="articleAuthor_Label" alignment="CENTER" text="Date">
-                        <font>
-                            <Font size="32.0" />
-                        </font>
-                    </Label>
-                    <Label fx:id="articleDate_Label" alignment="CENTER" text="Date">
-                        <font>
-                            <Font size="20.0" />
-                        </font>
-                    </Label>
-                    <Line startX="0" endX="800">
-                    </Line>
-                    <TextArea fx:id="articletText_TextArea" editable="false" maxWidth="1000" minHeight="700" style="-fx-background-color: transparent" wrapText="true">
-                        <font>
-                            <Font size="30.0" />
-                        </font>
-                        <padding>
-                            <Insets top="15" right="0" left="0" bottom="15"/>
-                        </padding>
-                    </TextArea>
-            </VBox>
+            </TextArea>
+    </VBox>
 </HBox>
