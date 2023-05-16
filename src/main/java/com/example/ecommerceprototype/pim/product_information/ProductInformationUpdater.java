@@ -22,7 +22,7 @@ public class ProductInformationUpdater extends ProductInformationWorker {
     }
 
     @Override
-    public ProductInformation submit() throws SQLException, DuplicateEntryException, UUIDNotFoundException, ManufactureNotFoundException, CategoryNotFoundException {
+    public ProductInformation submit() throws UUIDNotFoundException, SQLException, ManufactureNotFoundException, CategoryNotFoundException, DuplicateEntryException {
         if (originalName == null) {
             originalName = this.getProductInformation().getName();
         }

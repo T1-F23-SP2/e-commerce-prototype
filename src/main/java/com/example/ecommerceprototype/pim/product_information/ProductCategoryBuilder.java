@@ -3,6 +3,8 @@ package com.example.ecommerceprototype.pim.product_information;
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
+import java.sql.SQLException;
+
 public class ProductCategoryBuilder extends ProductCategoryWorker {
 
     public ProductCategoryBuilder() {
@@ -10,7 +12,7 @@ public class ProductCategoryBuilder extends ProductCategoryWorker {
     }
 
     @Override
-    public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
+    public ProductCategory submit() throws SQLException {
         DBDriver.getInstance().insertNewProductCategory(this.getProductCategory());
         return this.getProductCategory();
     }

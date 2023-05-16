@@ -61,5 +61,5 @@ public abstract class ProductInformationWorker {
         return productInformation;
     }
 
-    public abstract ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException, SQLException, UUIDNotFoundException, ManufactureNotFoundException, CategoryNotFoundException;
+    public abstract ProductInformation submit() throws UUIDNotFoundException, SQLException, IncompleteProductInformationException, ManufactureNotFoundException, CategoryNotFoundException, DuplicateEntryException;
 }

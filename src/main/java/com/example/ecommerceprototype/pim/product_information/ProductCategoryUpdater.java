@@ -4,6 +4,8 @@ import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
+import java.sql.SQLException;
+
 public class ProductCategoryUpdater extends ProductCategoryWorker { // TODO: Implement CategoryUpdater
 
     // This value is used when updating a categories' information.
@@ -24,16 +26,12 @@ public class ProductCategoryUpdater extends ProductCategoryWorker { // TODO: Imp
     }
 
     @Override
-    public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
+    public ProductCategory submit() throws SQLException, DuplicateEntryException, CategoryNotFoundException {
         if (originalName == null) {
             originalName = this.getProductCategory().getName();
         }
 
-        try {
-            DBDriver.getInstance().updateProductCategoryByName(this.originalName, super.getProductCategory());
-        } catch (CategoryNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        DBDriver.getInstance().updateProductCategoryByName(this.originalName, super.getProductCategory());
         return super.getProductCategory();
     }
 }

@@ -26,7 +26,7 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
     }
 
     @Override
-    public ManufacturingInformation submit() throws DuplicateEntryException, SQLException {
+    public ManufacturingInformation submit() throws SQLException, DuplicateEntryException {
         if (originalName == null) {
             originalName = this.getManufacturingInformation().getName();
         }

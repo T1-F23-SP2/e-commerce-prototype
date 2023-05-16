@@ -12,7 +12,7 @@ public class ManufacturingInformationBuilder extends ManufacturingInformationWor
     }
 
     @Override
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation, SQLException {
+    public ManufacturingInformation submit() throws SQLException, DuplicateEntryException {
         DBDriver.getInstance().insertNewManufacture(this.getManufacturingInformation());
         return this.getManufacturingInformation();
     }

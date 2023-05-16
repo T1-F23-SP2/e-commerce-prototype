@@ -32,5 +32,5 @@ public abstract class ManufacturingInformationWorker {
         return this.manufacturingInformation;
     }
 
-    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation, SQLException;
+    public abstract ManufacturingInformation submit() throws SQLException, DuplicateEntryException;
 }

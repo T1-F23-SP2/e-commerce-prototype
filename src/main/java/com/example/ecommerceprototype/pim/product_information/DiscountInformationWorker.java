@@ -34,5 +34,5 @@ public abstract class DiscountInformationWorker {
         return this.discountInformation;
     }
 
-    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation, IncompleteDiscountInformation, NotFoundException, SQLException;
+    public abstract DiscountInformation submit() throws SQLException, DuplicateEntryException;
 }
