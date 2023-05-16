@@ -1,7 +1,9 @@
 package com.example.ecommerceprototype.dam.dam;
 
 import com.azure.storage.blob.*;
+import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
+import com.example.ecommerceprototype.dam.constants.Type;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
@@ -19,6 +21,11 @@ public class FileSystem {
     private static FileSystem instance;
     private BlobServiceClient blobServiceClient = null;
     private BlobContainerClient blobContainerClient = null;
+    private BlobContainerClient blobContainerClientPI = null;
+    private BlobContainerClient blobContainerClientPF = null;
+    private BlobContainerClient blobContainerClientImages = null;
+    private BlobContainerClient blobContainerClientFiles = null;
+
 
     FileSystem() {
         initializeAzureBlob();
@@ -37,15 +44,53 @@ public class FileSystem {
         blobServiceClient = new BlobServiceClientBuilder().connectionString(con).buildClient();
 
         blobContainerClient = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER);
+
+        blobContainerClientFiles = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER_files);
+
+        blobContainerClientImages = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER_images);
+
+        blobContainerClientPF = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER_pf);
+
+        blobContainerClientPI = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER_pi);
+
     }
 
-    public String uploadFile()
+    public BlobContainerClient container (Type type)
+    {
+        BlobContainerClient container = null;
+
+        switch (type) {
+            case PRODUCT_IMAGE:
+                container = blobContainerClientPI;
+                break;
+            case PRODUCT_FILE:
+                container = blobContainerClientPF;
+                break;
+            case IMAGE:
+                container = blobContainerClientImages;
+                break;
+            case FILE:
+                container = blobContainerClientFiles;
+                break;
+            default:
+                container = blobContainerClient;
+        }
+
+        return container;
+    }
+
+
+    public String uploadFile(Type type, Category category)
     {
         String file_path = Constants.DATA_PATH;
         String file_name = "test.jpg";
+        String folder_name = category.getValue();
 
-        BlobClient uploadBlobClient = blobContainerClient.getBlobClient("test.jpg");
-        uploadBlobClient.uploadFromFile(file_path + file_name);
+        BlobContainerClient client = container(type);
+
+        BlobClient uploadBlobClient = client.getBlobClient(folder_name + "/test3.jpg");
+        uploadBlobClient.uploadFromFile(file_path+file_name);
+
 
         String url = uploadBlobClient.getBlobUrl();
 
@@ -54,14 +99,17 @@ public class FileSystem {
 
     public void deleteFile(int assetID_in)
     {
-        String file_name = "nol";
-        BlobClient deleteBlobClient = blobContainerClient.getBlobClient(file_name);
-        deleteBlobClient.delete();
-    }
 
+
+        String file_name = "nol";
+
+    }
+/*
     public Image downloadFile(String file_name)
     {
-        BlobClient downloadBlobClient = blobContainerClient.getBlobClient(file_name);
+
+
+        BlobClient downloadBlobClient = .getBlobClient(file_name);
 
         String blob_url = downloadBlobClient.getBlobUrl();
 
@@ -95,5 +143,7 @@ public class FileSystem {
         PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer(newImg.getWidth(), newImg.getHeight(), buffer, pixelFormat);
         return new WritableImage(pixelBuffer);
     }
+
+ */
 
 }
