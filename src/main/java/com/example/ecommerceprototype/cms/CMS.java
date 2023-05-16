@@ -84,7 +84,7 @@ public class CMS implements ICMS{
     public ArrayList<String> getComponentList() {
         ArrayList<String> result = new ArrayList<>();
 
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml");
         if (!infile.exists())
             return result;
 

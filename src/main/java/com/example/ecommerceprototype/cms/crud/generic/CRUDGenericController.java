@@ -34,7 +34,7 @@ public class CRUDGenericController implements Initializable {
     ObservableList<String> fonts = FXCollections.observableArrayList("system", "arial", "impact");
     ObservableList<String> components = FXCollections.observableArrayList();
 
-    public File file;
+    //public File file;
 
 
 
@@ -78,7 +78,7 @@ public class CRUDGenericController implements Initializable {
     public void updateFXML() throws IOException {
         fileName = compBox.getValue();
         String sizeInput = sizeField.getText();
-        file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ fileName);
+        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+ fileName);
         ArrayList<String> lines = new ArrayList<String>();
         String line;
         String id = IDField.getText();
@@ -202,7 +202,7 @@ public class CRUDGenericController implements Initializable {
         }
     }
     private List<String> loadFxml(String comp) throws FileNotFoundException {
-        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ comp);
+        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+ comp);
         Scanner s = new Scanner(file);
         List<String> lines = new ArrayList<>();
 
@@ -231,7 +231,7 @@ public class CRUDGenericController implements Initializable {
     }
     @FXML
     private void saveAdvanced() throws IOException {
-        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/"+ compBox.getValue());
+        File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+ compBox.getValue());
         PrintWriter pw = new PrintWriter(file);
         System.out.println(advancedTextArea.getText());
         pw.print(advancedTextArea.getText());
@@ -244,10 +244,52 @@ public class CRUDGenericController implements Initializable {
     }
 
  */
+    private synchronized void backupFiles(){
+        List<String> files = CMS.getInstance().getComponentList();
+        for (String s : files){
 
+            File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+s);
+            File backup = new File("src/main/resources/com/example/ecommerceprototype/cms/backupFxml/"+"backup"+s);
+            if (!backup.exists()){
+                try {
+                    PrintWriter pw = new PrintWriter(backup);
+                    Scanner scanner = new Scanner(file);
+                    while (scanner.hasNextLine()){
+                        pw.println(scanner.nextLine());
+                    }
+                    scanner.close();
+                    pw.close();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    @FXML
+    private void restoreDefault(){
+        List<String> files = CMS.getInstance().getComponentList();
+        for (String s : files){
+            File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+s);
+            File backup = new File("src/main/resources/com/example/ecommerceprototype/cms/backupFxml/"+"backup"+s);
+            if (backup.exists()){
+                try {
+                    PrintWriter pw = new PrintWriter(file);
+                    Scanner scanner = new Scanner(backup);
+                    while (scanner.hasNextLine()){
+                        pw.println(scanner.nextLine());
+                    }
+                    scanner.close();
+                    pw.close();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        backupFiles();
         fontBox.setItems(fonts);
         System.out.println(fontBox.getValue());
         components.addAll(CMS.getInstance().getComponentList());

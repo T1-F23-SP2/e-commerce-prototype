@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.generic.CRUDGenericController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.CRUDGenericController">
    <children>
       <HBox prefHeight="1080.0" prefWidth="1920.0">
          <children>
@@ -58,7 +58,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="contentField" layoutX="40.0" layoutY="435.0" AnchorPane.topAnchor="435.0">
+                  <TextField fx:id="contentField" layoutX="40.0" layoutY="435.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="435.0">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -85,12 +85,12 @@
                      </font>
                   </Button>
                   <TextArea fx:id="advancedTextArea" layoutX="430.0" layoutY="700.0" prefHeight="290.0" prefWidth="1182.0" AnchorPane.bottomAnchor="90.0" AnchorPane.rightAnchor="128.0" />
-                  <Button fx:id="advancedButton" layoutX="459.0" layoutY="634.0" mnemonicParsing="false" onAction="#loadAdvanced" text="Advanced" AnchorPane.bottomAnchor="395.0" AnchorPane.leftAnchor="430.0">
+                  <Button layoutX="459.0" layoutY="634.0" mnemonicParsing="false" onAction="#loadAdvanced" text="Advanced" AnchorPane.bottomAnchor="395.0" AnchorPane.leftAnchor="430.0">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="1545.0" layoutY="1003.0" mnemonicParsing="false" onAction="#saveAdvanced" text="save" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="128.0">
+                  <Button fx:id="saveAdvancedButton" layoutX="1545.0" layoutY="1003.0" mnemonicParsing="false" onAction="#saveAdvanced" text="save" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="128.0">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -105,7 +105,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="42.0" layoutY="515.0" mnemonicParsing="false" text="Restore Deafault" AnchorPane.leftAnchor="40.0" onAction="#restoreDefault">
+                  <Button layoutX="49.0" layoutY="528.0" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Default" AnchorPane.leftAnchor="40.0">
                      <font>
                         <Font size="24.0" />
                      </font>

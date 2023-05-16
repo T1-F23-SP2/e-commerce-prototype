@@ -9,7 +9,7 @@ public class CRUDApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = new Scene(CMS.getInstance().loadComponent("CRUDText"), 1920, 1080);
+        Scene scene = new Scene(CMS.getInstance().loadComponent("generic/CRUDText", true), 1920, 1080);
         //Scene scene = new Scene(new VBox(), 1920, 1080);
         stage.setScene(scene);
         stage.show();
