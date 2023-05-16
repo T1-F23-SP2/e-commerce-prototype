@@ -15,7 +15,7 @@ public class HelloApplication extends Application implements StockInterface {
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 750, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

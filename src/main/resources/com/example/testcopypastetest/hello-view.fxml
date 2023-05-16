@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="465.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.testcopypastetest.HelloController">
+<BorderPane prefHeight="467.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.testcopypastetest.HelloController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="508.0" prefWidth="366.0" BorderPane.alignment="CENTER">
          <children>
@@ -17,10 +17,11 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <HBox prefHeight="412.0" prefWidth="366.0">
+            <HBox alignment="CENTER" prefHeight="412.0" prefWidth="366.0">
                <children>
-                  <ListView fx:id="ordersListId" prefHeight="346.0" prefWidth="600.0" />
-                  <ListView fx:id="ordersListStatus" prefHeight="346.0" prefWidth="600.0" />
+                  <ListView fx:id="ordersListId" prefHeight="300.0" prefWidth="400.0" />
+                  <ListView fx:id="ordersListStatus" prefHeight="300.0" prefWidth="400.0" />
+                  <ListView fx:id="ordersListUUID" prefHeight="300.0" prefWidth="400.0" />
                </children>
             </HBox>
             <Button fx:id="updateButton" mnemonicParsing="false" onAction="#bottomCheckDB" text="Update" />

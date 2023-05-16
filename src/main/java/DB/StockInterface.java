@@ -1,6 +1,7 @@
 package DB;
 
 import MockShop.MockShopObject;
+import MockShop.PlaceholderInstShop;
 import OrderStatus.OrderManager;
 import com.example.testcopypastetest.HelloController;
 import com.mongodb.client.MongoClient;
@@ -53,6 +54,8 @@ public interface StockInterface {
 
     public static void sendOrderOMS(MockShopObject mockShopObject){
 
+        String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
+
 
         // Code to add id and false to the list
         MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
@@ -67,14 +70,34 @@ public interface StockInterface {
 //        HelloController.orderMap.put(id, false);
         HelloController.idList.clear();
         HelloController.statusList.clear();
+        HelloController.UUIDList.clear();
         HelloController.idList.add(id);
         HelloController.statusList.add("Not processed");
+        HelloController.UUIDList.add(UUIDString);
 
-        ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
 
+        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
+
+        ArrayList<Integer> dbIdList = DBManager.queryDBAllId(collectionConn);
+
+
+        // Code to make the rest of the list, from the database.
         for (int i = 0; i < dbIdList.size(); i++) {
             HelloController.idList.add(dbIdList.get(i));
             HelloController.statusList.add("Processed");
+
+            // Placeholder just displays UUID from inst 1
+            HelloController.UUIDList.add(String.join(", ", mockShopObject.getMap().keySet()));
+
+
+            // Fix this code to display the correct UUID by _id from the database
+//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(dbIdList.get(i)));
+//            // Find the document that matches the query
+//            Document result = collectionConn.find(documentObj).first();
+//
+//            String UUIDString2 = result.getString("UUID");
+//
+//            HelloController.UUIDList.add(UUIDString2);
         }
 
 

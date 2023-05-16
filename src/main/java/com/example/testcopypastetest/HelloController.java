@@ -26,12 +26,18 @@ public class HelloController {
     private ListView<String> ordersListStatus;
 
     @FXML
+    private ListView<String> ordersListUUID;
+
+    @FXML
     private Button addOrderMock;
 
 
     public static ObservableList<Integer> idList = FXCollections.observableArrayList(1, 2, 3);
 
     public static ObservableList<String> statusList = FXCollections.observableArrayList("Processed", "Processed", "Processed");
+
+    public static ObservableList<String> UUIDList = FXCollections.observableArrayList("UI1", "UI2", "UI3");
+
 
 
     public static HashMap orderMap = new HashMap<Integer, Boolean>();
@@ -40,18 +46,35 @@ public class HelloController {
     @FXML
     private Button updateButton;
 
+
+    // Mock object from SHOP
+    MockShopObject mockShopObject = PlaceholderInstShop.getInstShop1();
+    String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
+
     @FXML
     void bottomCheckDB(ActionEvent event) {
 
 
         idList.clear();
         statusList.clear();
+        UUIDList.clear();
 
 
         idList.addAll(DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory")));
+        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
+
 
         for (int i = 0; i < idList.size(); i++) {
             statusList.add("Processed");
+
+            // Get the object from DB with specific id.
+//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", idList.get(i).toString());
+//            String UUIDString = documentObj.getString("UUID");
+            HelloController.UUIDList.add(UUIDString);
+
+
+
+
         }
 
 
@@ -65,7 +88,8 @@ public class HelloController {
     @FXML
     void addOrderMock(ActionEvent event) {
 
-        MockShopObject mockShopObject = PlaceholderInstShop.getInstShop1();
+//        MockShopObject mockShopObject = PlaceholderInstShop.getInstShop1();
+//        String UUIDString = String.join(",", PlaceholderInstShop.getInstShop1().getMap().keySet());
 
         MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
         Document document = collection.find().sort(descending("_id")).first();
@@ -79,14 +103,28 @@ public class HelloController {
 //        HelloController.orderMap.put(id, false);
         HelloController.idList.clear();
         HelloController.statusList.clear();
+        HelloController.UUIDList.clear();
         HelloController.idList.add(id);
         HelloController.statusList.add("Not processed");
+        HelloController.UUIDList.add(UUIDString);
 
         ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
+        // Collection to database made
+        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
+//        System.out.println(dbIdList.size());
+
+
 
         for (int i = 0; i < dbIdList.size(); i++) {
             HelloController.idList.add(dbIdList.get(i));
             HelloController.statusList.add("Processed");
+
+            // Code to get information out of DB
+//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(idList.get(i)));
+//            HelloController.UUIDList.add(documentObj.getString("UUID"));
+
+            HelloController.UUIDList.add(UUIDString);
+
         }
 
 
@@ -125,6 +163,7 @@ public class HelloController {
     public void initialize() {
         ordersListId.setItems(idList);
         ordersListStatus.setItems(statusList);
+        ordersListUUID.setItems(UUIDList);
     }
 
 

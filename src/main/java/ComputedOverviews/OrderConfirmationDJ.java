@@ -15,6 +15,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import mockPIM.PlaceHolderInstGet;
+import mockPIM.ProductInformation;
 
 import static ComputedOverviews.MongoDBOC.getUUIDInfo;
 import static MockShop.PlaceholderInstShop.getInstShop2;
@@ -48,6 +49,9 @@ public static final int CVR = 53319637;
     }*/
 
     public static void main(String[] args) {
+
+
+
 
 
 
