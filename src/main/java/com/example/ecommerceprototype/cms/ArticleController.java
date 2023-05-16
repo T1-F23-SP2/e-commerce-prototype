@@ -30,7 +30,7 @@ public class ArticleController implements Initializable {
     @FXML
     Label articleDate_Label;
     @FXML
-    TextArea articletText_TextArea;
+    TextArea articleText_TextArea;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,9 +38,9 @@ public class ArticleController implements Initializable {
         for (int i = 0; i < articleNames.size(); i++) {
             int index = i;
             Button b = new Button(articleNames.get(i));
-            b.setPrefWidth(160);
-            b.setPrefHeight(60);
-            b.setStyle("-fx-font-size:14");
+            b.setPrefWidth(180);
+            b.setPrefHeight(35);
+            b.setStyle("-fx-font-size:14; -fx-background-radius: 0;");
             b.setTextAlignment(TextAlignment.CENTER);
             b.setWrapText(true);
             b.setOnAction(new EventHandler<ActionEvent>() {
@@ -77,7 +77,7 @@ public class ArticleController implements Initializable {
             while (sc.hasNextLine()) {
                 articleText += sc.nextLine() + "\n";
             }
-            articletText_TextArea.setText(articleText);
+            articleText_TextArea.setText(articleText);
         }
         catch (FileNotFoundException fnfe) {
             System.out.println(fnfe.getMessage());
