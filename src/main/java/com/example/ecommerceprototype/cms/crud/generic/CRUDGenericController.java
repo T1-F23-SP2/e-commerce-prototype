@@ -30,6 +30,7 @@ public class CRUDGenericController implements Initializable {
     private String style = "System";
     private String font;
     private String fontText;
+    private String currentId;
 
     private final List<String> styles = Arrays.asList("System", "Arial", "Impact");
 
@@ -81,18 +82,18 @@ public class CRUDGenericController implements Initializable {
 
     public void updateFXML() throws IOException {
         fileName = compBox.getValue();
-        String sizeInput = sizeField.getText();
+        updateFontData(fileName, IDField.getId());
         File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+ fileName);
         ArrayList<String> lines = new ArrayList<String>();
         String line;
-        String id = IDField.getText();
+        String id = currentId;
         Scanner s = new Scanner(file);
 
         System.out.println("file loaded");
         String[] fontText;
         while (s.hasNextLine()){
             String tempLine = s.nextLine();
-            String tempLine2 = tempLine;
+            String tempLine2;
             if (tempLine.contains("Button")){
                 if (tempLine.contains("fx:id")){
                     tempLine2 = s.nextLine();
@@ -144,7 +145,7 @@ public class CRUDGenericController implements Initializable {
                     for (int j = 0; j < fontText.length; j++) {
                         if (fontText[j].contains("size")) {
                             System.out.println(fontText[j]);
-                            fontText[j] = "size=\"" + sizeInput + "\"";
+                            fontText[j] = "size=\"" + size + "\"";
                             System.out.println("size has been updated");
                         }
                         if (fontText[j].contains("name"))
@@ -331,6 +332,7 @@ public class CRUDGenericController implements Initializable {
                 b.setMinWidth(180);
                 b.setOnAction(event -> {
                     String tempId = nodes.get(index).getId();
+                    currentId = tempId;
                     IDField.setText(tempId);
                     try {
                         updateFontData(newValue, nodes.get(index).getId());
