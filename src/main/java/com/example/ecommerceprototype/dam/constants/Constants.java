@@ -7,6 +7,9 @@ public class Constants {
     public static final String DB_USER = "padmin";
     public static final String DB_PASSWORD = "Dam2.semester";
 
+    public static final String DB_URL2 = "jdbc:postgresql://damsem2.postgres.database.azure.com:5432/test";
+
+
 
     //AZURE
 
