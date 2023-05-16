@@ -1,9 +1,8 @@
 package DB;
 
 import MockShop.MockShopObject;
-import MockShop.PlaceholderInstShop;
 import OrderStatus.OrderManager;
-import com.example.testcopypastetest.HelloController;
+import com.example.ecommerceprototype.HelloController;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;

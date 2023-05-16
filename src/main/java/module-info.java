@@ -11,6 +11,6 @@ module com.example.testcopypastetest {
     requires org.junit.jupiter.api;
 
 
-    opens com.example.testcopypastetest to javafx.fxml;
-    exports com.example.testcopypastetest;
+    exports com.example.ecommerceprototype;
+    opens com.example.ecommerceprototype to javafx.fxml;
 }
