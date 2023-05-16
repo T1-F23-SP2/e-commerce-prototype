@@ -90,12 +90,12 @@ public interface StockInterface {
             HelloController.UUIDList.add(String.join(", ", mockShopObject.getMap().keySet()));
 
 
-            // Fix this code to display the correct UUID by _id from the database
+////             Fix this code to display the correct UUID by _id from the database
 //            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(dbIdList.get(i)));
 //            // Find the document that matches the query
-//            Document result = collectionConn.find(documentObj).first();
+////            Document result = collectionConn.find(documentObj).first();
 //
-//            String UUIDString2 = result.getString("UUID");
+//            String UUIDString2 = documentObj.getString("UUID");
 //
 //            HelloController.UUIDList.add(UUIDString2);
         }

@@ -27,7 +27,7 @@ import java.util.List;
 
 
 
-public class FOO {
+public class SalesReportGenerator {
     static BaseColor color2 = new BaseColor(48, 213,200);
 
 
