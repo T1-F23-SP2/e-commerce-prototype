@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -148,5 +151,69 @@ class SQLValueArgumentsTest {
         this.arguments.setArgument(test);
         assertInstanceOf(SQLValueSetter.class, this.arguments.get(this.arguments.size() - 1));
         assertEquals(test, this.arguments.get(this.arguments.size() - 1));
+    }
+
+
+    @DisplayName("Test for setting arguments in prepared statement")
+    @Test
+    void testSetInPreparedStatement() throws Exception {
+
+        // test values
+        int integer = 42;
+        String string = "Hello World";
+        boolean bool = true;
+        byte b = 8;
+        long l = 2L;
+        float f = 3.14F;
+        double d = 3.1415;
+        BigDecimal bigDecimal = new BigDecimal("3.1415926535");
+        LocalDate localDate = LocalDate.now();
+
+
+        this.arguments.setArgument(integer)
+                .setArgument(string)
+                .setArgument(bool)
+                .setArgument(b)
+                .setArgument(l)
+                .setArgument(f)
+                .setArgument(d)
+                .setArgument(bigDecimal)
+                .setArgument(localDate);
+
+
+        // Wrap in try with resource, so that teardown is automatcially run
+        try (TestConnectionWrapper testConnectionWrapper = new TestConnectionWrapper()) {
+
+            Connection connection = testConnectionWrapper.setup(conn -> {
+                SQLSetupHelper.setupFromResource(conn, "sql/tests/test_SQLValueArgumentsSetters.sql");
+            });
+
+
+            PreparedStatement statement = connection.prepareStatement("""
+                                            INSERT INTO test_value_arguments_setters(integer, string, boolean, byte, long, float, double, bigDecimal, localDate)
+                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                            """);
+
+            assertDoesNotThrow(() -> {
+                this.arguments.setArgumentsInStatement(statement);
+            });
+
+            statement.execute();
+
+
+            PreparedStatement query = connection.prepareStatement("SELECT  * from test_value_arguments_setters");
+            ResultSet resultSet = query.executeQuery();
+
+            assertTrue(resultSet.next());
+
+            assertEquals(integer, resultSet.getInt("integer"));
+            assertEquals(string, resultSet.getString("string"));
+            assertEquals(bool, resultSet.getBoolean("boolean"));
+            assertEquals(l, resultSet.getLong("long"));
+            assertEquals(f, resultSet.getFloat("float"));
+            assertEquals(d, resultSet.getDouble("double"));
+            assertEquals(bigDecimal, resultSet.getBigDecimal("bigDecimal"));
+            assertEquals(localDate, resultSet.getTimestamp("localDate").toLocalDateTime().toLocalDate());
+        }
     }
 }
