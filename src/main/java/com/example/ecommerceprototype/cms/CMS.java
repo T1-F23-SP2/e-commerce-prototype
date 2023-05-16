@@ -38,16 +38,13 @@ public class CMS implements ICMS{
     @Override
     public Pane loadComponent(String id, boolean isCRUD) throws FXMLLoadFailedException {
         String errorMessage;
-        if (isCRUD) {
             FXMLLoader loader = new FXMLLoader(CMS.class.getResource("crud/"+id + ".fxml"));
             try {
                 return loader.load();
             }
             catch (IOException ioe) { errorMessage = ioe.getMessage(); }
             throw new FXMLLoadFailedException(errorMessage);
-        } else {
-            return null;
-        }
+
     }
     /*@Override
     public Pane fetchComponentWithProduct(String fxid, ProductInformation prod) {

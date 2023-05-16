@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.generic.CRUDGenericController">
+<AnchorPane prefHeight="1032.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.generic.CRUDGenericController">
    <children>
       <HBox prefHeight="1032.0" prefWidth="1920.0">
          <children>
-            <AnchorPane maxWidth="180.0" prefHeight="1080.0" prefWidth="180.0">
+            <AnchorPane maxWidth="180.0" prefHeight="1032.0" prefWidth="180.0">
                <children>
                   <ComboBox fx:id="compBox" layoutX="-6.0" layoutY="48.0" prefHeight="46.0" prefWidth="180.0" AnchorPane.leftAnchor="5.0" />
                   <Label layoutX="8.0" layoutY="6.0" text="Component" AnchorPane.leftAnchor="5.0">
@@ -26,7 +26,7 @@
                   <VBox fx:id="vBox" layoutX="5.0" layoutY="100.0" prefHeight="969.0" prefWidth="180.0" AnchorPane.leftAnchor="5.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="1080.0" prefWidth="1740.0">
+            <AnchorPane prefHeight="1032.0" prefWidth="1740.0">
                <children>
                   <Label text="FX:ID" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
                      <font>
@@ -105,9 +105,14 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Button layoutX="42.0" layoutY="515.0" mnemonicParsing="false" text="Restore Deafault" AnchorPane.leftAnchor="40.0" onAction="#restoreDefault">
+                  <Button layoutX="42.0" layoutY="515.0" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Deafault" AnchorPane.leftAnchor="40.0">
                      <font>
                         <Font size="24.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="back_Button" layoutX="1607.0" layoutY="37.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="79.0" text="Back" AnchorPane.leftAnchor="1565.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font size="20.0" />
                      </font>
                   </Button>
                </children>

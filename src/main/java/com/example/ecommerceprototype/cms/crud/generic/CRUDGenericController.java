@@ -248,6 +248,14 @@ public class CRUDGenericController implements Initializable {
     }
 
  */
+    private void backHandler(ActionEvent event){
+        try {
+            Pane pane = CMS.getInstance().loadComponent("CRUDHub", true);
+            CRUDHubApplication.setStage(new Scene(pane, 600, 400));
+        } catch (FXMLLoadFailedException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private synchronized void backupFiles(){
         List<String> files = CMS.getInstance().getComponentList();
         for (String s : files){
@@ -294,6 +302,7 @@ public class CRUDGenericController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         backupFiles();
+        back_Button.setOnAction(this::backHandler);
         fontBox.setItems(fonts);
         System.out.println(fontBox.getValue());
         components.addAll(CMS.getInstance().getComponentList());
