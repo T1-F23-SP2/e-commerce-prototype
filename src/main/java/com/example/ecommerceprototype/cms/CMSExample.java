@@ -50,11 +50,11 @@ public class CMSExample extends Application{
 
 
         //Load sidebar onto template
-        Pane sidebar = CMS.getInstance().loadComponent("SortFilter");
+        Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
-        /*
+
         //Set action for article button (on the sidebar)
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+        ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
@@ -69,7 +69,6 @@ public class CMSExample extends Application{
             b.setText(categories[i]);
             categoryList.getChildren().add(b);
         }
-         */
 
 
 
@@ -88,12 +87,9 @@ public class CMSExample extends Application{
                 ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText("- This is an item!\n- You should buy this product!\n- Great quality!");
                 Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
                 ((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
-                ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        try {loadProductPage();}
-                        catch (Exception e) {System.out.println(e.getMessage());}
-                    }
+                ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
+                    try {loadProductPage();}
+                    catch (Exception e) {System.out.println(e.getMessage());}
                 });
 
                 GridPane.setColumnIndex(view, i);
@@ -107,6 +103,7 @@ public class CMSExample extends Application{
     }
 
     public void loadArticlePage() throws Exception{
+        System.out.println("");
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
@@ -151,7 +148,7 @@ public class CMSExample extends Application{
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         //Set action for article button (on the sidebar)
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+        ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
@@ -200,7 +197,7 @@ public class CMSExample extends Application{
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         //Set action for article button (on the sidebar)
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+        ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
@@ -226,10 +223,9 @@ public class CMSExample extends Application{
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
         }
-
         ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
             try {loadPaymentPage();}
-            catch (Exception e) {System.out.println(e.getMessage());}
+            catch (Exception e) {System.out.println("!!!" + e.getMessage());}
         });
 
 
@@ -259,7 +255,7 @@ public class CMSExample extends Application{
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         //Set action for article button (on the sidebar)
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+        ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
@@ -310,7 +306,7 @@ public class CMSExample extends Application{
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         //Set action for article button (on the sidebar)
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
+        ((Button) CMS.getInstance().findNode(sidebar, "articlesb_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });

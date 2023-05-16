@@ -46,6 +46,7 @@ public class CMS implements ICMS{
             throw new FXMLLoadFailedException(errorMessage);
 
     }
+
     /*@Override
     public Pane fetchComponentWithProduct(String fxid, ProductInformation prod) {
         Pane p = fetchComponent(fxid);

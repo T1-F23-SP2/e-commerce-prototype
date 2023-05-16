@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import java.io.File;
@@ -43,29 +41,13 @@ public class ArticleController implements Initializable {
             b.setStyle("-fx-font-size:14; -fx-background-radius: 0;");
             b.setTextAlignment(TextAlignment.CENTER);
             b.setWrapText(true);
-            b.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    loadArticle(findArticle(articleNames.get(index)));
-                }
-            });
+            b.setOnAction(actionEvent -> loadArticle(CMS.articles.getArticle(articleNames.get(index))));
 
             articleList_VBox.getChildren().add(b);
         }
-        loadArticle(findArticle("Welcome to Articles"));
+        loadArticle(new File("src/main/resources/com/example/ecommerceprototype/cms/Articles/DefaultFile.txt"));
     }
 
-    public File findArticle(String name) {
-        ArrayList<File> articleFiles = CMS.articles.getArticleFiles();
-        for (int i = 0; i < articleFiles.size(); i++) {
-            try (Scanner sc = new Scanner(articleFiles.get(i))) {
-                if (sc.nextLine().equals(name))
-                    return articleFiles.get(i);
-            }
-            catch (FileNotFoundException fnfe) {System.out.println(fnfe.getMessage());}
-        }
-        return null;
-    }
     public void loadArticle(File f) {
         try (Scanner sc = new Scanner(f)) {
 

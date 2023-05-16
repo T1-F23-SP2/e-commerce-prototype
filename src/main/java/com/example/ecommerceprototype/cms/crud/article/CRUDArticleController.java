@@ -96,7 +96,7 @@ public class CRUDArticleController implements Initializable {
             sc.nextLine(); // skips Date line
             articleText_TextArea.setText("");
             while (sc.hasNextLine()){
-                articleText_TextArea.appendText(sc.nextLine());
+                articleText_TextArea.appendText(sc.nextLine()+"\n");
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

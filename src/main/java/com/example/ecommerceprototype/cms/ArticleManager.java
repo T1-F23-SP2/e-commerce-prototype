@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class ArticleManager implements IArticle{
     private static ArticleManager instance;
-    private final String defaultArticleURL = "ArticlePage.fxml";
-
     private ArticleManager() {} //Zero-arg constructor
     static protected ArticleManager getInstance() {
         if (instance == null)
@@ -76,6 +74,7 @@ public class ArticleManager implements IArticle{
                 throw new RuntimeException(e);
             }
         }
+        System.out.println("file");
         return null;
     }
 
