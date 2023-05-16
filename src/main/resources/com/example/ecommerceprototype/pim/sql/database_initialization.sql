@@ -562,7 +562,7 @@ LANGUAGE plpgsql;
 
 
 /* Inserting a new price change with discount */
-CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID UUID, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
+CREATE OR REPLACE PROCEDURE insertNewPriceChange(argProductUUID VARCHAR, argPrice NUMERIC, argWholesalePrice NUMERIC, argDiscountName VARCHAR)
 AS $$
 BEGIN
     INSERT INTO Price_history
@@ -570,7 +570,7 @@ BEGIN
     VALUES (argPrice,
             argWholesalePrice,
             now(),
-            (SELECT id FROM Products WHERE product_UUID = argProductUUID),
+            (SELECT id FROM Products WHERE product_UUID = CAST(argProductUUID as UUID)),
             (SELECT id FROM Discounts WHERE name = argDiscountName));
 END; $$
 LANGUAGE plpgsql;
@@ -632,7 +632,7 @@ LANGUAGE plpgsql;
 
 
 /* Update specification by product UUID and specification key */
-CREATE OR REPLACE PROCEDURE updateSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR, argNewKey VARCHAR, argNewValue VARCHAR)
+CREATE OR REPLACE PROCEDURE updateSpecificationByProductUUIDAndKey(argProductUUID VARCHAR, argKey VARCHAR, argNewKey VARCHAR, argNewValue VARCHAR)
 AS $$
 BEGIN
     IF (SELECT COUNT(*) FROM Specification_names WHERE name = argNewKey) < 1 THEN
@@ -644,23 +644,23 @@ BEGIN
     UPDATE Specifications
     SET specification_names_id = (SELECT id FROM Specification_names WHERE name = argNewKey),
         specification_value    = argNewValue
-    WHERE product_id = (SELECT id FROM Products WHERE product_UUID = argProductUUID)
+    WHERE product_id = (SELECT id FROM Products WHERE product_UUID = CAST(argProductUUID as UUID))
       AND specification_names_id = (SELECT id FROM Specification_names WHERE name = argKey);
 END; $$
 LANGUAGE plpgsql;
 
 
 /* Delete product by UUID */
-CREATE OR REPLACE PROCEDURE deleteProductByUUID(argUUID UUID)
+CREATE OR REPLACE PROCEDURE deleteProductByUUID(argUUID VARCHAR)
 AS $$
 BEGIN
     DELETE FROM specifications
         WHERE
-            product_id = (SELECT id FROM products WHERE product_UUID = argUUID);
+            product_id = (SELECT id FROM products WHERE product_UUID = CAST(argUUID as UUID));
 
     DELETE FROM price_history
         WHERE
-            product_id = (SELECT id FROM products WHERE product_UUID = argUUID);
+            product_id = (SELECT id FROM products WHERE product_UUID = CAST(argUUID as UUID));
 
     DELETE FROM products
         WHERE
@@ -704,14 +704,14 @@ LANGUAGE plpgsql;
 
 
 /* Delete product specification by key  */
-CREATE OR REPLACE PROCEDURE deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
+CREATE OR REPLACE PROCEDURE deleteSpecificationByProductUUIDAndKey(argProductUUID VARCHAR, argKey VARCHAR)
 AS $$
 BEGIN
     DELETE FROM specifications
         WHERE
             specification_names_id = (SELECT id FROM specification_names WHERE name = argKey)
         AND
-            product_id = (SELECT id FROM Products WHERE product_UUID = argProductUUID);
+            product_id = (SELECT id FROM Products WHERE product_UUID = CAST(argProductUUID as UUID));
 END; $$
 LANGUAGE plpgsql;
 
