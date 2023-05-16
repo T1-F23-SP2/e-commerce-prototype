@@ -17,7 +17,7 @@ public class CMS implements ICMS{
 
     private CMS() {}; //Zero-arg constructor
 
-    public static CMS getInstance() {
+    public static synchronized CMS getInstance() {
         if (instance == null)
             instance = new CMS();
         return instance;
@@ -26,7 +26,7 @@ public class CMS implements ICMS{
     @Override
     public Pane loadComponent(String id) throws FXMLLoadFailedException {
         String errorMessage;
-        FXMLLoader loader = new FXMLLoader(CMS.class.getResource(id + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(CMS.class.getResource("fxml/"+id + ".fxml"));
         try {
             return loader.load();
         }
@@ -34,6 +34,18 @@ public class CMS implements ICMS{
         throw new FXMLLoadFailedException(errorMessage);
     }
 
+    // Overloaded method
+    @Override
+    public Pane loadComponent(String id, boolean isCRUD) throws FXMLLoadFailedException {
+        String errorMessage;
+            FXMLLoader loader = new FXMLLoader(CMS.class.getResource("crud/"+id + ".fxml"));
+            try {
+                return loader.load();
+            }
+            catch (IOException ioe) { errorMessage = ioe.getMessage(); }
+            throw new FXMLLoadFailedException(errorMessage);
+
+    }
     /*@Override
     public Pane fetchComponentWithProduct(String fxid, ProductInformation prod) {
         Pane p = fetchComponent(fxid);
@@ -75,7 +87,7 @@ public class CMS implements ICMS{
     public ArrayList<String> getComponentList() {
         ArrayList<String> result = new ArrayList<>();
 
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml");
         if (!infile.exists())
             return result;
 

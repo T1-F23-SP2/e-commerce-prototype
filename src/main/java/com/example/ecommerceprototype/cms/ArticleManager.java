@@ -1,13 +1,7 @@
 package com.example.ecommerceprototype.cms;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -23,9 +17,17 @@ public class ArticleManager implements IArticle{
         return instance;
     }
 
+    @Override
+    public ArrayList<File> getArticleFiles() {
+        ArrayList<File> result = new ArrayList<>();
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        if (!infile.exists())
+            return result;
 
-
-
+        File[] allFiles = infile.listFiles();
+        result.addAll(Arrays.asList(allFiles));
+        return result;
+    }
     @Override
     public int getArticleCount() { //Counts specifically text files in a directory
         File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
@@ -42,7 +44,6 @@ public class ArticleManager implements IArticle{
 
         return count;
     }
-
     @Override
     public ArrayList<String> getArticleNames() {
         ArrayList<String> results = new ArrayList<>();
@@ -64,14 +65,18 @@ public class ArticleManager implements IArticle{
     }
 
     @Override
-    public ArrayList<File> getArticleFiles() {
-        ArrayList<File> result = new ArrayList<>();
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
-        if (!infile.exists())
-            return result;
-
-        File[] allFiles = infile.listFiles();
-        result.addAll(Arrays.asList(allFiles));
-        return result;
+    public File getArticle(String articleName) {
+        ArrayList<File> articles = getArticleFiles();
+        for (File file: articles){
+            try (Scanner sc = new Scanner(file)){
+                if (articleName.equals(sc.nextLine())){
+                    return file;
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
     }
+
 }
