@@ -1,13 +1,13 @@
 package com.example.ecommerceprototype.oms;
 
-import DB.DBManager;
-import DB.StockInterface;
-import MockShop.PlaceholderInstShop;
-import Visuals.TableCreator;
+import com.example.ecommerceprototype.oms.DB.DBManager;
+import com.example.ecommerceprototype.oms.DB.StockInterface;
+import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
+import com.example.ecommerceprototype.oms.Visuals.TableCreator;
 import com.mongodb.client.MongoCollection;
-import mockPIM.PlaceHolderInstGet;
+import com.example.ecommerceprototype.oms.mockPIM.PlaceHolderInstGet;
 import org.bson.Document;
-import ComputedOverviews.*;
+import com.example.ecommerceprototype.oms.ComputedOverviews.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
