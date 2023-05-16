@@ -7,22 +7,28 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="1000.0" prefWidth="180.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER">
+   <padding>
+      <Insets top="20"/>
+   </padding>
    <Label alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Category">
          <font>
             <Font size="24.0" />
          </font>
    </Label>
-   <VBox fx:id="categoryList_VBox" prefWidth="180.0" spacing="10">
+   <VBox fx:id="categoryList_VBox" prefWidth="180.0" spacing="1">
       <padding>
-         <Insets bottom="25"/>
+         <Insets top="10" bottom="25"/>
       </padding>
    </VBox>
    <Label alignment="CENTER" prefHeight="40.0" prefWidth="180.0" text="Articles">
       <font>
          <Font size="24.0" />
       </font>
+      <padding>
+         <Insets bottom="10"/>
+      </padding>
    </Label>
-   <Button fx:id="articlesButton_Button" text="Go To Articles" prefWidth="180" prefHeight="50">
+   <Button fx:id="articles_Button" text="Go To Articles" prefWidth="180" prefHeight="35" style="-fx-background-radius: 0;">
       <font>
          <Font size="16"/>
       </font>

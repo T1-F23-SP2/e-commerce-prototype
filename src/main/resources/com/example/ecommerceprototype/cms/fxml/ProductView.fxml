@@ -20,7 +20,7 @@
          </font>
       </TextArea>
 
-      <Button fx:id="addToCart_Button" layoutX="325.0" layoutY="410.0" mnemonicParsing="false" minHeight="35" maxHeight="35" minWidth="75"  maxWidth="75" text="Buy" AnchorPane.rightAnchor="15.0" textAlignment="JUSTIFY">
+      <Button fx:id="addToCart_Button" layoutX="325.0" layoutY="410.0" mnemonicParsing="false" minHeight="35" maxHeight="35" minWidth="75"  maxWidth="75" text="Buy" AnchorPane.rightAnchor="15.0" style="-fx-background-radius: 0;">
          <font>
             <Font size="16.0" />
          </font>
