@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype;
+package com.example.ecommerceprototype.oms;
 
 import com.example.ecommerceprototype.oms.DB.StockInterface;
 import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;

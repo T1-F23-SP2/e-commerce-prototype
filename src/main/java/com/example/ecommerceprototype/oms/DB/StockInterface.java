@@ -2,7 +2,7 @@ package com.example.ecommerceprototype.oms.DB;
 
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
-import com.example.ecommerceprototype.HelloController;
+import com.example.ecommerceprototype.oms.HelloController;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;

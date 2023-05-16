@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="467.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.HelloController">
+<BorderPane prefHeight="467.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.oms.HelloController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="508.0" prefWidth="366.0" BorderPane.alignment="CENTER">
          <children>
