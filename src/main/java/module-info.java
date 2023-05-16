@@ -6,6 +6,7 @@ module com.example.ecommerceprototype {
     requires org.postgresql.jdbc;
     requires java.desktop;
     requires javafx.media;
+    requires com.azure.storage.blob;
     opens com.example.ecommerceprototype to javafx.fxml;
     opens com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype;
