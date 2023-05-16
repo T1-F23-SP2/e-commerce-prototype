@@ -2,7 +2,8 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
-import com.example.ecommerceprototype.pim.sql_helpers.SQLConnectionTestInitializerTest;
+import com.example.ecommerceprototype.pim.sql_helpers.SQLConnectionTestInitializer;
+import com.example.ecommerceprototype.pim.sql_helpers.TestConnectionWrapper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,13 +18,15 @@ import java.util.ArrayList;
 
 public class DBDriverTest {
     static DBDriver dbDriver;
+    private static TestConnectionWrapper connectionWrapper;
     static Connection connection;
 
     @BeforeAll
     static void setup() {
         try {
-            SQLConnectionTestInitializerTest.setup();
-            connection = SQLConnectionTestInitializerTest.getConnection();
+            connectionWrapper = new TestConnectionWrapper();
+            connection = connectionWrapper.setup(new SQLConnectionTestInitializer());
+
             dbDriver = DBDriver.getInstance(connection);
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
@@ -490,7 +493,7 @@ public class DBDriverTest {
     @AfterAll
     static void end() {
         try {
-            SQLConnectionTestInitializerTest.tearDown();
+            connectionWrapper.teardown();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

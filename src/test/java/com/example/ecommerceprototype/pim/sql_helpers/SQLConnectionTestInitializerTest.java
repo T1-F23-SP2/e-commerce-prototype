@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
     Tests that the setup script is run properly with setup database.
  */
 
-public class SQLConnectionTestInitializerTest {
+class SQLConnectionTestInitializerTest {
     private class ExpectedColumns {
         static public ResultSet getTableColumns(Connection connection, String tableName) throws SQLException {
             PreparedStatement statement = connection.prepareStatement("""
@@ -55,7 +55,7 @@ public class SQLConnectionTestInitializerTest {
     private static TestConnectionWrapper testConnectionWrapper;
     private static Connection connection;
     @BeforeAll
-    public static void setup() throws SQLException, IOException {
+    static void setup() throws SQLException, IOException {
         testConnectionWrapper = new TestConnectionWrapper();
         connection = testConnectionWrapper.setup(new SQLConnectionTestInitializer());
     }
@@ -191,12 +191,8 @@ public class SQLConnectionTestInitializerTest {
 
 
     @AfterAll
-    public static void tearDown() throws SQLException {
+    static void tearDown() throws SQLException {
         testConnectionWrapper.teardown();
-    }
-
-    public static Connection getConnection() {
-        return connection;
     }
 
 }
