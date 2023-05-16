@@ -1,22 +1,37 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
+
+import java.sql.SQLException;
 
 public class ManufacturingInformationUpdater extends ManufacturingInformationWorker {
-    ManufacturingInformation manufacturingInformation;
 
-    protected ManufacturingInformationUpdater(ManufacturingInformation mi) {
-        this.manufacturingInformation = mi;
+    // This value is used when updating a manufactures' information.
+    // We need this attribute because we won't know what the original manufactures' name was without it.
+    protected String originalName;
+
+    public ManufacturingInformationUpdater(ManufacturingInformation mi) {
+        super(mi);
     }
 
-    protected ManufacturingInformationUpdater(String name) {
-        //Out commented because it gives error
-        //DBDriver.getManufactureByName() = name;
+    public String getOriginalName() {
+        return this.originalName;
+    }
+
+    public ManufacturingInformationUpdater setOriginalName(String originalName) {
+        this.originalName = originalName;
+        return this;
     }
 
     @Override
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
+    public ManufacturingInformation submit() throws SQLException, DuplicateEntryException {
+        if (originalName == null) {
+            originalName = this.getManufacturingInformation().getName();
+        }
+
+        DBDriver.getInstance().updateManufactureByName(this.originalName, super.getManufacturingInformation());
+        return super.getManufacturingInformation();
     }
 }

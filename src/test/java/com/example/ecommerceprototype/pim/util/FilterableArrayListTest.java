@@ -23,9 +23,7 @@ class FilterableArrayListTest {
         list.add(val1);
         list.add(val2);
         list.add(val3);
-        FilterableArrayList<Example> filteredList = list.filterElements(e -> {
-           return e.test;
-        });
+        FilterableArrayList<Example> filteredList = list.filterElements(e -> e.test);
 
         assertEquals(2, filteredList.size());
 

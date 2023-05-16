@@ -1,38 +1,36 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
+
+import java.sql.SQLException;
 
 public abstract class ManufacturingInformationWorker {
 
-    ManufacturingInformation manufacturingInformation;
+    private final ManufacturingInformation manufacturingInformation;
 
-    protected ManufacturingInformationWorker(ManufacturingInformation mi){
+    protected ManufacturingInformationWorker(ManufacturingInformation mi) {
         this.manufacturingInformation = mi;
     }
 
-    protected ManufacturingInformationWorker(){
-
-    }
-
     public ManufacturingInformationWorker setName(String name) {
-        this.manufacturingInformation.name = name;
+        this.manufacturingInformation.setName(name);
         return this;
     }
 
     public ManufacturingInformationWorker setSupportPhoneNumber(String supportPhoneNumber) {
-        this.manufacturingInformation.supportPhoneNumber = supportPhoneNumber;
+        this.manufacturingInformation.setSupportPhoneNumber(supportPhoneNumber);
         return this;
     }
 
     public ManufacturingInformationWorker setSupportMail(String supportMail) {
-        this.manufacturingInformation.supportMail = supportMail;
+        this.manufacturingInformation.setSupportMail(supportMail);
         return this;
     }
 
     public ManufacturingInformation getManufacturingInformation() {
-        return manufacturingInformation;
+        return this.manufacturingInformation;
     }
 
-    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract ManufacturingInformation submit() throws SQLException, DuplicateEntryException;
 }

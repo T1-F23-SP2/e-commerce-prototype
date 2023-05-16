@@ -4,18 +4,12 @@ import com.example.ecommerceprototype.pim.util.Nameable;
 
 
 public class ManufacturingInformation implements Nameable {
-    String name;
-    String supportPhoneNumber;
-    String supportMail;
+    private String name;
+    private String supportPhoneNumber;
+    private String supportMail;
 
-    protected ManufacturingInformation(String name, String supportPhoneNumber, String supportMail) {
-        this.name = name;
-        this.supportPhoneNumber = supportPhoneNumber;
-        this.supportMail = supportMail;
-    }
-    protected ManufacturingInformation() {
-
-    }
+    // Should the empty constructor be removed?
+    public ManufacturingInformation() {}
 
     public String getName() {
         return name;

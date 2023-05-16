@@ -52,7 +52,7 @@ public class DBDriverTest {
         ProductInformation returnedProduct = null;
         try {
             returnedProduct = dbDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -80,7 +80,7 @@ public class DBDriverTest {
         ProductInformation returnedProduct = null;
         try {
             returnedProduct = dbDriver.getProductByUUID(uuid);
-        } catch (UUIDNotFoundException e) {
+        } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -118,7 +118,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -159,27 +159,36 @@ public class DBDriverTest {
             throw new RuntimeException(e);
         }
 
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+            ArrayList<ProductInformation> returnedList = null;
+            try {
+                returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
 
-        assertTrue(returnedList.size() == 2 &&
-                productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
-                        .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
+            assertTrue(returnedList.size() == 2 &&
+                    productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
+                    productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                            .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
 
-        // Remove inserted, hidden products.
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id=12; DELETE FROM products WHERE id=13");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+            // Remove inserted, hidden products.
+            PreparedStatement preparedStatement = null;
+            try {
+                preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id=12; DELETE FROM products WHERE id=13");
+                preparedStatement.execute();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
     }
 
     @Test
     void testGetNoProductThatIsHidden() {
-        ArrayList<ProductInformation> returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         assertTrue(returnedList.isEmpty());
     }
@@ -215,7 +224,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("TV");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -230,7 +239,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("PC & tablets");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -268,7 +277,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("Lenovo");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -290,7 +299,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -328,7 +337,7 @@ public class DBDriverTest {
         ArrayList<ProductInformation> returnedList = null;
         try {
             returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByDiscountName("Spring sale");
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -336,25 +345,6 @@ public class DBDriverTest {
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
                 productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
                         .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
-    }
-
-    @Test
-    void testGetNoProductByDiscountName() {
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Discounts (id, name, start_date, end_date) " +
-                    "VALUES (10, 'NAN', '2023-05-11 16:18:28.388766', '2023-06-01 00:00:00.000000')");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e.toString());
-        }
-        ArrayList<ProductInformation> returnedList = null;
-        try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        assertTrue(returnedList.isEmpty());
     }
 
     @Test
@@ -374,7 +364,7 @@ public class DBDriverTest {
 
         try {
             assertEquals("TV", dbDriver.getCategoryByProductUUID(uuid).getName());
-        } catch (UUIDNotFoundException e) {
+        } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -383,7 +373,7 @@ public class DBDriverTest {
     void testGetCategoryByCategoryID() {
         try {
             assertEquals("TV", dbDriver.getCategoryByCategoryID(8).getName());
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -392,7 +382,7 @@ public class DBDriverTest {
     void testGetCategoryByName() {
         try {
             assertEquals(dbDriver.getCategoryByCategoryID(8).getName(), dbDriver.getCategoryByName("TV").getName());
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -414,7 +404,7 @@ public class DBDriverTest {
 
         try {
             assertEquals("AMD Ryzen 5600U", dbDriver.getSpecificationByProductUUID(uuid).get("CPU"));
-        } catch (UUIDNotFoundException e) {
+        } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -436,7 +426,7 @@ public class DBDriverTest {
 
         try {
             assertEquals("Lenovo", dbDriver.getManufactureByProductUUID(uuid).getName());
-        } catch (UUIDNotFoundException e) {
+        } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -445,7 +435,7 @@ public class DBDriverTest {
     void testGetManufactureByName() {
         try {
             assertEquals("12345678", dbDriver.getManufactureByName("Lenovo").getSupportPhoneNumber());
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -468,7 +458,7 @@ public class DBDriverTest {
 
         try {
             assertEquals("Spring sale", dbDriver.getDiscountByProductUUID(uuid).getName());
-        } catch (UUIDNotFoundException e) {
+        } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -477,7 +467,7 @@ public class DBDriverTest {
     void testGetDiscountByName() { // Boring looking test - but then again, if no exception occurs, isn't it technically working?
         try {
             assertEquals("Spring sale", dbDriver.getDiscountByName("Spring sale").getName());
-        } catch (NotFoundException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

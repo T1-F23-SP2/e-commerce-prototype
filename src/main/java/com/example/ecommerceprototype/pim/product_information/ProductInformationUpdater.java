@@ -1,29 +1,34 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.*;
+
+import java.sql.SQLException;
 
 public class ProductInformationUpdater extends ProductInformationWorker {
 
-    private ProductInformation productInformation;
+    private String originalName;
 
     public ProductInformationUpdater(ProductInformation pi) {
-        this.productInformation = pi;
+        super(pi);
     }
 
-    public ProductInformationUpdater(String productUUID) {
-        //Out commented because it gives error
-        //DBDriver.getProductWhereUUIDEqualsX() = productUUID;
+    public String getOriginalName() {
+        return this.originalName;
     }
 
-    private ProductInformation getProductInformationFromUUID(String productUUID) {
-        //Out commented because it gives error
-        //DBDriver.getProductWhereUUIDEqualsX() = productUUID;
-        throw new UnsupportedOperationException();
+    public ProductInformationUpdater setOriginalName(String originalName) {
+        this.originalName = originalName;
+        return this;
     }
 
     @Override
-    public ProductInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
+    public ProductInformation submit() throws UUIDNotFoundException, SQLException, ManufactureNotFoundException, CategoryNotFoundException, DuplicateEntryException {
+        if (originalName == null) {
+            originalName = this.getProductInformation().getName();
+        }
+
+        DBDriver.getInstance().updateProductByUUID(super.getProductInformation().getProductUUID(), this.originalName, super.getProductInformation());
+
+        return super.getProductInformation();
     }
 }

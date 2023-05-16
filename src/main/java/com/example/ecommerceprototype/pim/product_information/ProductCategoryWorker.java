@@ -1,12 +1,17 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
 
+import java.sql.SQLException;
+
 public abstract class ProductCategoryWorker {
-    ProductCategory productCategory;
-    public ProductCategoryWorker() {
-        this.productCategory = new ProductCategory();
+
+    private final ProductCategory productCategory;
+
+    public ProductCategoryWorker(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public ProductCategoryWorker setName(String name) {
@@ -23,5 +28,5 @@ public abstract class ProductCategoryWorker {
         return this.productCategory;
     }
 
-    public abstract ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract ProductCategory submit() throws SQLException, DuplicateEntryException, CategoryNotFoundException;
 }

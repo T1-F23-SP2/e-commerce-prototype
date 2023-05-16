@@ -1,19 +1,19 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
+
+import java.sql.SQLException;
 
 public class ManufacturingInformationBuilder extends ManufacturingInformationWorker {
 
-    private ManufacturingInformation manufacturingInformation;
-
-    protected ManufacturingInformationBuilder() {
-        manufacturingInformation = new ManufacturingInformation();
+    public ManufacturingInformationBuilder() {
+        super(new ManufacturingInformation());
     }
 
     @Override
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
+    public ManufacturingInformation submit() throws SQLException, DuplicateEntryException {
+        DBDriver.getInstance().insertNewManufacture(this.getManufacturingInformation());
+        return this.getManufacturingInformation();
     }
-
 }

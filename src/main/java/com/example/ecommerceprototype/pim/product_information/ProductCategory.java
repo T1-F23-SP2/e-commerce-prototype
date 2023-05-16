@@ -7,17 +7,9 @@ public class ProductCategory implements Nameable {
     private String name;
     private ProductCategory productCategoryParent;
 
+    // Should the empty constructor be removed?
     public ProductCategory() {
 
-    }
-
-    public ProductCategory(String name) {
-        this.name = name;
-    }
-
-    public ProductCategory(String name, ProductCategory productCategoryParent) {
-        this.name = name;
-        this.productCategoryParent = productCategoryParent;
     }
 
     public String getName() {
@@ -25,7 +17,7 @@ public class ProductCategory implements Nameable {
     }
 
     public ProductCategory getProductCategoryParent() {
-        if(this.productCategoryParent == null) {
+        if (this.productCategoryParent == null) {
             return null;
         }
         return this.productCategoryParent;
@@ -41,8 +33,8 @@ public class ProductCategory implements Nameable {
         return this;
     }
 
-    // TODO: Create below method, by searching for Category by name.
     protected ProductCategory setProductCategoryParent(String name) {
-        throw new UnsupportedOperationException();
+        this.productCategoryParent = new ProductCategory().setName(name);
+        return this;
     }
 }
