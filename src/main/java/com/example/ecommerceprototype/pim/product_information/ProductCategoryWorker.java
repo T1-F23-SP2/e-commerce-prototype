@@ -5,11 +5,7 @@ import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryIn
 
 public abstract class ProductCategoryWorker {
 
-    protected ProductCategory productCategory;
-
-    public ProductCategoryWorker() {
-        this.productCategory = new ProductCategory();
-    }
+    private final ProductCategory productCategory;
 
     public ProductCategoryWorker(ProductCategory productCategory) {
         this.productCategory = productCategory;

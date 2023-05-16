@@ -9,8 +9,9 @@ public class ProductCategoryBuilder extends ProductCategoryWorker {
         super(new ProductCategory());
     }
 
-    @Override // TODO: Implement CategoryBuilder submit()
+    @Override
     public ProductCategory submit() throws DuplicateEntryException, IncompleteProductCategoryInformation {
-        throw new UnsupportedOperationException();
+        DBDriver.getInstance().insertNewProductCategory(this.getProductCategory());
+        return this.getProductCategory();
     }
 }

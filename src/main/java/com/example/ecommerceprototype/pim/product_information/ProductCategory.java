@@ -33,8 +33,8 @@ public class ProductCategory implements Nameable {
         return this;
     }
 
-    // TODO: Create below method, by searching for Category by name.
     protected ProductCategory setProductCategoryParent(String name) {
-        throw new UnsupportedOperationException();
+        this.productCategoryParent = new ProductCategory().setName(name);
+        return this;
     }
 }
