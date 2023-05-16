@@ -5,11 +5,9 @@
 
 <?import javafx.scene.layout.VBox?>
 <VBox>
-    <Button fx:id="categoryItem_Button" text="Computers" prefWidth="180" prefHeight="35" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-radius: 0;">
+    <Button fx:id="categoryItem_Button" text="Category" prefWidth="180" prefHeight="35" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-radius: 0;">
         <font>
             <Font size="16"/>
         </font>
     </Button>
 </VBox>
-
-

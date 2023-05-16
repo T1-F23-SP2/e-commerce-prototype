@@ -28,7 +28,7 @@
          <Insets bottom="10"/>
       </padding>
    </Label>
-   <Button fx:id="articlesButton_Button" text="Go To Articles" prefWidth="180" prefHeight="35" style="-fx-background-radius: 0;">
+   <Button fx:id="articles_Button" text="Go To Articles" prefWidth="180" prefHeight="35" style="-fx-background-radius: 0;">
       <font>
          <Font size="16"/>
       </font>

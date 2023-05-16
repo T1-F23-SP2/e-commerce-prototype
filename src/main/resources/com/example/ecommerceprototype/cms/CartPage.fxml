@@ -25,24 +25,24 @@
       <Line endX="800" strokeWidth="2"/>
 
       <HBox spacing="30" alignment="BASELINE_LEFT">
-         <Label minWidth="200" text="Price excl. Moms:">
+         <Label minWidth="200" text="Price excl. Tax:">
             <font>
                <Font size="24.0" />
             </font>
          </Label>
-         <Label fx:id="priceEkslMoms_Label" text="9999.99 DKK">
+         <Label fx:id="priceExclTax_Label" text="9999.99 DKK">
             <font>
                <Font size="22.0" />
             </font>
          </Label>
       </HBox>
       <HBox spacing="30" alignment="BASELINE_LEFT">
-         <Label minWidth="200" text="Moms:">
+         <Label minWidth="200" text="Tax:">
             <font>
                <Font size="24.0" />
             </font>
          </Label>
-         <Label fx:id="priceMoms_Label" text="9999.99 DKK">
+         <Label fx:id="priceTax_Label" text="9999.99 DKK">
             <font>
                <Font size="22.0" />
             </font>

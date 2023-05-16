@@ -52,9 +52,9 @@ public class CMSExample extends Application{
 
 
         //Load sidebar onto template
-        Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
+        Pane sidebar = CMS.getInstance().loadComponent("SortFilter");
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
-
+        /*
         //Set action for article button (on the sidebar)
         ((Button) CMS.getInstance().findNode(sidebar, "articlesButton_Button")).setOnAction(actionEvent -> {
             try {loadArticlePage();}
@@ -71,6 +71,7 @@ public class CMSExample extends Application{
             b.setText(categories[i]);
             categoryList.getChildren().add(b);
         }
+         */
 
 
 
