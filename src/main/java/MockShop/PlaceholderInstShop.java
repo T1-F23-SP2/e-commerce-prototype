@@ -17,7 +17,7 @@ public class PlaceholderInstShop {
         map.put(PlaceHolderInstGet.getInst2().getProductUUID(), 2);
         map.put(PlaceHolderInstGet.getInst3().getProductUUID(), 55);
     }
-    static Customer customer = new Customer("Anders Rasmussen", "Aras1985@gmail.com", 78956453, "Arnegade 45, ", "5000 Odense");
+    static Customer customer = new Customer("Anders Rasmussen", "Aras1985@gmail.com", 78956453, "Arnegade 45, ", 5000);
 
 
 
