@@ -79,6 +79,16 @@ public class FileSystem {
         return container;
     }
 
+    private String shortenURL (String url)
+    {
+        if (url.startsWith(Constants.AZURE_Start_URL))
+        {
+            url = url.substring(37);
+            System.out.println(url);
+        }
+        return url;
+    }
+
 
     public String uploadFile(Type type, Category category)
     {
@@ -91,10 +101,11 @@ public class FileSystem {
         BlobClient uploadBlobClient = client.getBlobClient(folder_name + "/test3.jpg");
         uploadBlobClient.uploadFromFile(file_path+file_name);
 
-
         String url = uploadBlobClient.getBlobUrl();
 
-        return url;
+        String newUrl = shortenURL(url);
+
+        return newUrl;
     }
 
     public void deleteFile(int assetID_in)

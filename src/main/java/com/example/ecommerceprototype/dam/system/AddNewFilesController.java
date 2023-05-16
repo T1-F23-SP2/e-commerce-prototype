@@ -7,9 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Dialog;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.sql.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class AddNewFilesController {
@@ -56,27 +57,31 @@ public class AddNewFilesController {
         List<File> files = fileChooser.showOpenMultipleDialog(null);
 
 
+
+
         if (files != null) {
 
             for (File file : files) {
 
-                // first we need to load the content of the files into a byte array
-                byte[] fileContent = Files.readAllBytes(file.toPath());
-                UUID uu_id = UUID.randomUUID();
-                String uu_id_string = uu_id.toString();
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("newFileContents"));
+                    DialogPane addFilesDialogPane = fxmlLoader.load();
 
-                try (Connection conn = DriverManager.getConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
-                     PreparedStatement stmt = conn.prepareStatement("INSERT INTO files (name, type, data, UUID) VALUES (?, ?, ?, ?)")) {
-                    stmt.setString(1, file.getAbsolutePath());
-                    stmt.setString(2, Files.probeContentType(file.toPath()));
-                    stmt.setBytes(3, fileContent);
-                    stmt.setString(4, uu_id_string);
-                    stmt.executeUpdate();
+                    Dialog<ButtonType> dialog = new Dialog<>();
+                    dialog.setDialogPane(addFilesDialogPane);
+                    dialog.setTitle("Asset Properties");
+
+                    Optional<ButtonType> clickedButton = dialog.showAndWait();
+                    if (clickedButton.get() == ButtonType.OK){
 
 
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    }
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
+
             }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Files Added");

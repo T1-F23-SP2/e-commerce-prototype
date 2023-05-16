@@ -6,23 +6,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<DialogPane prefHeight="225.0" prefWidth="286.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <graphic>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="38.0">
+<DialogPane prefHeight="359.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.system.NewFileController">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="310.0">
          <children>
-            <ChoiceBox layoutX="106.0" layoutY="71.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="106.0" layoutY="116.0" prefWidth="150.0" />
-            <ChoiceBox layoutX="106.0" layoutY="156.0" prefWidth="150.0" />
-            <TextField layoutX="106.0" layoutY="25.0" promptText="File name" />
-            <Label layoutX="28.0" layoutY="29.0" text="File name:" />
-            <Label layoutX="28.0" layoutY="75.0" text="Type" />
-            <Label layoutX="28.0" layoutY="120.0" text="Category" />
-            <Label layoutX="28.0" layoutY="160.0" text="File name:" />
+            <Label layoutX="39.0" layoutY="78.0" text="Name" />
+            <Label layoutX="39.0" layoutY="198.0" text="Category" />
+            <Label layoutX="39.0" layoutY="134.0" text="Type" />
+            <Label layoutX="39.0" layoutY="261.0" text="Label" />
+            <ChoiceBox fx:id="categoryChoice" layoutX="132.0" layoutY="194.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="typeChoice" layoutX="131.0" layoutY="132.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="bufferChoice" layoutX="131.0" layoutY="260.0" prefWidth="150.0" />
+            <TextField fx:id="textField" layoutX="132.0" layoutY="73.0" promptText="Name" />
+            <Label layoutX="71.0" layoutY="22.0" prefHeight="17.0" prefWidth="176.0" text="Asset details">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-   </graphic>
+   </content>
    <buttonTypes>
       <ButtonType fx:constant="OK" />
       <ButtonType fx:constant="CANCEL" />

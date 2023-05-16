@@ -20,7 +20,7 @@ public class Constants {
     public static final String AZURE_CONTAINER_pi = "images";
     public static final String AZURE_CONTAINER_pf = "productfiles";
     public static final String AZURE_CONTAINER_images = "productimages";
-    public static final String AZURE_Start_URL = "https://damsem2.blob.core.windows.net/";
+    public static final String AZURE_Start_URL = "https://damsem2.blob.core.windows.net";
 
 
 
