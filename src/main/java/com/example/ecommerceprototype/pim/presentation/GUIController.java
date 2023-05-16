@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class GUIController {
 
-    //region Variables
+    // region Variables
 
     // Product variables:
     @FXML
@@ -111,7 +111,7 @@ public class GUIController {
     private final SafeRemoveArrayList<ManufacturingInformationUpdater> manufacturingInformationUpdatersList = new SafeRemoveArrayList<>();
     private final SafeRemoveArrayList<DiscountInformationUpdater> discountInformationUpdatersList = new SafeRemoveArrayList<>();
 
-    //endregion
+    // endregion Variables
 
     //region Alerts
 
@@ -426,7 +426,14 @@ public class GUIController {
         });
 
 
-        List<ProductInformation> productInformationList = pimDriverInstance.getAllProducts();
+        List<ProductInformation> productInformationList;
+        try {
+            productInformationList = pimDriverInstance.getAllProducts();
+        } catch (SQLException | UUIDNotFoundException e) {
+            alertSQLError();
+            e.printStackTrace();
+            return;
+        }
         for (ProductInformation productInformation : productInformationList) {
             productsTable.getItems().add(productInformation);
         }
@@ -489,8 +496,12 @@ public class GUIController {
         } catch (DuplicateEntryException e) {
             alertDuplicateEntry("Category");
             return;
-        } catch (IncompleteProductCategoryInformation ignored) {
+        } catch (SQLException e) {
             alertSQLError();
+            e.printStackTrace();
+            return;
+        } catch (CategoryNotFoundException e) {
+            alertObjectWithGivenNameDoesNotExist("Category", categoryInputParentName.getText());
             return;
         }
 
@@ -530,7 +541,7 @@ public class GUIController {
             ProductCategoryUpdater productCategoryUpdater = new ProductCategoryUpdater(rowValue);
             productCategoryUpdater.setCategoryParent(categoryInformationStringCellEditEvent.getNewValue());
 
-            // This can't be replaced by the a update-submitter because it has an extra line of code.
+            // This can't be replaced by an update-submitter because it has an extra line of code.
             productCategoryUpdatersList.forEach(e -> {
                 if (e.getProductCategory() == rowValue) {
                     productCategoryUpdater.setOriginalName(e.getOriginalName());
@@ -541,7 +552,16 @@ public class GUIController {
             productCategoryUpdatersList.add(productCategoryUpdater);
         });
 
-        List<ProductCategory> productCategoryList = pimDriverInstance.getAllCategories();
+        List<ProductCategory> productCategoryList;
+        try {
+            productCategoryList = pimDriverInstance.getAllCategories();
+        } catch (SQLException e) {
+            alertSQLError();
+            e.printStackTrace();
+            return;
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
         for (ProductCategory productCategory : productCategoryList) {
             categoriesTable.getItems().add(productCategory);
         }
@@ -552,12 +572,19 @@ public class GUIController {
         for (ProductCategoryUpdater productCategoryUpdater : productCategoryUpdatersList) {
             try {
                 productCategoryUpdater.submit();
-            } catch (IncompleteProductCategoryInformation e) {
-                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                alertSQLError();
+                e.printStackTrace();
+                return;
             } catch (DuplicateEntryException e) {
                 alertDuplicateEntry("Category");
+                return;
+            } catch (CategoryNotFoundException e) {
+                alertObjectWithGivenNameDoesNotExist("Category", productCategoryUpdater.getProductCategory().getName());
+                return;
             }
         }
+
         productCategoryUpdatersList.clear();
         categoriesWindowChange();
     }
@@ -587,12 +614,12 @@ public class GUIController {
                     .setSupportPhoneNumber(Objects.equals(manufactureInputPhoneNumber.getText(), "") ? "" : manufactureInputPhoneNumber.getText())
                     .setSupportMail(Objects.equals(manufactureInputMail.getText(), "") ? "" : manufactureInputMail.getText())
                     .submit();
-        } catch (DuplicateEntryException ignored) {
-            alertDuplicateEntry("Manufacture");
-            return;
-        } catch (IncompleteManufacturingInformation | SQLException e) {
+        } catch (SQLException e) {
             alertSQLError();
             e.printStackTrace();
+            return;
+        } catch (DuplicateEntryException e) {
+            alertDuplicateEntry("Manufacture");
             return;
         }
 
@@ -654,12 +681,12 @@ public class GUIController {
             }
         });
         manufacturesTableSupportMail.setCellFactory(TextFieldTableCell.forTableColumn());
-        manufacturesTableSupportPhone.setOnEditCommit(miCellEditEvent -> {
+        manufacturesTableSupportMail.setOnEditCommit(miCellEditEvent -> {
             ManufacturingInformation rowValue = miCellEditEvent.getRowValue();
             ManufacturingInformationUpdater manufacturingInformationUpdater = new ManufacturingInformationUpdater(rowValue);
             manufacturingInformationUpdater.setSupportMail(miCellEditEvent.getNewValue());
 
-            // This can't be replaced by the a update-submitter because it has an extra line of code.
+            // This can't be replaced by an update-submitter because it has an extra line of code.
             manufacturingInformationUpdatersList.forEach(e -> {
                 if (e.getManufacturingInformation() == rowValue) {
                     manufacturingInformationUpdater.setOriginalName(e.getOriginalName());
@@ -670,7 +697,14 @@ public class GUIController {
             manufacturingInformationUpdatersList.add(manufacturingInformationUpdater);
         });
 
-        List<ManufacturingInformation> manufacturingInformationList = pimDriverInstance.getAllManufactures();
+        List<ManufacturingInformation> manufacturingInformationList;
+        try {
+            manufacturingInformationList = pimDriverInstance.getAllManufactures();
+        } catch (SQLException e) {
+            alertSQLError();
+            e.printStackTrace();
+            return;
+        }
         for (ManufacturingInformation manufacturingInformation : manufacturingInformationList) {
             manufacturesTable.getItems().add(manufacturingInformation);
         }
@@ -688,6 +722,9 @@ public class GUIController {
                 e.printStackTrace();
             }
         }
+
+        manufacturingInformationUpdatersList.clear();
+        manufacturesWindowChange();
     }
 
 
@@ -710,8 +747,8 @@ public class GUIController {
 
         // Checks if both dates are valid
         try {
-            LocalDate.parse(discountInputStartingDate.getText());
-            LocalDate.parse(discountInputEndingDate.getText());
+            LocalDate ignoredLocalDate1 = LocalDate.parse(discountInputStartingDate.getText());
+            LocalDate ignoredLocalDate2 = LocalDate.parse(discountInputEndingDate.getText());
         } catch (DateTimeException ignored) {
             alertInvalidDateInput();
             return;
@@ -723,16 +760,16 @@ public class GUIController {
                     .setStartingDate(LocalDate.parse(discountInputStartingDate.getText()))
                     .setExpiringDate(LocalDate.parse(discountInputEndingDate.getText()))
                     .submit();
-        } catch (IncompleteProductCategoryInformation e) {
-            throw new RuntimeException(e);
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (DuplicateEntryException e) {
-            throw new RuntimeException(e);
-        } catch (IncompleteDiscountInformation e) {
-            throw new RuntimeException(e);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            alertSQLError();
+            e.printStackTrace();
+            return;
+        } catch (DuplicateEntryException e) {
+            alertDuplicateEntry("Discount");
+            return;
+        } catch (DateTimeException ignored) {
+            alertInvalidDateInput();
+            return;
         }
 
         discountInputName.clear();
@@ -755,6 +792,8 @@ public class GUIController {
             DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(rowValue);
             discountInformationUpdater.setOriginalName(diCellEditEvent.getOldValue());
             discountInformationUpdater.setName(diCellEditEvent.getNewValue());
+            discountInformationUpdater.setStartingDate(rowValue.getStartingDate());
+            discountInformationUpdater.setExpiringDate(rowValue.getExpiringDate());
 
             addNewDiscountUpdaterToSubmit(discountInformationUpdatersList, discountInformationUpdater, rowValue);
         });
@@ -762,16 +801,16 @@ public class GUIController {
         discountsTableStartDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStartingDate().toString()));
         discountsTableStartDate.setCellFactory(TextFieldTableCell.forTableColumn());
         discountsTableStartDate.setOnEditCommit(diCellEditEvent -> {
+            DiscountInformation rowValue = diCellEditEvent.getRowValue();
+            DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(rowValue);
             try {
-                LocalDate.parse(diCellEditEvent.getNewValue());
+                discountInformationUpdater.setStartingDate(LocalDate.parse(diCellEditEvent.getNewValue()));
+                discountInformationUpdater.setName(rowValue.getName());
+                discountInformationUpdater.setExpiringDate(rowValue.getExpiringDate());
             } catch (DateTimeException ignored) {
                 alertInvalidDateInput();
                 return;
             }
-
-            DiscountInformation rowValue = diCellEditEvent.getRowValue();
-            DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(rowValue);
-            discountInformationUpdater.setStartingDate(LocalDate.parse(diCellEditEvent.getNewValue()));
 
             // This can't be replaced by an update-submitter because it has an extra line of code.
             discountInformationUpdatersList.forEach(e -> {
@@ -786,17 +825,17 @@ public class GUIController {
 
         discountsTableEndDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getExpiringDate().toString()));
         discountsTableEndDate.setCellFactory(TextFieldTableCell.forTableColumn());
-        discountsTableStartDate.setOnEditCommit(diCellEditEvent -> {
+        discountsTableEndDate.setOnEditCommit(diCellEditEvent -> {
+            DiscountInformation rowValue = diCellEditEvent.getRowValue();
+            DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(rowValue);
             try {
-                LocalDate.parse(diCellEditEvent.getNewValue());
+                discountInformationUpdater.setExpiringDate(LocalDate.parse(diCellEditEvent.getNewValue()));
+                discountInformationUpdater.setName(rowValue.getName());
+                discountInformationUpdater.setStartingDate(rowValue.getStartingDate());
             } catch (DateTimeException ignored) {
                 alertInvalidDateInput();
                 return;
             }
-
-            DiscountInformation rowValue = diCellEditEvent.getRowValue();
-            DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(rowValue);
-            discountInformationUpdater.setExpiringDate(LocalDate.parse(diCellEditEvent.getNewValue()));
 
             // This can't be replaced by an update-submitter because it has an extra line of code.
             discountInformationUpdatersList.forEach(e -> {
@@ -809,7 +848,14 @@ public class GUIController {
             discountInformationUpdatersList.add(discountInformationUpdater);
         });
 
-        List<DiscountInformation> discountInformationList = pimDriverInstance.getAllDiscounts();
+        List<DiscountInformation> discountInformationList;
+        try {
+            discountInformationList = pimDriverInstance.getAllDiscounts();
+        } catch (SQLException e) {
+            alertSQLError();
+            e.printStackTrace();
+            return;
+        }
         for (DiscountInformation discountInformation : discountInformationList) {
             discountsTable.getItems().add(discountInformation);
         }
@@ -820,15 +866,17 @@ public class GUIController {
         for (DiscountInformationUpdater discountInformationUpdater : discountInformationUpdatersList) {
             try {
                 discountInformationUpdater.submit();
-            } catch (DuplicateEntryException e) {
-                throw new RuntimeException(e);
-            } catch (IncompleteProductCategoryInformation e) {
-                throw new RuntimeException(e);
-            } catch (NotFoundException e) {
-                throw new RuntimeException(e);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                alertSQLError();
+                e.printStackTrace();
+                return;
+            } catch (DuplicateEntryException e) {
+                alertDuplicateEntry("Discount");
+                return;
             }
         }
+
+        discountInformationUpdatersList.clear();
+        discountsWindowChange();
     }
 }
