@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 public class SafeRemoveArrayList<E> extends ArrayList<E> {
 
-	private final ArrayList<E> toRemove = new ArrayList<>();
+    private final ArrayList<E> toRemove = new ArrayList<>();
 
-	public void safeRemoveAdd(E e) {
-		this.toRemove.add(e);
-	}
+    public void safeRemoveAdd(E e) {
+        this.toRemove.add(e);
+    }
 
-	public void safeRemoveSubmit() {
-		this.toRemove.forEach(this::remove);
-		this.toRemove.clear();
-	}
+    public void safeRemoveSubmit() {
+        this.toRemove.forEach(this::remove);
+        this.toRemove.clear();
+    }
+
+    public ArrayList<E> getToRemove() {
+        return toRemove;
+    }
 }

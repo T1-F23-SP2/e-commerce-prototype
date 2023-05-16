@@ -15,6 +15,7 @@ public class SQLSetupHelper {
 
         // https://stackoverflow.com/a/63404686
         ScriptRunner scriptRunner = new ScriptRunner(connection);
+        scriptRunner.setLogWriter(null); // Removes the printing of the SQL file because it's annoying when trying to read errors.
         scriptRunner.setSendFullScript(true);
         scriptRunner.setAutoCommit(false);
         scriptRunner.setStopOnError(true);

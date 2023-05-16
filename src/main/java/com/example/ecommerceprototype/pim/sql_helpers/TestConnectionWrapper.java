@@ -1,14 +1,11 @@
 package com.example.ecommerceprototype.pim.sql_helpers;
 
-import com.example.ecommerceprototype.pim.sql_helpers.SQLConnection;
-import com.example.ecommerceprototype.pim.sql_helpers.SQLInitializer;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public final class TestConnectionWrapper {
+public final class TestConnectionWrapper implements AutoCloseable {
 
     private Connection connection;
 
@@ -32,6 +29,8 @@ public final class TestConnectionWrapper {
 
 
     public void teardown() throws SQLException {
+        // if Connection is null then do nothing
+        if (this.connection == null) return;
         /*
             Database is on purpose not dropped on teardown, so that the database can manually be inspected if needed after test run.
             The database is however recreated before each test run. See comment in setup().
@@ -39,4 +38,11 @@ public final class TestConnectionWrapper {
         this.connection.close();
     }
 
+
+    // Implements the AutoClosable interface, so that this can be used with the
+    // 'try with resource' construct.
+    @Override
+    public void close() throws Exception {
+        this.teardown();
+    }
 }
