@@ -1,15 +1,12 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
-import com.example.ecommerceprototype.pim.exceptions.IncompleteProductInformationException;
+import com.example.ecommerceprototype.pim.exceptions.*;
+
+import java.sql.SQLException;
 
 public abstract class ProductInformationWorker {
 
     private final ProductInformation productInformation;
-
-    protected ProductInformationWorker() {
-        this.productInformation = new ProductInformation();
-    }
 
     protected ProductInformationWorker(ProductInformation productInformation) {
         this.productInformation = productInformation;
@@ -64,5 +61,5 @@ public abstract class ProductInformationWorker {
         return productInformation;
     }
 
-    public abstract ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException;
+    public abstract ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException, SQLException, UUIDNotFoundException, ManufactureNotFoundException, CategoryNotFoundException;
 }

@@ -9,7 +9,6 @@ public class ProductInformationBuilder extends ProductInformationWorker {
         super(new ProductInformation());
     }
 
-    // TODO: Implement this method.
     @Override
     public ProductInformation submit() throws DuplicateEntryException, IncompleteProductInformationException {
         return DBDriver.getInstance().insertNewProduct(super.getProductInformation());
