@@ -3,13 +3,11 @@ package com.example.ecommerceprototype.pim.product_information;
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
 
+import java.sql.SQLException;
+
 public abstract class ManufacturingInformationWorker {
 
-    protected ManufacturingInformation manufacturingInformation;
-
-    protected ManufacturingInformationWorker() {
-        this.manufacturingInformation = new ManufacturingInformation();
-    }
+    private final ManufacturingInformation manufacturingInformation;
 
     protected ManufacturingInformationWorker(ManufacturingInformation mi) {
         this.manufacturingInformation = mi;
@@ -34,5 +32,5 @@ public abstract class ManufacturingInformationWorker {
         return this.manufacturingInformation;
     }
 
-    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation;
+    public abstract ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation, SQLException;
 }

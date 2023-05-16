@@ -2,6 +2,9 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteManufacturingInformation;
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
+
+import java.sql.SQLException;
 
 public class ManufacturingInformationUpdater extends ManufacturingInformationWorker {
 
@@ -23,12 +26,12 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
     }
 
     @Override
-    public ManufacturingInformation submit() throws DuplicateEntryException, IncompleteManufacturingInformation {
+    public ManufacturingInformation submit() throws DuplicateEntryException, SQLException {
         if (originalName == null) {
-            throw new IncompleteManufacturingInformation();
+            originalName = this.getManufacturingInformation().getName();
         }
-        // TODO: Implement the rest of this method
-        throw new UnsupportedOperationException();
-        //return super.manufacturingInformation;
+
+        DBDriver.getInstance().updateManufactureByName(this.originalName, super.getManufacturingInformation());
+        return super.getManufacturingInformation();
     }
 }
