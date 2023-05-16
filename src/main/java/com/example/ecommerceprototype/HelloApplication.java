@@ -1,7 +1,7 @@
 package com.example.ecommerceprototype;
 
-import DB.StockInterface;
-import MockShop.PlaceholderInstShop;
+import com.example.ecommerceprototype.oms.DB.StockInterface;
+import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

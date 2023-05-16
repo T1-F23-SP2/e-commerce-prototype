@@ -1,9 +1,9 @@
 package com.example.ecommerceprototype;
 
-import DB.DBManager;
-import MockShop.MockShopObject;
-import MockShop.PlaceholderInstShop;
-import OrderStatus.OrderManager;
+import com.example.ecommerceprototype.oms.DB.DBManager;
+import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
+import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
+import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
 import com.mongodb.client.MongoCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,7 +67,7 @@ public class HelloController {
         for (int i = 0; i < idList.size(); i++) {
             statusList.add("Processed");
 
-            // Get the object from DB with specific id.
+            // Get the object from com.example.ecommerceprototype.OMS.DB with specific id.
 //            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", idList.get(i).toString());
 //            String UUIDString = documentObj.getString("UUID");
             HelloController.UUIDList.add(UUIDString);
@@ -119,7 +119,7 @@ public class HelloController {
             HelloController.idList.add(dbIdList.get(i));
             HelloController.statusList.add("Processed");
 
-            // Code to get information out of DB
+            // Code to get information out of com.example.ecommerceprototype.OMS.DB
 //            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(idList.get(i)));
 //            HelloController.UUIDList.add(documentObj.getString("UUID"));
 
