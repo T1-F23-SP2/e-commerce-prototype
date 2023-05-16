@@ -7,6 +7,27 @@ public class PIMDriver {
 
     private static final DBDriver dbDriverInstance = DBDriver.getInstance();
 
+    public boolean checkIfProductByUUIDExists(String uuid) {
+        return dbDriverInstance.checkIfProductByUUIDExists(uuid);
+    }
+
+    public boolean checkIfProductByNameExists(String name) {
+        return dbDriverInstance.checkIfProductByNameExists(name);
+    }
+
+    public boolean checkIfCategoryByNameExists(String name) {
+        return dbDriverInstance.checkIfCategoryByNameExists(name);
+    }
+
+    public boolean checkIfManufactureByNameExists(String name) {
+        return dbDriverInstance.checkIfManufactureByNameExists(name);
+    }
+
+    public boolean checkIfDiscountByNameExists(String name) {
+        return dbDriverInstance.checkIfDiscountByNameExists(name);
+    }
+
+
     public List<ProductInformation> getAllProducts() {
         return dbDriverInstance.getAllProducts();
     }
