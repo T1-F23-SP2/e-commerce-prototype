@@ -30,6 +30,8 @@ public class ArticleController implements Initializable {
     @FXML
     TextArea articleText_TextArea;
 
+    final private String defaultArticle = "DefaultFile.txt";
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ArrayList<String> articleNames = CMS.articles.getArticleNames();
@@ -45,7 +47,7 @@ public class ArticleController implements Initializable {
 
             articleList_VBox.getChildren().add(b);
         }
-        loadArticle(new File("src/main/resources/com/example/ecommerceprototype/cms/Articles/DefaultFile.txt"));
+        loadArticle(new File("src/main/resources/com/example/ecommerceprototype/cms/Articles/"+defaultArticle));
     }
 
     public void loadArticle(File f) {
