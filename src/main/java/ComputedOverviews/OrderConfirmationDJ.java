@@ -6,21 +6,51 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import Customers.Customer;
+import MockShop.PlaceholderInstShop;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import mockPIM.PlaceHolderInstGet;
 
 import static ComputedOverviews.MongoDBOC.getUUIDInfo;
+import static MockShop.PlaceholderInstShop.getInstShop2;
 
 public class OrderConfirmationDJ {
-
+public static final int CVR = 53319637;
     static int AmountOfOrders = 1;
     static int OrderConfirmationNumber = 10000000;
 
+   public static String[] Delivery = {"Afhentning", "Udbringelse", "Hurtigt Udbringelse"};
+
+   /* public String GetInfo()
+    {
+        for (String MatchMongo : MatchArray)
+        {
+            for (int i = 0; PlaceHolderInstGet.productArray.length > i; i++)
+            {
+                if (MatchMongo == PlaceHolderInstGet.productArray[i].getProductUUID())
+                {
+                    String Names = PlaceHolderInstGet.productArray[i].getName();
+                    return Names;
+                }
+                else {
+                    System.out.println("No avalible UUID");
+                }
+
+            }
+
+        }
+        return null;
+    }*/
+
     public static void main(String[] args) {
+
+
+
 
         while (AmountOfOrders > 0) {
 
@@ -60,7 +90,7 @@ public class OrderConfirmationDJ {
 
                 // Create a PdfPCell for the footer text
                 PdfPCell cell1 = new PdfPCell(new Phrase("Få 10% rabat på din næste ordre med koden:" + Chunk.NEWLINE + "" + Chunk.NEWLINE + "''NYHJEMMESIDE''", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.WHITE)));
-                PdfPCell cell2 = new PdfPCell(new Phrase("Fake adresse og cvr nummer", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
+                PdfPCell cell2 = new PdfPCell(new Phrase("Odensevej 45   " + CVR, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
 
                 // Setting the background color to light blue and grey + allignment
                 cell1.setBackgroundColor(new BaseColor(186, 225, 255));
@@ -126,7 +156,7 @@ public class OrderConfirmationDJ {
 
                 //Create Scheme for order info
                 // Define column headers
-                String[] columnHeaders = {"navn", "antal", "pris"};
+                String[] columnHeaders = {"Navn", "Antal", "Pris"};
 
                 // Create the table
                 PdfPTable table = new PdfPTable(columnHeaders.length);
@@ -151,9 +181,11 @@ public class OrderConfirmationDJ {
                 int i = -1 ;
                 for (String UUID : UUIDArray) {
                     i++;
-                    table.addCell(UUIDArray[i]);
+                    table.addCell(PlaceHolderInstGet.productArray[i].getName());
                     table.addCell(AmountArray[i]);
-                    table.addCell(UUIDArray[i]);
+                    table.addCell(PlaceHolderInstGet.productArray[i].getPriceInformation().getPrice().toString() + " DKK");
+
+                    table.addCell(PlaceHolderInstGet.productArray[i].getPriceInformation().getPrice().toString() + " DKK");
                 }
 
                 // Add the table to the document + Setting the position of the table
@@ -173,16 +205,16 @@ public class OrderConfirmationDJ {
 
 
                 Phrase phraseName = new Paragraph("Navn:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phrase0NameS = new Paragraph("Oliver Homo Larsen" +"\n");
+                Phrase phrase0NameS = new Paragraph(getInstShop2().getName() +"\n");
                 Phrase phraseEmail = new Paragraph("Email:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phraseEmailS = new Paragraph("Oliver1703dk@hotmail.dk" +"\n");
+                Phrase phraseEmailS = new Paragraph(getInstShop2().getEmail() +"\n");
                 Phrase phraseTLF = new Paragraph("tlf:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phraseTLFS = new Paragraph("45+ 12 34 56 78" +"\n");
+                Phrase phraseTLFS = new Paragraph(getInstShop2().getPhone() +"\n");
 
                 Phrase phrase1 = new Paragraph("Adresse:"  +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phrase1S = new Paragraph("Adresse from shop" +"\n");
+                Phrase phrase1S = new Paragraph(getInstShop2().getAddress() + getInstShop2().getZipcode() + "\n");
                 Phrase phrase2 = new Paragraph("Leverings metode:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phrase2S = new Paragraph("Leverings metode from shop" +"\n");
+                Phrase phrase2S = new Paragraph(Delivery[1] +"\n");
                 Phrase phrase3 = new Paragraph("Afsendelse dato:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
                 Phrase phrase3S = new Paragraph(LocalDate.now() +"\n");
 

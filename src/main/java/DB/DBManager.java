@@ -1,11 +1,13 @@
 package DB;
 
 import MockShop.MockShopObject;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import mockPIM.PlaceHolderInstGet;
+import mockPIM.ProductInformation;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,9 +18,7 @@ import java.util.logging.Logger;
 public class DBManager {
 
 
-
-
-    public static MongoCollection<org.bson.Document> databaseConn(String table){
+    public static MongoCollection<org.bson.Document> databaseConn(String table) {
         Logger.getLogger("").setLevel(Level.WARNING);
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
         MongoClient mongoClient = MongoClients.create(uri);
@@ -38,7 +38,7 @@ public class DBManager {
 //        return results.toJson();
 //    }
 
-    public static Document queryDB(MongoCollection<Document> conn, String search){
+    public static Document queryDB(MongoCollection<Document> conn, String search) {
 
         org.bson.Document query = new org.bson.Document("UUID", search);
 //        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
@@ -49,7 +49,7 @@ public class DBManager {
 
 
     // New method for query
-    public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search){
+    public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search) {
 
         org.bson.Document query = new org.bson.Document(searchTitle, search);
 //        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
@@ -59,7 +59,7 @@ public class DBManager {
     }
 
 
-    public static ArrayList<Integer> queryDBAllId(MongoCollection<Document> conn){
+    public static ArrayList<Integer> queryDBAllId(MongoCollection<Document> conn) {
 
         var filter = new Document();
 
@@ -81,9 +81,6 @@ public class DBManager {
     }
 
 
-
-
-
     // Method to take everything that is max one day ago
     public static List<Document> getRecentObjects(String database) {
 
@@ -96,7 +93,6 @@ public class DBManager {
     }
 
 
-
     public static boolean updateStock(MockShopObject mockShopObject) {
         MongoCollection<org.bson.Document> documentMongoCollection;
         documentMongoCollection = databaseConn("Item");
@@ -104,8 +100,8 @@ public class DBManager {
         // Checks for every key if amount to that key is higher than qty in the database
         // If it is higher it stops the method by returning false
         for (String key : mockShopObject.getMap().keySet()) {
-            int qtyAmount = queryDB(documentMongoCollection,key).getInteger("QTY");
-            if(!(qtyAmount >= mockShopObject.getMap().get(key))) {
+            int qtyAmount = queryDB(documentMongoCollection, key).getInteger("QTY");
+            if (!(qtyAmount >= mockShopObject.getMap().get(key))) {
                 return false;
             }
         }
@@ -113,8 +109,8 @@ public class DBManager {
         // Checks the database if the keys amounts is lower than in the database
         // then decrements the database by the amount
         for (String key : mockShopObject.getMap().keySet()) {
-            int qtyAmount = queryDB(documentMongoCollection,key).getInteger("QTY");
-            if(qtyAmount >= mockShopObject.getMap().get(key)) {
+            int qtyAmount = queryDB(documentMongoCollection, key).getInteger("QTY");
+            if (qtyAmount >= mockShopObject.getMap().get(key)) {
                 decrementFieldByUUID(key, mockShopObject.getMap().get(key));
             }
 
@@ -144,8 +140,37 @@ public class DBManager {
 
 
     //public static Document dbForRealConnection() {
-       // connection = DriverManager.getConnection("")
-       // PreparedStatement insertStatement =
+    // connection = DriverManager.getConnection("")
+    // PreparedStatement insertStatement =
     // databaseConn("Item").up
     //}
-}
+
+    public static void MatchUUID() {
+        MongoCollection<Document> collection = databaseConn("OrderHistory");
+        List<Bson> pipeline = new ArrayList<>();
+        for (ProductInformation product : PlaceHolderInstGet.productArray) {
+            pipeline.add(Aggregates.match(Filters.eq("UUID", product.getProductUUID())));
+        }
+        org.bson.Document query = new org.bson.Document(uuid);
+        for (ProductInformation product : PlaceHolderInstGet.productArray) {
+            for (Document doc : query) {
+                if (doc.get("UUID").equals(product.getProductUUID())) {
+                    String name = product.getName();
+                    System.out.println(name);
+                }
+            }
+        }
+        System.out.println(output);
+    }
+
+
+
+    public static void main(String[] args) {
+        MatchUUID();
+        System.out.println();
+    }
+
+
+       // collection.aggregate(Pipeline).forEach(document -> {System.out.println(PlaceHolderInstGet.getInst1().getName());});
+
+    }
