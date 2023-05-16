@@ -1,12 +1,14 @@
 package com.example.ecommerceprototype.pim.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilterTest {
+    @DisplayName("Test method byName()")
     @Test
-    void byName() {
+    void testByName() {
         class ExampleName implements Nameable {
             private String name;
 

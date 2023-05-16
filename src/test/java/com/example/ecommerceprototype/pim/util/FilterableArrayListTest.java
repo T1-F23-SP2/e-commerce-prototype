@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.pim.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +13,9 @@ class FilterableArrayListTest {
         }
     }
 
+    @DisplayName("Test for method filterElements()")
     @Test
-    void filterElements() {
+    void testFilterElements() {
         FilterableArrayList<Example> list = new FilterableArrayList<>();
         Example val1 = new Example(true);
         Example val2 = new Example(true);
