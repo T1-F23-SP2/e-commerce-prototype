@@ -25,8 +25,7 @@
       <AnchorPane prefHeight="555.0" prefWidth="944.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="returnButton" layoutX="287.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Return to Menu" />
-            <Button fx:id="loadFilesButton" layoutX="18.0" layoutY="19.0" mnemonicParsing="false" onAction="#loadFiles" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Load files" />
-            <Button fx:id="openFileButton" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" onAction="#openFile" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
+            <Button fx:id="openFileButton" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
             <TableView fx:id="tableView" layoutX="13.0" layoutY="78.0" prefHeight="478.0" prefWidth="926.0">
                <columns>
                   <TableColumn fx:id="assetIdTableColumn" prefWidth="60.0" text="assetID" />

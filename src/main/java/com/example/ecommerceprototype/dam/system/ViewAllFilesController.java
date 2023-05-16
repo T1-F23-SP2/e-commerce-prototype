@@ -1,7 +1,8 @@
 package com.example.ecommerceprototype.dam.system;
 
 import com.example.ecommerceprototype.dam.constants.Constants;
-import javafx.beans.InvalidationListener;
+import com.example.ecommerceprototype.dam.dam.DBconnection;
+import com.example.ecommerceprototype.dam.dam.searchModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,16 +33,6 @@ public class ViewAllFilesController implements Initializable {
     @FXML
     private Button returnButton;
 
-    @FXML
-    private Button loadFilesButton;
-
-    @FXML
-    private Button openFileButton;
-
-    @FXML
-    private ListView<File> myListView;
-
-
     public void switchToDAM(ActionEvent event) throws IOException {
         // Setting the stage, scene and roots.
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("damMainScene.fxml")));
@@ -52,39 +43,6 @@ public class ViewAllFilesController implements Initializable {
         stage.centerOnScreen();
     }
 
-
-
-
-    public void loadFiles() throws IOException {
-
-        myListView.getItems().clear();
-
-        try (Connection conn = DriverManager.getConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT name, type FROM files")) {
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String type = rs.getString("type");
-                myListView.getItems().add(new File(name));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
-    public void openFile() throws IOException {
-        File selectedFile = myListView.getSelectionModel().getSelectedItem();
-        if (selectedFile != null) {
-            Desktop.getDesktop().open(selectedFile);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Oops!");
-            alert.setHeaderText("You didn't select a file to open! Try Again");
-            alert.setContentText("");
-            alert.showAndWait();
-        }
-    }
 
     @FXML
     private TextField searchField;

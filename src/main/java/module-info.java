@@ -12,6 +12,8 @@ module com.example.ecommerceprototype {
     exports com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype.dam.system;
     opens com.example.ecommerceprototype.dam.system;
+    exports com.example.ecommerceprototype.dam.dam;
+    opens com.example.ecommerceprototype.dam.dam;
 }
 
 

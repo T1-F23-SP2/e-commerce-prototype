@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.dam.system;
+package com.example.ecommerceprototype.dam.dam;
 
 import com.example.ecommerceprototype.dam.constants.Constants;
 
