@@ -1,15 +1,18 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
+import com.example.ecommerceprototype.pim.exceptions.IncompleteDiscountInformation;
 import com.example.ecommerceprototype.pim.exceptions.IncompleteProductCategoryInformation;
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public abstract class DiscountInformationWorker {
     DiscountInformation discountInformation;
 
-    public DiscountInformationWorker() {
-        this.discountInformation = new DiscountInformation();
+    protected DiscountInformationWorker(DiscountInformation di) {
+        this.discountInformation = di;
     }
 
     public DiscountInformationWorker setName(String name) {
@@ -31,5 +34,5 @@ public abstract class DiscountInformationWorker {
         return this.discountInformation;
     }
 
-    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation;
+    public abstract DiscountInformation submit() throws DuplicateEntryException, IncompleteProductCategoryInformation, IncompleteDiscountInformation, NotFoundException, SQLException;
 }
