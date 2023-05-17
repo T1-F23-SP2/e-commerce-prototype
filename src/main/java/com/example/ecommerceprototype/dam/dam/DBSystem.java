@@ -50,7 +50,7 @@ public class DBSystem {
             statement.setString(1, asset.getType().getValue());
             statement.setString(2, asset.getName());
             statement.setString(3, asset.getPath());
-            statement.setString(4, asset.getFormat().getValue());
+            statement.setString(4, asset.getFormat());
             statement.setString(5, asset.getCategory().getValue());
             statement.setString(6, asset.getUuid());
 

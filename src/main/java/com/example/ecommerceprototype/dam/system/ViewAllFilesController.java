@@ -1,8 +1,7 @@
 package com.example.ecommerceprototype.dam.system;
 
-import com.example.ecommerceprototype.dam.constants.Constants;
-import com.example.ecommerceprototype.dam.dam.DBconnection;
 import com.example.ecommerceprototype.dam.dam.searchModel;
+import com.example.ecommerceprototype.dam.dam.DBconnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,8 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -76,11 +73,10 @@ public class ViewAllFilesController implements Initializable {
         Connection conn = connect.getConn();
 
         try {
+            // Showing all data from query
             Statement statement = conn.createStatement();
             ResultSet queryOutput = statement.executeQuery("SELECT * FROM get_all_assets()");
-
             while (queryOutput.next()){
-
                 Integer queryAssetID = queryOutput.getInt("asset_id");
                 String queryName = queryOutput.getString("asset_name");
                 String queryFormat = queryOutput.getString("asset_format");
@@ -103,6 +99,9 @@ public class ViewAllFilesController implements Initializable {
             pathTableColumn.setCellValueFactory(new PropertyValueFactory<>("path"));
 
             tableView.setItems(searchModelObservableList);
+
+
+
 
             FilteredList<searchModel> filteredData = new FilteredList<>(searchModelObservableList, b -> true);
 

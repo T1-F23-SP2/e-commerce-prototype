@@ -8,7 +8,7 @@ public class searchModel {
     String category;
     String type;
     String uuid;
-    String  tags;
+    String tags;
     String path;
 
     public searchModel (int id, String name, String format, String category, String type, String uuid, String tags, String path) {

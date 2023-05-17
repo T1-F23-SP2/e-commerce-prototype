@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.dam;
+package com.example.ecommerceprototype.dam.system;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +17,7 @@ public class DamApp extends Application {
         window.setScene(scene);
         window.show();
     }
-    public static void main (String[] args){
+    public static void main (){
         launch();
     }
 }

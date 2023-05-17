@@ -1,27 +1,18 @@
 package com.example.ecommerceprototype.dam.dam;
 
 import com.example.ecommerceprototype.dam.constants.Category;
-import com.example.ecommerceprototype.dam.constants.FileFormat;
 import com.example.ecommerceprototype.dam.constants.Type;
-
-import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Date;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.*;
 
 public class Asset {
 
     private Type type;
     private String name;
     private String path;
-    private FileFormat format;
+    private String format;
     private Category category;
     private String uuid;
 
-    public Asset(Type type, String name, String path, FileFormat format, Category category, String uuid) {
+    public Asset(Type type, String name, String path, String format, Category category, String uuid) {
         this.type = type;
         this.name = name;
         this.path = path;
@@ -54,11 +45,11 @@ public class Asset {
         this.path = path;
     }
 
-    public FileFormat getFormat() {
+    public String getFormat() {
         return format;
     }
 
-    public void setFormat(FileFormat format) {
+    public void setFormat(String format) {
         this.format = format;
     }
 

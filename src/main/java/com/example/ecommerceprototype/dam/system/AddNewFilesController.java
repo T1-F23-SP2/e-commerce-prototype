@@ -2,7 +2,6 @@ package com.example.ecommerceprototype.dam.system;
 
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
-import com.example.ecommerceprototype.dam.constants.FileFormat;
 import com.example.ecommerceprototype.dam.constants.Type;
 import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import javafx.event.ActionEvent;
@@ -20,13 +19,10 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.*;
-import java.text.Format;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 public class AddNewFilesController {
 
@@ -146,41 +142,34 @@ public class AddNewFilesController {
 
     private void addAsset(String name_in, String type_in, String cat_in, String uuid_in)
     {
-        Type type = null;
-        switch (type_in)
-        {
-            case "Product image":
-                type = Type.PRODUCT_IMAGE;
-                break;
-            case "Product file":
-                type = Type.PRODUCT_FILE;
-                break;
-            case "Image":
-                type = Type.IMAGE;
-                break;
-            case "File":
-                type = Type.FILE;
-                break;
-        }
+        Type type = switch (type_in) {
+            case "Product image" -> Type.PRODUCT_IMAGE;
+            case "Product file" -> Type.PRODUCT_FILE;
+            case "Image" -> Type.IMAGE;
+            case "File" -> Type.FILE;
+            default -> null;
+        };
 
-        Category cat = setCategory(cat_in);
+        Category cat = extractCategory(cat_in);
+
+        String fileFormat = extractFileFormat(name_in);
 
 
-        dam.addAsset(name_in, type, cat,);
+        dam.addAsset(name_in, type, cat, fileFormat, uuid_in);
     }
 
 
-    private Category setCategory(String s)
+    private Category extractCategory(String cat_in)
     {
-        Category cat = Category.valueOf(s.toUpperCase());
+        Category cat = Category.valueOf(cat_in.toUpperCase());
         return cat;
     }
 
-    private FileFormat extractFileFormat(String name_in)
+    private String extractFileFormat(String name_in)
     {
-        String formatString = name_in.substring(name_in.lastIndexOf("?") + 1);
+        String formatString = name_in.substring(name_in.lastIndexOf(".") + 1);
 
-        FileFormat format = FileFormat.valueOf(formatString.toUpperCase());
+        String format = formatString.toUpperCase();
         return format;
     }
 

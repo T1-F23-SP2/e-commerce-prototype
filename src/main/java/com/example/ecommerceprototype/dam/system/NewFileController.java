@@ -1,13 +1,9 @@
 package com.example.ecommerceprototype.dam.system;
 
-import com.example.ecommerceprototype.dam.constants.Category;
+
 import com.example.ecommerceprototype.dam.constants.CategoryNonProduct;
 import com.example.ecommerceprototype.dam.constants.CategoryProduct;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

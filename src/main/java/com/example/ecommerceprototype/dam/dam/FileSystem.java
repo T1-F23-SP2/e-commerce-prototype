@@ -19,7 +19,6 @@ import java.nio.IntBuffer;
 
 public class FileSystem {
     private static FileSystem instance;
-    private BlobServiceClient blobServiceClient = null;
     private BlobContainerClient blobContainerClient = null;
     private BlobContainerClient blobContainerClientPI = null;
     private BlobContainerClient blobContainerClientPF = null;
@@ -41,7 +40,7 @@ public class FileSystem {
     private void initializeAzureBlob() {
         String con = Constants.AZURE_SAS_Con;
 
-        blobServiceClient = new BlobServiceClientBuilder().connectionString(con).buildClient();
+        BlobServiceClient blobServiceClient = new BlobServiceClientBuilder().connectionString(con).buildClient();
 
         blobContainerClient = blobServiceClient.getBlobContainerClient(Constants.AZURE_CONTAINER);
 
@@ -55,7 +54,7 @@ public class FileSystem {
 
     }
 
-    public BlobContainerClient container (Type type)
+    public BlobContainerClient setContainer (Type type)
     {
         BlobContainerClient container = null;
 
@@ -72,8 +71,6 @@ public class FileSystem {
             case FILE:
                 container = blobContainerClientFiles;
                 break;
-            default:
-                container = blobContainerClient;
         }
 
         return container;
@@ -96,9 +93,9 @@ public class FileSystem {
         String file_name = "test.jpg";
         String folder_name = category.getValue();
 
-        BlobContainerClient client = container(type);
+        BlobContainerClient containerClient = setContainer(type);
 
-        BlobClient uploadBlobClient = client.getBlobClient(folder_name + "/test3.jpg");
+        BlobClient uploadBlobClient = containerClient.getBlobClient(folder_name + "/test3.jpg");
         uploadBlobClient.uploadFromFile(file_path+file_name);
 
         String url = uploadBlobClient.getBlobUrl();
@@ -110,8 +107,6 @@ public class FileSystem {
 
     public void deleteFile(int assetID_in)
     {
-
-
         String file_name = "nol";
 
     }
