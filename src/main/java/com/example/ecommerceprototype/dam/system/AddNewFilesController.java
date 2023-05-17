@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.dam.system;
 
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
+import com.example.ecommerceprototype.dam.constants.FileFormat;
 import com.example.ecommerceprototype.dam.constants.Type;
 import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.*;
+import java.text.Format;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,11 +31,6 @@ import java.util.UUID;
 public class AddNewFilesController {
 
     DAMSystem dam = DAMSystem.getInstance();
-
-    private String name;
-    private String type;
-    private String category;
-    private String uuid;
 
     
     @FXML
@@ -88,12 +85,12 @@ public class AddNewFilesController {
 
                     Optional<ButtonType> clickedButton = dialog.showAndWait();
                     if (clickedButton.get() == ButtonType.OK){
-                        name = controller.getName();
-                        type = controller.getType();
-                        category = controller.getCategory();
-                        uuid = controller.getUuid();
+                        String name = controller.getName();
+                        String type = controller.getType();
+                        String category = controller.getCategory();
+                        String uuid = controller.getUuid();
 
-                        addAsset()
+                        addAsset(name, type, category, uuid);
 
                     }
 
@@ -149,7 +146,7 @@ public class AddNewFilesController {
 
     private void addAsset(String name_in, String type_in, String cat_in, String uuid_in)
     {
-        Type type;
+        Type type = null;
         switch (type_in)
         {
             case "Product image":
@@ -166,8 +163,33 @@ public class AddNewFilesController {
                 break;
         }
 
+        Category cat = setCategory(cat_in);
 
-        Category cat;
+
+        dam.addAsset(name_in, type, cat,);
+    }
+
+
+    private Category setCategory(String s)
+    {
+        Category cat = Category.valueOf(s.toUpperCase());
+        return cat;
+    }
+
+    private FileFormat extractFileFormat(String name_in)
+    {
+        String formatString = name_in.substring(name_in.lastIndexOf("?") + 1);
+
+        FileFormat format = FileFormat.valueOf(formatString.toUpperCase());
+        return format;
+    }
+
+
+
+}
+
+
+ /*
         switch (cat_in)
         {
             case "CPU":
@@ -208,9 +230,4 @@ public class AddNewFilesController {
                 break;
         }
 
-
-
-        dam.addAsset();
-    }
-
-}
+         */
