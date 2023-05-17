@@ -18,8 +18,6 @@ public class DamApp extends Application {
         window.show();
     }
     public static void main (String[] args){
-
-
         launch();
     }
 }

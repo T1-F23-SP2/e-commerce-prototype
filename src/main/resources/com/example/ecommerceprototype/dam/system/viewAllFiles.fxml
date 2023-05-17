@@ -26,16 +26,16 @@
          <children>
             <Button fx:id="returnButton" layoutX="287.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Return to Menu" />
             <Button fx:id="openFileButton" layoutX="98.0" layoutY="19.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Open file" />
-            <TableView fx:id="tableView" layoutX="13.0" layoutY="78.0" prefHeight="478.0" prefWidth="926.0">
+            <TableView fx:id="tableView" fixedCellSize="0.0" layoutX="9.0" layoutY="64.0" prefHeight="503.0" prefWidth="926.0">
                <columns>
-                  <TableColumn fx:id="assetIdTableColumn" prefWidth="60.0" text="assetID" />
-                  <TableColumn fx:id="nameTableColumn" prefWidth="121.0" text="Name" />
-                  <TableColumn fx:id="formatTableColumn" prefWidth="58.0" text="Format" />
-                  <TableColumn fx:id="categoryTableColumn" prefWidth="76.0" text="Category" />
-                  <TableColumn fx:id="typeTableColumn" minWidth="2.0" prefWidth="58.0" text="Type" />
-                  <TableColumn fx:id="uuidTableColumn" prefWidth="77.0" text="UUID" />
-                  <TableColumn fx:id="tagsTableColumn" prefWidth="216.0" text="Tags" />
-                  <TableColumn fx:id="pathTableColumn" prefWidth="373.0" text="Path" />
+                  <TableColumn fx:id="assetIdTableColumn" prefWidth="67.0" text="ID" />
+                  <TableColumn fx:id="nameTableColumn" prefWidth="114.0" text="Name" />
+                  <TableColumn fx:id="formatTableColumn" prefWidth="65.0" text="Format" />
+                  <TableColumn fx:id="categoryTableColumn" prefWidth="82.0" text="Category" />
+                  <TableColumn fx:id="typeTableColumn" minWidth="2.0" prefWidth="82.0" text="Type" />
+                  <TableColumn fx:id="uuidTableColumn" minWidth="0.0" text="UUID" />
+                  <TableColumn fx:id="tagsTableColumn" minWidth="0.0" prefWidth="239.0" text="Tags" />
+                  <TableColumn fx:id="pathTableColumn" minWidth="0.0" prefWidth="250.0" text="Path" />
                </columns>
             </TableView>
             <TextField fx:id="searchField" layoutX="438.0" layoutY="18.0" prefHeight="25.0" prefWidth="293.0" promptText="Search for keyword" />

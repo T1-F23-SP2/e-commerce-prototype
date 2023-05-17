@@ -13,18 +13,18 @@
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="310.0">
          <children>
             <Label layoutX="39.0" layoutY="78.0" text="Name" />
-            <Label layoutX="39.0" layoutY="198.0" text="Category" />
-            <Label layoutX="39.0" layoutY="134.0" text="Type" />
-            <Label layoutX="39.0" layoutY="261.0" text="Label" />
-            <ChoiceBox fx:id="categoryChoice" layoutX="132.0" layoutY="194.0" prefWidth="150.0" />
-            <ChoiceBox fx:id="typeChoice" layoutX="131.0" layoutY="132.0" prefWidth="150.0" />
-            <ChoiceBox fx:id="bufferChoice" layoutX="131.0" layoutY="260.0" prefWidth="150.0" />
-            <TextField fx:id="textField" layoutX="132.0" layoutY="73.0" promptText="Name" />
+            <Label layoutX="39.0" layoutY="175.0" text="Category" />
+            <Label layoutX="41.0" layoutY="122.0" text="Type" />
+            <Label fx:id="uuidLabel" layoutX="39.0" layoutY="227.0" text="UUID" />
+            <ChoiceBox fx:id="categoryChoice" layoutX="131.0" layoutY="171.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="typeChoice" layoutX="131.0" layoutY="118.0" prefWidth="150.0" />
+            <TextField fx:id="nameField" layoutX="131.0" layoutY="73.0" promptText="Name" />
             <Label layoutX="71.0" layoutY="22.0" prefHeight="17.0" prefWidth="176.0" text="Asset details">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
+            <TextField fx:id="uuidField" layoutX="131.0" layoutY="223.0" promptText="UUID" />
          </children>
       </AnchorPane>
    </content>

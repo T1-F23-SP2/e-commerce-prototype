@@ -116,7 +116,9 @@ public class ViewAllFilesController implements Initializable {
 
                     String searchKeyword = newValue.toLowerCase();
 
-                    if (searchModel.getName().toLowerCase().indexOf(searchKeyword) > -1){
+                    if (String.valueOf(searchModel.getId()).toLowerCase().indexOf(searchKeyword) > -1){
+                        return true;
+                    } else if (searchModel.getName().toLowerCase().indexOf(searchKeyword) > -1){
                         return true;
                     } else if (searchModel.getFormat().toLowerCase().indexOf(searchKeyword) > -1){
                         return true;

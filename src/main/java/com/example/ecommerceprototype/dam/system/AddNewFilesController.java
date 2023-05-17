@@ -1,6 +1,9 @@
 package com.example.ecommerceprototype.dam.system;
 
+import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
+import com.example.ecommerceprototype.dam.constants.Type;
+import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +27,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class AddNewFilesController {
+
+    DAMSystem dam = DAMSystem.getInstance();
+
+    private String name;
+    private String type;
+    private String category;
+    private String uuid;
+
     
     @FXML
     private Button addFilesButton;
@@ -65,8 +76,11 @@ public class AddNewFilesController {
 
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("newFileContents"));
+                    fxmlLoader.setLocation(getClass().getResource("newFileContents.fxml"));
                     DialogPane addFilesDialogPane = fxmlLoader.load();
+                    NewFileController controller = fxmlLoader.getController();
+
+
 
                     Dialog<ButtonType> dialog = new Dialog<>();
                     dialog.setDialogPane(addFilesDialogPane);
@@ -74,7 +88,12 @@ public class AddNewFilesController {
 
                     Optional<ButtonType> clickedButton = dialog.showAndWait();
                     if (clickedButton.get() == ButtonType.OK){
+                        name = controller.getName();
+                        type = controller.getType();
+                        category = controller.getCategory();
+                        uuid = controller.getUuid();
 
+                        addAsset()
 
                     }
 
@@ -83,19 +102,17 @@ public class AddNewFilesController {
                 }
 
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Files Added");
-            alert.setHeaderText(null);
-            alert.setContentText("The files have been added to the list.");
-            alert.showAndWait();
+
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Oops!");
-            alert.setHeaderText("You didn't select any files! Try Again");
+            alert.setHeaderText("You did not submit any files! No files has been added.");
             alert.setContentText("");
             alert.showAndWait();
         }
     }
+
+
 
 
     public void openFile(ActionEvent event) throws IOException {
@@ -127,6 +144,73 @@ public class AddNewFilesController {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+
+    private void addAsset(String name_in, String type_in, String cat_in, String uuid_in)
+    {
+        Type type;
+        switch (type_in)
+        {
+            case "Product image":
+                type = Type.PRODUCT_IMAGE;
+                break;
+            case "Product file":
+                type = Type.PRODUCT_FILE;
+                break;
+            case "Image":
+                type = Type.IMAGE;
+                break;
+            case "File":
+                type = Type.FILE;
+                break;
+        }
+
+
+        Category cat;
+        switch (cat_in)
+        {
+            case "CPU":
+                type = Type.PRODUCT_IMAGE;
+                break;
+            case "RAM":
+                type = Type.PRODUCT_FILE;
+                break;
+            case "GPU":
+                type = Type.IMAGE;
+                break;
+            case "Motherboard":
+                type = Type.FILE;
+                break;
+            case "Harddisk":
+                type = Type.PRODUCT_IMAGE;
+                break;
+            case "SSD":
+                type = Type.PRODUCT_FILE;
+                break;
+            case "Monitor":
+                type = Type.IMAGE;
+                break;
+            case "Laptop":
+                type = Type.FILE;
+                break;
+            case "Desktop":
+                type = Type.PRODUCT_FILE;
+                break;
+            case "Cables":
+                type = Type.IMAGE;
+                break;
+            case "Logo":
+                type = Type.FILE;
+                break;
+            case "Article":
+                type = Type.PRODUCT_FILE;
+                break;
+        }
+
+
+
+        dam.addAsset();
     }
 
 }

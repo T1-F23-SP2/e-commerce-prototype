@@ -1,7 +1,6 @@
 package com.example.ecommerceprototype.dam.constants;
 
-public enum Category
-{
+public enum CategoryProduct {
     CPU ("CPU"),
     RAM ("RAM"),
     GPU ("GPU"),
@@ -11,15 +10,12 @@ public enum Category
     MONITOR ("Monitor"),
     LAPTOP ("Laptop"),
     DESKTOP ("Desktop"),
-    CABLES ("Cables"),
-    LOGO ("Logo"),
-    ARTICLE ("Article");
-
+    CABLES ("Cables");
 
 
     private final String value;
 
-    private Category(String value) {
+    private CategoryProduct(String value) {
         this.value = value;
     }
 
