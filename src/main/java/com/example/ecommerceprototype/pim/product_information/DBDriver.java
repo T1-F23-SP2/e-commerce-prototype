@@ -323,7 +323,7 @@ public class DBDriver {
 
     protected List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException {
         // TODO: Should be replaced by procedure
-        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Products");
+        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllProducts()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
@@ -414,7 +414,7 @@ public class DBDriver {
 
     protected List<ProductCategory> getAllCategories() throws SQLException, CategoryNotFoundException {
         // TODO: Should be replaced by procedure
-        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Product_categories");
+        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllCategories()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
@@ -495,7 +495,7 @@ public class DBDriver {
     protected List<ManufacturingInformation> getAllManufactures() throws SQLException {
         // TODO: Should be replaced by procedure
 
-        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Manufactures");
+        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getallmanufactures()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
@@ -538,7 +538,7 @@ public class DBDriver {
     protected List<DiscountInformation> getAllDiscounts() throws SQLException {
         // TODO: Should be replaced by procedure
 
-        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM Discounts");
+        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllDiscounts()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
