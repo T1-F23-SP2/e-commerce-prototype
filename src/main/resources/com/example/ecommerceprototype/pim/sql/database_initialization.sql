@@ -664,7 +664,7 @@ BEGIN
 
     DELETE FROM products
         WHERE
-            product_UUID = argUUID;
+            product_UUID = CAST(argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
