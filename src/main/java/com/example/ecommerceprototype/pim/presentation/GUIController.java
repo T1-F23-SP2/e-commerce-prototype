@@ -3,9 +3,11 @@ package com.example.ecommerceprototype.pim.presentation;
 import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.product_information.*;
 import com.example.ecommerceprototype.pim.util.SafeRemoveArrayList;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -48,7 +50,7 @@ public class GUIController {
     @FXML
     TableColumn<ProductInformation, String> productsTableUUID;
     @FXML
-    TableColumn<ProductInformation, Void> productsTableHidden;
+    TableColumn<ProductInformation, CheckBox> productsTableHidden;
     @FXML
     TableColumn<ProductInformation, String> productsTablePrice;
     @FXML
@@ -347,7 +349,7 @@ public class GUIController {
         productsTable.getItems().clear();
 
         // Delete button for product:
-        Callback<TableColumn<ProductInformation, Void>, TableCell<ProductInformation, Void>> cellFactory = param -> {
+        Callback<TableColumn<ProductInformation, Void>, TableCell<ProductInformation, Void>> deleteCellFactory = param -> {
             TableCell<ProductInformation, Void> cell = new TableCell<>() {
                 private final Button btn = new Button("X");
 
@@ -368,6 +370,7 @@ public class GUIController {
                                 });
                     });
                 }
+
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     setGraphic(empty ? null : btn);
@@ -377,7 +380,7 @@ public class GUIController {
             cell.setAlignment(Pos.CENTER);
             return cell;
         };
-        productsTableDelete.setCellFactory(cellFactory);
+        productsTableDelete.setCellFactory(deleteCellFactory);
 
         productsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         productsTableName.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -392,8 +395,24 @@ public class GUIController {
 
         productsTableUUID.setCellValueFactory(new PropertyValueFactory<>("productUUID"));
 
-        productsTableHidden.setCellValueFactory(new PropertyValueFactory<>("isHidden"));
-        // TODO: Missing CellFactory and OnEditCommit
+        // Hide button for product
+        productsTableHidden.setCellValueFactory(productInformationStringCellEditEvent -> {
+            ProductInformation rowValue = productInformationStringCellEditEvent.getValue();
+            CheckBox checkBox = new CheckBox();
+
+            checkBox.selectedProperty().setValue(rowValue.getIsHidden());
+
+            checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                ProductInformationUpdater productInformationUpdater = new ProductInformationUpdater(rowValue);
+                productInformationUpdater.setIsHidden(newValue);
+
+                addNewProductUpdaterToSubmit(productInformationUpdaterList, productInformationUpdater, rowValue);
+            });
+            // This will "center" the checkbox:
+            checkBox.setPadding(new Insets(0, 0, 0, 18.5));
+
+            return new SimpleObjectProperty<>(checkBox);
+        });
 
         productsTablePrice.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPriceInformation().getPrice())));
         productsTablePrice.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -590,6 +609,7 @@ public class GUIController {
                                 });
                     });
                 }
+
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     setGraphic(empty ? null : btn);
@@ -745,6 +765,7 @@ public class GUIController {
                                 });
                     });
                 }
+
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     setGraphic(empty ? null : btn);
@@ -918,7 +939,7 @@ public class GUIController {
                                 .ifPresent(result -> {
                                     try {
                                         pimDriverInstance.deleteDiscountByName(data.getName());
-                                    } catch (SQLException  e) {
+                                    } catch (SQLException e) {
                                         alertSQLError();
                                         e.printStackTrace();
                                         return;
@@ -929,6 +950,7 @@ public class GUIController {
                                 });
                     });
                 }
+
                 public void updateItem(Void item, boolean empty) {
                     super.updateItem(item, empty);
                     setGraphic(empty ? null : btn);
