@@ -904,7 +904,7 @@ public class DBDriver {
     protected void deleteManufactureByName(String name) throws SQLException, ManufactureNotFoundException {
         // SQL function: deleteManufactureByName(argName VARCHAR)
         // Call by: CALL deleteManufactureByName('someManufactureName');
-        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteProductCategoryByName(?)");
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteManufactureByName(?)");
 
         if (!this.manufacturerByNameExists(name)) {
             throw new ManufactureNotFoundException();
@@ -920,7 +920,7 @@ public class DBDriver {
     protected void deleteSpecificationByProductUUIDAndKey(String uuid, String key) throws SQLException, UUIDNotFoundException {
         // SQL function: deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
         // Call by: CALL deleteSpecificationByProductUUIDAndKey('someUUID', 'someSpecificationKey');
-        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteSpecificationByByUUIDAndKey(?, ?)");
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteSpecificationByProductUUIDAndKey(?, ?)");
 
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
