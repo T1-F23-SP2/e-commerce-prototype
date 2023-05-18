@@ -6,9 +6,11 @@ import com.example.ecommerceprototype.pim.util.SafeRemoveArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class GUIController {
 
@@ -23,27 +26,29 @@ public class GUIController {
 
     // Product variables:
     @FXML
-    public TextField productInputName;
+    TextField productInputName;
     @FXML
-    public TextField productInputSerialNumber;
+    TextField productInputSerialNumber;
     @FXML
-    public TextField productInputCategoryName;
+    TextField productInputCategoryName;
     @FXML
-    public TextField productInputManufactureName;
+    TextField productInputManufactureName;
     @FXML
-    public TextField productInputPrice;
+    TextField productInputPrice;
     @FXML
-    public TextArea productInputShortDescription;
+    TextArea productInputShortDescription;
     @FXML
-    public TextArea productInputLongDescription;
+    TextArea productInputLongDescription;
     @FXML
     TableView<ProductInformation> productsTable;
+    @FXML
+    TableColumn<ProductInformation, Void> productsTableDelete;
     @FXML
     TableColumn<ProductInformation, String> productsTableName;
     @FXML
     TableColumn<ProductInformation, String> productsTableUUID;
     @FXML
-    TableColumn<ProductInformation, Boolean> productsTableHidden;
+    TableColumn<ProductInformation, Void> productsTableHidden;
     @FXML
     TableColumn<ProductInformation, String> productsTablePrice;
     @FXML
@@ -60,49 +65,55 @@ public class GUIController {
 
     // Category variables:
     @FXML
-    public TextField categoryInputName;
+    TextField categoryInputName;
     @FXML
-    public TextField categoryInputParentName;
+    TextField categoryInputParentName;
     @FXML
-    public TableView<ProductCategory> categoriesTable;
+    TableView<ProductCategory> categoriesTable;
     @FXML
-    public TableColumn<ProductCategory, String> categoriesTableName;
+    TableColumn<ProductCategory, Void> categoriesTableDelete;
     @FXML
-    public TableColumn<ProductCategory, String> categoriesTableParentCategoryName;
+    TableColumn<ProductCategory, String> categoriesTableName;
+    @FXML
+    TableColumn<ProductCategory, String> categoriesTableParentCategoryName;
 
 
     // Manufacture variables:
     @FXML
-    public TextField manufactureInputName;
+    TextField manufactureInputName;
     @FXML
-    public TextField manufactureInputPhoneNumber;
+    TextField manufactureInputPhoneNumber;
     @FXML
-    public TextField manufactureInputMail;
+    TextField manufactureInputMail;
     @FXML
-    public TableView<ManufacturingInformation> manufacturesTable;
+    TableView<ManufacturingInformation> manufacturesTable;
     @FXML
-    public TableColumn<ManufacturingInformation, String> manufacturesTableName;
+    TableColumn<ManufacturingInformation, Void> manufacturesTableDelete;
     @FXML
-    public TableColumn<ManufacturingInformation, String> manufacturesTableSupportPhone;
+    TableColumn<ManufacturingInformation, String> manufacturesTableName;
     @FXML
-    public TableColumn<ManufacturingInformation, String> manufacturesTableSupportMail;
+    TableColumn<ManufacturingInformation, String> manufacturesTableSupportPhone;
+    @FXML
+    TableColumn<ManufacturingInformation, String> manufacturesTableSupportMail;
 
 
     // Discount variables:
     @FXML
-    public TextField discountInputName;
+    TextField discountInputName;
     @FXML
-    public TextField discountInputStartingDate;
+    TextField discountInputStartingDate;
     @FXML
-    public TextField discountInputEndingDate;
+    TextField discountInputEndingDate;
     @FXML
-    public TableView<DiscountInformation> discountsTable;
+    TableView<DiscountInformation> discountsTable;
     @FXML
-    public TableColumn<DiscountInformation, String> discountsTableName;
+    TableColumn<DiscountInformation, Void> discountsTableDelete;
     @FXML
-    public TableColumn<DiscountInformation, String> discountsTableStartDate;
+    TableColumn<DiscountInformation, String> discountsTableName;
     @FXML
-    public TableColumn<DiscountInformation, String> discountsTableEndDate;
+    TableColumn<DiscountInformation, String> discountsTableStartDate;
+    @FXML
+    TableColumn<DiscountInformation, String> discountsTableEndDate;
 
 
     private PIMDriver pimDriverInstance;
@@ -120,6 +131,14 @@ public class GUIController {
         alert.setTitle("Error");
         alert.setHeaderText("Required inputs were not filled");
         alert.setContentText("Please fill in all required inputs before submitting!");
+        alert.showAndWait();
+    }
+
+    private void alertDuplicateEntry(String objectType) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Duplicate entry error");
+        alert.setContentText("Similar " + objectType + " already exists!");
         alert.showAndWait();
     }
 
@@ -170,15 +189,11 @@ public class GUIController {
         alert.showAndWait();
     }
 
-
-// This method has not been checked:
-
-    private void alertDuplicateEntry(String typeOfObject) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Duplicate entry error");
-        alert.setContentText("Similar " + typeOfObject + " already exists!");
-        alert.showAndWait();
+    private Optional<ButtonType> alertConfirmAction(String objectType, String name) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion of " + objectType.toLowerCase());
+        alert.setHeaderText("You are trying to delete a " + objectType.toLowerCase() + " with the name: " + name + "\nAre you sure you wish to continue?");
+        return alert.showAndWait();
     }
 
     //endregion
@@ -331,6 +346,39 @@ public class GUIController {
         productsTable.setEditable(true);
         productsTable.getItems().clear();
 
+        // Delete button for product:
+        Callback<TableColumn<ProductInformation, Void>, TableCell<ProductInformation, Void>> cellFactory = param -> {
+            TableCell<ProductInformation, Void> cell = new TableCell<>() {
+                private final Button btn = new Button("X");
+
+                {
+                    btn.setOnAction(event -> {
+                        ProductInformation data = getTableView().getItems().get(getIndex());
+                        alertConfirmAction("Product", data.getName())
+                                .filter(result -> result == ButtonType.OK)
+                                .ifPresent(result -> {
+                                    try {
+                                        pimDriverInstance.deleteProductByUUID(data.getProductUUID());
+                                    } catch (UUIDNotFoundException | SQLException e) {
+                                        alertSQLError();
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    productsWindowChange();
+                                });
+                    });
+                }
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        };
+        productsTableDelete.setCellFactory(cellFactory);
+
         productsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         productsTableName.setCellFactory(TextFieldTableCell.forTableColumn());
         productsTableName.setOnEditCommit(productInformationStringCellEditEvent -> {
@@ -429,7 +477,7 @@ public class GUIController {
         List<ProductInformation> productInformationList;
         try {
             productInformationList = pimDriverInstance.getAllProducts();
-        } catch (SQLException | UUIDNotFoundException e) {
+        } catch (SQLException | UUIDNotFoundException | CategoryNotFoundException e) {
             alertSQLError();
             e.printStackTrace();
             return;
@@ -516,6 +564,42 @@ public class GUIController {
     public void categoriesWindowChange() {
         categoriesTable.setEditable(true);
         categoriesTable.getItems().clear();
+
+        // Delete button for category:
+        Callback<TableColumn<ProductCategory, Void>, TableCell<ProductCategory, Void>> cellFactory = param -> {
+            TableCell<ProductCategory, Void> cell = new TableCell<>() {
+                private final Button btn = new Button("X");
+
+                {
+                    btn.setOnAction(event -> {
+                        ProductCategory data = getTableView().getItems().get(getIndex());
+                        alertConfirmAction("Category", data.getName())
+                                .filter(result -> result == ButtonType.OK)
+                                .ifPresent(result -> {
+                                    try {
+                                        pimDriverInstance.deleteProductCategoryByName(data.getName());
+                                    } catch (SQLException e) {
+                                        alertSQLError();
+                                        e.printStackTrace();
+                                        return;
+                                    } catch (CategoryNotFoundException e) {
+                                        alertObjectWithGivenNameDoesNotExist("Category", data.getName());
+                                        return;
+                                    }
+                                    categoriesWindowChange();
+                                });
+                    });
+                }
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        };
+        categoriesTableDelete.setCellFactory(cellFactory);
 
         categoriesTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         categoriesTableName.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -635,6 +719,42 @@ public class GUIController {
     public void manufacturesWindowChange() {
         manufacturesTable.setEditable(true);
         manufacturesTable.getItems().clear();
+
+        // Delete button for manufacture:
+        Callback<TableColumn<ManufacturingInformation, Void>, TableCell<ManufacturingInformation, Void>> cellFactory = param -> {
+            TableCell<ManufacturingInformation, Void> cell = new TableCell<>() {
+                private final Button btn = new Button("X");
+
+                {
+                    btn.setOnAction(event -> {
+                        ManufacturingInformation data = getTableView().getItems().get(getIndex());
+                        alertConfirmAction("Manufacture", data.getName())
+                                .filter(result -> result == ButtonType.OK)
+                                .ifPresent(result -> {
+                                    try {
+                                        pimDriverInstance.deleteManufactureByName(data.getName());
+                                    } catch (SQLException e) {
+                                        alertSQLError();
+                                        e.printStackTrace();
+                                        return;
+                                    } catch (ManufactureNotFoundException e) {
+                                        alertObjectWithGivenNameDoesNotExist("Manufacture", data.getName());
+                                        return;
+                                    }
+                                    manufacturesWindowChange();
+                                });
+                    });
+                }
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        };
+        manufacturesTableDelete.setCellFactory(cellFactory);
 
         manufacturesTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         manufacturesTableName.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -784,6 +904,41 @@ public class GUIController {
     public void discountsWindowChange() {
         discountsTable.setEditable(true);
         discountsTable.getItems().clear();
+
+        // Delete button for discount:
+        Callback<TableColumn<DiscountInformation, Void>, TableCell<DiscountInformation, Void>> cellFactory = param -> {
+            TableCell<DiscountInformation, Void> cell = new TableCell<>() {
+                private final Button btn = new Button("X");
+
+                {
+                    btn.setOnAction(event -> {
+                        DiscountInformation data = getTableView().getItems().get(getIndex());
+                        alertConfirmAction("Discount", data.getName())
+                                .filter(result -> result == ButtonType.OK)
+                                .ifPresent(result -> {
+                                    try {
+                                        pimDriverInstance.deleteDiscountByName(data.getName());
+                                    } catch (SQLException  e) {
+                                        alertSQLError();
+                                        e.printStackTrace();
+                                        return;
+                                    } catch (DiscountNotFoundException e) {
+                                        alertObjectWithGivenNameDoesNotExist("Discount", data.getName());
+                                    }
+                                    discountsWindowChange();
+                                });
+                    });
+                }
+                public void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btn);
+                }
+            };
+
+            cell.setAlignment(Pos.CENTER);
+            return cell;
+        };
+        discountsTableDelete.setCellFactory(cellFactory);
 
         discountsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         discountsTableName.setCellFactory(TextFieldTableCell.forTableColumn());
