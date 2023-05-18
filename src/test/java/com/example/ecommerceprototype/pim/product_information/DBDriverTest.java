@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class DBDriverTest {
     static DBDriver dbDriver;
+    static PIMDriver pimDriver;
     private static TestConnectionWrapper connectionWrapper;
     static Connection connection;
 
@@ -28,6 +29,7 @@ public class DBDriverTest {
             connection = connectionWrapper.setup(new SQLConnectionTestInitializer());
 
             dbDriver = DBDriver.getInstance(connection);
+            pimDriver = new PIMDriver();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +53,7 @@ public class DBDriverTest {
 
         ProductInformation returnedProduct = null;
         try {
-            returnedProduct = dbDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
+            returnedProduct = pimDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +81,7 @@ public class DBDriverTest {
 
         ProductInformation returnedProduct = null;
         try {
-            returnedProduct = dbDriver.getProductByUUID(uuid);
+            returnedProduct = pimDriver.getProductByUUID(uuid);
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -117,7 +119,7 @@ public class DBDriverTest {
 
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsBySerialNumber("LenovoIdeapad5Pro-1234");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -161,7 +163,7 @@ public class DBDriverTest {
 
             ArrayList<ProductInformation> returnedList = null;
             try {
-                returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+                returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -185,7 +187,7 @@ public class DBDriverTest {
     void testGetNoProductThatIsHidden() {
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsThatAreHidden();
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -223,7 +225,7 @@ public class DBDriverTest {
 
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("TV");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsByCategoryName("TV");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -238,7 +240,7 @@ public class DBDriverTest {
     void testGetNoProductByCategoryName() {
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByCategoryName("PC & tablets");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsByCategoryName("PC & tablets");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -276,7 +278,7 @@ public class DBDriverTest {
 
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("Lenovo");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsByManufactureName("Lenovo");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -298,7 +300,7 @@ public class DBDriverTest {
         }
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByManufactureName("NAN");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsByManufactureName("NAN");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -336,7 +338,7 @@ public class DBDriverTest {
 
         ArrayList<ProductInformation> returnedList = null;
         try {
-            returnedList = (ArrayList<ProductInformation>) dbDriver.getProductsByDiscountName("Spring sale");
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsByDiscountName("Spring sale");
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -363,7 +365,7 @@ public class DBDriverTest {
         }
 
         try {
-            assertEquals("TV", dbDriver.getCategoryByProductUUID(uuid).getName());
+            assertEquals("TV", pimDriver.getCategoryByProductUUID(uuid).getName());
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -372,7 +374,7 @@ public class DBDriverTest {
     @Test
     void testGetCategoryByCategoryID() {
         try {
-            assertEquals("TV", dbDriver.getCategoryByCategoryID(8).getName());
+            assertEquals("TV", pimDriver.getCategoryByCategoryID(8).getName());
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -381,7 +383,7 @@ public class DBDriverTest {
     @Test
     void testGetCategoryByName() {
         try {
-            assertEquals(dbDriver.getCategoryByCategoryID(8).getName(), dbDriver.getCategoryByName("TV").getName());
+            assertEquals(pimDriver.getCategoryByCategoryID(8).getName(), pimDriver.getCategoryByName("TV").getName());
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -403,7 +405,7 @@ public class DBDriverTest {
         }
 
         try {
-            assertEquals("AMD Ryzen 5600U", dbDriver.getSpecificationByProductUUID(uuid).get("CPU"));
+            assertEquals("AMD Ryzen 5600U", pimDriver.getSpecificationByProductUUID(uuid).get("CPU"));
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -425,7 +427,7 @@ public class DBDriverTest {
         }
 
         try {
-            assertEquals("Lenovo", dbDriver.getManufactureByProductUUID(uuid).getName());
+            assertEquals("Lenovo", pimDriver.getManufactureByProductUUID(uuid).getName());
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -434,7 +436,7 @@ public class DBDriverTest {
     @Test
     void testGetManufactureByName() {
         try {
-            assertEquals("12345678", dbDriver.getManufactureByName("Lenovo").getSupportPhoneNumber());
+            assertEquals("12345678", pimDriver.getManufactureByName("Lenovo").getSupportPhoneNumber());
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -457,7 +459,7 @@ public class DBDriverTest {
         }
 
         try {
-            assertEquals("Spring sale", dbDriver.getDiscountByProductUUID(uuid).getName());
+            assertEquals("Spring sale", pimDriver.getDiscountByProductUUID(uuid).getName());
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -466,7 +468,7 @@ public class DBDriverTest {
     @Test
     void testGetDiscountByName() { // Boring looking test - but then again, if no exception occurs, isn't it technically working?
         try {
-            assertEquals("Spring sale", dbDriver.getDiscountByName("Spring sale").getName());
+            assertEquals("Spring sale", pimDriver.getDiscountByName("Spring sale").getName());
         } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -476,7 +478,7 @@ public class DBDriverTest {
     void testGetNoDiscountByName() { // Boring looking test - but then again, if no exception occurs, isn't it technically working?
         assertThrows(
                 NotFoundException.class,
-                () -> dbDriver.getDiscountByName("NotRealDiscount!")
+                () -> pimDriver.getDiscountByName("NotRealDiscount!")
                 );
     }
 
