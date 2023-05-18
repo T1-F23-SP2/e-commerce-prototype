@@ -869,39 +869,85 @@ public class DBDriver {
     }
 
 
-    protected void deleteProductByUUID(SQLValueArguments uuid) {
+    protected void deleteProductByUUID(String uuid) throws SQLException, UUIDNotFoundException {
         // SQL function: deleteProductByUUID(argUUID UUID)
         // Call by: CALL deleteProductByUUID('someUUID');
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteProductByUUID(?)");
 
-        throw new UnsupportedOperationException();
+        if (!this.productByUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        } else {
+            new SQLValueArguments()
+                    .setArgument(uuid)
+                    .setArgumentsInStatement(deleteStatement);
+
+            deleteStatement.execute();
+        }
     }
 
-    protected void deleteProductCategoryByName(SQLValueArguments name) {
+    protected void deleteProductCategoryByName(String name) throws CategoryNotFoundException, SQLException {
         // SQL function: deleteProductCategoryByName(argName VARCHAR)
         // Call by: CALL deleteProductCategoryByName('someName');
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteProductCategoryByName(?)");
 
-        throw new UnsupportedOperationException();
+        if (!this.categoryByNameExists(name)) {
+            throw new CategoryNotFoundException();
+        } else {
+            new SQLValueArguments()
+                    .setArgument(name)
+                    .setArgumentsInStatement(deleteStatement);
+
+            deleteStatement.execute();
+        }
     }
 
-    protected void deleteManufactureByName(SQLValueArguments name) {
+    protected void deleteManufactureByName(String name) throws SQLException, ManufactureNotFoundException {
         // SQL function: deleteManufactureByName(argName VARCHAR)
         // Call by: CALL deleteManufactureByName('someManufactureName');
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteManufactureByName(?)");
 
-        throw new UnsupportedOperationException();
+        if (!this.manufacturerByNameExists(name)) {
+            throw new ManufactureNotFoundException();
+        } else {
+            new SQLValueArguments()
+                    .setArgument(name)
+                    .setArgumentsInStatement(deleteStatement);
+
+            deleteStatement.execute();
+        }
     }
 
-    protected void deleteSpecificationByProductUUIDAndKey(SQLValueArguments uuid) {
+    protected void deleteSpecificationByProductUUIDAndKey(String uuid, String key) throws SQLException, UUIDNotFoundException {
         // SQL function: deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
         // Call by: CALL deleteSpecificationByProductUUIDAndKey('someUUID', 'someSpecificationKey');
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteSpecificationByProductUUIDAndKey(?, ?)");
 
-        throw new UnsupportedOperationException();
+        if (!this.productByUUIDExists(uuid)) {
+            throw new UUIDNotFoundException();
+        } else {
+            new SQLValueArguments()
+                    .setArgument(uuid)
+                    .setArgument(key)
+                    .setArgumentsInStatement(deleteStatement);
+
+            deleteStatement.execute();
+        }
     }
 
-    protected void deleteDiscountByName(SQLValueArguments name) {
+    protected void deleteDiscountByName(String name) throws SQLException, DiscountNotFoundException {
         // SQL function: deleteDiscountByName(argName VARCHAR)
         // Call by: CALL deleteDiscountByName('someDiscountName');
+        PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteDiscountByName(?)");
 
-        throw new UnsupportedOperationException();
+        if (!this.discountByNameExists(name)) {
+            throw new DiscountNotFoundException();
+        } else {
+            new SQLValueArguments()
+                    .setArgument(name)
+                    .setArgumentsInStatement(deleteStatement);
+
+            deleteStatement.execute();
+        }
     }
 
     /* There will not be a method for deleting a price change. This is a design choice. */
