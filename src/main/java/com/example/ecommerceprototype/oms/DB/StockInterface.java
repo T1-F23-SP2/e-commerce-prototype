@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static com.mongodb.client.model.Indexes.descending;
 
 public interface StockInterface {
-    
+
     public static MongoCollection<org.bson.Document> databaseConn(String table) {
         Logger.getLogger("").setLevel(Level.WARNING);
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
