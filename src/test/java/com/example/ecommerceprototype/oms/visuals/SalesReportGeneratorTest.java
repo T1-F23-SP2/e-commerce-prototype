@@ -1,5 +1,8 @@
 package com.example.ecommerceprototype.oms.visuals;
 
+import com.example.ecommerceprototype.oms.Visuals.OrderConfirmationGenerator;
+import com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.mongodb.client.MongoClient;
@@ -8,9 +11,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.jfree.chart.JFreeChart;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+
 
 import static com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator.pdfMaker;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +34,7 @@ class SalesReportGeneratorTest {
 
     @BeforeEach
     void setUp() {
+        System.out.println("Running all tests in SalesReportGenerator");
     }
 
     @AfterEach
@@ -50,10 +58,16 @@ class SalesReportGeneratorTest {
 
     @Test
     void Chart_BARchart() {
+        JFreeChart chart = SalesReportGenerator.Chart_BARchart();
+
+        assertNotNull(chart);
     }
 
     @Test
     void Chart_PIEchart() {
+        JFreeChart chart = SalesReportGenerator.Chart_PIEchart();
+
+        assertNotNull(chart);
     }
 
 
@@ -72,7 +86,6 @@ class SalesReportGeneratorTest {
         if (actual > expected) {
             throw new AssertionError("Expected generation time to be less than or equal to " + expected + "ms, but it took " + actual + "ms.");
         }
-
-
     }
+
 }
