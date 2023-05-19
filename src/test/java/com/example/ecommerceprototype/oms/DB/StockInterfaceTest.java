@@ -22,6 +22,7 @@ class StockInterfaceTest {
 
     @Test
     void queryStockDB() {
+
     }
 
     @Test

@@ -28,9 +28,7 @@ import java.util.List;
 
 
 public class SalesReportGenerator {
-    static BaseColor color2 = new BaseColor(48, 213,200);
-
-
+    static BaseColor color2 = new BaseColor(48, 213, 200);
 
 
     public static PdfPTable Table_Table() {
@@ -89,9 +87,8 @@ public class SalesReportGenerator {
     public static JFreeChart Chart_BARchart() {
 
         DefaultCategoryDataset BarData = new DefaultCategoryDataset();
-        for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++)
-        {
-            BarData.setValue(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()),"matt",PlaceHolderInstGet.productArray[i].getName());
+        for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++) {
+            BarData.setValue(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()), "matt", PlaceHolderInstGet.productArray[i].getName());
 
         }
 
@@ -106,13 +103,13 @@ public class SalesReportGenerator {
 
         return chart;
     }
+
     public static JFreeChart Chart_PIEchart() {
 
 
         DefaultPieDataset PieData = new DefaultPieDataset();
-        for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++)
-        {
-            PieData.setValue(PlaceHolderInstGet.productArray[i].getName(),SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()));
+        for (int i = 0; i < PlaceHolderInstGet.productArray.length; i++) {
+            PieData.setValue(PlaceHolderInstGet.productArray[i].getName(), SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[i].getProductUUID()));
 
         }
 
@@ -121,7 +118,6 @@ public class SalesReportGenerator {
 
         return chart;
     }
-
 
 
     public static void convertToPdf(List<JFreeChart> charts, int width, int height, String filename) {
@@ -143,7 +139,6 @@ public class SalesReportGenerator {
             document.add(paragraph);
 
 
-
             // Adding the FUCKTable to the pdf - (CellTable)
             PdfPTable table = Table_Table();
 
@@ -151,9 +146,9 @@ public class SalesReportGenerator {
             //user positioned text and graphic contents of a page | how to apply the proper font encoding.
             PdfContentByte cb = writer.getDirectContent();
             //Set template
-            PdfTemplate tp = cb.createTemplate(width*2, height);
+            PdfTemplate tp = cb.createTemplate(width * 2, height);
             //Set Graphics (
-            Graphics2D g2d = tp.createGraphics(width*2, height, new DefaultFontMapper());
+            Graphics2D g2d = tp.createGraphics(width * 2, height, new DefaultFontMapper());
             //Define area to graphs
             Rectangle2D r2d1 = new Rectangle2D.Double(0, 0, width, height);
             Rectangle2D r2d2 = new Rectangle2D.Double(width, 0, width, height);
@@ -200,7 +195,7 @@ public class SalesReportGenerator {
                 // Create a graph for the page
                 DefaultPieDataset GenChart = new DefaultPieDataset<>();
                 GenChart.setValue("AmountOfOrders", SalesReport.getAmountOfOrders(product.getProductUUID()));
-                GenChart.setValue("QTY",SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()));
+                GenChart.setValue("QTY", SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()));
                 JFreeChart Genchart = ChartFactory.createPieChart("Amount sold VS QTY", GenChart);
 
 
@@ -223,10 +218,7 @@ public class SalesReportGenerator {
 
     }
 
-
-
-
-    public static void main(String[] args) {
+    public static void pdfMaker() {
         List<JFreeChart> charts = new ArrayList<>();
         charts.add(Chart_BARchart());
         charts.add(Chart_PIEchart());
@@ -234,5 +226,10 @@ public class SalesReportGenerator {
         int height = 350;
         String fileName = "assets/oms/out/TEST.pdf";
         convertToPdf(charts, width, height, fileName);
+    }
+
+
+    public static void main(String[] args) {
+        pdfMaker();
     }
 }
