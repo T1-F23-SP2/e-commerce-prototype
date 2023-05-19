@@ -24,10 +24,20 @@ public static final int CVR = 53319637;
     static int OrderConfirmationNumber = 10000000;
     static PdfPTable header;
     static PdfPTable rabatFooter;
-
+    public static PdfPTable getRabatFooter() {
+        return rabatFooter;
+    }
     static Document document;
 
    public static String[] Delivery = {"Afhentning", "Udbringelse", "Hurtigt Udbringelse"};
+
+
+
+
+
+
+
+
 
     public static void fileFormatter() {
         // Create a new PDF document
@@ -232,7 +242,7 @@ public static final int CVR = 53319637;
 
     public static void main(String[] args) {
         fileFormatter();
-        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber));
+        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"));
     }
 
 
