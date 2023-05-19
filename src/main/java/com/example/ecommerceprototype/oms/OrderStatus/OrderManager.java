@@ -49,19 +49,5 @@ public class OrderManager {
 
         MongoCollection<Document> connDB = DBManager.databaseConn("OrderHistory");
         connDB.insertOne(new Document().append("_id", id).append("UUID", resultUUID).append("Date", LocalDate.now()).append("Amount", resultAmount));
-
-
-
-
     }
-
-
-    // Maybe
-    public static void getOrder(){
-
-    }
-
-
-
-
-}
+   }

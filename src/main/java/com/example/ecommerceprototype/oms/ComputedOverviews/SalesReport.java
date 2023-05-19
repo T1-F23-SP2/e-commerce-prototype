@@ -110,37 +110,6 @@ public class SalesReport {
     }
 
     public static int getAmountOfOrders(String UUID) {
-
-
-        /*MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
-        // Build query to retrieve documents with matching UUID
-        Document query = new Document("UUID", UUID);
-
-        // Project only the "AmountSold" field
-        Document projection = new Document("AmountSold", 1);
-
-        // Sort the results by descending order based on the "AmountSold" field
-        Document sort = new Document("AmountSold", 1);
-
-        // Retrieve the first document (i.e. the one with the highest "AmountSold" value)
-        Document result = finder.find(query)
-                .projection(projection)
-                .sort(sort)
-                .first();
-        System.out.println(query);
-        System.out.println(projection);
-        System.out.println(sort);
-        System.out.println(result);
-
-        if (result != null) {
-            int amountOfOrders = result.getInteger("AmountSold");
-            return amountOfOrders;
-        } else {
-            // No matching documents found
-            return 0;
-        }*/
-
-
         // TODO: Query database for amount of orders of a specific product(UUID)
 
         // Fix this, it has to get the right value and not 55 everytime

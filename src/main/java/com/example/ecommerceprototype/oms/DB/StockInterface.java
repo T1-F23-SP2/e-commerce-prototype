@@ -1,8 +1,8 @@
 package com.example.ecommerceprototype.oms.DB;
 
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
+import com.example.ecommerceprototype.oms.OrderGUIControllerOMS;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
-import com.example.ecommerceprototype.oms.HelloController;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -53,6 +53,12 @@ public interface StockInterface {
 
     public static void sendOrderOMS(MockShopObject mockShopObject){
 
+        boolean orderBool = false;
+        // SendOrderOMS boolean, set true if order received, list of orders, add list and set bool (false)
+        // receive order(bool=true), end of loop (set bool = false),
+
+        //UpdateStock(method in DBManager) needs to be called first (if (xxxx))
+
         String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
 
 
@@ -66,13 +72,13 @@ public interface StockInterface {
 
         // Code to update the ui in OrderGUI
         // Add to list
-//        HelloController.orderMap.put(id, false);
-        HelloController.idList.clear();
-        HelloController.statusList.clear();
-        HelloController.UUIDList.clear();
-        HelloController.idList.add(id);
-        HelloController.statusList.add("Not processed");
-        HelloController.UUIDList.add(UUIDString);
+//        OrderGUIControllerOMS.orderMap.put(id, false);
+        OrderGUIControllerOMS.idList.clear();
+        OrderGUIControllerOMS.statusList.clear();
+        OrderGUIControllerOMS.UUIDList.clear();
+        OrderGUIControllerOMS.idList.add(id);
+        OrderGUIControllerOMS.statusList.add("Not processed");
+        OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
 
         MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
@@ -82,11 +88,11 @@ public interface StockInterface {
 
         // Code to make the rest of the list, from the database.
         for (int i = 0; i < dbIdList.size(); i++) {
-            HelloController.idList.add(dbIdList.get(i));
-            HelloController.statusList.add("Processed");
+            OrderGUIControllerOMS.idList.add(dbIdList.get(i));
+            OrderGUIControllerOMS.statusList.add("Processed");
 
             // Placeholder just displays UUID from inst 1
-            HelloController.UUIDList.add(String.join(", ", mockShopObject.getMap().keySet()));
+            OrderGUIControllerOMS.UUIDList.add(String.join(", ", mockShopObject.getMap().keySet()));
 
 
 ////             Fix this code to display the correct UUID by _id from the database
@@ -96,7 +102,7 @@ public interface StockInterface {
 //
 //            String UUIDString2 = documentObj.getString("UUID");
 //
-//            HelloController.UUIDList.add(UUIDString2);
+//            OrderGUIControllerOMS.UUIDList.add(UUIDString2);
         }
 
 
@@ -113,7 +119,7 @@ public interface StockInterface {
 
         //-------------------------------------------------------------------
         // Code to update the ui in OrderGUI Code to update the false to true
-//        HelloController.orderMap.put(id, true);
+//        OrderGUIControllerOMS.orderMap.put(id, true);
 
 
 

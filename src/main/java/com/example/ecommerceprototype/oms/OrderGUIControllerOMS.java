@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 import static com.mongodb.client.model.Indexes.descending;
 
-public class HelloController {
+public class OrderGUIControllerOMS {
     @FXML
     private ListView<Integer> ordersListId;
 
@@ -66,30 +66,21 @@ public class HelloController {
 
         for (int i = 0; i < idList.size(); i++) {
             statusList.add("Processed");
-
+//Todo: Fix this?
             // Get the object from com.example.ecommerceprototype.OMS.DB with specific id.
 //            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", idList.get(i).toString());
 //            String UUIDString = documentObj.getString("UUID");
-            HelloController.UUIDList.add(UUIDString);
+            OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
 
 
 
         }
 
-
-//        initialize();
-
-
     }
-
-
 
     @FXML
     void addOrderMock(ActionEvent event) {
-
-//        MockShopObject mockShopObject = PlaceholderInstShop.getInstShop1();
-//        String UUIDString = String.join(",", PlaceholderInstShop.getInstShop1().getMap().keySet());
 
         MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
         Document document = collection.find().sort(descending("_id")).first();
@@ -100,95 +91,39 @@ public class HelloController {
 
         // Code to update the ui in OrderGUI
         // Add to list
-//        HelloController.orderMap.put(id, false);
-        HelloController.idList.clear();
-        HelloController.statusList.clear();
-        HelloController.UUIDList.clear();
-        HelloController.idList.add(id);
-        HelloController.statusList.add("Not processed");
-        HelloController.UUIDList.add(UUIDString);
+//        OrderGUIControllerOMS.orderMap.put(id, false);
+        OrderGUIControllerOMS.idList.clear();
+        OrderGUIControllerOMS.statusList.clear();
+        OrderGUIControllerOMS.UUIDList.clear();
+        OrderGUIControllerOMS.idList.add(id);
+        OrderGUIControllerOMS.statusList.add("Not processed");
+        OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
         ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
         // Collection to database made
         MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
-//        System.out.println(dbIdList.size());
-
-
 
         for (int i = 0; i < dbIdList.size(); i++) {
-            HelloController.idList.add(dbIdList.get(i));
-            HelloController.statusList.add("Processed");
+            OrderGUIControllerOMS.idList.add(dbIdList.get(i));
+            OrderGUIControllerOMS.statusList.add("Processed");
+            //Todo: fix this?
 
             // Code to get information out of com.example.ecommerceprototype.OMS.DB
 //            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(idList.get(i)));
-//            HelloController.UUIDList.add(documentObj.getString("UUID"));
+//            OrderGUIControllerOMS.UUIDList.add(documentObj.getString("UUID"));
 
-            HelloController.UUIDList.add(UUIDString);
+            OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
         }
-
-
-
-
 
         // Code to place in database Code to process
         OrderManager.sendOrder(mockShopObject);
     }
-    
-    public void setLists(){
-
-        idList.clear();
-        statusList.clear();
-//        idList.addAll(orderMap.keySet().stream().toArray());
-
-        for (int i = 0; i < orderMap.size(); i++) {
-            idList.add((Integer) orderMap.keySet().stream().toArray()[i]);
-
-        }
-        for (int i = 0; i < idList.size(); i++) {
-            statusList.add((String) orderMap.get(idList.get(i)));
-        }
-
-        initialize();
-        
-        
-    }
-
-
-
-//    public static
-
-
 
     public void initialize() {
         ordersListId.setItems(idList);
         ordersListStatus.setItems(statusList);
         ordersListUUID.setItems(UUIDList);
     }
-
-
-
-
-
-
-    public static void updateTables(){
-        idList.addAll(orderMap.keySet());
-
-//        statusList.removeAll(true);
-
-        for (int i = 0; i < idList.size(); i++) {
-//            statusList.add((String) orderMap.get(i));
-        }
-
-
-    }
-
-
-
-
-
-
-
-
 
 }

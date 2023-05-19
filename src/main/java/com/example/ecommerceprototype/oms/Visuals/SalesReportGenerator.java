@@ -135,7 +135,7 @@ public class SalesReportGenerator {
             //Open document to write to the pdf
             document.open();
 
-            Image image = Image.getInstance("assets/travel and tour - Made with PosterMyWall.jpg");
+            Image image = Image.getInstance("assets/oms/travel and tour - Made with PosterMyWall.jpg");
             image.scaleToFit(PageSize.A4.getWidth(), 175);
             Paragraph paragraph = new Paragraph();
             paragraph.add(image);
@@ -171,36 +171,9 @@ public class SalesReportGenerator {
             //Pay no attention to this:
             document.newPage();
 
-
-/*
-            PdfPTable tables = new PdfPTable(PlaceHolderInstGet.productArray.length);
-            table.setWidthPercentage(100);
-
-
-
-           for (int i = 0; i < table.getRows().size(); i++) {
-                PdfPCell cell = table.getRow(i).getCells()[0]; // Get the first row of data
-
-                String f_RowData = cell.getPhrase().getContent();
-                System.out.println(f_RowData);
-               System.out.println(table.getRows().size());
-                PdfAction action = PdfAction.gotoLocalPage(1, new PdfDestination(0), writer);
-                Chunk chunk = new Chunk(f_RowData);
-                chunk.setAction(action);
-                document.add(chunk);
-//                Paragraph para = new Paragraph("dx");
-//                document.add(para);
-                document.newPage();
-
-            }*/
-
             int j = 0;
             // Loop through the product array
             for (ProductInformation product : PlaceHolderInstGet.productArray) {
-                // Add a title for the page
-                //Paragraph title = new Paragraph(product.getName());
-                //document.add(title);
-
                 // Create a table for the page
                 PdfPTable Gentable = new PdfPTable(4);
                 table.setWidthPercentage(100);
@@ -259,7 +232,7 @@ public class SalesReportGenerator {
         charts.add(Chart_PIEchart());
         int width = 300;
         int height = 350;
-        String fileName = "TEST.pdf";
+        String fileName = "assets/oms/out/TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }
 }

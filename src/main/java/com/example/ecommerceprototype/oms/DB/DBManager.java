@@ -23,20 +23,9 @@ public class DBManager {
     }
 
 
-    // This matches something and finds the match
-//    public static String queryDB(MongoCollection<Document> conn, String search, String searchValue){
-//
-//        org.bson.Document query = new org.bson.Document(search, new org.bson.Document("$gt", 0));
-////        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
-//        Document results = (Document) conn.find(Filters.eq(search, searchValue)).first();
-//
-//        return results.toJson();
-//    }
-
     public static Document queryDB(MongoCollection<Document> conn, String search) {
 
         org.bson.Document query = new org.bson.Document("UUID", search);
-//        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
         org.bson.Document results = conn.find(query).first();
 
         return results;
@@ -44,10 +33,10 @@ public class DBManager {
 
 
     // New method for query
+    //Todo: Check method (is it necessary)
     public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search) {
 
         org.bson.Document query = new org.bson.Document(searchTitle, search);
-//        List<org.bson.Document> results = conn.find(query).into(new ArrayList<>());
         org.bson.Document results = conn.find(query).first();
 
         return results;
@@ -72,23 +61,9 @@ public class DBManager {
         }
 
         return documentIds;
-
     }
 
-
-    // Method to take everything that is max one day ago
-    public static List<Document> getRecentObjects(String database) {
-
-        MongoCollection<Document> collection = databaseConn(database);
-
-        LocalDate oneDayAgo = LocalDate.now().minusDays(1);
-        Document query = new Document("Date", new Document("$gte", oneDayAgo));
-        List<Document> recentObjects = collection.find(query).into(new ArrayList<>());
-        return recentObjects;
-    }
-
-
-    public static boolean updateStock(MockShopObject mockShopObject) {
+    public static boolean UpdateStock(MockShopObject mockShopObject) {
         MongoCollection<org.bson.Document> documentMongoCollection;
         documentMongoCollection = databaseConn("Item");
 
@@ -121,7 +96,6 @@ public class DBManager {
         MongoCollection<Document> collection = databaseConn("Item");
 
         // Create a query that finds the document with the specified UUID
-//        Document query = new Document("_id", id);
         Document query = queryDB(collection, uuid);
         // Create an update that decrements the "fieldToDecrement" field by 1
         Document update = new Document("$inc", new Document("QTY", -amount));
@@ -129,43 +103,53 @@ public class DBManager {
         // Update the document with the specified ID
         collection.updateOne(query, update);
 
-        // Close the MongoDB connection
-//        collection.close();
+
     }
 
 
-    //public static Document dbForRealConnection() {
-    // connection = DriverManager.getConnection("")
-    // PreparedStatement insertStatement =
-    // databaseConn("Item").up
-    //}
-/*
-    public static void MatchUUID() {
-        MongoCollection<Document> collection = databaseConn("OrderHistory");
-        List<Bson> pipeline = new ArrayList<>();
-        for (ProductInformation product : PlaceHolderInstGet.productArray) {
-            pipeline.add(Aggregates.match(Filters.eq("UUID", product.getProductUUID())));
+    public static String[] getUUIDInfo(int targetId, String whatSearch) {
+
+        //Connect to database
+        MongoCollection<Document> OrderHistoryCollection = databaseConn("OrderHistory");
+
+
+
+        //Retrieve data form orderHistory and put it in an arraylist
+        ArrayList<Document> resultList = new ArrayList<>();
+
+        MongoCursor<Document> cursor = OrderHistoryCollection.find().iterator();
+        while (cursor.hasNext()) {
+            Document document = cursor.next();
+            resultList.add(document);
         }
-        org.bson.Document query = new org.bson.Document(uuid);
-        for (ProductInformation product : PlaceHolderInstGet.productArray) {
-            for (Document doc : query) {
-                if (doc.get("UUID").equals(product.getProductUUID())) {
-                    String name = product.getName();
-                    System.out.println(name);
-                }
+        cursor.close();
+
+        //Retrieving specific data from the arraylist
+        Document targetDocument = null;
+
+        for (Document document : resultList) {
+            int documentId = document.getInteger("_id");
+
+            if (documentId == (targetId)) {
+                targetDocument = document;
+                break;
             }
         }
-        System.out.println(output);
-    }*/
 
+        if (targetDocument != null) {
+            // Do something with the target document
+            String whatSearchValue = targetDocument.getString(whatSearch);// whatSearch = UUID eller Amount
+            String[] whatSearchLines = whatSearchValue.split(",");
+            return whatSearchLines;
 
-
-    public static void main(String[] args) {
-        //MatchUUID();
-        //System.out.println();
+        } else {
+            System.out.println("Document not found");
+        }
+        return new String[0];
     }
 
 
-       // collection.aggregate(Pipeline).forEach(document -> {System.out.println(PlaceHolderInstGet.getInst1().getName());});
+
+
 
     }
