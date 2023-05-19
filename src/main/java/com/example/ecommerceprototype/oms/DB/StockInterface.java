@@ -16,20 +16,7 @@ import java.util.logging.Logger;
 import static com.mongodb.client.model.Indexes.descending;
 
 public interface StockInterface {
-
-    /*
-    String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
-    MongoClient mongoClient = MongoClients.create(uri);
-    MongoDatabase database = mongoClient.getDatabase("StockDB");
-    MongoCollection<Document> itemCollection = database.getCollection("Item");
-
-    int qtyAmount = itemCollection(UUID).getInteger("QTY");
-
-
-    public static int getStock (String UUID1){
-        Document result = (Document) itemCollection.find(Filters.eq("UUID", UUID1)).first();
-    }
-     */
+    
     public static MongoCollection<org.bson.Document> databaseConn(String table) {
         Logger.getLogger("").setLevel(Level.WARNING);
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
@@ -49,6 +36,54 @@ public interface StockInterface {
         int qtyAmount = queryStockDB(databaseConn("Item"), UUID).getInteger("QTY");
         return qtyAmount;
     }
+
+
+
+    // New sendOrderOMS
+    public static void sendOrderOMSNew(MockShopObject mockShopObject) {
+        String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
+
+        // Code to add id and false to the list
+        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+        Document document = collection.find().sort(descending("_id")).first();
+        int highestId = (document == null) ? 0 : document.getInteger("_id");
+        int id = highestId + 1;
+
+        // Code to update the UI in OrderGUI
+        OrderGUIControllerOMS.idList.add(id);
+        OrderGUIControllerOMS.statusList.add("Not processed");
+        OrderGUIControllerOMS.UUIDList.add(UUIDString);
+
+        // Start a new thread to process the order
+        Thread processingThread = new Thread(() -> {
+            // Code to process the order
+            OrderManager.sendOrder(mockShopObject);
+
+            // Code to update the status in the UI
+            int index = OrderGUIControllerOMS.idList.indexOf(id);
+            OrderGUIControllerOMS.statusList.set(index, "Processed");
+
+            // Code to generate order confirmation if no more orders are being processed
+            if (!isAnyOrderProcessing()) {
+//                generateOrderConfirmation();
+            }
+        });
+
+        processingThread.start();
+    }
+
+    // Check if any order is currently being processed
+    private static boolean isAnyOrderProcessing() {
+        for (String status : OrderGUIControllerOMS.statusList) {
+            if (status.equals("Not processed")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 
 
     public static void sendOrderOMS(MockShopObject mockShopObject){
