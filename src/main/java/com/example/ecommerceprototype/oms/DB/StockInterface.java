@@ -3,12 +3,15 @@ package com.example.ecommerceprototype.oms.DB;
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.OrderGUIControllerOMS;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
+import com.example.ecommerceprototype.oms.Visuals.OrderConfirmationGenerator;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import javafx.application.Platform;
 import org.bson.Document;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +33,69 @@ public interface StockInterface {
 
 
 
+    static ArrayList<MockShopObject> orderList = new ArrayList<>();
+
+    // MCGPT
+
+    // TODO: Missing for loop check sendOrderOMS method
+    public static void sendOrderOMSNew(MockShopObject mockShopObject) {
+        String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
+
+        // Code to add id and false to the list
+        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+        Document document = collection.find().sort(descending("_id")).first();
+        int highestId = (document == null) ? 0 : document.getInteger("_id");
+        int id = highestId + 1;
+
+        // Code to update the UI in OrderGUI
+        Platform.runLater(() -> {
+            OrderGUIControllerOMS.idList.clear();
+            OrderGUIControllerOMS.statusList.clear();
+            OrderGUIControllerOMS.UUIDList.clear();
+            OrderGUIControllerOMS.idList.add(id);
+            OrderGUIControllerOMS.statusList.add("Not processed");
+            OrderGUIControllerOMS.UUIDList.add(UUIDString);
+        });
+
+        // Start a new thread to process the order
+        Thread processingThread = new Thread(() -> {
+            // Code to process the order
+            OrderManager.sendOrder(mockShopObject);
+
+            // Code to update the status in the UI
+            Platform.runLater(() -> {
+                int index = OrderGUIControllerOMS.idList.indexOf(id);
+                OrderGUIControllerOMS.statusList.set(index, "Processed");
+            });
+
+            // TODO: Code to add to orderlist
+            // Code to add to orderList
+            orderList.add(mockShopObject);
+            //orderList = new ArrayList<>();
+
+            // Code to generate order confirmation if no more orders are being processed
+            if (!isAnyOrderProcessing()) {
+                for (MockShopObject element : orderList) {
+                    Platform.runLater(() -> {
+                        //OrderConfirmationGenerator.generateOCPDF();
+                        OrderConfirmationGenerator.fileFormatter();
+                        OrderConfirmationGenerator.generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationGenerator.getOrderConfirmationNumber() + 1 + ".pdf"), mockShopObject);
+                    });
+                }
+                // generateOrderConfirmation();
+            }
+        });
+
+        processingThread.start();
+
+
+
+        // Thread OcThread = new Thread(() -> {
+        // });
+        // processingThread.start();
+    }
+
+    /*
     // New sendOrderOMS
     public static void sendOrderOMSNew(MockShopObject mockShopObject) {
         String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
@@ -42,9 +108,13 @@ public interface StockInterface {
 
         // Code to update the UI in OrderGUI
 
+        OrderGUIControllerOMS.idList.clear();
+        OrderGUIControllerOMS.statusList.clear();
+        OrderGUIControllerOMS.UUIDList.clear();
         OrderGUIControllerOMS.idList.add(id);
         OrderGUIControllerOMS.statusList.add("Not processed");
         OrderGUIControllerOMS.UUIDList.add(UUIDString);
+
 
         // Start a new thread to process the order
         Thread processingThread = new Thread(() -> {
@@ -55,14 +125,44 @@ public interface StockInterface {
             int index = OrderGUIControllerOMS.idList.indexOf(id);
             OrderGUIControllerOMS.statusList.set(index, "Processed");
 
+            // TODO: Code to add to orderlist
+            // Code to add to orderList
+            orderList.add(mockShopObject);
+            //orderList = new ArrayList<>();
+
+
+
             // Code to generate order confirmation if no more orders are being processed
             if (!isAnyOrderProcessing()) {
+                for (MockShopObject element : orderList) {
+                    //OrderConfirmationGenerator.generateOCPDF();
+                    OrderConfirmationGenerator.generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationGenerator.getOrderConfirmationNumber() + ".pdf"), mockShopObject);
+
+
+                }
 //                generateOrderConfirmation();
             }
+
         });
 
+
         processingThread.start();
-    }
+
+        try {
+            processingThread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+        //Thread OcThread = new Thread(() -> {
+
+
+        //});
+
+        //processingThread.start();
+    }*/
 
     // Check if any order is currently being processed
     private static boolean isAnyOrderProcessing() {

@@ -7,6 +7,11 @@ import java.util.HashMap;
 public class MockShopObject {
 
     HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
     Customer customer;
 
 
@@ -14,6 +19,7 @@ public class MockShopObject {
         this.map = map;
         this.customer = customer;
     }
+
 
 
     public HashMap<String, Integer> getMap() {

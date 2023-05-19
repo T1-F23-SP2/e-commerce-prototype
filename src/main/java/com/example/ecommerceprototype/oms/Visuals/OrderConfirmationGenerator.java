@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
+import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
 import com.example.ecommerceprototype.oms.mockPIM.ProductInformation;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -21,6 +24,11 @@ import static com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop.ge
 public class OrderConfirmationGenerator {
 public static final int CVR = 53319637;
     static int AmountOfOrders = 1;
+
+    public static int getOrderConfirmationNumber() {
+        return OrderConfirmationNumber;
+    }
+
     static int OrderConfirmationNumber = 10000000;
     static PdfPTable header;
     static PdfPTable rabatFooter;
@@ -92,7 +100,7 @@ public static final int CVR = 53319637;
 
     }
 
-    public static void generateOCPDF(File file ) {
+    public static void generateOCPDF(File file, MockShopObject mockShopObject) {
 
 
         for (int j = 0; j < 1; j++) {
@@ -159,10 +167,23 @@ public static final int CVR = 53319637;
 
                 String[] AmountArray = getUUIDInfo(10, "Amount");
 
-                for (int k = 0; k < PlaceHolderInstGet.productArray.length; k++) {
-                    table.addCell(PlaceHolderInstGet.productArray[k].getName());
-                    table.addCell(AmountArray[k]);
-                    table.addCell(PlaceHolderInstGet.productArray[k].getPriceInformation().getPrice().toString() + " DKK");
+                ArrayList<String> UUIDOrderList = new ArrayList<>(mockShopObject.getMap().keySet());
+
+
+                for (int k = 0; k < UUIDOrderList.size(); k++) {
+                    //table.addCell(PlaceHolderInstGet.productArray[k].getName());
+                    //table.addCell(AmountArray[k]);
+                    //table.addCell(PlaceHolderInstGet.productArray[k].getPriceInformation().getPrice().toString() + " DKK");
+
+
+                    table.addCell(UUIDOrderList.get(k));
+                    table.addCell(String.valueOf(mockShopObject.getMap().get(UUIDOrderList.get(k))));
+                    table.addCell(UUIDOrderList.get(k)+"DKK");
+
+
+
+
+
                 }
 
                 // Add the table to the document + Setting the position of the table
@@ -182,14 +203,14 @@ public static final int CVR = 53319637;
 
 
                 Phrase phraseName = new Paragraph("Navn:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phrase0NameS = new Paragraph(getInstShop2().getName() +"\n");
+                Phrase phrase0NameS = new Paragraph(mockShopObject.getCustomer().getName() +"\n");
                 Phrase phraseEmail = new Paragraph("Email:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phraseEmailS = new Paragraph(getInstShop2().getEmail() +"\n");
+                Phrase phraseEmailS = new Paragraph(mockShopObject.getCustomer().getEmail() +"\n");
                 Phrase phraseTLF = new Paragraph("tlf:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phraseTLFS = new Paragraph(getInstShop2().getPhone() +"\n");
+                Phrase phraseTLFS = new Paragraph(mockShopObject.getCustomer().getPhone() +"\n");
 
                 Phrase phrase1 = new Paragraph("Adresse:"  +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
-                Phrase phrase1S = new Paragraph(getInstShop2().getAddress() + getInstShop2().getZipcode() + "\n");
+                Phrase phrase1S = new Paragraph(mockShopObject.getCustomer().getAddress() + mockShopObject.getCustomer().getZipcode() + "\n");
                 Phrase phrase2 = new Paragraph("Leverings metode:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
                 Phrase phrase2S = new Paragraph(Delivery[1] +"\n");
                 Phrase phrase3 = new Paragraph("Afsendelse dato:" +"\n", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD));
@@ -242,7 +263,7 @@ public static final int CVR = 53319637;
 
     public static void main(String[] args) {
         fileFormatter();
-        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"));
+        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"), PlaceholderInstShop.getInstShop1());
     }
 
 

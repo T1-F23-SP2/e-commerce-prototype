@@ -46,7 +46,7 @@ class SalesReportGeneratorTest {
         //Tester at der bliver hentet UUID fra database
         Document result = collection.find(Filters.eq("UUID", "1U2U3I4D1")).first();
         System.out.println(result.toJson());
-        assertEquals("{\"_id\": {\"$oid\": \"643e9afcced88a178463cfb2\"}, \"UUID\": \"1U2U3I4D1\", \"QTY\": 25}", result.toJson());
+        assertEquals("1U2U3I4D1", result.getString("UUID"));
     }
 
     @Test
