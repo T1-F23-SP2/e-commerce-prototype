@@ -16,15 +16,6 @@ import java.util.logging.Logger;
 import static com.mongodb.client.model.Indexes.descending;
 
 public interface StockInterface {
-
-    public static MongoCollection<org.bson.Document> databaseConn(String table) {
-        Logger.getLogger("").setLevel(Level.WARNING);
-        String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
-        MongoClient mongoClient = MongoClients.create(uri);
-        MongoDatabase database = mongoClient.getDatabase("StockDB");
-        MongoCollection<Document> collection = database.getCollection(table);
-        return collection;
-    }
     public static Document queryStockDB(MongoCollection<Document> conn, String UUID){
 
         org.bson.Document query = new org.bson.Document("UUID", UUID);
@@ -33,7 +24,7 @@ public interface StockInterface {
         return results;
     }
     public static int getStockValue(String UUID) {
-        int qtyAmount = queryStockDB(databaseConn("Item"), UUID).getInteger("QTY");
+        int qtyAmount = queryStockDB(DBManager.databaseConn("Item"), UUID).getInteger("QTY");
         return qtyAmount;
     }
 
@@ -50,6 +41,7 @@ public interface StockInterface {
         int id = highestId + 1;
 
         // Code to update the UI in OrderGUI
+
         OrderGUIControllerOMS.idList.add(id);
         OrderGUIControllerOMS.statusList.add("Not processed");
         OrderGUIControllerOMS.UUIDList.add(UUIDString);
