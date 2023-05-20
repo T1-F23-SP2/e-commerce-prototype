@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.DiscountNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.ManufactureNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("Tests for all delete methods in DBDriver")
 public class DBDriverDeleteTest extends DBDriverAbstractTest {
     @Test
     void testDeleteProductByUUID() {

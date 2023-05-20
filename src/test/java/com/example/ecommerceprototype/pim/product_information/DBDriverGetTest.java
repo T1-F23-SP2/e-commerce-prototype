@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.sql.PreparedStatement;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Tests for all getter methods in DBDriver")
 public class DBDriverGetTest extends DBDriverAbstractTest {
     @Test
     void testGetProductByName() {
