@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class PIMDriver {
     }
 
 
-    public List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException {
+    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException {
         return dbDriverInstance.getAllProducts();
     }
 
@@ -44,23 +45,23 @@ public class PIMDriver {
         return dbDriverInstance.getProductByName(name);
     }
 
-    public List<ProductInformation> getProductsBySerialNumber(String serialNumber) throws SQLException, NotFoundException {
+    public ProductList getProductsBySerialNumber(String serialNumber) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsBySerialNumber(serialNumber);
     }
 
-    public List<ProductInformation> getProductsThatAreHidden() throws SQLException {
+    public ProductList getProductsThatAreHidden() throws SQLException {
         return dbDriverInstance.getProductsThatAreHidden();
     }
 
-    public List<ProductInformation> getProductsByCategoryName(String categoryName) throws SQLException, NotFoundException {
+    public ProductList getProductsByCategoryName(String categoryName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByCategoryName(categoryName);
     }
 
-    public List<ProductInformation> getProductsByManufactureName(String manufactureName) throws SQLException, NotFoundException {
+    public ProductList getProductsByManufactureName(String manufactureName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByManufactureName(manufactureName);
     }
 
-    public List<ProductInformation> getProductsByDiscountName(String discountName) throws SQLException, NotFoundException {
+    public ProductList getProductsByDiscountName(String discountName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByDiscountName(discountName);
     }
 
