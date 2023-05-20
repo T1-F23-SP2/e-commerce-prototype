@@ -7,7 +7,10 @@ import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,6 +46,17 @@ public class DBDriver {
             instance = new DBDriver(connection);
         }
         return instance;
+    }
+
+    // Overwrite the existing instance , for use in tests only
+    protected static DBDriver setInstance(DBDriver dbDriver) {
+        instance = dbDriver;
+        return instance;
+    }
+
+    // Overwrite the existing instance , for use in tests only
+    protected static DBDriver setInstance(Connection connection) {
+        return setInstance(new DBDriver(connection));
     }
 
     // endregion region DBDriver connection
