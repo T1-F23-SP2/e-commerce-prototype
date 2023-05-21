@@ -345,7 +345,7 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
 
         try {
             assertEquals("TV", dbDriver.getCategoryByProductUUID(uuid).getName());
-        } catch (UUIDNotFoundException | SQLException e) {
+        } catch (UUIDNotFoundException | SQLException | CategoryNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

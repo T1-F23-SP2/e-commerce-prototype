@@ -1,7 +1,6 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
-import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
 
@@ -33,7 +32,7 @@ public class PIMDriver {
     }
 
 
-    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException {
+    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         return dbDriverInstance.getAllProducts();
     }
 
@@ -69,7 +68,7 @@ public class PIMDriver {
         return dbDriverInstance.getAllCategories();
     }
 
-    public ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         return dbDriverInstance.getCategoryByProductUUID(uuid);
     }
 
@@ -119,5 +118,25 @@ public class PIMDriver {
 
     public ProductInformationUpdater prepareProductInformationUpdater(ProductInformation pi) {
         return new ProductInformationUpdater(pi);
+    }
+
+    public void deleteProductByUUID(String uuid) throws UUIDNotFoundException, SQLException {
+        dbDriverInstance.deleteProductByUUID(uuid);
+    }
+
+    public void deleteProductCategoryByName(String name) throws SQLException, CategoryNotFoundException {
+        dbDriverInstance.deleteProductCategoryByName(name);
+    }
+
+    public void deleteManufactureByName(String name) throws SQLException, ManufactureNotFoundException {
+        dbDriverInstance.deleteManufactureByName(name);
+    }
+
+    public void deleteSpecificationByProductUUIDAndKey(String uuid, String key) throws UUIDNotFoundException, SQLException {
+        dbDriverInstance.deleteSpecificationByProductUUIDAndKey(uuid, key);
+    }
+
+    public void deleteDiscountByName(String name) throws SQLException, DiscountNotFoundException {
+        dbDriverInstance.deleteDiscountByName(name);
     }
 }
