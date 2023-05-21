@@ -2,11 +2,11 @@ package com.example.ecommerceprototype.pim.product_information;
 
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
 
 public class PIMDriver {
 
@@ -65,7 +65,7 @@ public class PIMDriver {
         return dbDriverInstance.getProductsByDiscountName(discountName);
     }
 
-    public List<ProductCategory> getAllCategories() throws SQLException, NotFoundException {
+    public FilterableArrayList<ProductCategory> getAllCategories() throws SQLException, NotFoundException {
         return dbDriverInstance.getAllCategories();
     }
 
@@ -85,7 +85,7 @@ public class PIMDriver {
         return dbDriverInstance.getSpecificationByProductUUID(uuid);
     }
 
-    public List<ManufacturingInformation> getAllManufactures() throws SQLException {
+    public FilterableArrayList<ManufacturingInformation> getAllManufactures() throws SQLException {
         return dbDriverInstance.getAllManufactures();
     }
 
@@ -97,7 +97,7 @@ public class PIMDriver {
         return dbDriverInstance.getManufactureByName(name);
     }
 
-    public List<DiscountInformation> getAllDiscounts() throws SQLException {
+    public FilterableArrayList<DiscountInformation> getAllDiscounts() throws SQLException {
         return dbDriverInstance.getAllDiscounts();
     }
 
@@ -113,7 +113,7 @@ public class PIMDriver {
         return dbDriverInstance.getDiscountPercentageByProductUUID(uuid);
     }
 
-    public List<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public FilterableArrayList<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
         return dbDriverInstance.getPricesByProductUUID(uuid);
     }
 
