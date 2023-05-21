@@ -11,44 +11,47 @@ import java.sql.SQLException;
 
 
 /*
-    This is the root test class for all test which tests the DBDriver.
+    This is the root test class for all tests which tests the DBDriver.
+
     The tests for DBDriver have been split into multiple files, in order to better structure the code.
     This is largely because DBDriver is so dense to test, with a very large number of methods.
+
+    Splitting testing into smaller tests files, based on tests which tests similar aspects, allows for easier reading
+    and makes it easier to find relevant tests for each method.
  */
 public abstract class DBDriverAbstractTest {
-    protected static DBDriver dbDriver;
-    protected static TestConnectionWrapper connectionWrapper;
+    private static TestConnectionWrapper connectionWrapper;
     protected static Connection connection;
+    protected static DBDriver dbDriver;
 
     /*
         Setup code which is run before all tests for each test class which inherits from this class.
+
         I.e. it is run once for each subclass.
+
+        I.e. a new test connection and a new DBDriver instance is created for each subclass, before any tests
+        within that test class is run.
      */
     @BeforeAll
-    static void setup() {
-        try {
-            connectionWrapper = new TestConnectionWrapper();
-            connection = connectionWrapper.setup(new SQLConnectionTestInitializer());
+    static void setup() throws SQLException, IOException {
+        connectionWrapper = new TestConnectionWrapper();
 
-            dbDriver = DBDriver.setInstance(connection);
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        // Create a test connection with full database setup, with example data.
+        connection = connectionWrapper.setup(new SQLConnectionTestInitializer());
+
+        // Set the DBDriver instance with the newly created test connection.
+        dbDriver = DBDriver.setInstance(connection);
     }
-
 
 
     /*
         Teardown code which is run after all tests for each test class which inherits from this class.
         I.e. it is run once for each subclass.
-     */
 
+        I.e. the test connection is automatically closed and cleanup, after each test subclass has executed.
+     */
     @AfterAll
-    static void teardown() {
-        try {
-            connectionWrapper.teardown();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    static void teardown() throws SQLException {
+        connectionWrapper.teardown();
     }
 }
