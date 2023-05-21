@@ -94,33 +94,29 @@ public class DBDriver {
         return getMultipleProductInformation(queryStatement);
     }
 
-    private ProductCategory queryProductCategory(PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException {
+    private ProductCategory queryProductCategory(PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException, CategoryNotFoundException {
         sqlValueArguments.setArgumentsInStatement(queryStatement);
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
-        resultSet.next();
 
-        ProductCategory productCategory = new ProductCategory();
-
-        productCategory.setName(resultSet.getString("name"));
-
-        if (resultSet.getInt("parent_id") != 0) {
-            ProductCategory parentCategory;
-            try {
-                parentCategory = getCategoryByCategoryID(resultSet.getInt("parent_id"));
-            } catch (CategoryNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            productCategory.setProductCategoryParent(parentCategory);
-        } else {
-            productCategory.setProductCategoryParent((ProductCategory) null);
+        if (!resultSet.next()) {
+            return new ProductCategory()
+                    .setName("")
+                    .setProductCategoryParent((ProductCategory) null);
         }
 
-        return productCategory;
+        ProductCategory productCategory = new ProductCategory()
+                .setName(resultSet.getString("name"));
+
+        if (resultSet.getInt("parent_id") != 0) {
+            return productCategory.setProductCategoryParent(getCategoryByCategoryID(resultSet.getInt("parent_id")));
+        } else {
+            return productCategory.setProductCategoryParent((ProductCategory) null);
+        }
     }
 
-    private ProductCategory getProductCategory(String name, PreparedStatement queryStatement) throws SQLException {
+    private ProductCategory getProductCategory(String name, PreparedStatement queryStatement) throws SQLException, CategoryNotFoundException {
         SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
         sqlValueArguments.setArgument(name);
@@ -128,7 +124,7 @@ public class DBDriver {
         return queryProductCategory(queryStatement, sqlValueArguments);
     }
 
-    private ProductCategory getProductCategory(int id, PreparedStatement queryStatement) throws SQLException {
+    private ProductCategory getProductCategory(int id, PreparedStatement queryStatement) throws SQLException, CategoryNotFoundException {
         SQLValueArguments sqlValueArguments = new SQLValueArguments();
 
         sqlValueArguments.setArgument(id);
@@ -143,15 +139,18 @@ public class DBDriver {
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
-        resultSet.next();
 
-        ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
+        if (!resultSet.next()) {
+            return new ManufacturingInformation()
+                    .setName("")
+                    .setSupportPhoneNumber("")
+                    .setSupportMail("");
+        }
 
-        manufacturingInformation.setName(resultSet.getString("name"))
+        return new ManufacturingInformation()
+                .setName(resultSet.getString("name"))
                 .setSupportPhoneNumber(resultSet.getString("support_phone"))
                 .setSupportMail(resultSet.getString("support_mail"));
-
-        return manufacturingInformation;
     }
 
     private static DiscountInformation queryDiscountInformation(String uuid, PreparedStatement queryStatement) throws SQLException {
@@ -161,19 +160,22 @@ public class DBDriver {
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
-        resultSet.next();
 
-        DiscountInformation discountInformation = new DiscountInformation();
+        if (!resultSet.next()) {
+            return new DiscountInformation()
+                    .setName("")
+                    .setStartingDate(null)
+                    .setExpiringDate(null);
+        }
 
-        discountInformation.setName(resultSet.getString("name"))
+        return new DiscountInformation()
+                .setName(resultSet.getString("name"))
                 .setStartingDate(resultSet.getTimestamp("start_date").toLocalDateTime().toLocalDate())
                 .setExpiringDate(resultSet.getTimestamp("end_date").toLocalDateTime().toLocalDate());
-
-        return discountInformation;
     }
 
     // Counts amount of rows gotten from the query
-    private int countRowsInQuery(ResultSet resultSet) throws SQLException {
+    private static int countRowsInQuery(ResultSet resultSet) throws SQLException {
         int size = 0;
         while (resultSet.next()) {
             size++;
@@ -321,7 +323,7 @@ public class DBDriver {
     // endregion Helper methods for checking if object exists in database
 
 
-    protected List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException {
+    protected List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         // TODO: Should be replaced by procedure
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllProducts()");
 
@@ -438,7 +440,7 @@ public class DBDriver {
         return productCategoryArrayList;
     }
 
-    protected ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    protected ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
@@ -466,7 +468,6 @@ public class DBDriver {
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getCategoryByCategoryID(?)");
 
         return this.getProductCategory(categoryId, queryStatement);
-
     }
 
     protected ProductSpecification getSpecificationByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
@@ -489,7 +490,6 @@ public class DBDriver {
         }
 
         return productSpecification;
-
     }
 
     protected List<ManufacturingInformation> getAllManufactures() throws SQLException {
@@ -521,7 +521,6 @@ public class DBDriver {
 
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getManufactureByProductUUID(?)");
         return queryManufacturingInformation(uuid, queryStatement);
-
     }
 
     protected ManufacturingInformation getManufactureByName(String name) throws ManufactureNotFoundException, SQLException {
@@ -554,7 +553,6 @@ public class DBDriver {
             discountInformationArrayList.add(discountInformation);
         }
         return discountInformationArrayList;
-
     }
 
 
@@ -565,7 +563,6 @@ public class DBDriver {
 
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getDiscountByProductUUID(?)");
         return queryDiscountInformation(uuid, queryStatement);
-
     }
 
     protected DiscountInformation getDiscountByName(String name) throws DiscountNotFoundException, SQLException {
@@ -594,7 +591,6 @@ public class DBDriver {
         resultSet.next();
 
         return resultSet.getBigDecimal("percentage");
-
     }
 
     protected List<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
@@ -620,7 +616,6 @@ public class DBDriver {
             priceInformationArrayList.add(priceInformation);
         }
         return priceInformationArrayList;
-
     }
 
 
@@ -854,7 +849,7 @@ public class DBDriver {
         }
     }
 
-    protected void updateSpecificationByProductUUIDAndKey(String uuid, ProductSpecification productSpecification) throws UUIDNotFoundException, SQLException {
+    protected void updateSpecificationByProductUUIDAndKey(String uuid, String originalKey, ProductSpecification productSpecification) throws UUIDNotFoundException, SQLException {
         PreparedStatement updateStatement = connection.prepareStatement("CALL updateSpecificationByProductUUIDAndKey(?,?,?)");
 
         if (!this.productByUUIDExists(uuid)) {
@@ -862,6 +857,7 @@ public class DBDriver {
         } else {
             new SQLValueArguments()
                     .setArgument(uuid)
+                    .setArgument(originalKey)
                     .setArgumentsInStatement(updateStatement);
 
             updateStatement.execute();
@@ -870,8 +866,6 @@ public class DBDriver {
 
 
     protected void deleteProductByUUID(String uuid) throws SQLException, UUIDNotFoundException {
-        // SQL function: deleteProductByUUID(argUUID UUID)
-        // Call by: CALL deleteProductByUUID('someUUID');
         PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteProductByUUID(?)");
 
         if (!this.productByUUIDExists(uuid)) {
@@ -886,8 +880,6 @@ public class DBDriver {
     }
 
     protected void deleteProductCategoryByName(String name) throws CategoryNotFoundException, SQLException {
-        // SQL function: deleteProductCategoryByName(argName VARCHAR)
-        // Call by: CALL deleteProductCategoryByName('someName');
         PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteProductCategoryByName(?)");
 
         if (!this.categoryByNameExists(name)) {
@@ -902,8 +894,6 @@ public class DBDriver {
     }
 
     protected void deleteManufactureByName(String name) throws SQLException, ManufactureNotFoundException {
-        // SQL function: deleteManufactureByName(argName VARCHAR)
-        // Call by: CALL deleteManufactureByName('someManufactureName');
         PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteManufactureByName(?)");
 
         if (!this.manufacturerByNameExists(name)) {
@@ -918,8 +908,6 @@ public class DBDriver {
     }
 
     protected void deleteSpecificationByProductUUIDAndKey(String uuid, String key) throws SQLException, UUIDNotFoundException {
-        // SQL function: deleteSpecificationByProductUUIDAndKey(argProductUUID UUID, argKey VARCHAR)
-        // Call by: CALL deleteSpecificationByProductUUIDAndKey('someUUID', 'someSpecificationKey');
         PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteSpecificationByProductUUIDAndKey(?, ?)");
 
         if (!this.productByUUIDExists(uuid)) {
@@ -935,8 +923,6 @@ public class DBDriver {
     }
 
     protected void deleteDiscountByName(String name) throws SQLException, DiscountNotFoundException {
-        // SQL function: deleteDiscountByName(argName VARCHAR)
-        // Call by: CALL deleteDiscountByName('someDiscountName');
         PreparedStatement deleteStatement = connection.prepareStatement("CALL deleteDiscountByName(?)");
 
         if (!this.discountByNameExists(name)) {
