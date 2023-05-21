@@ -3,12 +3,15 @@ package com.example.ecommerceprototype.pim.product_information;
 import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLConnection;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
+import com.example.ecommerceprototype.pim.util.FilterableArrayList;
+import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class DBDriver {
@@ -44,6 +47,17 @@ public class DBDriver {
         return instance;
     }
 
+    // Overwrite the existing instance , for use in tests only
+    protected static DBDriver setInstance(DBDriver dbDriver) {
+        instance = dbDriver;
+        return instance;
+    }
+
+    // Overwrite the existing instance , for use in tests only
+    protected static DBDriver setInstance(Connection connection) {
+        return setInstance(new DBDriver(connection));
+    }
+
     // endregion region DBDriver connection
 
     // region Helper methods for formatting queries
@@ -72,11 +86,11 @@ public class DBDriver {
         return productInformation;
     }
 
-    private static ArrayList<ProductInformation> getMultipleProductInformation(PreparedStatement queryStatement) throws SQLException {
+    private static ProductList getMultipleProductInformation(PreparedStatement queryStatement) throws SQLException {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+        ProductList productInformationArrayList = new ProductList();
         while (resultSet.next()) {
 
             ProductInformation productInformation = getProductInformation(resultSet);
@@ -86,7 +100,7 @@ public class DBDriver {
         return productInformationArrayList;
     }
 
-    private static ArrayList<ProductInformation> productsBySerialHelper(String serialNumber, PreparedStatement queryStatement) throws SQLException {
+    private static ProductList productsBySerialHelper(String serialNumber, PreparedStatement queryStatement) throws SQLException {
         new SQLValueArguments()
                 .setArgument(serialNumber)
                 .setArgumentsInStatement(queryStatement);
@@ -323,14 +337,14 @@ public class DBDriver {
     // endregion Helper methods for checking if object exists in database
 
 
-    protected List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
+    protected ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         // TODO: Should be replaced by procedure
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllProducts()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
+        ProductList productInformationArrayList = new ProductList();
         while (resultSet.next()) {
             ProductInformation productInformation = new ProductInformation();
 
@@ -372,7 +386,7 @@ public class DBDriver {
         return queryProductInformation(name, queryStatement, sqlValueArguments);
     }
 
-    protected List<ProductInformation> getProductsBySerialNumber(String serialNumber) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsBySerialNumber(String serialNumber) throws ProductNotFoundException, SQLException {
         if (!this.productBySerialNumberExists(serialNumber)) {
             throw new ProductNotFoundException();
         }
@@ -381,13 +395,13 @@ public class DBDriver {
         return productsBySerialHelper(serialNumber, queryStatement);
     }
 
-    protected List<ProductInformation> getProductsThatAreHidden() throws SQLException {
+    protected ProductList getProductsThatAreHidden() throws SQLException {
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsThatAreHidden()");
 
         return getMultipleProductInformation(queryStatement);
     }
 
-    protected List<ProductInformation> getProductsByCategoryName(String categoryName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByCategoryName(String categoryName) throws ProductNotFoundException, SQLException {
         if (!this.categoryByNameExists(categoryName)) {
             throw new ProductNotFoundException();
         }
@@ -396,7 +410,7 @@ public class DBDriver {
         return productsBySerialHelper(categoryName, queryStatement);
     }
 
-    protected List<ProductInformation> getProductsByManufactureName(String manufactureName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByManufactureName(String manufactureName) throws ProductNotFoundException, SQLException {
         if (!this.manufacturerByNameExists(manufactureName)) {
             throw new ProductNotFoundException();
         }
@@ -405,7 +419,7 @@ public class DBDriver {
         return productsBySerialHelper(manufactureName, queryStatement);
     }
 
-    protected List<ProductInformation> getProductsByDiscountName(String discountName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByDiscountName(String discountName) throws ProductNotFoundException, SQLException {
         if (!this.discountByNameExists(discountName)) {
             throw new ProductNotFoundException();
         }
@@ -414,14 +428,14 @@ public class DBDriver {
         return productsBySerialHelper(discountName, queryStatement);
     }
 
-    protected List<ProductCategory> getAllCategories() throws SQLException, CategoryNotFoundException {
+    protected FilterableArrayList<ProductCategory> getAllCategories() throws SQLException, CategoryNotFoundException {
         // TODO: Should be replaced by procedure
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllCategories()");
 
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<ProductCategory> productCategoryArrayList = new ArrayList<>();
+        FilterableArrayList<ProductCategory> productCategoryArrayList = new FilterableArrayList<>();
         while (resultSet.next()) {
 
             ProductCategory productCategory = new ProductCategory();
@@ -492,7 +506,7 @@ public class DBDriver {
         return productSpecification;
     }
 
-    protected List<ManufacturingInformation> getAllManufactures() throws SQLException {
+    protected FilterableArrayList<ManufacturingInformation> getAllManufactures() throws SQLException {
         // TODO: Should be replaced by procedure
 
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getallmanufactures()");
@@ -500,7 +514,7 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<ManufacturingInformation> manufacturingInformationArrayList = new ArrayList<>();
+        FilterableArrayList<ManufacturingInformation> manufacturingInformationArrayList = new FilterableArrayList<>();
         while (resultSet.next()) {
             ManufacturingInformation manufacturingInformation = new ManufacturingInformation();
 
@@ -534,7 +548,7 @@ public class DBDriver {
 
     }
 
-    protected List<DiscountInformation> getAllDiscounts() throws SQLException {
+    protected FilterableArrayList<DiscountInformation> getAllDiscounts() throws SQLException {
         // TODO: Should be replaced by procedure
 
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllDiscounts()");
@@ -542,7 +556,7 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<DiscountInformation> discountInformationArrayList = new ArrayList<>();
+        FilterableArrayList<DiscountInformation> discountInformationArrayList = new FilterableArrayList<>();
         while (resultSet.next()) {
             DiscountInformation discountInformation = new DiscountInformation();
 
@@ -593,7 +607,7 @@ public class DBDriver {
         return resultSet.getBigDecimal("percentage");
     }
 
-    protected List<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    protected FilterableArrayList<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
@@ -606,7 +620,7 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        ArrayList<PriceInformation> priceInformationArrayList = new ArrayList<>();
+        FilterableArrayList<PriceInformation> priceInformationArrayList = new FilterableArrayList<>();
         while (resultSet.next()) {
 
             PriceInformation priceInformation = new PriceInformation();
