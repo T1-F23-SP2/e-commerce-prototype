@@ -54,7 +54,7 @@
                               <Text layoutX="351.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
                               <Text layoutX="513.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
                               <Text layoutX="690.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Purchase" textAlignment="CENTER" wrappingWidth="103.7367172241211" />
-                              <Pane layoutX="51.0" layoutY="41.0" prefHeight="89.0" prefWidth="826.0">
+                              <Pane fx:id="prod1Pane" layoutX="51.0" layoutY="41.0" prefHeight="89.0" prefWidth="826.0">
                                  <children>
                                     <ImageView fx:id="prod1Image" fitHeight="82.0" fitWidth="80.0">
                                        <image>
@@ -64,15 +64,15 @@
                                     <Label fx:id="prod1Name" layoutX="114.0" layoutY="4.0" prefHeight="74.0" prefWidth="142.0" text="IPhone 14 GOLD - 256 GB" />
                                     <Label fx:id="prod1Price" layoutX="330.0" layoutY="4.0" prefHeight="74.0" prefWidth="65.0" text="9000 KR" />
                                     <Label fx:id="prod1Stock" layoutX="487.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
-                                    <Button fx:id="prod1AddToCart" layoutX="665.0" layoutY="29.0" mnemonicParsing="false" text="Button" />
+                                    <Button fx:id="prod1AddToCart" layoutX="665.0" layoutY="29.0" mnemonicParsing="false" onAction="#product1AddToBasket" text="Add to Basket" />
                                  </children>
                               </Pane>
-                              <Pane layoutX="55.0" layoutY="146.0" prefHeight="89.0" prefWidth="826.0">
+                              <Pane fx:id="prod2Pane" layoutX="55.0" layoutY="146.0" prefHeight="89.0" prefWidth="826.0">
                                  <children>
                                     <Label fx:id="prod2Name" layoutX="106.0" layoutY="8.0" prefHeight="74.0" prefWidth="172.0" text="IPhone 13 STARLIGHT - 256 GB" />
                                     <Label fx:id="prod2Price" layoutX="322.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="7000 KR" textAlignment="CENTER" />
                                     <Label fx:id="prod2Stock" layoutX="480.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
-                                    <Button fx:id="prod2AddToCart" layoutX="662.0" layoutY="32.0" mnemonicParsing="false" text="Button" />
+                                    <Button fx:id="prod2AddToCart" layoutX="662.0" layoutY="32.0" mnemonicParsing="false" onAction="#product2AddToBasket" text="Add to Basket" />
                                     <ImageView fx:id="prod2Image" fitHeight="92.0" fitWidth="80.0">
                                        <image>
                                           <Image url="@../Downloads/Iphone%2013%20Starlight-p.jpg" />
@@ -80,7 +80,7 @@
                                     </ImageView>
                                  </children>
                               </Pane>
-                              <Pane layoutX="51.0" layoutY="243.0" prefHeight="89.0" prefWidth="826.0">
+                              <Pane fx:id="prod3Pane" layoutX="51.0" layoutY="243.0" prefHeight="89.0" prefWidth="826.0">
                                  <children>
                                     <Label fx:id="prod3Name" layoutX="108.0" layoutY="8.0" prefHeight="74.0" prefWidth="146.0" text="IPhone 12 BLUE - 256 GB" />
                                     <ImageView fx:id="prod3Image" fitHeight="93.0" fitWidth="75.0" layoutX="8.0" layoutY="-2.0">
@@ -90,10 +90,10 @@
                                     </ImageView>
                                     <Label fx:id="prod3Price" layoutX="323.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="6500 KR" textAlignment="CENTER" />
                                     <Label fx:id="prod3Stock" layoutX="480.0" layoutY="8.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
-                                    <Button fx:id="prod3AddToCart" layoutX="668.0" layoutY="33.0" mnemonicParsing="false" text="Button" />
+                                    <Button fx:id="prod3AddToCart" layoutX="668.0" layoutY="33.0" mnemonicParsing="false" onAction="#product3AddToBasket" text="Add to Basket" />
                                  </children>
                               </Pane>
-                              <Pane layoutX="55.0" layoutY="346.0" prefHeight="89.0" prefWidth="826.0">
+                              <Pane fx:id="prod4Pane" layoutX="55.0" layoutY="346.0" prefHeight="89.0" prefWidth="826.0">
                                  <children>
                                     <ImageView fx:id="prod4Image" fitHeight="96.0" fitWidth="77.0">
                                        <image>
@@ -103,17 +103,17 @@
                                     <Label fx:id="prod4Price" layoutX="316.0" layoutY="8.0" prefHeight="74.0" prefWidth="65.0" text="5000 KR" textAlignment="CENTER" />
                                     <Label fx:id="prod4Name" layoutX="103.0" layoutY="8.0" prefHeight="74.0" prefWidth="146.0" text="IPhone 11 GREY - 256 GB" />
                                     <Label fx:id="prod4Stock" layoutX="473.0" prefHeight="74.0" prefWidth="79.0" text="In Stock" />
-                                    <Button fx:id="prod4AddToCart" layoutX="661.0" layoutY="32.0" mnemonicParsing="false" text="Button" />
+                                    <Button fx:id="prod4AddToCart" layoutX="661.0" layoutY="32.0" mnemonicParsing="false" onAction="#product4AddToBasket" text="Add to Basket" />
                                  </children>
                               </Pane>
                               <Pane fx:id="paginationProducts" layoutX="51.0" layoutY="458.0" prefHeight="68.0" prefWidth="856.0">
                                  <children>
-                                    <Button fx:id="buttonProductsNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" text="Next" />
-                                    <Button fx:id="buttonProductsLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" text="Last" />
+                                    <Button fx:id="buttonProductsNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" onAction="#productsNextPage" text="Next" />
+                                    <Button fx:id="buttonProductsLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" onAction="#productsLastPage" text="Last" />
                                     <Text fx:id="labelProductsPageAmount" layoutX="439.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of XY" textAlignment="CENTER" wrappingWidth="43.33672332763672" />
                                     <Text layoutX="332.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page" textAlignment="CENTER" wrappingWidth="57.33672332763672" />
-                                    <Button fx:id="buttonProductsFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" text="First" />
-                                    <Button fx:id="buttonProductsPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" text="Previous" />
+                                    <Button fx:id="buttonProductsFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" onAction="#productsFirstPage" text="First" />
+                                    <Button fx:id="buttonProductsPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" onAction="#productsPreviousPage" text="Previous" />
                                     <TextField fx:id="currentProductsPage" layoutX="389.0" layoutY="22.0" prefHeight="26.0" prefWidth="41.0" promptText="1" />
                                  </children>
                               </Pane>

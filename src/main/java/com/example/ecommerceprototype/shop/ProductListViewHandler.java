@@ -3,7 +3,9 @@ package com.example.ecommerceprototype.shop;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProductListViewHandler {
 
@@ -83,19 +85,41 @@ public class ProductListViewHandler {
     }
 
     public ArrayList<ProductInformation> getPage(int page) {
-        return (ArrayList<ProductInformation>) products.subList(page * pageSize, page * pageSize + pageSize);
+        ArrayList<ProductInformation> dupedList;
+        int pageMinIndex = page * pageSize;
+        int pageMaxIndex =  page * pageSize + pageSize;
+        if (pageMaxIndex <= products.size())
+            dupedList = new ArrayList<>(products.subList(pageMinIndex, pageMaxIndex));
+        else
+            dupedList = new ArrayList<>(products.subList(pageMinIndex,products.size()));
+        return dupedList;
+        // This is a hack to get around the fact that subList is its own distinct type and we need arraylist
     }
 
     public ArrayList<ProductInformation> getPage(int page, boolean updateCurrentPage) {
         if (updateCurrentPage)
             currentPage = page;
-        return (ArrayList<ProductInformation>) products.subList(page * pageSize, page * pageSize + pageSize);
+        return getPage(page);
 
     }
 
     public ArrayList<ProductInformation> getNextPage() {
-        currentPage++;
-        return getPage(currentPage);
+        if (currentPage + 1 <= getPageCount())
+            currentPage++;
+        return getPage(currentPage); // Return current page if we're on last page.
+    }
+
+    public int getPageCount() {
+        // If amount of products matches exactly with page size, just return it. Otherwise add 1 for overflowing products.
+        return products.size() % pageSize == 0 ? (products.size()/pageSize) : (products.size()/pageSize) + 1;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     public ArrayList<ProductInformation> getPreviousPage() {

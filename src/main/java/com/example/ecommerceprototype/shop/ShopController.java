@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.shop;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -26,6 +27,7 @@ public class ShopController {
     /*
      * Java FX Vars
      */
+
 
     @FXML
     private Button buttonBasketFirst;
@@ -82,6 +84,9 @@ public class ShopController {
     private Label prod1Name;
 
     @FXML
+    private Pane prod1Pane;
+
+    @FXML
     private Label prod1Price;
 
     @FXML
@@ -95,6 +100,9 @@ public class ShopController {
 
     @FXML
     private Label prod2Name;
+
+    @FXML
+    private Pane prod2Pane;
 
     @FXML
     private Label prod2Price;
@@ -112,6 +120,9 @@ public class ShopController {
     private Label prod3Name;
 
     @FXML
+    private Pane prod3Pane;
+
+    @FXML
     private Label prod3Price;
 
     @FXML
@@ -127,6 +138,9 @@ public class ShopController {
     private Label prod4Name;
 
     @FXML
+    private Pane prod4Pane;
+
+    @FXML
     private Label prod4Price;
 
     @FXML
@@ -136,28 +150,122 @@ public class ShopController {
     private Tab tabProducts;
 
 
+    void productInit() {
+        ArrayList<ProductInformation> currentPageProducts = productListViewHandler.getPage(productListViewHandler.getCurrentPage());
+        currentProductsPage.setText(String.valueOf(productListViewHandler.getCurrentPage() + 1)); // Array page list is 0-indexed.
+        populateProducts(currentPageProducts);
+        labelProductsPageAmount.setText("of " + productListViewHandler.getPageCount());
 
-    @FXML
-    void tabProductsSelectionChanged(ActionEvent event) {
+        System.out.println(productListViewHandler.getCurrentPage());
 
-        if(tabProducts.isSelected()) {
-            ArrayList<ProductInformation> currentPageProducts = productListViewHandler.getPage(currentProductPage);
-            currentProductsPage.setText(String.valueOf(currentProductPage + 1)); // Array page list is 0-indexed.
-            populateProducts(currentPageProducts);
+        if (productListViewHandler.getCurrentPage() == 0) {
+            buttonProductsFirst.setDisable(true);
+            buttonProductsPrevious.setDisable(true);
+            buttonProductsNext.setDisable(false);
+            buttonProductsLast.setDisable(false);
 
+        }
+        if (productListViewHandler.getCurrentPage() == productListViewHandler.getPageCount() -1) {
+            buttonProductsNext.setDisable(true);
+            buttonProductsLast.setDisable(true);
+            buttonProductsFirst.setDisable(false);
+            buttonProductsPrevious.setDisable(false);
 
         }
 
     }
 
+    @FXML
+    void tabProductsSelectionChanged(Event event) {
+
+        if(tabProducts.isSelected())
+            productInit();
+
+    }
+
+
+    @FXML
+    void product1AddToBasket(ActionEvent event) {
+
+    }
+
+    @FXML
+    void product2AddToBasket(ActionEvent event) {
+
+    }
+
+    @FXML
+    void product3AddToBasket(ActionEvent event) {
+
+    }
+
+    @FXML
+    void product4AddToBasket(ActionEvent event) {
+
+    }
+
+    @FXML
+    void productsFirstPage(ActionEvent event) {
+        productListViewHandler.getPage(0, true);
+        productInit();
+    }
+
+    @FXML
+    void productsLastPage(ActionEvent event) {
+        productListViewHandler.getPage(productListViewHandler.getPageCount() - 1, true);
+        productInit();
+    }
+
+    @FXML
+    void productsNextPage(ActionEvent event) {
+
+        productListViewHandler.getNextPage();
+        productInit();
+
+    }
+
+    @FXML
+    void productsPreviousPage(ActionEvent event) {
+
+        productListViewHandler.getPreviousPage();
+        productInit();
+
+    }
 
 
     public void populateProducts(ArrayList<ProductInformation> products) {
-
-        populateProduct1(products.get(0));
-        populateProduct2(products.get(1));
-        populateProduct3(products.get(2));
-        populateProduct4(products.get(3));
+        try {
+            populateProduct1(products.get(0));
+            prod1Pane.setVisible(true);
+            populateProduct2(products.get(1));
+            prod2Pane.setVisible(true);
+            populateProduct3(products.get(2));
+            prod3Pane.setVisible(true);
+            populateProduct4(products.get(3));
+            prod4Pane.setVisible(true);
+        } catch (IndexOutOfBoundsException e) {
+            String[] wrongedMessage = e.getMessage().split(" ");
+            int lastGoodIndex = Integer.parseInt(wrongedMessage[1]) -1;
+            switch (lastGoodIndex) {
+                case -1:
+                    productListViewHandler.getPreviousPage();
+                    currentProductPage--;
+                    productInit(); // Return to last page, as there's no good indices.
+                    break;
+                case 0:
+                    prod2Pane.setVisible(false);
+                    prod3Pane.setVisible(false);
+                    prod4Pane.setVisible(false);
+                    break;
+                case 1:
+                    prod3Pane.setVisible(false);
+                    prod4Pane.setVisible(false);
+                    break;
+                case 2:
+                    prod4Pane.setVisible(false);
+                    break;
+            }
+        }
 
     }
 
@@ -185,8 +293,8 @@ public class ShopController {
     public void populateProduct4(ProductInformation productInformation) {
         // TODO: DAM Integration
         // TODO: OMS Integration - We need info
-        prod3Name.setText(productInformation.getName());
-        prod3Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
+        prod4Name.setText(productInformation.getName());
+        prod4Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
     }
 
 
@@ -199,6 +307,7 @@ public class ShopController {
         // Populate Mock Dataset of test meme products
         productListViewHandler.populateTestDataset();
         //populateProducts(productListViewHandler.getPage(0));
+
 
 
     }
