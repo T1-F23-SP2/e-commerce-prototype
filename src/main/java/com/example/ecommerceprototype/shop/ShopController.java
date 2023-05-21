@@ -28,6 +28,113 @@ public class ShopController {
      * Java FX Vars
      */
 
+    @FXML
+    private Button basket1Remove;
+
+    @FXML
+    private Text basket1ShortDesc;
+
+    @FXML
+    private Text basket1WarehouseStatus;
+
+    @FXML
+    private Button basket2Remove;
+
+    @FXML
+    private Text basket2ShortDesc;
+
+    @FXML
+    private Text basket2WarehouseStatus;
+
+    @FXML
+    private Button basket3Remove;
+
+    @FXML
+    private Text basket3ShortDesc;
+
+    @FXML
+    private Text basket3WarehouseStatus;
+
+    @FXML
+    private Button basket4Remove;
+
+    @FXML
+    private Text basket4ShortDesc;
+
+    @FXML
+    private Text basket4WarehouseStatus;
+
+    @FXML
+    private TextField basketEntry1Amount;
+
+    @FXML
+    private Button basketEntry1Decrease;
+
+    @FXML
+    private Button basketEntry1Increase;
+
+    @FXML
+    private Text basketEntry1Name;
+
+    @FXML
+    private TextField basketEntry2Amount;
+
+    @FXML
+    private Button basketEntry2Decrease;
+
+    @FXML
+    private Button basketEntry2Increase;
+
+    @FXML
+    private Text basketEntry2Name;
+
+    @FXML
+    private TextField basketEntry3Amount;
+
+    @FXML
+    private Button basketEntry3Decrease;
+
+    @FXML
+    private Button basketEntry3Increase;
+
+    @FXML
+    private Text basketEntry3Name;
+
+    @FXML
+    private TextField basketEntry4Amount;
+
+    @FXML
+    private Button basketEntry4Decrease;
+
+    @FXML
+    private Button basketEntry4Increase;
+
+    @FXML
+    private Text basketEntry4Name;
+
+    @FXML
+    private Pane basketPaneEntry1;
+
+    @FXML
+    private Pane basketPaneEntry2;
+
+    @FXML
+    private Pane basketPaneEntry3;
+
+    @FXML
+    private Pane basketPaneEntry4;
+
+    @FXML
+    private Text basketPrice1;
+
+    @FXML
+    private Text basketPrice2;
+
+    @FXML
+    private Text basketPrice3;
+
+    @FXML
+    private Text basketPrice4;
 
     @FXML
     private Button buttonBasketFirst;
@@ -114,13 +221,6 @@ public class ShopController {
     private Button prod3AddToCart;
 
     @FXML
-    private Button searchGoButton;
-
-    @FXML
-    private TextField searchText;
-
-
-    @FXML
     private ImageView prod3Image;
 
     @FXML
@@ -154,7 +254,25 @@ public class ShopController {
     private Label prod4Stock;
 
     @FXML
+    private Button searchGoButton;
+
+    @FXML
+    private TextField searchText;
+
+
+    @FXML
+    private Tab tabBasket;
+
+    @FXML
+    private Tab tabContentPages;
+
+    @FXML
+    private Tab tabHome;
+
+    @FXML
     private Tab tabProducts;
+
+
 
 
     void productInit() {
@@ -176,7 +294,6 @@ public class ShopController {
         }
         populateProducts(currentPageProducts);
 
-
         System.out.println(productListViewHandler.getCurrentPage());
 
         if (productListViewHandler.getCurrentPage() == 0) {
@@ -196,11 +313,148 @@ public class ShopController {
 
     }
 
+
+
+    void basketInit() {
+
+
+        ArrayList<BasketEntry> currentPageBasket = basket.getPage(basket.getCurrentPage());
+        currentBasketPage.setText(String.valueOf(basket.getCurrentPage() + 1)); // Array page list is 0-indexed.
+        labelBasketPageAmount.setText("of " + basket.getPageCount());
+
+        // This usually happens if there's no basket results. That's a "stuff's broken - do not display anything" scenario.
+        if (basket.getPage(basket.getCurrentPage()).size() == 0) {
+            buttonBasketNext.setDisable(true);
+            buttonBasketPrevious.setDisable(true);
+            buttonBasketLast.setDisable(true);
+            buttonBasketFirst.setDisable(true);
+            basketPaneEntry1.setVisible(false);
+            basketPaneEntry2.setVisible(false);
+            basketPaneEntry3.setVisible(false);
+            basketPaneEntry4.setVisible(false);
+            return;
+        }
+
+
+        populateBasket(currentPageBasket);
+
+        System.out.println(basket.getCurrentPage());
+
+        if (basket.getCurrentPage() == 0) {
+            buttonBasketFirst.setDisable(true);
+            buttonBasketPrevious.setDisable(true);
+            buttonBasketNext.setDisable(false);
+            buttonBasketLast.setDisable(false);
+
+        }
+        if (productListViewHandler.getCurrentPage() == productListViewHandler.getPageCount() -1) {
+            buttonBasketNext.setDisable(true);
+            buttonBasketLast.setDisable(true);
+            buttonBasketFirst.setDisable(false);
+            buttonBasketPrevious.setDisable(false);
+
+        }
+
+
+
+
+    }
+
+
+
+
+    @FXML
+    void basket1RemoveAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basket2RemoveAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basket3RemoveAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basket4RemoveAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry1DecreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry1IncreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry2DecreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry2IncreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry3DecreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry3IncreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry4DecreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketEntry4IncreaseAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketFirstPage(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketLastPage(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketNextPage(ActionEvent event) {
+
+    }
+
+    @FXML
+    void basketPreviousPage(ActionEvent event) {
+
+    }
+
     @FXML
     void tabProductsSelectionChanged(Event event) {
 
+        if(tabBasket.isSelected()) {
+            basket.getPage(0, true);
+            basketInit();
+        }
+
         if(tabProducts.isSelected())
             productInit();
+
+
 
     }
 
@@ -306,33 +560,128 @@ public class ShopController {
 
     }
 
+
+    public void populateBasket(ArrayList<BasketEntry> products) {
+        try {
+            populateBasket1();
+            basketPaneEntry1.setVisible(true);
+            populateBasket2();
+            basketPaneEntry2.setVisible(true);
+            populateBasket3();
+            basketPaneEntry3.setVisible(true);
+            populateBasket4();
+            basketPaneEntry4.setVisible(true);
+        } catch (IndexOutOfBoundsException e) {
+            String[] wrongedMessage = e.getMessage().split(" ");
+            int lastGoodIndex = Integer.parseInt(wrongedMessage[1]) -1;
+            switch (lastGoodIndex) {
+                case -1:
+                    basket.getPreviousPage();
+                    basketInit(); // Return to last page, as there's no good indices.
+                    break;
+                case 0:
+                    basketPaneEntry2.setVisible(false);
+                    basketPaneEntry3.setVisible(false);
+                    basketPaneEntry4.setVisible(false);
+                    break;
+                case 1:
+                    basketPaneEntry3.setVisible(false);
+                    basketPaneEntry4.setVisible(false);
+                    break;
+                case 2:
+                    basketPaneEntry4.setVisible(false);
+                    break;
+            }
+        }
+
+    }
+
     public void populateProduct1(ProductInformation productInformation) {
         // TODO: DAM Integration
         // TODO: OMS Integration - We need info
         prod1Name.setText(productInformation.getName());
-        prod1Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
+        prod1Price.setText(productInformation.getPriceInformation().getPrice() + " kr");
     }
 
     public void populateProduct2(ProductInformation productInformation) {
         // TODO: DAM Integration
         // TODO: OMS Integration - We need info
         prod2Name.setText(productInformation.getName());
-        prod2Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
+        prod2Price.setText(productInformation.getPriceInformation().getPrice() + " kr");
     }
 
     public void populateProduct3(ProductInformation productInformation) {
         // TODO: DAM Integration
         // TODO: OMS Integration - We need info
         prod3Name.setText(productInformation.getName());
-        prod3Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
+        prod3Price.setText(productInformation.getPriceInformation().getPrice() + " kr");
     }
 
     public void populateProduct4(ProductInformation productInformation) {
         // TODO: DAM Integration
         // TODO: OMS Integration - We need info
         prod4Name.setText(productInformation.getName());
-        prod4Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
+        prod4Price.setText(productInformation.getPriceInformation().getPrice() + " kr");
     }
+
+
+    public void populateBasket1() {
+        // TODO: DAM Integration
+        // TODO: OMS Integration - We need info
+
+        ProductInformation productInformation = basket.getProductInformation(basket.getCurrentPage(), 0);
+
+        basketEntry1Name.setText(productInformation.getName());
+        basket1ShortDesc.setText(productInformation.getShortDescription());
+        basketPrice1.setText(productInformation.getPriceInformation().getPrice() + " kr");
+        basketEntry1Amount.setText(Integer.toString(basket.getPage(basket.getCurrentPage()).get(0).getQuantity()));
+
+
+    }
+
+    public void populateBasket2() {
+        // TODO: DAM Integration
+        // TODO: OMS Integration - We need info
+
+        ProductInformation productInformation = basket.getProductInformation(basket.getCurrentPage(), 1);
+
+        basketEntry2Name.setText(productInformation.getName());
+        basket2ShortDesc.setText(productInformation.getShortDescription());
+        basketPrice2.setText(productInformation.getPriceInformation().getPrice() + " kr");
+        basketEntry2Amount.setText(Integer.toString(basket.getPage(basket.getCurrentPage()).get(1).getQuantity()));
+
+
+    }
+
+    public void populateBasket3() {
+        // TODO: DAM Integration
+        // TODO: OMS Integration - We need info
+
+        ProductInformation productInformation = basket.getProductInformation(basket.getCurrentPage(), 2);
+
+        basketEntry3Name.setText(productInformation.getName());
+        basket3ShortDesc.setText(productInformation.getShortDescription());
+        basketPrice3.setText(productInformation.getPriceInformation().getPrice() + " kr");
+        basketEntry3Amount.setText(Integer.toString(basket.getPage(basket.getCurrentPage()).get(2).getQuantity()));
+
+
+    }
+
+    public void populateBasket4() {
+        // TODO: DAM Integration
+        // TODO: OMS Integration - We need info
+
+        ProductInformation productInformation = basket.getProductInformation(basket.getCurrentPage(), 3);
+
+        basketEntry4Name.setText(productInformation.getName());
+        basket4ShortDesc.setText(productInformation.getShortDescription());
+        basketPrice4.setText(productInformation.getPriceInformation().getPrice() + " kr");
+        basketEntry4Amount.setText(Integer.toString(basket.getPage(basket.getCurrentPage()).get(3).getQuantity()));
+
+
+    }
+
+
 
 
     @FXML

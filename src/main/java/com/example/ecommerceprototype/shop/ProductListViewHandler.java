@@ -143,6 +143,16 @@ public class ProductListViewHandler {
         this.displayedProducts = products;
     }
 
+
+    public ProductInformation getProductInformationFromUUID(String UUID) {
+        for (ProductInformation product : products) {
+            if (product.getProductUUID() == UUID) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<ProductInformation> getPage(int page) {
         if (page < 0)
             page = 0; // Genuinely a bug I encountered. It shouldn't ever go below 0 anyway, so might as well just make it a lower bound.

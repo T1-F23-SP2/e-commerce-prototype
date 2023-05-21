@@ -19,7 +19,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="80.0" prefWidth="738.0" style="-fx-background-color: #4E149E;">
          <children>
             <Button fx:id="searchGoButton" layoutX="623.0" layoutY="29.0" mnemonicParsing="false" onAction="#searchGo" text="Search" />
-            <TextField fx:id="searchText" layoutX="315.0" layoutY="27.0" prefHeight="26.0" prefWidth="300.0" text="Search" />
+            <TextField fx:id="searchText" layoutX="315.0" layoutY="27.0" prefHeight="26.0" prefWidth="300.0" promptText="Search..." />
             <Pane layoutY="-5.0" prefHeight="90.0" prefWidth="174.0" />
             <ImageView fitHeight="82.0" fitWidth="140.0">
                <image>
@@ -32,7 +32,7 @@
             <AnchorPane layoutX="310.0" layoutY="47.0" prefHeight="115.0" prefWidth="125.0" />
             <TabPane fx:id="mainTabPane" prefHeight="580.0" prefWidth="932.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Home">
+                <Tab fx:id="tabHome" text="Home">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -121,7 +121,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Content Pages">
+                  <Tab fx:id="tabContentPages" text="Content Pages">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -150,7 +150,7 @@
                            </children></AnchorPane>
                     </content>
                   </Tab>
-                  <Tab onSelectionChanged="#tabProductsSelectionChanged" text="Basket">
+                  <Tab fx:id="tabBasket" onSelectionChanged="#tabProductsSelectionChanged" text="Basket">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -159,81 +159,65 @@
                               <Text layoutX="74.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Name" textAlignment="CENTER" wrappingWidth="78.93669891357422" />
                               <Text layoutX="222.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warehouse Status" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
                               <Text layoutX="375.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                              <Pane layoutX="6.0" layoutY="67.0" prefHeight="102.0" prefWidth="921.0">
+                              <Pane fx:id="basketPaneEntry1" layoutX="6.0" layoutY="67.0" prefHeight="102.0" prefWidth="921.0">
                                  <children>
-                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
-                                       <image>
-                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
-                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
-                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
-                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                    <Text fx:id="basketEntry1Name" layoutX="31.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="151.33672332763672" />
+                                    <Text fx:id="basket1WarehouseStatus" layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basketPrice1" layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basket1ShortDesc" layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button fx:id="basketEntry1Decrease" layoutX="655.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry1DecreaseAction" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <Button fx:id="basketEntry1Increase" layoutX="743.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry1IncreaseAction" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <TextField fx:id="basketEntry1Amount" layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button fx:id="basket1Remove" layoutX="820.0" layoutY="39.0" mnemonicParsing="false" onAction="#basket1RemoveAction" text="Remove" />
                                  </children>
                               </Pane>
                               <Text layoutX="531.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
                               <Text layoutX="660.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
                               <Text layoutX="797.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clear" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                              <Pane layoutX="6.0" layoutY="169.0" prefHeight="102.0" prefWidth="921.0">
+                              <Pane fx:id="basketPaneEntry2" layoutX="6.0" layoutY="169.0" prefHeight="102.0" prefWidth="921.0">
                                  <children>
-                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
-                                       <image>
-                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
-                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
-                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
-                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                    <Text fx:id="basket2WarehouseStatus" layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basketPrice2" layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basket2ShortDesc" layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button fx:id="basketEntry2Decrease" layoutX="655.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry2DecreaseAction" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <Button fx:id="basketEntry2Increase" layoutX="743.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry2IncreaseAction" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <TextField fx:id="basketEntry2Amount" layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button fx:id="basket2Remove" layoutX="820.0" layoutY="39.0" mnemonicParsing="false" onAction="#basket2RemoveAction" text="Remove" />
+                                    <Text fx:id="basketEntry2Name" layoutX="31.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="151.33672332763672" />
                                  </children>
                               </Pane>
-                              <Pane layoutX="6.0" layoutY="348.0" prefHeight="102.0" prefWidth="921.0">
+                              <Pane fx:id="basketPaneEntry4" layoutX="6.0" layoutY="348.0" prefHeight="102.0" prefWidth="921.0">
                                  <children>
-                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
-                                       <image>
-                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
-                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
-                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
-                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                    <Text fx:id="basket4WarehouseStatus" layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basketPrice4" layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basket4ShortDesc" layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button fx:id="basketEntry4Decrease" layoutX="655.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry4DecreaseAction" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <Button fx:id="basketEntry4Increase" layoutX="743.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry4IncreaseAction" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <TextField fx:id="basketEntry4Amount" layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button fx:id="basket4Remove" layoutX="820.0" layoutY="39.0" mnemonicParsing="false" onAction="#basket4RemoveAction" text="Remove" />
+                                    <Text fx:id="basketEntry4Name" layoutX="31.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="151.33672332763672" />
                                  </children>
                               </Pane>
-                              <Pane layoutX="6.0" layoutY="260.0" prefHeight="102.0" prefWidth="921.0">
+                              <Pane fx:id="basketPaneEntry3" layoutX="6.0" layoutY="260.0" prefHeight="102.0" prefWidth="921.0">
                                  <children>
-                                    <ImageView fitHeight="97.0" fitWidth="96.0" layoutX="59.0" layoutY="3.0">
-                                       <image>
-                                          <Image url="@../Downloads/iphone-14-pro-256gb-gold.380.700.2.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <Text layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Text layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
-                                    <Button layoutX="655.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
-                                    <Button layoutX="743.0" layoutY="39.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="-" />
-                                    <TextField layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
-                                    <Button layoutX="820.0" layoutY="39.0" mnemonicParsing="false" text="Remove" />
+                                    <Text fx:id="basket3WarehouseStatus" layoutX="215.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basketPrice3" layoutX="372.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9000 KR" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Text fx:id="basket3ShortDesc" layoutX="527.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="105.33672332763672" />
+                                    <Button fx:id="basketEntry3Decrease" layoutX="655.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry3DecreaseAction" prefHeight="25.0" prefWidth="29.0" text="-" />
+                                    <Button fx:id="basketEntry3Increase" layoutX="743.0" layoutY="39.0" mnemonicParsing="false" onAction="#basketEntry3IncreaseAction" prefHeight="25.0" prefWidth="29.0" text="+" />
+                                    <TextField fx:id="basketEntry3Amount" layoutX="684.0" layoutY="39.0" prefHeight="25.0" prefWidth="58.0" />
+                                    <Button fx:id="basket3Remove" layoutX="820.0" layoutY="39.0" mnemonicParsing="false" onAction="#basket3RemoveAction" text="Remove" />
+                                    <Text fx:id="basketEntry3Name" layoutX="31.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IPhone 14 - GOLD - 256 GB" textAlignment="CENTER" wrappingWidth="151.33672332763672" />
                                  </children>
                               </Pane>
                               <Pane fx:id="paginationBasket" layoutX="42.0" layoutY="466.0" prefHeight="68.0" prefWidth="856.0">
                                  <children>
-                                    <Button fx:id="buttonBasketNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" text="Next" />
-                                    <Button fx:id="buttonBasketLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" text="Last" />
+                                    <Button fx:id="buttonBasketNext" layoutX="482.0" layoutY="23.0" mnemonicParsing="false" onAction="#basketNextPage" text="Next" />
+                                    <Button fx:id="buttonBasketLast" layoutX="530.0" layoutY="22.0" mnemonicParsing="false" onAction="#basketLastPage" text="Last" />
                                     <Text fx:id="labelBasketPageAmount" layoutX="439.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="of XY" textAlignment="CENTER" wrappingWidth="43.33672332763672" />
                                     <Text layoutX="332.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page" textAlignment="CENTER" wrappingWidth="57.33672332763672" />
-                                    <Button fx:id="buttonBasketFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" text="First" />
-                                    <Button fx:id="buttonBasketPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" text="Previous" />
+                                    <Button fx:id="buttonBasketFirst" layoutX="223.0" layoutY="23.0" mnemonicParsing="false" onAction="#basketFirstPage" text="First" />
+                                    <Button fx:id="buttonBasketPrevious" layoutX="271.0" layoutY="22.0" mnemonicParsing="false" onAction="#basketPreviousPage" text="Previous" />
                                     <TextField fx:id="currentBasketPage" layoutX="389.0" layoutY="22.0" prefHeight="26.0" prefWidth="41.0" promptText="1" />
                                  </children>
                               </Pane>

@@ -2,7 +2,6 @@ package com.example.ecommerceprototype.shop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Basket {
 
@@ -20,6 +19,14 @@ public class Basket {
     private ArrayList<BasketEntry> products;
 
 
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public int getPageCount() {
+        // If amount of products matches exactly with page size, just return it. Otherwise add 1 for overflowing products.
+        return products.size() % pageSize == 0 ? (products.size()/pageSize) : (products.size()/pageSize) + 1;
+    }
 
     public void addProduct(BasketEntry newEntry) {
         boolean productFound = false;
@@ -46,13 +53,34 @@ public class Basket {
 
 
     public ArrayList<BasketEntry> getPage(int page) {
-        return (ArrayList<BasketEntry>) products.subList(page * pageSize, page * pageSize + pageSize);
+        if (page < 0)
+            page = 0; // Genuinely a bug I encountered. It shouldn't ever go below 0 anyway, so might as well just make it a lower bound.
+        ArrayList<BasketEntry> dupedList;
+        int pageMinIndex = page * pageSize;
+        int pageMaxIndex =  page * pageSize + pageSize;
+        if (pageMaxIndex <= products.size())
+            dupedList = new ArrayList<>(products.subList(pageMinIndex, pageMaxIndex));
+        else {
+            //System.out.println("Disp Product Size:" + displayedProducts.size());
+            dupedList = new ArrayList<>(products.subList(pageMinIndex, products.size()));
+        }
+        return dupedList;
+        // This is a hack to get around the fact that subList is its own distinct type and we need arraylist
     }
 
     public ArrayList<BasketEntry> getPage(int page, boolean updateCurrentPage) {
         if (updateCurrentPage)
             currentPage = page;
-        return (ArrayList<BasketEntry>) products.subList(page * pageSize, page * pageSize + pageSize);
+        return getPage(page);
+
+    }
+
+    public ProductInformation getProductInformation(int page, int entry) {
+        String productUUID = getPage(page).get(entry).getUUID();
+
+        // This is a temporary workaround. We haven't gotten anything from the PIM that actually queries the DB. This is for mock data purposes.
+
+        return ProductListViewHandler.getInstance().getProductInformationFromUUID(productUUID);
 
     }
 
