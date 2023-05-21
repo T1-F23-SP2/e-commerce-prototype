@@ -114,6 +114,13 @@ public class ShopController {
     private Button prod3AddToCart;
 
     @FXML
+    private Button searchGoButton;
+
+    @FXML
+    private TextField searchText;
+
+
+    @FXML
     private ImageView prod3Image;
 
     @FXML
@@ -153,8 +160,22 @@ public class ShopController {
     void productInit() {
         ArrayList<ProductInformation> currentPageProducts = productListViewHandler.getPage(productListViewHandler.getCurrentPage());
         currentProductsPage.setText(String.valueOf(productListViewHandler.getCurrentPage() + 1)); // Array page list is 0-indexed.
-        populateProducts(currentPageProducts);
         labelProductsPageAmount.setText("of " + productListViewHandler.getPageCount());
+
+        // This usually happens if there's no search results. That's a "stuff's broken - do not display anything" scenario.
+        if (productListViewHandler.getPage(productListViewHandler.getCurrentPage()).size() == 0) {
+            buttonProductsNext.setDisable(true);
+            buttonProductsPrevious.setDisable(true);
+            buttonProductsLast.setDisable(true);
+            buttonProductsFirst.setDisable(true);
+            prod1Pane.setVisible(false);
+            prod2Pane.setVisible(false);
+            prod3Pane.setVisible(false);
+            prod4Pane.setVisible(false);
+            return;
+        }
+        populateProducts(currentPageProducts);
+
 
         System.out.println(productListViewHandler.getCurrentPage());
 
@@ -186,21 +207,37 @@ public class ShopController {
 
     @FXML
     void product1AddToBasket(ActionEvent event) {
-
+        ProductInformation info = productListViewHandler.getPage(productListViewHandler.getCurrentPage()).get(0);
+        BasketEntry basketEntry = new BasketEntry(info.getProductUUID(), 1);
+        basket.addProduct(basketEntry);
+        System.out.println(basket.getProducts().size());
     }
 
     @FXML
     void product2AddToBasket(ActionEvent event) {
+        ProductInformation info = productListViewHandler.getPage(productListViewHandler.getCurrentPage()).get(1);
+        BasketEntry basketEntry = new BasketEntry(info.getProductUUID(), 1);
+        basket.addProduct(basketEntry);
+        System.out.println(basket.getProducts().size());
 
     }
 
     @FXML
     void product3AddToBasket(ActionEvent event) {
 
+        ProductInformation info = productListViewHandler.getPage(productListViewHandler.getCurrentPage()).get(2);
+        BasketEntry basketEntry = new BasketEntry(info.getProductUUID(), 1);
+        basket.addProduct(basketEntry);
+        System.out.println(basket.getProducts().size());
+
     }
 
     @FXML
     void product4AddToBasket(ActionEvent event) {
+        ProductInformation info = productListViewHandler.getPage(productListViewHandler.getCurrentPage()).get(3);
+        BasketEntry basketEntry = new BasketEntry(info.getProductUUID(), 1);
+        basket.addProduct(basketEntry);
+        System.out.println(basket.getProducts().size());
 
     }
 
@@ -297,6 +334,15 @@ public class ShopController {
         prod4Price.setText(productInformation.getPriceInformation().getPrice() + "kr");
     }
 
+
+    @FXML
+    void searchGo(ActionEvent event) {
+        ArrayList<ProductInformation> results = productListViewHandler.search(searchText.getText());
+
+        productListViewHandler.setDisplayedProducts(results);
+        productListViewHandler.getPage(0, true);
+        productInit();
+    }
 
     @FXML
     public void initialize() {

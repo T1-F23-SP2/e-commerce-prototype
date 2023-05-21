@@ -13,6 +13,7 @@ public class ProductListViewHandler {
         this.currentPage = 0;
         this.pageSize = pageSize;
         this.products = new ArrayList<>();
+        this.displayedProducts = products;
     }
 
     private int currentPage;
@@ -20,6 +21,9 @@ public class ProductListViewHandler {
 
     private static int defaultPageSize = 4;
     private ArrayList<ProductInformation> products;
+
+    private ArrayList<ProductInformation> displayedProducts;
+
 
 
     public void populateTestDataset() {
@@ -72,6 +76,8 @@ public class ProductListViewHandler {
                 "Come, champion of Eorzea, face me! Your defeat shall serve as proof of my readiness to rule! " +
                         "It is only right that I should take your realm. For none among you has the power to stop me!",
                 false, testCategory, testSpecification, testManufacturingInfo, new PriceInformation(BigDecimal.valueOf(420.69),LocalDate.now(),testDiscountInfo)));
+
+        resetDisplayedProducts();
     }
 
 
@@ -84,14 +90,71 @@ public class ProductListViewHandler {
         return products;
     }
 
+
+    public ArrayList<ProductInformation> search(String searchTerm) {
+      if (searchTerm != "") {
+
+          ArrayList<ProductInformation> result = new ArrayList<>();
+
+          for (ProductInformation product : products) {
+              if (product.getName().contains(searchTerm)) {
+                  result.add(product);
+                  continue;
+              }
+              if (product.getLongDescription().contains(searchTerm)) {
+                  result.add(product);
+                  continue;
+              }
+              if (product.getShortDescription().contains(searchTerm)) {
+                  result.add(product);
+                  continue;
+              }
+              if (product.getProductCategory().name != null)
+                if (product.getProductCategory().name.contains(searchTerm)) {
+                      result.add(product);
+                      continue;
+              }
+              if (product.getProductUUID() == searchTerm) {
+                  result.add(product);
+                  continue;
+              }
+              if (product.getSerialNumber() == searchTerm) {
+                  result.add(product);
+                  continue;
+              }
+              if(product.getManufcaturingInformation().getName() != null)
+                if (product.getManufcaturingInformation().getName().contains(searchTerm)) {
+                      result.add(product);
+                }
+
+          }
+
+          return result;
+
+      }
+          return products;
+    }
+
+    public void setDisplayedProducts(ArrayList<ProductInformation> displayedProducts) {
+        this.displayedProducts = displayedProducts;
+    }
+
+    public void resetDisplayedProducts() {
+        this.displayedProducts = products;
+    }
+
     public ArrayList<ProductInformation> getPage(int page) {
+        if (page < 0)
+            page = 0; // Genuinely a bug I encountered. It shouldn't ever go below 0 anyway, so might as well just make it a lower bound.
         ArrayList<ProductInformation> dupedList;
         int pageMinIndex = page * pageSize;
         int pageMaxIndex =  page * pageSize + pageSize;
-        if (pageMaxIndex <= products.size())
-            dupedList = new ArrayList<>(products.subList(pageMinIndex, pageMaxIndex));
-        else
-            dupedList = new ArrayList<>(products.subList(pageMinIndex,products.size()));
+        if (pageMaxIndex <= displayedProducts.size())
+            dupedList = new ArrayList<>(displayedProducts.subList(pageMinIndex, pageMaxIndex));
+        else {
+            //System.out.println("Disp Product Size:" + displayedProducts.size());
+            dupedList = new ArrayList<>(displayedProducts.subList(pageMinIndex, displayedProducts.size()));
+        }
         return dupedList;
         // This is a hack to get around the fact that subList is its own distinct type and we need arraylist
     }
@@ -111,7 +174,7 @@ public class ProductListViewHandler {
 
     public int getPageCount() {
         // If amount of products matches exactly with page size, just return it. Otherwise add 1 for overflowing products.
-        return products.size() % pageSize == 0 ? (products.size()/pageSize) : (products.size()/pageSize) + 1;
+        return displayedProducts.size() % pageSize == 0 ? (displayedProducts.size()/pageSize) : (displayedProducts.size()/pageSize) + 1;
     }
 
     public int getCurrentPage() {

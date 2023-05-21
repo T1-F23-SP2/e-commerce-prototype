@@ -18,8 +18,8 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="80.0" prefWidth="738.0" style="-fx-background-color: #4E149E;">
          <children>
-            <TextField layoutX="339.0" layoutY="27.0" prefHeight="26.0" prefWidth="300.0" text="Search" />
-            <Button layoutX="828.0" layoutY="28.0" mnemonicParsing="false" text="Basket" />
+            <Button fx:id="searchGoButton" layoutX="623.0" layoutY="29.0" mnemonicParsing="false" onAction="#searchGo" text="Search" />
+            <TextField fx:id="searchText" layoutX="315.0" layoutY="27.0" prefHeight="26.0" prefWidth="300.0" text="Search" />
             <Pane layoutY="-5.0" prefHeight="90.0" prefWidth="174.0" />
             <ImageView fitHeight="82.0" fitWidth="140.0">
                <image>

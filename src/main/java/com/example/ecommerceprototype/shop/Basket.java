@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.shop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Basket {
 
@@ -19,6 +20,22 @@ public class Basket {
     private ArrayList<BasketEntry> products;
 
 
+
+    public void addProduct(BasketEntry newEntry) {
+        boolean productFound = false;
+        for (BasketEntry entry : products) {
+            if (entry.getUUID() == newEntry.getUUID()) {
+                entry.setQuantity(entry.getQuantity() + newEntry.getQuantity());
+                productFound = true;
+                break;
+            }
+        }
+        if (!productFound)
+            products.add(newEntry);
+    }
+
+
+
     public void setProducts(ArrayList<BasketEntry> products) {
         this.products = products;
     }
@@ -26,6 +43,7 @@ public class Basket {
     public ArrayList<BasketEntry> getProducts() {
         return products;
     }
+
 
     public ArrayList<BasketEntry> getPage(int page) {
         return (ArrayList<BasketEntry>) products.subList(page * pageSize, page * pageSize + pageSize);
@@ -65,5 +83,7 @@ public class Basket {
         }
         return map;
     }
+
+
 
 }
