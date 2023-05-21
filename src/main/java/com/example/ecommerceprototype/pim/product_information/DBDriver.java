@@ -669,7 +669,7 @@ public class DBDriver {
                 productInformation.getProductSpecification()
         );
 
-        return new ProductInformation().setUUID(UUID);
+        return productInformation.setUUID(UUID);
     }
 
     protected void insertNewProductCategory(ProductCategory productCategory) throws SQLException {
