@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
 public class NewFileController implements Initializable {
     private String name;
@@ -26,33 +25,29 @@ public class NewFileController implements Initializable {
     @FXML
     private TextField nameField;
     @FXML
-    private Label uuidLabel;
-    @FXML
     private ChoiceBox<String> typeChoice;
     @FXML
     private ChoiceBox<String> categoryChoice;
     @FXML
     private TextField uuidField;
 
-    private String[] types = {
+
+    private final String[] types = {
             "Product image",
             "Product file",
             "Image",
             "File"
     };
 
-    private String[] categoriesProduct = Arrays.stream(CategoryProduct.values()).map(CategoryProduct:: getValue).toArray(String[]::new);
+    private final String[] categoriesProduct = Arrays.stream(CategoryProduct.values()).map(CategoryProduct:: getValue).toArray(String[]::new);
 
-    private String[] categoriesNonProduct = Arrays.stream(CategoryNonProduct.values()).map(CategoryNonProduct:: getValue).toArray(String[]::new);
+    private final String[] categoriesNonProduct = Arrays.stream(CategoryNonProduct.values()).map(CategoryNonProduct:: getValue).toArray(String[]::new);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         typeChoice.getItems().addAll(types);
         typeChoice.setOnAction(this::getTypeChoice);
         categoryChoice.setOnAction(this::getCategoryChoice);
-        nameField.setOnAction(this::getNameLabel);
-        uuidField.setOnAction(this::getUUIDLabel);
-
     }
 
     private void getTypeChoice(ActionEvent actionEvent)
@@ -60,48 +55,35 @@ public class NewFileController implements Initializable {
         String type_in = typeChoice.getValue();
         setType(type_in);
 
-        if(type.equals("Product image"))
-        {
-            categoryChoice.getItems().clear();
-            categoryChoice.getItems().addAll(categoriesProduct);
-            uuidField.setDisable(false);
-        }
-        else if (type.equals("Product file"))
-        {
-            categoryChoice.getItems().clear();
-            categoryChoice.getItems().addAll(categoriesProduct);
-            uuidField.setDisable(false);
-        }
-        else if (type.equals("File"))
-        {
-            categoryChoice.getItems().clear();
-            categoryChoice.getItems().addAll(categoriesNonProduct);
-            uuidField.setDisable(true);
-            uuidField.clear();
-        }
-        else if (type.equals("Image"))
-        {
-            categoryChoice.getItems().clear();
-            categoryChoice.getItems().addAll(categoriesNonProduct);
-            uuidField.setDisable(true);
-            uuidField.clear();
+        switch (type) {
+            case "Product image", "Product file" -> {
+                categoryChoice.getItems().clear();
+                categoryChoice.getItems().addAll(categoriesProduct);
+                uuidField.setDisable(false);
+            }
+            case "File", "Image" -> {
+                categoryChoice.getItems().clear();
+                categoryChoice.getItems().addAll(categoriesNonProduct);
+                uuidField.setDisable(true);
+                uuidField.clear();
+            }
         }
     }
 
     private void getCategoryChoice(ActionEvent actionEvent)
     {
         String cat_in = categoryChoice.getValue();
-        setType(cat_in);
+        setCategory(cat_in);
     }
 
-    private void getUUIDLabel(ActionEvent actionEvent)
+    public void updateUUIDLabel(ActionEvent actionEvent)
     {
         String uuid_in = uuidField.getText();
         setUuid(uuid_in);
     }
 
 
-    private void getNameLabel(ActionEvent actionEvent)
+    public void updateNameLabel(ActionEvent actionEvent)
     {
         String name_in = nameField.getText();
         setName(name_in);

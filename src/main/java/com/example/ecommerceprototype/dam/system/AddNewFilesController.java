@@ -86,7 +86,8 @@ public class AddNewFilesController {
                         String category = controller.getCategory();
                         String uuid = controller.getUuid();
 
-                        addAsset(name, type, category, uuid);
+                        System.out.println(name + type + category + uuid);
+                        //addAsset(name, type, category, uuid);
 
                     }
 
@@ -155,7 +156,7 @@ public class AddNewFilesController {
         String fileFormat = extractFileFormat(name_in);
 
 
-        dam.addAsset(name_in, type, cat, fileFormat, uuid_in);
+        dam.addAsset(name_in, type, cat, fileFormat, uuid_in, "esd");
     }
 
 

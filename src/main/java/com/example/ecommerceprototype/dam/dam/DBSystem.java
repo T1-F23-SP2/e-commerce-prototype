@@ -3,6 +3,8 @@ package com.example.ecommerceprototype.dam.dam;
 import com.example.ecommerceprototype.dam.constants.Constants;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBSystem {
 
@@ -21,12 +23,13 @@ public class DBSystem {
     }
 
     //Connection to Database
-    private void initializePostgresqlDatabase() {
+    private void initializePostgresqlDatabase()
+    {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
             connection = DriverManager.getConnection(Constants.DB_URL2, Constants.DB_USER, Constants.DB_PASSWORD);
             if (connection != null) {
-                System.out.println("Connection established");
+                System.out.println("Connection established DB");
             }
             else {
                 System.out.println("Connection failed");
@@ -39,8 +42,13 @@ public class DBSystem {
         }
     }
 
+    public Connection getConn()
+    {
+        return connection;
+    }
 
-    public void addAsset (Asset asset)
+
+    public void addAsset(Asset asset)
     {
         try
         {
@@ -66,7 +74,9 @@ public class DBSystem {
         }
     }
 
-    public void deleteAsset (int assetID_in)
+
+
+    public void deleteAsset(int assetID_in)
     {
         try
         {
@@ -83,7 +93,10 @@ public class DBSystem {
     }
 
 
-    public int addTag (String tagName_in) {
+    public int addTag(String tagName_in)
+    {
+        tagName_in.toLowerCase();
+
         int tagID = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -104,7 +117,7 @@ public class DBSystem {
         return tagID;
     }
 
-    public void addTagAssignment (int assetID_in, int tagID_in)
+    public void addTagAssignment(int assetID_in, int tagID_in)
     {
         try
         {
@@ -121,26 +134,52 @@ public class DBSystem {
         }
     }
 
-    public void getAllTags ()
+    public List<String> getAllTags ()
     {
+        List<String> tags = null;
+
         try
         {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT get_all_tags()");
+                    "SELECT tag_name FROM Tags");
 
-            try (ResultSet resultSet = statement.executeQuery())
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next())
             {
-                while (resultSet.next())
-                {
-                    int tag_id = resultSet.getInt(1);
-                    String tag_name = resultSet.getString(2);
-
-                    System.out.println("Tag ID: " + tag_id + ", Tag Name: " + tag_name);
-                }
+                String tag = resultSet.getString("tag_name");
+                tags.add(tag);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
+
+      return tags;
+    }
+
+
+    public List<String> getTagsForAssetID (int assetid_in)
+    {
+        List<String> tags = new ArrayList<>();
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT t.tag_name FROM Tags t INNER JOIN Tag_Assignments ta ON t.tag_id = ta.tag_id WHERE ta.asset_id = ?");
+
+            statement.setInt(1,assetid_in);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next())
+            {
+                String tag = resultSet.getString("tag_name");
+                tags.add(tag);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return tags;
     }
 
 

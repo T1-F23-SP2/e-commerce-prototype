@@ -1,8 +1,14 @@
 package com.example.ecommerceprototype.dam.system;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -11,11 +17,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 
 public class LoginControl {
 
-    DAMController dam = new DAMController();
+    Controller dam = new Controller();
 
     @FXML
     private TextField UsernameField;
@@ -86,7 +93,9 @@ public class LoginControl {
                     alert.setHeaderText(null);
                     alert.setContentText("Welcome " + UsernameField.getText() + "!");
                     alert.showAndWait();
-                    dam.switchToDAM(actionEvent);
+
+
+                    switchToDamMain(actionEvent);
                 } else {
                     // Login failed
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -122,4 +131,15 @@ public class LoginControl {
         alert.setHeaderText(headerText);
         alert.showAndWait();
     }
+
+    public void switchToDamMain(ActionEvent event) throws IOException
+    {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("damMain.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
 }

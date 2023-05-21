@@ -1,21 +1,14 @@
 package com.example.ecommerceprototype.dam.dam;
 
+import com.azure.core.credential.AzureSasCredential;
 import com.azure.storage.blob.*;
+import com.azure.storage.blob.specialized.BlockBlobClient;
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelBuffer;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.IntBuffer;
+import java.io.File;
+
 
 public class FileSystem {
     private static FileSystem instance;
@@ -56,24 +49,23 @@ public class FileSystem {
 
     public BlobContainerClient setContainer (Type type)
     {
-        BlobContainerClient container = null;
+        return switch (type) {
+            case PRODUCT_IMAGE -> blobContainerClientPI;
+            case PRODUCT_FILE -> blobContainerClientPF;
+            case IMAGE -> blobContainerClientImages;
+            case FILE -> blobContainerClientFiles;
+        };
+    }
 
-        switch (type) {
-            case PRODUCT_IMAGE:
-                container = blobContainerClientPI;
-                break;
-            case PRODUCT_FILE:
-                container = blobContainerClientPF;
-                break;
-            case IMAGE:
-                container = blobContainerClientImages;
-                break;
-            case FILE:
-                container = blobContainerClientFiles;
-                break;
-        }
-
-        return container;
+    public BlobContainerClient setContainerString (String type)
+    {
+        return switch (type) {
+            case "PRODUCT IMAGE" -> blobContainerClientPI;
+            case "PRODUCT FILE" -> blobContainerClientPF;
+            case "IMAGE" -> blobContainerClientImages;
+            case "FILE" -> blobContainerClientFiles;
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        };
     }
 
     private String shortenURL (String url)
@@ -87,29 +79,117 @@ public class FileSystem {
     }
 
 
-    public String uploadFile(Type type, Category category)
+    public String uploadFile(String filename_in, Type type_in, Category category_in, String uuid_in, String oripath)
     {
-        String file_path = Constants.DATA_PATH;
-        String file_name = "test.jpg";
-        String folder_name = category.getValue();
+        String file_name = filename_in.toLowerCase();
+        String folder_name = category_in.getValue().toLowerCase();
+        String uuid = uuid_in.toLowerCase();
 
-        BlobContainerClient containerClient = setContainer(type);
+        BlobContainerClient containerClient = setContainer(type_in);
+        BlobClient uploadBlobClient;
 
-        BlobClient uploadBlobClient = containerClient.getBlobClient(folder_name + "/test3.jpg");
-        uploadBlobClient.uploadFromFile(file_path+file_name);
+       if (uuid_in.isBlank()) {
+           uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
+       } else {
+           uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
+       }
+
+
+        uploadBlobClient.uploadFromFile(oripath);
 
         String url = uploadBlobClient.getBlobUrl();
 
-        String newUrl = shortenURL(url);
-
-        return newUrl;
+        return shortenURL(url);
     }
 
-    public void deleteFile(int assetID_in)
+    public boolean deleteFile(String filename_in, String type_in, String category_in, String uuid_in)
     {
-        String file_name = "nol";
+        String file_name = filename_in.toLowerCase();
+        String folder_name = category_in.toLowerCase();
+        String uuid = uuid_in.toLowerCase();
 
+        BlobContainerClient containerClient = setContainerString(type_in.toUpperCase());
+
+        BlobClient deleteBlobClient;
+
+        if (uuid_in.isBlank()) {
+            deleteBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
+        } else {
+            deleteBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
+        }
+
+        return deleteBlobClient.deleteIfExists();
     }
+
+
+    public void downloadFile(String filename_in, String type_in, String category_in, String uuid_in)
+    {
+        String file_name = filename_in.toLowerCase();
+        String folder_name = category_in.toLowerCase();
+        String uuid = uuid_in.toLowerCase();
+
+        BlobContainerClient containerClient = setContainerString(type_in.toUpperCase());
+
+        BlobClient downloadBlobClient;
+
+        if (uuid_in.isBlank()) {
+            downloadBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
+        } else {
+            downloadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
+        }
+
+        String downloadsPath = System.getProperty("user.home") + File.separator + "Downloads"+File.separator + file_name;
+        downloadBlobClient.downloadToFile(downloadsPath);
+    }
+
+
+    public boolean watermarkpt1(String filename_in, String type_in, String category_in, String uuid_in) {
+        String file_name = filename_in.toLowerCase();
+        String folder_name = category_in.toLowerCase();
+        String uuid = uuid_in.toLowerCase();
+
+        BlobContainerClient containerClient = setContainerString(type_in.toUpperCase());
+
+        BlobClient downloadBlobClient;
+
+        if (uuid_in.isBlank()) {
+            downloadBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
+        } else {
+            downloadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
+        }
+
+        String download = "./data/"+ file_name;
+        downloadBlobClient.downloadToFile(download);
+
+        return true;
+    }
+
+    public String watermarkpt2(String filename_in, String type_in, String category_in, String uuid_in, String oripath)
+    {
+        String file_name = filename_in.toLowerCase();
+        String folder_name = category_in.toLowerCase();
+        String uuid = uuid_in.toLowerCase();
+
+        BlobContainerClient containerClient = setContainerString(type_in);
+        BlobClient uploadBlobClient;
+
+        if (uuid_in.isBlank()) {
+            uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
+        } else {
+            uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
+        }
+
+
+        uploadBlobClient.uploadFromFile(oripath);
+
+        String url = uploadBlobClient.getBlobUrl();
+
+        return shortenURL(url);
+    }
+
+
+
+
 /*
     public Image downloadFile(String file_name)
     {
