@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.mongodb.client.model.Indexes.descending;
+
 public class DBManager {
 
 
@@ -104,6 +106,13 @@ public class DBManager {
         collection.updateOne(query, update);
 
 
+    }
+
+    public static int getHighestId (){
+        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+        Document document = collection.find().sort(descending("_id")).first();
+        int highestId = (document == null) ? 0 : document.getInteger("_id");
+        return highestId;
     }
 
 
