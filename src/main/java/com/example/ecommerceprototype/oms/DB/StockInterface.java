@@ -66,6 +66,32 @@ public interface StockInterface {
             Platform.runLater(() -> {
                 int index = OrderGUIControllerOMS.idList.indexOf(id);
                 OrderGUIControllerOMS.statusList.set(index, "Processed");
+
+
+                // From here
+                MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
+
+                ArrayList<Integer> dbIdList = DBManager.queryDBAllId(collectionConn);
+
+
+                // Code to make the rest of the list, from the database.
+                for (int i = 0; i < dbIdList.size(); i++) {
+                    OrderGUIControllerOMS.idList.add(dbIdList.get(i));
+                    OrderGUIControllerOMS.statusList.add("Processed");
+
+                    // Placeholder just displays UUID from inst 1
+                    OrderGUIControllerOMS.UUIDList.add(String.join(", ", mockShopObject.getMap().keySet()));
+
+////             Fix this code to display the correct UUID by _id from the database
+//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(dbIdList.get(i)));
+//            // Find the document that matches the query
+////            Document result = collectionConn.find(documentObj).first();
+//
+//            String UUIDString2 = documentObj.getString("UUID");
+//
+//            OrderGUIControllerOMS.UUIDList.add(UUIDString2);
+                }
+
             });
 
             // TODO: Code to add to orderlist
