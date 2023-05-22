@@ -84,9 +84,20 @@ public class Basket {
 
     }
 
+    public void removeProduct(String UUID) {
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getUUID() == UUID)
+                products.remove(i);
+        }
+    }
+
     public ArrayList<BasketEntry> getNextPage() {
         currentPage++;
         return getPage(currentPage);
+    }
+
+    public static Basket getBasket() {
+        return basket;
     }
 
     public ArrayList<BasketEntry> getPreviousPage() {

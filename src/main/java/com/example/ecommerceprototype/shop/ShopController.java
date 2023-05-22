@@ -303,12 +303,18 @@ public class ShopController {
             buttonProductsLast.setDisable(false);
 
         }
-        if (productListViewHandler.getCurrentPage() == productListViewHandler.getPageCount() -1) {
+        else if (productListViewHandler.getCurrentPage() == productListViewHandler.getPageCount() -1) {
             buttonProductsNext.setDisable(true);
             buttonProductsLast.setDisable(true);
             buttonProductsFirst.setDisable(false);
             buttonProductsPrevious.setDisable(false);
 
+        }
+        else {
+            buttonProductsNext.setDisable(false);
+            buttonProductsLast.setDisable(false);
+            buttonProductsFirst.setDisable(false);
+            buttonProductsPrevious.setDisable(false);
         }
 
     }
@@ -338,7 +344,7 @@ public class ShopController {
 
         populateBasket(currentPageBasket);
 
-        System.out.println(basket.getCurrentPage());
+        System.out.println(basket.getCurrentPage() + "/" + basket.getPageCount());
 
         if (basket.getCurrentPage() == 0) {
             buttonBasketFirst.setDisable(true);
@@ -347,12 +353,18 @@ public class ShopController {
             buttonBasketLast.setDisable(false);
 
         }
-        if (productListViewHandler.getCurrentPage() == productListViewHandler.getPageCount() -1) {
+        else if (basket.getCurrentPage() == basket.getPageCount() -1) {
             buttonBasketNext.setDisable(true);
             buttonBasketLast.setDisable(true);
             buttonBasketFirst.setDisable(false);
             buttonBasketPrevious.setDisable(false);
 
+        }
+        else {
+            buttonBasketFirst.setDisable(false);
+            buttonBasketPrevious.setDisable(false);
+            buttonBasketNext.setDisable(false);
+            buttonBasketLast.setDisable(false);
         }
 
 
@@ -365,82 +377,121 @@ public class ShopController {
 
     @FXML
     void basket1RemoveAction(ActionEvent event) {
+        basket.removeProduct(basket.getPage(basket.getCurrentPage()).get(0).getUUID());
+        basketInit();
 
     }
 
     @FXML
     void basket2RemoveAction(ActionEvent event) {
+        basket.removeProduct(basket.getPage(basket.getCurrentPage()).get(1).getUUID());
+        basketInit();
 
     }
 
     @FXML
     void basket3RemoveAction(ActionEvent event) {
+        basket.removeProduct(basket.getPage(basket.getCurrentPage()).get(2).getUUID());
+        basketInit();
 
     }
 
     @FXML
     void basket4RemoveAction(ActionEvent event) {
+        basket.removeProduct(basket.getPage(basket.getCurrentPage()).get(3).getUUID());
+        basketInit();
 
     }
 
     @FXML
     void basketEntry1DecreaseAction(ActionEvent event) {
 
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(0).getQuantity() - 1));
+        commitBasketChanges();
+
     }
 
     @FXML
     void basketEntry1IncreaseAction(ActionEvent event) {
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(0).getQuantity() + 1));
+        commitBasketChanges();
+
 
     }
 
     @FXML
     void basketEntry2DecreaseAction(ActionEvent event) {
 
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(1).getQuantity() - 1));
+        commitBasketChanges();
+
     }
 
     @FXML
     void basketEntry2IncreaseAction(ActionEvent event) {
-
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(1).getQuantity() + 1));
+        commitBasketChanges();
     }
 
     @FXML
     void basketEntry3DecreaseAction(ActionEvent event) {
-
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(2).getQuantity() - 1));
+        commitBasketChanges();
     }
 
     @FXML
     void basketEntry3IncreaseAction(ActionEvent event) {
+
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(2).getQuantity() + 1));
+        commitBasketChanges();
 
     }
 
     @FXML
     void basketEntry4DecreaseAction(ActionEvent event) {
 
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(3).getQuantity() - 1));
+        commitBasketChanges();
+
     }
 
     @FXML
     void basketEntry4IncreaseAction(ActionEvent event) {
 
+        basketEntry1Amount.setText(String.valueOf(basket.getPage(basket.getCurrentPage()).get(3).getQuantity() + 1));
+        commitBasketChanges();
+
     }
 
     @FXML
     void basketFirstPage(ActionEvent event) {
+        commitBasketChanges();
+        basket.getPage(0, true);
+        basketInit();
 
     }
 
     @FXML
     void basketLastPage(ActionEvent event) {
+        commitBasketChanges();
+        basket.getPage(basket.getPageCount() - 1, true);
+        basketInit();
 
     }
 
+
     @FXML
     void basketNextPage(ActionEvent event) {
-
+        commitBasketChanges();
+        basket.getNextPage();
+        basketInit();
     }
 
     @FXML
     void basketPreviousPage(ActionEvent event) {
-
+        commitBasketChanges();
+        basket.getPreviousPage();
+        basketInit();
     }
 
     @FXML
@@ -458,6 +509,31 @@ public class ShopController {
 
     }
 
+
+    void commitBasketChanges() {
+        boolean visualsChanged = false;
+        TextField basketEntries[] = {basketEntry1Amount, basketEntry2Amount, basketEntry3Amount, basketEntry4Amount};
+        int originalValues[] = {0,0,0,0};
+        for (int i = 0; i < basket.getPage(basket.getCurrentPage()).size(); i++) {
+            try {
+                originalValues[i] = basket.getPage(basket.getCurrentPage()).get(i).getQuantity();
+                basket.getPage(basket.getCurrentPage()).get(i).setQuantity(Integer.parseInt(basketEntries[i].getText()));
+            } catch (NumberFormatException e) {
+                // If amount contains nonsense value, prevent nonsense from being stored.
+                basket.getPage(basket.getCurrentPage()).get(i).setQuantity(originalValues[i]);
+            }
+            if(basket.getPage(basket.getCurrentPage()).get(i).getQuantity() <= 0) {
+                basket.removeProduct(basket.getPage(basket.getCurrentPage()).get(i).getUUID());
+                visualsChanged = true;
+            }
+        }
+
+
+
+        if (visualsChanged)
+            basketInit();
+
+    }
 
     @FXML
     void product1AddToBasket(ActionEvent event) {

@@ -77,6 +77,20 @@ public class ProductListViewHandler {
                         "It is only right that I should take your realm. For none among you has the power to stop me!",
                 false, testCategory, testSpecification, testManufacturingInfo, new PriceInformation(BigDecimal.valueOf(420.69),LocalDate.now(),testDiscountInfo)));
 
+
+        // "With an expanded free trial, thou mayest play through the entirety of A Realm Reborn and the award-winning Heavensward expansion up to level 60 for free with no restrictions on playtime. Mayhap thou wilt find thyself lost in its splendor and grandeur"
+        products.add(new ProductInformation("asjqior1304", "FFXIV Free Trial", "0xDEADDEED",
+                "But yes, moral relativism and all that",
+                "Pray, have you perchance heard of the critically acclaimed MMORPG Final Fantasy XIV? It is a wondrous realm that beckons thee to explore its vastness. ",
+                false, testCategory, testSpecification, testManufacturingInfo, new PriceInformation(BigDecimal.valueOf(0),LocalDate.now(),testDiscountInfo)));
+
+
+        // "With an expanded free trial, thou mayest play through the entirety of A Realm Reborn and the award-winning Heavensward expansion up to level 60 for free with no restrictions on playtime. Mayhap thou wilt find thyself lost in its splendor and grandeur"
+        products.add(new ProductInformation("joij31o4", "FFXIV Endwalker", "0xFF1460",
+                "e",
+                "Pray, have you perchance heard of the critically acclaimed MMORPG Final Fantasy XIV? It is a wondrous realm that beckons thee to explore its vastness. ",
+                false, testCategory, testSpecification, testManufacturingInfo, new PriceInformation(BigDecimal.valueOf(0),LocalDate.now(),testDiscountInfo)));
+
         resetDisplayedProducts();
     }
 
