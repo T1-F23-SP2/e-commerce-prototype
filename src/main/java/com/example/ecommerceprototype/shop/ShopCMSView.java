@@ -52,34 +52,37 @@ public class ShopCMSView extends Application{
 
         loadTopBanner(plate);
         loadSidebar(plate);
+        loadProducts(plate, pimDriverInstance.getAllProducts());
 
-        // Load products
+        window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void loadProducts(Pane plate, ProductList products) throws Exception {
         Random random = new Random();
 
-        ProductList allProducts = pimDriverInstance.getAllProducts();
-
-        for (int i = 0; i < allProducts.size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
             Pane view = CMS.getInstance().loadComponent("ProductView");
 
-            ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(allProducts.get(i).getName());
-            ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (allProducts.get(i).getPriceInformation().getPrice()));
+            ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(products.get(i).getName());
+            ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation()));
             ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(random.nextInt(2) == 0 ? "Sold out" : "In stock");
-            ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(allProducts.get(i).getShortDescription());
+            ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(products.get(i).getShortDescription());
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
             int finalI = i;
-            ((Button) CMS.getInstance().findNode(view, "pro    public void loadProducts()ductImage_Button")).setOnAction(actionEvent -> {
-                try {loadProductPage(allProducts.get(finalI));}
-                catch (Exception e) {System.out.println(e.getMessage());}
+            ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
+                try {
+                    loadProductPage(products.get(finalI));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             });
 
             GridPane.setColumnIndex(view, i % 3);
-            GridPane.setRowIndex(view, (int) Math.floor(i/3)); // floor(n/3) is the integer sequence for 0, 0, 0, 1, 1, 1, 2, 2, 2... (https://oeis.org/A002264)
+            GridPane.setRowIndex(view, (int) Math.floor(i / 3)); // floor(n/3) is the integer sequence for 0, 0, 0, 1, 1, 1, 2, 2, 2... (https://oeis.org/A002264)
 
             CMS.getInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
         }
-
-        window.setScene(new Scene(plate, 1920, 1080));
     }
 
     public void loadSidebar(Pane plate) throws Exception {
@@ -97,16 +100,38 @@ public class ShopCMSView extends Application{
         VBox categoryList = (VBox) CMS.getInstance().findNode(sidebar, "categoryList_VBox");
         VBox allCategoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
         Button allCategoryButton = (Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button");
+        ((Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
         allCategoryButton.setText("All categories");
         categoryList.getChildren().add(allCategoryButton);
+
 
         FilterableArrayList<ProductCategory> allCategories = pimDriverInstance.getAllCategories();
         for (int i = 0; i < allCategories.size(); i++) {
             VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
             Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            int finalI = i;
+            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+                try {reloadShopPageWithCategory(allCategories.get(finalI).getName());}
+                catch (Exception e) {System.out.println(e.getMessage());}
+            });
             b.setText(allCategories.get(i).getName());
             categoryList.getChildren().add(b);
         }
+    }
+
+    private void reloadShopPageWithCategory(String category) throws Exception {
+        //Load page template (Template 1 has space for a topbanner, a sidebar and content to be arranged in a grid)
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
+
+        loadTopBanner(plate);
+        loadSidebar(plate);
+        loadProducts(plate, pimDriverInstance.getProductsByCategoryName(category));
+        System.out.println(category);
+
+        window.setScene(new Scene(plate, 1920, 1080));
     }
 
     public void loadTopBanner(Pane plate) throws Exception {
