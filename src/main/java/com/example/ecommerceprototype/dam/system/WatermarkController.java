@@ -1,13 +1,9 @@
 package com.example.ecommerceprototype.dam.system;
 
 import com.example.ecommerceprototype.dam.constants.Category;
-import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
 import com.example.ecommerceprototype.dam.dam.DAMSystem;
-import com.example.ecommerceprototype.dam.dam.FileSystem;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -99,7 +95,7 @@ public class WatermarkController {
         String category_in = getCategory();
         String uuid_in = getUuid();
 
-        if (dam.watermarkpt1(filename_in, type_in, category_in, uuid_in)) {
+        if (dam.watermark(filename_in, type_in, category_in, uuid_in)) {
             File selectedFile = new File("./data/" + filename_in);
 
             BufferedImage originalImage = null;
@@ -182,7 +178,7 @@ public class WatermarkController {
         String uuid_in = getUuid();
 
 
-        if (dam.watermarkpt1(filename_in, type_in, category_in, uuid_in)) {
+        if (dam.watermark(filename_in, type_in, category_in, uuid_in)) {
             File selectedFile = new File("./data/" + filename_in);
 
             BufferedImage originalImage = null;
@@ -263,7 +259,7 @@ public class WatermarkController {
         String category_in = getCategory();
         String uuid_in = getUuid();
 
-        if (dam.watermarkpt1(filename_in, type_in, category_in, uuid_in)) {
+        if (dam.watermark(filename_in, type_in, category_in, uuid_in)) {
             File selectedFile = new File("./data/" + filename_in);
 
             BufferedImage originalImage = null;
@@ -350,7 +346,7 @@ public class WatermarkController {
             String category_in = getCategory();
             String uuid_in = getUuid();
 
-            if (dam.watermarkpt1(filename_in, type_in, category_in, uuid_in)) {
+            if (dam.watermark(filename_in, type_in, category_in, uuid_in)) {
                 File selectedFile = new File("./data/" + filename_in);
 
                 BufferedImage originalImage = null;

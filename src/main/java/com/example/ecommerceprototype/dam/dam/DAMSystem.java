@@ -1,17 +1,9 @@
 package com.example.ecommerceprototype.dam.dam;
 
 import com.example.ecommerceprototype.dam.constants.Category;
-import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 public class DAMSystem {
@@ -80,10 +72,15 @@ public class DAMSystem {
     }
 
 
-    public boolean watermarkpt1(String filename_in, String type_in, String category_in, String uuid_in)
+    public boolean watermark(String filename_in, String type_in, String category_in, String uuid_in)
     {
-       return FileConn.watermarkpt1(filename_in, type_in, category_in, uuid_in);
+       return FileConn.watermark(filename_in, type_in, category_in, uuid_in);
 
+    }
+
+    public void deleteTagAssignment(int assetID_in, String tagName_in)
+    {
+        DBConn.deleteTagAssignment(assetID_in, tagName_in);
     }
 
 

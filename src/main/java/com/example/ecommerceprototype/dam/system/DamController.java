@@ -1,11 +1,9 @@
 package com.example.ecommerceprototype.dam.system;
 
 import com.example.ecommerceprototype.dam.constants.Category;
-import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
 import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import com.example.ecommerceprototype.dam.dam.searchModel;
-import com.example.ecommerceprototype.dam.dam.DBconnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,9 +23,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Dialog;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -284,7 +279,21 @@ public class DamController implements Initializable {
 
         if (clickedButton.get() == ButtonType.OK)
         {
-            showTable();
+
+            List<String> newTagList = controller.getTagsAdded();
+            for (String tag : newTagList)
+            {
+                dam.tagAssignment(assetID, tag);
+                System.out.println("add " +tag);
+            }
+
+
+            List<String> tagsDeleted = controller.getTagsDeleted();
+            for (String tag : tagsDeleted)
+            {
+                dam.deleteTagAssignment(assetID, tag);
+
+            }
         }
         else
         {
@@ -294,6 +303,8 @@ public class DamController implements Initializable {
             alert.setContentText("");
             alert.showAndWait();
         }
+
+        showTable();
     }
 
 
@@ -329,9 +340,37 @@ public class DamController implements Initializable {
 
 
 
-    public void resize()
-    {
+    public void resize() throws IOException {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
 
+        int id = assetIdTableColumn.getCellObservableValue(selectedIndex).getValue();
+        String filename = nameTableColumn.getCellObservableValue(selectedIndex).getValue();
+        String type = typeTableColumn.getCellObservableValue(selectedIndex).getValue();
+        String cat = categoryTableColumn.getCellObservableValue(selectedIndex).getValue();
+        String uuid = uuidTableColumn.getCellObservableValue(selectedIndex).getValue();
+
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("resizeImages.fxml"));
+        DialogPane tagPane = fxmlLoader.load();
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setDialogPane(tagPane);
+        dialog.setTitle("Resize");
+
+        ResizeImagesController controller = fxmlLoader.getController();
+        controller.setId(id);
+        controller.setFilename(filename);
+        controller.setType(type);
+        controller.setCategory(cat);
+        controller.setUuid(uuid);
+
+        Optional<ButtonType> clickedButton = dialog.showAndWait();
+        if (clickedButton.get() == ButtonType.OK)
+        {
+            showTable();
+        } else
+        {
+            System.out.println("222");
+        }
     }
 
 

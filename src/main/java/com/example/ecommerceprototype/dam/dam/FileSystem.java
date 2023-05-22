@@ -143,7 +143,7 @@ public class FileSystem {
     }
 
 
-    public boolean watermarkpt1(String filename_in, String type_in, String category_in, String uuid_in) {
+    public boolean watermark(String filename_in, String type_in, String category_in, String uuid_in) {
         String file_name = filename_in.toLowerCase();
         String folder_name = category_in.toLowerCase();
         String uuid = uuid_in.toLowerCase();

@@ -42,7 +42,7 @@
             <TextField fx:id="searchField" layoutX="671.0" layoutY="18.0" prefHeight="25.0" prefWidth="260.0" promptText="Search for keyword" />
             <Button fx:id="deleteButton" layoutX="583.0" layoutY="18.0" mnemonicParsing="false" onAction="#deleteAsset" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Delete" />
             <Button fx:id="uploadFileButton" layoutX="16.0" layoutY="18.0" mnemonicParsing="false" onAction="#uploadFiles" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Upload files" />
-            <Button fx:id="updateFileButton" layoutX="233.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Update file" />
+            <Button fx:id="updateFileButton" disable="true" layoutX="233.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToDAM" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Update file" visible="false" />
             <Button fx:id="watermarkButton" layoutX="404.0" layoutY="18.0" mnemonicParsing="false" onAction="#watermark" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Watermark" />
             <Button fx:id="resizeButton" layoutX="489.0" layoutY="18.0" mnemonicParsing="false" onAction="#resize" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Resize" />
             <Button fx:id="addTagsButton" layoutX="352.0" layoutY="18.0" mnemonicParsing="false" onAction="#addTags" style="-fx-background-color: transparent; -fx-background-color: #95BDFF;" text="Tags" />
