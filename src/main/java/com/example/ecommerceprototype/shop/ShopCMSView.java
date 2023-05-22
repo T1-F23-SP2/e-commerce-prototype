@@ -61,15 +61,15 @@ public class ShopCMSView extends Application{
         for (int i = 0; i < allProducts.size(); i++) {
             Pane view = CMS.getInstance().loadComponent("ProductView");
 
-            //Placeholder values
             ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(allProducts.get(i).getName());
             ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (allProducts.get(i).getPriceInformation().getPrice()));
             ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(random.nextInt(2) == 0 ? "Sold out" : "In stock");
             ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(allProducts.get(i).getShortDescription());
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
-            ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
-                try {loadProductPage();}
+            int finalI = i;
+            ((Button) CMS.getInstance().findNode(view, "pro    public void loadProducts()ductImage_Button")).setOnAction(actionEvent -> {
+                try {loadProductPage(allProducts.get(finalI));}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
 
@@ -128,7 +128,7 @@ public class ShopCMSView extends Application{
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
-        loadTopBanner();
+        loadTopBanner(plate);
 
         //Load article page onto template (article page has functionality by default, since CMS already has all the files for displaying the needed information)
         CMS.getInstance().loadOnto(plate, CMS.getInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
@@ -136,7 +136,7 @@ public class ShopCMSView extends Application{
         window.setScene(new Scene(plate, 1920, 1080));
     }
 
-    public void loadProductPage() throws Exception {
+    public void loadProductPage(ProductInformation product) throws Exception {
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
 
@@ -147,6 +147,12 @@ public class ShopCMSView extends Application{
         Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
         ((ImageView) CMS.getInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
         ((ImageView) CMS.getInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
+
+        ((Label) CMS.getInstance().findNode(productPage, "productName_Label")).setText(product.getName());
+        ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" +(product.getPriceInformation().getPrice()));
+        ((TextArea) CMS.getInstance().findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
+        ((TextArea) CMS.getInstance().findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
+
         CMS.getInstance().loadOnto(plate, productPage, "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
