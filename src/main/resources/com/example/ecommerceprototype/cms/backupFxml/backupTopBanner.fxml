@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="home_Button" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Home" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0" prefWidth="80" prefHeight="40">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="cart_Button" layoutX="548.0" layoutY="18.0" mnemonicParsing="false" text="Go To Cart" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="18.0" prefWidth="120" prefHeight="40">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <TextField fx:id="search_TextField" layoutX="170.0" layoutY="18.0" prefHeight="45.0" prefWidth="600.0" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="18.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Button fx:id="search_Button" layoutX="390.0" layoutY="18.0" mnemonicParsing="false" text="Search" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="18.0" prefWidth="80" prefHeight="40">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Line startX="10" endX="1910" startY="80" endY="80"/>
+   </children>
+</AnchorPane>

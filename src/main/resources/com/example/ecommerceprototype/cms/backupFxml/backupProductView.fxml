@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.shape.Line?>
+<AnchorPane prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="productImage_ImageView" fitHeight="225.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="productName_Label" layoutX="15.0" layoutY="230.0" text="Label" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="230.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="productDescription_TextArea" editable="false" layoutX="15.0" layoutY="250.0" prefHeight="140.0" prefWidth="370.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" style="-fx-background-color: transparent" >
+         <font>
+            <Font size="14.0"/>
+         </font>
+      </TextArea>
+
+      <Button fx:id="addToCart_Button" layoutX="325.0" layoutY="410.0" mnemonicParsing="false" minHeight="35" maxHeight="35" minWidth="75"  maxWidth="75" text="Buy" AnchorPane.rightAnchor="15.0" textAlignment="JUSTIFY">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="productImage_Button" layoutX="3.0" layoutY="2.0" mnemonicParsing="false" opacity="0.1" prefHeight="225.0" prefWidth="400.0" />
+      <Label fx:id="productStatus_Label" layoutX="244.0" layoutY="414.0" text="Status">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="productPrice_Label" layoutX="21.0" layoutY="414.0" text="price" AnchorPane.leftAnchor="15.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Line startX="10" endX="390"/>
+      <Line startX="10" endX="390" startY="455" endY="455"/>
+      <Line startX="0" endX="0" startY="10" endY="445"/>
+      <Line startX="400" endX="400" startY="10" endY="445"/>
+   </children>
+</AnchorPane>
