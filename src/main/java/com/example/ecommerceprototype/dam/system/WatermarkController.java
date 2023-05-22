@@ -19,7 +19,7 @@ import java.io.IOException;
 public class WatermarkController {
 
     private int id;
-    private String filename ;
+    private String filename;
     private String type;
     private String category;
     private String uuid;
@@ -27,30 +27,39 @@ public class WatermarkController {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getFilename() {
         return filename;
     }
+
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
     public String getType() {
         return type;
     }
+
     public void setType(String type) {
         this.type = type;
     }
+
     public String getCategory() {
         return category;
     }
+
     public void setCategory(String category) {
         this.category = category;
     }
+
     public String getUuid() {
         return uuid;
     }
+
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
@@ -87,8 +96,6 @@ public class WatermarkController {
     DAMSystem dam = DAMSystem.getInstance();
 
 
-
-
     public void watermark() {
         String filename_in = getFilename();
         String type_in = getType();
@@ -98,48 +105,39 @@ public class WatermarkController {
         if (dam.watermark(filename_in, type_in, category_in, uuid_in)) {
             File selectedFile = new File("./data/" + filename_in);
 
-            BufferedImage originalImage = null;
+
 
             try {
-                originalImage = ImageIO.read(selectedFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                BufferedImage originalImage  = ImageIO.read(selectedFile);
 
 
-            // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
-            BufferedImage watermarkedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+                // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
+                BufferedImage watermarkedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-            // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
-            Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
+                // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
+                Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
 
-            // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
-            g2d.drawImage(originalImage, 0, 0, null);
+                // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
+                g2d.drawImage(originalImage, 0, 0, null);
 
-            BufferedImage logo = null;
-
-            try {
-                logo = ImageIO.read(new File("src/main/resources/com/example/ecommerceprototype/dam/images/sdu_logo.png"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+                BufferedImage logo = ImageIO.read(new File("src/main/resources/com/example/ecommerceprototype/dam/images/sdu_logo.png"));
 
 
-            // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
+                // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
 
-            int logoWidth = logo.getWidth();
-            int logoHeight = logo.getHeight();
-            int logoMargin = 12;
-            int logoX = watermarkedImage.getWidth() - logoWidth - logoMargin;
-            int logoY = watermarkedImage.getHeight() - logoHeight - logoMargin;
-            g2d.drawImage(logo, logoX, logoY, null);
+                int logoWidth = logo.getWidth();
+                int logoHeight = logo.getHeight();
+                int logoMargin = 12;
+                int logoX = watermarkedImage.getWidth() - logoWidth - logoMargin;
+                int logoY = watermarkedImage.getHeight() - logoHeight - logoMargin;
+                g2d.drawImage(logo, logoX, logoY, null);
 
-            // vi gemmer nu det nye billede som en fil
-            String nameWatermarked = ".watermarked.jpg";
+                // vi gemmer nu det nye billede som en fil
+                String nameWatermarked = ".watermarked.jpg";
 
-            String newFilePath = selectedFile.getPath() + nameWatermarked;
+                String newFilePath = selectedFile.getPath() + nameWatermarked;
 
-            try {
+
                 File watermarkedFile;
                 ImageIO.write(watermarkedImage, "jpg", watermarkedFile = new File(newFilePath));
 
@@ -170,8 +168,7 @@ public class WatermarkController {
     }
 
 
-    public void addSaleLogo()
-    {
+    public void addSaleLogo() {
         String filename_in = getFilename();
         String type_in = getType();
         String category_in = getCategory();
@@ -252,8 +249,7 @@ public class WatermarkController {
     }
 
 
-    public void addCopyrightLogo()
-    {
+    public void addCopyrightLogo() {
         String filename_in = getFilename();
         String type_in = getType();
         String category_in = getCategory();
@@ -300,8 +296,7 @@ public class WatermarkController {
             String nameWatermarked = ".logomarked.jpg";
             String newFilePath = selectedFile.getPath() + nameWatermarked;
 
-            try
-            {
+            try {
                 File watermarkedFile;
                 ImageIO.write(watermarkedImage, "jpg", watermarkedFile = new File(newFilePath));
 
@@ -335,8 +330,7 @@ public class WatermarkController {
     }
 
 
-    public void addTextWatermark()
-    {
+    public void addTextWatermark() {
 
         String mark = watermarkText.getText();
 
@@ -411,20 +405,16 @@ public class WatermarkController {
     }
 
 
-
-    private Category extractCategory(String cat_in)
-    {
+    private Category extractCategory(String cat_in) {
         Category cat = Category.valueOf(cat_in.toUpperCase());
         return cat;
     }
 
-    private String extractFileFormat(String name_in)
-    {
+    private String extractFileFormat(String name_in) {
         String formatString = name_in.substring(name_in.lastIndexOf(".") + 1);
 
         return formatString;
     }
-
 
 
 }

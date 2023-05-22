@@ -30,8 +30,8 @@
                   <Button fx:id="resizeImageButton" layoutX="29.0" layoutY="138.0" mnemonicParsing="false" onAction="#resizeImage" prefHeight="28.0" prefWidth="111.0" style="-fx-background-color: #71E3FF; -fx-border-color: #95BDFF;" text="Resize image" />
                   <Text layoutX="16.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crop or resize your photo:" />
                   <Label fx:id="resizedLabel" layoutX="17.0" layoutY="172.0" prefHeight="17.0" prefWidth="134.0" text="Picture has been resized" visible="false" />
-                  <TextField fx:id="targetWidthField" layoutX="30.0" layoutY="54.0" onKeyTyped="#checkInputWidth" prefHeight="25.0" prefWidth="111.0" promptText="Target Width" />
-                  <TextField fx:id="targetHeightField" layoutX="30.0" layoutY="88.0" onKeyTyped="#checkInputHeight" prefHeight="25.0" prefWidth="111.0" promptText="Target Height" />
+                  <TextField fx:id="targetWidthField" layoutX="30.0" layoutY="54.0" prefHeight="25.0" prefWidth="111.0" promptText="Target Width" />
+                  <TextField fx:id="targetHeightField" layoutX="30.0" layoutY="88.0" prefHeight="25.0" prefWidth="111.0" promptText="Target Height" />
                </children>
             </AnchorPane>
          </right>

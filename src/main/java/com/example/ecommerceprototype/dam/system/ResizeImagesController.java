@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ResizeImagesController implements Initializable {
+public class ResizeImagesController {
 
     private int id;
     private String filename ;
@@ -101,6 +101,8 @@ public class ResizeImagesController implements Initializable {
 
                 dam.addAsset(name, type, cat, fileFormat, uuid_in, newFilePath);
 
+
+
                 selectedFile.delete();
 
                 resizedFile.delete();
@@ -113,6 +115,8 @@ public class ResizeImagesController implements Initializable {
         }
 
     }
+
+    /*
     @FXML
     private void checkInputHeight(KeyEvent event)
     {
@@ -135,6 +139,8 @@ public class ResizeImagesController implements Initializable {
             targetWidthField.setStyle("-fx-border-color: blue");
         }
     }
+
+     */
 
 
     private Category extractCategory(String cat_in)
@@ -191,9 +197,4 @@ public class ResizeImagesController implements Initializable {
         this.uuid = uuid;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        targetWidthField.addEventFilter(KeyEvent.KEY_PRESSED, this::checkInputWidth);
-        targetHeightField.addEventFilter(KeyEvent.KEY_PRESSED, this::checkInputHeight);
-    }
 }

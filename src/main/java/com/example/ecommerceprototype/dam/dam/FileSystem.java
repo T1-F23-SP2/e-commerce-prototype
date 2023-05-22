@@ -164,30 +164,6 @@ public class FileSystem {
         return true;
     }
 
-    public String watermarkpt2(String filename_in, String type_in, String category_in, String uuid_in, String oripath)
-    {
-        String file_name = filename_in.toLowerCase();
-        String folder_name = category_in.toLowerCase();
-        String uuid = uuid_in.toLowerCase();
-
-        BlobContainerClient containerClient = setContainerString(type_in);
-        BlobClient uploadBlobClient;
-
-        if (uuid_in.isBlank()) {
-            uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + file_name);
-        } else {
-            uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
-        }
-
-
-        uploadBlobClient.uploadFromFile(oripath);
-
-        String url = uploadBlobClient.getBlobUrl();
-
-        return shortenURL(url);
-    }
-
-
 
 
 /*
