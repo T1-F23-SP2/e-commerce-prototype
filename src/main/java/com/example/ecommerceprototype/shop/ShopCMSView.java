@@ -1,6 +1,11 @@
 package com.example.ecommerceprototype.shop;
 
+import com.example.ecommerceprototype.oms.DB.StockInterface;
+import com.example.ecommerceprototype.oms.Customers.Customer;
+
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
+import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
@@ -11,10 +16,7 @@ import com.example.ecommerceprototype.pim.util.ProductList;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -24,15 +26,17 @@ import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 
 
-public class ShopCMSView extends Application{
+public class ShopCMSView extends Application implements StockInterface {
 
     private PIMDriver pimDriverInstance;
+    OrderManager orderManager;
 
-    ProductList cart;
+    HashMap<ProductInformation, Integer> cart;
 
     Stage window;
     public static void main(String[] args) {
@@ -43,7 +47,9 @@ public class ShopCMSView extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         pimDriverInstance = new PIMDriver();
-        cart = new ProductList();
+        orderManager = new OrderManager();
+        //stockInterfaceInstance = new StockInterface();
+        cart = new HashMap<ProductInformation, Integer>();
 
         window = stage;
         loadShopPage();
@@ -76,7 +82,8 @@ public class ShopCMSView extends Application{
             } else {
                 ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation().getPrice()));
             }
-            ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(random.nextInt(2) == 0 ? "Sold out" : "In stock");
+            // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
+            // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
             ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(products.get(i).getShortDescription());
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
@@ -257,7 +264,7 @@ public class ShopCMSView extends Application{
     }
 
     public void addToCart(ProductInformation product) {
-        cart.add(product);
+        cart.put(product, 1);
         try {loadCartPage();}
         catch (Exception e) {System.out.println(e.getMessage());}
     }
@@ -283,20 +290,20 @@ public class ShopCMSView extends Application{
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
         BigDecimal total = BigDecimal.valueOf(0);
-        for (int i = 0; i < cart.size(); i++) {
+        for (ProductInformation product : cart.keySet()) {
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
-            ((Label) CMS.getInstance().findNode(item, "productName_Label")).setText(cart.get(i).getName());
-            ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (cart.get(i).getPriceInformation().getPrice()));
-            int finalI = i;
+            ((Label) CMS.getInstance().findNode(item, "productName_Label")).setText(product.getName());
+            ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+            //((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValueFactory().setValue(cart.get(product));
             ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
-                try {deleteFromCart(cart.get(finalI));}
+                try {deleteFromCart(product);}
                 catch (Exception e) {System.out.println("!!!" + e.getMessage());}
             });
 
-            total = total.add(cart.get(i).getPriceInformation().getPrice());
+            total = total.add(product.getPriceInformation().getPrice());
         }
 
         ((Label) CMS.getInstance().findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
@@ -323,6 +330,24 @@ public class ShopCMSView extends Application{
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
+            String name = ((TextField) CMS.getInstance().findNode(paymentPage, "fullName_TextField")).getText();
+            String email = ((TextField) CMS.getInstance().findNode(paymentPage, "email_TextField")).getText();
+            int phone = Integer.parseInt(((TextField) CMS.getInstance().findNode(paymentPage, "phoneNumber_TextField")).getText());
+            String address = ((TextField) CMS.getInstance().findNode(paymentPage, "address_TextField")).getText();
+            int zipcode = Integer.parseInt(((TextField) CMS.getInstance().findNode(paymentPage, "ZIPCode_TextField")).getText());
+
+            HashMap<String, Integer> order = new HashMap<>();
+
+            for (ProductInformation product : cart.keySet()) {
+                order.put(product.getProductUUID(), cart.get(product));
+            }
+
+            Customer customer = new Customer(name, email, phone, address, zipcode);
+            MockShopObject orderInfo = new MockShopObject(order, customer);
+            StockInterface.sendOrderOMSNew(orderInfo);
+            OrderManager.sendOrder(orderInfo);
+
+
             try {
                 clearCart();
                 loadPurchaseComplete();
