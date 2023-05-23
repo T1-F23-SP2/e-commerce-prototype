@@ -5,26 +5,44 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="250.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ImageView fx:id="productImage_ImageView" fitHeight="236.0" fitWidth="297.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="productName_Label" layoutX="315.0" layoutY="15.0" text="Product Name" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="15.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="productDescription_TextArea" editable="false" layoutX="315.0" layoutY="50.0" prefHeight="175.0" prefWidth="475.0" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="50.0" />
-      <Label fx:id="warehouseStatus_Label" layoutX="330.0" layoutY="225.0" text="Label" />
-      <Label fx:id="price_Label" layoutX="883.0" layoutY="127.0" text="Price" AnchorPane.leftAnchor="883.0">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Spinner fx:id="amount_Spinner" editable="true" layoutX="825.0" layoutY="199.0" />
-      <Button fx:id="remove_Button" layoutX="961.0" layoutY="16.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="X" />
-   </children>
-</AnchorPane>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<VBox minHeight="200" maxHeight="200" spacing="5" maxWidth="800" minWidth="800" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+  <Line endX="800"/>
+  <HBox spacing="15">
+      <ImageView fx:id="productImage_ImageView" fitHeight="200" fitWidth="300"/>
+      <VBox minWidth="300" maxWidth="300">
+          <Label fx:id="productName_Label" text="Product Name">
+              <font>
+                  <Font size="22" />
+              </font>
+          </Label>
+          <Label fx:id="warehouseStatus_Label" text="Status">
+              <font>
+                  <Font size="16" />
+              </font>
+          </Label>
+          <TextArea fx:id="productDescription_TextArea" editable="false" minHeight="140" maxHeight="140" style="-fx-background-color: transparent"/>
+      </VBox>
+      <VBox minHeight="200" maxHeight="200" minWidth="170" maxWidth="170" alignment="BOTTOM_RIGHT" spacing="10">
+          <VBox alignment="TOP_RIGHT" prefHeight="200">
+              <Button fx:id="remove_Button" minHeight="35" maxHeight="35" maxWidth="35" minWidth="35" text="X" style="-fx-background-color: #d78c7d;">
+                  <font>
+                      <Font name="System Bold" size="16"/>
+                  </font>
+              </Button>
+          </VBox>
+          <Label fx:id="price_Label" text="999.99 DKK">
+              <font>
+                  <Font size="18.0" />
+              </font>
+          </Label>
+          <Spinner fx:id="amount_Spinner" editable="true" style="-fx-background-color: transparent" maxWidth="100"/>
+          <VBox minHeight="0" maxHeight="0"/>
+      </VBox>
+  </HBox>
+</VBox>

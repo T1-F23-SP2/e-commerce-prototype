@@ -92,6 +92,7 @@ public class CRUDGenericController implements Initializable {
         size = Float.parseFloat(sizeField.getText());
         bold = boldRadio.isSelected();
         contents = contentField.getText();
+        String newId = IDField.getText();
 
         System.out.println("file loaded");
         String[] fontText;
@@ -144,6 +145,11 @@ public class CRUDGenericController implements Initializable {
                 System.out.println("found id");
                 String[] contentLine = lines.get(i).split(" ");
                 String currentLine = "";
+                for (int j = 0; j<contentLine.length; j++){
+                    if(contentLine[j].contains("fx:id")){
+                        contentLine[j] = "fx:id=\"" + newId + "\"";
+                    }
+                }
                 for (int j = 0; j<contentLine.length; j++){
                     if (contentLine[j].contains("text")) {
                         String tempString = "";
@@ -259,6 +265,7 @@ public class CRUDGenericController implements Initializable {
     }
     @FXML
     private void loadAdvanced() {
+        advancedTextArea.clear();
         if (compBox.getValue()!=null){
             try {
                 List<String> lines = loadFxml(compBox.getValue());

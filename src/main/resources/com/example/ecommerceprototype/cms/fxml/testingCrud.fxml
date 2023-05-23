@@ -7,9 +7,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button fx:id="b1" layoutX="91.0" layoutY="175.0" mnemonicParsing="false" text="Hello world">
+        <Button fx:id="b1" layoutX="91.0" layoutY="175.0" mnemonicParsing="false" text="Hello world"> 
             <font>
-                <Font name="SYSTEM" size="100.0" /> 
+                <Font name="arial bold" size="100.0" /> 
             </font></Button>
         <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" >
             <font>

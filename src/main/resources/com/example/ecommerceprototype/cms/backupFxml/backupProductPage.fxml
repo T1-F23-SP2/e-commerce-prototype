@@ -4,29 +4,62 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="productName_Label" layoutX="35.0" layoutY="6.0" text="Label" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="6.0">
-         <font>
-            <Font size="36.0" />
-         </font></Label>
-      <ImageView fx:id="productImage_ImageView" fitHeight="480.0" fitWidth="923.0" layoutX="14.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="462.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="983.0" AnchorPane.topAnchor="58.0" />
-      <TextArea fx:id="productAttributtes_TextArea" layoutX="386.0" layoutY="30.0" prefHeight="480.0" prefWidth="950.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="58.0" />
-      <TextArea fx:id="productSpecification_TextArea" layoutX="28.0" layoutY="250.0" prefHeight="362.0" prefWidth="1860.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" />
-      <Label layoutX="36.0" layoutY="548.0" text="Specification" AnchorPane.leftAnchor="30.0">
-         <font>
-            <Font size="36.0" />
-         </font></Label>
-      <Label fx:id="productPrice_Label" layoutX="1404.0" layoutY="544.0" text="Price">
-         <font>
-            <Font size="36.0" />
-         </font></Label>
-      <Button fx:id="addToCart_Button" layoutX="1661.0" layoutY="540.0" minHeight="-Infinity" mnemonicParsing="false" prefHeight="65.0" prefWidth="227.0" text="Add to cart" AnchorPane.rightAnchor="48.0">
-         <font>
-            <Font size="36.0" />
-         </font></Button>
-   </children>
-</AnchorPane>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.geometry.Insets?>
+<HBox minHeight="800" prefWidth="1740" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" spacing="20">
+   <padding>
+      <Insets top="30"/>
+   </padding>
+
+   <VBox maxWidth="900" minWidth="900" alignment="TOP_CENTER" spacing="30">
+      <ImageView fx:id="primaryProductImage_ImageView" fitHeight="375" fitWidth="600"/>
+      <ImageView fx:id="secondaryProductImage_ImageView" fitHeight="375" fitWidth="600"/>
+   </VBox>
+   <VBox maxWidth="800" minWidth="800" spacing="40" alignment="TOP_CENTER">
+      <VBox spacing="10" maxWidth="700" minWidth="700">
+         <Label fx:id="productName_Label" text="Product Name">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Label fx:id="productPrice_Label" text="Price">
+            <font>
+               <Font name="System bold" size="24.0" />
+            </font>
+         </Label>
+         <Label fx:id="productStatus_Label" text="5 in stock">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Button fx:id="addToCart_Button" text="Add to cart" maxWidth="160" minWidth="160" maxHeight="45" minHeight="45">
+            <font>
+               <Font size="22" />
+            </font>
+         </Button>
+      </VBox>
+      <Line endX="750" strokeWidth="2"/>
+
+      <VBox spacing="10" maxWidth="600">
+         <Label text="Description">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <TextArea fx:id="productDescription_TextArea" minHeight="100" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
+      </VBox>
+
+      <VBox spacing="10" maxWidth="600">
+         <Label text="Specifications">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <TextArea fx:id="productSpecification_TextArea" minHeight="100" maxWidth="700" minWidth="700" editable="false" style="-fx-background-color: transparent"/>
+      </VBox>
+   </VBox>
+</HBox>
