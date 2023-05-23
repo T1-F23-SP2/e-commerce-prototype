@@ -10,25 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-public class DBDriverTest {
-    static DBDriver dbDriver;
-    static PIMDriver pimDriver;
-    private static TestConnectionWrapper connectionWrapper;
-    static Connection connection;
-
-    @BeforeAll
-    static void setup() {
-        try {
-            connectionWrapper = new TestConnectionWrapper();
-            connection = connectionWrapper.setup(new SQLConnectionTestInitializer());
-
-            dbDriver = DBDriver.getInstance(connection);
-            pimDriver = new PIMDriver();
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 @DisplayName("Tests for all getter methods in DBDriver")
 public class DBDriverGetTest extends DBDriverAbstractTest {
     @Test
@@ -363,7 +344,7 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
 
         try {
             assertEquals("TV", pimDriver.getCategoryByProductUUID(uuid).getName());
-        } catch (UUIDNotFoundException | SQLException e) {
+        } catch (UUIDNotFoundException | CategoryNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
