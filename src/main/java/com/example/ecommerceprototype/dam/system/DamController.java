@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Type;
 import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import com.example.ecommerceprototype.dam.dam.searchModel;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -81,21 +82,19 @@ public class DamController implements Initializable {
     ObservableList<searchModel> searchModelObservableList = FXCollections.observableArrayList();
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showTable();
     }
 
 
-    public void showTable()
-    {
+    public void showTable() {
         searchModelObservableList.clear();
 
         try {
             Statement statement = conn.createStatement();
             ResultSet queryOutput = statement.executeQuery("SELECT * FROM get_all_assets()");
-            while (queryOutput.next()){
+            while (queryOutput.next()) {
                 int queryAssetID = queryOutput.getInt("asset_id");
                 String queryName = queryOutput.getString("asset_name");
                 String queryFormat = queryOutput.getString("asset_format");
@@ -105,7 +104,7 @@ public class DamController implements Initializable {
                 String queryTags = queryOutput.getString("asset_tags");
                 String queryPath = queryOutput.getString("asset_path");
 
-                searchModelObservableList.add(new searchModel(queryAssetID,queryName,queryFormat,queryCategory,queryType,queryUUID,queryTags,queryPath));
+                searchModelObservableList.add(new searchModel(queryAssetID, queryName, queryFormat, queryCategory, queryType, queryUUID, queryTags, queryPath));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,19 +134,19 @@ public class DamController implements Initializable {
 
                 String searchKeyword = newValue.toLowerCase();
 
-                if (String.valueOf(searchModel.getId()).toLowerCase().contains(searchKeyword)){
+                if (String.valueOf(searchModel.getId()).toLowerCase().contains(searchKeyword)) {
                     return true;
-                } else if (searchModel.getName().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getName().toLowerCase().contains(searchKeyword)) {
                     return true;
-                } else if (searchModel.getFormat().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getFormat().toLowerCase().contains(searchKeyword)) {
                     return true;
-                }else if (searchModel.getCategory().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getCategory().toLowerCase().contains(searchKeyword)) {
                     return true;
-                } else if (searchModel.getType().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getType().toLowerCase().contains(searchKeyword)) {
                     return true;
-                } else if (searchModel.getUuid().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getUuid().toLowerCase().contains(searchKeyword)) {
                     return true;
-                } else if (searchModel.getPath().toLowerCase().contains(searchKeyword)){
+                } else if (searchModel.getPath().toLowerCase().contains(searchKeyword)) {
                     return true;
                 } else {
                     // Add null check for tags property
@@ -177,7 +176,6 @@ public class DamController implements Initializable {
         resizeButton.disableProperty().bind(tableView.getSelectionModel().selectedItemProperty().isNull());
 
         deleteButton.disableProperty().bind(tableView.getSelectionModel().selectedItemProperty().isNull());
-
     }
 
 
@@ -196,8 +194,7 @@ public class DamController implements Initializable {
     }
 
 
-    public void uploadFiles(ActionEvent event) throws IOException
-    {
+    public void uploadFiles(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         List<File> files = fileChooser.showOpenMultipleDialog(null);
 
@@ -215,13 +212,12 @@ public class DamController implements Initializable {
                     NewFileController controller = fxmlLoader.getController();
 
 
-
                     Dialog<ButtonType> dialog = new Dialog<>();
                     dialog.setDialogPane(addFilesDialogPane);
                     dialog.setTitle("Asset Properties");
 
                     Optional<ButtonType> clickedButton = dialog.showAndWait();
-                    if (clickedButton.get() == ButtonType.OK){
+                    if (clickedButton.get() == ButtonType.OK) {
                         controller.updateUUIDLabel(event);
                         controller.updateNameLabel(event);
 
@@ -251,10 +247,8 @@ public class DamController implements Initializable {
     }
 
 
-
     //MANGLER ADD OG DELETE TAGS
-    public void addTags() throws IOException
-    {
+    public void addTags() throws IOException {
         tableView.setEditable(true);
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
         int assetID = assetIdTableColumn.getCellObservableValue(selectedIndex).getValue();
@@ -277,26 +271,21 @@ public class DamController implements Initializable {
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
 
-        if (clickedButton.get() == ButtonType.OK)
-        {
+        if (clickedButton.get() == ButtonType.OK) {
 
             List<String> newTagList = controller.getTagsAdded();
-            for (String tag : newTagList)
-            {
+            for (String tag : newTagList) {
                 dam.tagAssignment(assetID, tag);
-                System.out.println("add " +tag);
+                System.out.println("add " + tag);
             }
 
 
             List<String> tagsDeleted = controller.getTagsDeleted();
-            for (String tag : tagsDeleted)
-            {
+            for (String tag : tagsDeleted) {
                 dam.deleteTagAssignment(assetID, tag);
 
             }
-        }
-        else
-        {
+        } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Oops!");
             alert.setHeaderText("You did not submit anything! No tags has been added or deleted.");
@@ -332,12 +321,10 @@ public class DamController implements Initializable {
         controller.setUuid(uuid);
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
-        if (clickedButton.get() == ButtonType.OK)
-        {
+        if (clickedButton.get() == ButtonType.OK) {
             showTable();
         }
     }
-
 
 
     public void resize() throws IOException {
@@ -364,15 +351,12 @@ public class DamController implements Initializable {
         controller.setUuid(uuid);
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
-        if (clickedButton.get() == ButtonType.OK)
-        {
+        if (clickedButton.get() == ButtonType.OK) {
             showTable();
-        } else
-        {
+        } else {
             System.out.println("222");
         }
     }
-
 
 
     public void deleteAsset() {
@@ -392,7 +376,6 @@ public class DamController implements Initializable {
     }
 
 
-
     public void switchToDAM(ActionEvent event) throws IOException {
         // Setting the stage, scene and roots.
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("dam.fxml")));
@@ -404,8 +387,7 @@ public class DamController implements Initializable {
     }
 
 
-    private void addAsset(String name_in, String type_in, String cat_in, String uuid_in, String oriname_in, String oripath_in)
-    {
+    private void addAsset(String name_in, String type_in, String cat_in, String uuid_in, String oriname_in, String oripath_in) {
         Type type = switch (type_in) {
             case "Product image" -> Type.PRODUCT_IMAGE;
             case "Product file" -> Type.PRODUCT_FILE;
@@ -418,20 +400,18 @@ public class DamController implements Initializable {
 
         String fileFormat = extractFileFormat(oriname_in);
 
-        String name = name_in+"."+fileFormat;
+        String name = name_in + "." + fileFormat;
 
         dam.addAsset(name, type, cat, fileFormat, uuid_in, oripath_in);
     }
 
 
-    private Category extractCategory(String cat_in)
-    {
+    private Category extractCategory(String cat_in) {
         Category cat = Category.valueOf(cat_in.toUpperCase());
         return cat;
     }
 
-    private String extractFileFormat(String name_in)
-    {
+    private String extractFileFormat(String name_in) {
         String formatString = name_in.substring(name_in.lastIndexOf(".") + 1);
 
         return formatString;
