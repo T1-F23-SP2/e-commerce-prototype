@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.example.ecommerceprototype.oms.DB.StockInterface;
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
+import com.example.ecommerceprototype.oms.OrderGUIControllerOMS;
 import com.example.ecommerceprototype.oms.mockPIM.ProductInformation;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -100,13 +102,14 @@ public static final int CVR = 53319637;
 
     }
 
-    public static void generateOCPDF(File file, MockShopObject mockShopObject) {
+    public static void generateOCPDF(File file, MockShopObject mockShopObject, int orderId) {
 
 
         for (int j = 0; j < 1; j++) {
             try {
                 // Create a PdfWriter object to write the document to a file
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
+                System.out.println("File created "+file.getName());
                 // Add the header and footer to the document
                 writer.setPageEvent(new PdfPageEventHelper() {
                     public void onEndPage(PdfWriter writer, Document document) {
@@ -165,7 +168,8 @@ public static final int CVR = 53319637;
                     table.addCell(headerCell).setBackgroundColor(new BaseColor(186, 225, 255));
                 }
 
-                String[] AmountArray = getUUIDInfo(10, "Amount");
+
+                String[] AmountArray = getUUIDInfo(orderId, "Amount");
 
                 ArrayList<String> UUIDOrderList = new ArrayList<>(mockShopObject.getMap().keySet());
 
@@ -252,7 +256,7 @@ public static final int CVR = 53319637;
 
                 // Close the document
                 document.close();
-                System.out.println("Order confirmation" + OrderConfirmationNumber + " created successfully.");
+                System.out.println("Order confirmation" + " created successfully.");
                 AmountOfOrders -= 1;
             } catch (DocumentException | IOException e) {
                 e.printStackTrace();
@@ -263,7 +267,7 @@ public static final int CVR = 53319637;
 
     public static void main(String[] args) {
         fileFormatter();
-        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"), PlaceholderInstShop.getInstShop1());
+        //generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"), PlaceholderInstShop.getInstShop1());
     }
 
 
