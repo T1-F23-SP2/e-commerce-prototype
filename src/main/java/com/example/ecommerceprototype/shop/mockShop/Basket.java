@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.shop;
+package com.example.ecommerceprototype.shop.mockShop;
 
 import java.util.ArrayList;
 import java.util.HashMap;

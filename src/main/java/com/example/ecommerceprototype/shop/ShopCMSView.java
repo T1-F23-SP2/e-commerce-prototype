@@ -10,11 +10,9 @@ import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
-import com.example.ecommerceprototype.pim.product_information.PriceInformation;
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
 import javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -25,10 +23,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class ShopCMSView extends Application implements StockInterface {
@@ -56,6 +54,8 @@ public class ShopCMSView extends Application implements StockInterface {
 
         stage.setTitle("Arnes ElectroShop!");
         stage.show();
+
+        stage.setFullScreen(true);
     }
 
     public void loadShopPage() throws Exception {
@@ -70,27 +70,40 @@ public class ShopCMSView extends Application implements StockInterface {
         window.setScene(new Scene(plate, 1920, 1080));
     }
 
+    public ProductInformation findProduct(ProductInformation product) throws Exception {
+        for (ProductInformation each : pimDriverInstance.getAllProducts()) {
+            if (Objects.equals(product.getProductUUID(), each.getProductUUID())) {
+                return each;
+            }
+        }
+        return null;
+    }
+
     public void loadProducts(Pane plate, ProductList products) throws Exception {
         Random random = new Random();
 
-        for (int i = 0; i < products.size(); i++) {
+        int i = 0;
+        for (ProductInformation product : products) {
+            if (product.getIsHidden()) {
+                continue;
+            }
+
             Pane view = CMS.getInstance().loadComponent("ProductView");
 
-            ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(products.get(i).getName());
-            if (products.get(i).getPriceInformation() == null) {
-                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation()));
+            ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(product.getName());
+            if (product.getPriceInformation() == null) {
+                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (findProduct(product).getPriceInformation().getPrice()));
             } else {
-                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation().getPrice()));
+                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
             }
             // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
             // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
-            ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(products.get(i).getShortDescription());
+            ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(product.getShortDescription());
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
-            int finalI = i;
             ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
                 try {
-                    loadProductPage(products.get(finalI));
+                    loadProductPage(product);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -98,6 +111,7 @@ public class ShopCMSView extends Application implements StockInterface {
 
             GridPane.setColumnIndex(view, i % 3);
             GridPane.setRowIndex(view, (int) Math.floor(i / 3)); // floor(n/3) is the integer sequence for 0, 0, 0, 1, 1, 1, 2, 2, 2... (https://oeis.org/A002264)
+            i += 1;
 
             CMS.getInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
         }
@@ -250,7 +264,11 @@ public class ShopCMSView extends Application implements StockInterface {
         ((ImageView) CMS.getInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
         ((Label) CMS.getInstance().findNode(productPage, "productName_Label")).setText(product.getName());
-        ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" +(product.getPriceInformation().getPrice()));
+        if (product.getPriceInformation() == null) {
+            ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" + (findProduct(product).getPriceInformation().getPrice()));
+        } else {
+            ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+        }
         ((TextArea) CMS.getInstance().findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
         ((TextArea) CMS.getInstance().findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
         ((Button) CMS.getInstance().findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
@@ -279,7 +297,9 @@ public class ShopCMSView extends Application implements StockInterface {
         cart.clear();
     }
 
+    boolean cartReloading = false;
     public void loadCartPage() throws Exception{
+        //int change = 0;
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
 
@@ -291,24 +311,42 @@ public class ShopCMSView extends Application implements StockInterface {
 
         BigDecimal total = BigDecimal.valueOf(0);
         for (ProductInformation product : cart.keySet()) {
+            total = total.add(product.getPriceInformation().getPrice().multiply(BigDecimal.valueOf(cart.get(product))));
+
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
             ((Label) CMS.getInstance().findNode(item, "productName_Label")).setText(product.getName());
-            ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
-            //((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValueFactory().setValue(cart.get(product));
+            if (product.getPriceInformation() == null) {
+                ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (findProduct(product).getPriceInformation().getPrice()));
+            } else {
+                ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+            }
+            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, cart.get(product), 1));
+
+            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+
+                if (!"".equals(newValue)) {
+                    cart.put(product, (Integer) ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValue());
+                }
+            });
+            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
+                try {
+                    loadCartPage();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
                 try {deleteFromCart(product);}
                 catch (Exception e) {System.out.println("!!!" + e.getMessage());}
             });
 
-            total = total.add(product.getPriceInformation().getPrice());
-        }
 
-        ((Label) CMS.getInstance().findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
-        ((Label) CMS.getInstance().findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
-        ((Label) CMS.getInstance().findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
+            updatePrice(cartPage, total);
+        }
 
         ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
             try {loadPaymentPage();}
@@ -317,6 +355,12 @@ public class ShopCMSView extends Application implements StockInterface {
 
 
         window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void updatePrice(Pane cartPage, BigDecimal total) {
+        ((Label) CMS.getInstance().findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
+        ((Label) CMS.getInstance().findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
+        ((Label) CMS.getInstance().findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
     }
 
     public void loadPaymentPage() throws Exception{

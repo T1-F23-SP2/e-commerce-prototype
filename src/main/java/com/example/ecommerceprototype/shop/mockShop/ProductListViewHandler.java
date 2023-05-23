@@ -1,11 +1,8 @@
-package com.example.ecommerceprototype.shop;
+package com.example.ecommerceprototype.shop.mockShop;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class ProductListViewHandler {
 

@@ -1,12 +1,14 @@
-package com.example.ecommerceprototype.shop;
+package com.example.ecommerceprototype.shop.mockShop;
 
+import com.example.ecommerceprototype.shop.mockShop.Basket;
+import com.example.ecommerceprototype.shop.mockShop.BasketEntry;
+import com.example.ecommerceprototype.shop.mockShop.ProductInformation;
+import com.example.ecommerceprototype.shop.mockShop.ProductListViewHandler;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
