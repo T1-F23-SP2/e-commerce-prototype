@@ -4,7 +4,9 @@ import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Type;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DAMSystem {
@@ -85,9 +87,23 @@ public class DAMSystem {
     }
 
 
-    public Image getFileFromURL (String url)
+    public Image getImageFromURL(String url)
     {
-        return FileConn.downloadFileFromURL(url);
+        return FileConn.downloadImageFromURL(url);
+    }
+
+
+    public List<Image> getImageListFromUUID(String UUID)
+    {
+        List<Image> images = new ArrayList<>();
+        List<String> urls = DBConn.getURLsByUUID(UUID);
+
+        for (String url : urls)
+        {
+            Image image = FileConn.downloadImageFromURL(url);
+            images.add(image);
+        }
+        return images;
     }
 
 
@@ -102,7 +118,6 @@ public class DAMSystem {
     private String extractFileFormat(String name_in)
     {
         String formatString = name_in.substring(name_in.lastIndexOf(".") + 1);
-
         return formatString;
     }
 

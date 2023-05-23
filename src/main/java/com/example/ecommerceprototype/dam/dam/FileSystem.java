@@ -1,8 +1,6 @@
 package com.example.ecommerceprototype.dam.dam;
 
-import com.azure.core.credential.AzureSasCredential;
 import com.azure.storage.blob.*;
-import com.azure.storage.blob.specialized.BlockBlobClient;
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
@@ -17,6 +15,7 @@ import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.IntBuffer;
 
@@ -175,19 +174,34 @@ public class FileSystem {
         return true;
     }
 
-    public Image downloadFileFromURL(String URL){
+    public Image downloadImageFromURL(String URL){
         try {
             String storageurl = Constants.AZURE_Start_URL;
             URL url = new URL(storageurl+URL);
             BufferedImage BuffImage = ImageIO.read(url);
 
-            Image img = BuffImgToImg(BuffImage);
-
-            return img;
+            return BuffImgToImg(BuffImage);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public File downloadFileFromURL(String URL){
+        File file;
+
+        try {
+            String storageURL = Constants.AZURE_Start_URL;
+            URL url = new URL(storageURL+URL);
+
+            file = new File(url.toURI());
+
+            return file;
+
+        } catch (Exception e) {
+            System.out.println("downloadFileFromURL FileSystem");
+        }
+        return null;
     }
 
 

@@ -167,7 +167,6 @@ public class DBSystem {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT delete_tag_assignment(?,?)");
-
             statement.setString(1, tagName_in);
             statement.setInt(2, assetID_in);
 
@@ -177,4 +176,27 @@ public class DBSystem {
             throw new RuntimeException(e);
         }
     }
+
+
+    public List<String> getURLsByUUID (String uuid)
+    {
+        List<String> paths = new ArrayList<>();
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT get_paths_by_uuid(?)");
+            statement.setString(1, uuid);
+            ResultSet result = statement.executeQuery();
+            while(result.next())
+            {
+                String path = result.getString(1);
+                paths.add(path);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("something wrong with 'getURLByUUID' in DBSystem");
+        }
+        return paths;
+    }
+
 }
