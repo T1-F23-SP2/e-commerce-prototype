@@ -1,4 +1,4 @@
-package com.example.ecommerceprototype.cms;
+package com.example.ecommerceprototype.cms.exceptions;
 
 public class FXMLLoadFailedException extends Exception{
     public FXMLLoadFailedException() {

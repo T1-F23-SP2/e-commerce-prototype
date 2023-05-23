@@ -18,7 +18,7 @@ public class ArticleManager implements IArticle{
     @Override
     public ArrayList<File> getArticleFiles() {
         ArrayList<File> result = new ArrayList<>();
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/articles");
         if (!infile.exists())
             return result;
 
@@ -28,7 +28,7 @@ public class ArticleManager implements IArticle{
     }
     @Override
     public int getArticleCount() { //Counts specifically text files in a directory
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/articles");
         if (!infile.exists())
             return 0;
 
@@ -45,7 +45,7 @@ public class ArticleManager implements IArticle{
     @Override
     public ArrayList<String> getArticleNames() {
         ArrayList<String> results = new ArrayList<>();
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
+        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/articles");
         if (!infile.exists())
             return results;
 

@@ -15,4 +15,8 @@ module com.example.ecommerceprototype {
     opens com.example.ecommerceprototype.cms.crud to javafx.fxml;
     exports com.example.ecommerceprototype.cms.crud.generic;
     opens com.example.ecommerceprototype.cms.crud.generic to javafx.fxml;
+    exports com.example.ecommerceprototype.cms.controllers;
+    opens com.example.ecommerceprototype.cms.controllers to javafx.fxml;
+    exports com.example.ecommerceprototype.cms.exceptions;
+    opens com.example.ecommerceprototype.cms.exceptions to javafx.fxml;
 }

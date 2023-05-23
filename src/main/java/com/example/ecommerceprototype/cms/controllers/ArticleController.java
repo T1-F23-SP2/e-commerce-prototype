@@ -1,7 +1,6 @@
-package com.example.ecommerceprototype.cms;
+package com.example.ecommerceprototype.cms.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.example.ecommerceprototype.cms.CMS;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
