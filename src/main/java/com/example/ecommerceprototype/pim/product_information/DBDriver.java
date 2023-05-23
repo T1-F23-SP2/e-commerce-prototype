@@ -863,20 +863,20 @@ public class DBDriver {
         }
     }
 
-    protected void updateSpecificationByProductUUIDAndKey(String uuid, String originalKey, ProductSpecification productSpecification) throws UUIDNotFoundException, SQLException {
-        PreparedStatement updateStatement = connection.prepareStatement("CALL updateSpecificationByProductUUIDAndKey(?,?,?)");
-
-        if (!this.productByUUIDExists(uuid)) {
-            throw new UUIDNotFoundException();
-        } else {
-            new SQLValueArguments()
-                    .setArgument(uuid)
-                    .setArgument(originalKey)
-                    .setArgumentsInStatement(updateStatement);
-
-            updateStatement.execute();
-        }
-    }
+//    protected void updateSpecificationByProductUUIDAndKey(String uuid, String originalKey, ProductSpecification productSpecification) throws UUIDNotFoundException, SQLException {
+//        PreparedStatement updateStatement = connection.prepareStatement("CALL updateSpecificationByProductUUIDAndKey(?,?,?)");
+//
+//        if (!this.productByUUIDExists(uuid)) {
+//            throw new UUIDNotFoundException();
+//        } else {
+//            new SQLValueArguments()
+//                    .setArgument(uuid)
+//                    .setArgument(originalKey)
+//                    .setArgumentsInStatement(updateStatement);
+//
+//            updateStatement.execute();
+//        }
+//    }
 
 
     protected void deleteProductByUUID(String uuid) throws SQLException, UUIDNotFoundException {

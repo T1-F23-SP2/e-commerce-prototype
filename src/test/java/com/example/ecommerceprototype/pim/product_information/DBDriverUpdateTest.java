@@ -159,40 +159,40 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
         );
     }
 
-    @Test
-    void testUpdateSpecificationByProductUUIDAndKey() {
-        // Get list of manufacturers
-        ProductSpecification specs;
-        ProductInformation pi;
-        try {
-            pi = dbDriver.getAllProducts().get(0);
-            specs = pi.getProductSpecification();
-        } catch (SQLException | CategoryNotFoundException | UUIDNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Get specific info
-        Map.Entry<String,String> entry = specs.entrySet().iterator().next();
-        String key = entry.getKey();
-        String value = entry.getValue();
-
-        // Try update
-        specs.put(key, "NotARealValue");
-        ProductInformationUpdater piu = new ProductInformationUpdater(pi);
-        piu.setProductSpecification(specs);
-        try {
-            dbDriver.updateSpecificationByProductUUIDAndKey(pi.getProductUUID(), key, specs);
-        } catch (UUIDNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Assert
-        try {
-            assertEquals("NotARealValue", dbDriver.getProductByUUID(pi.getProductUUID()).getProductSpecification().get(key));
-        } catch (UUIDNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Test
+//    void testUpdateSpecificationByProductUUIDAndKey() {
+//        // Get list of manufacturers
+//        ProductSpecification specs;
+//        ProductInformation pi;
+//        try {
+//            pi = dbDriver.getAllProducts().get(0);
+//            specs = pi.getProductSpecification();
+//        } catch (SQLException | CategoryNotFoundException | UUIDNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // Get specific info
+//        Map.Entry<String,String> entry = specs.entrySet().iterator().next();
+//        String key = entry.getKey();
+//        String value = entry.getValue();
+//
+//        // Try update
+//        specs.put(key, "NotARealValue");
+//        ProductInformationUpdater piu = new ProductInformationUpdater(pi);
+//        piu.setProductSpecification(specs);
+//        try {
+//            dbDriver.updateSpecificationByProductUUIDAndKey(pi.getProductUUID(), key, specs);
+//        } catch (UUIDNotFoundException | SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // Assert
+//        try {
+//            assertEquals("NotARealValue", dbDriver.getProductByUUID(pi.getProductUUID()).getProductSpecification().get(key));
+//        } catch (UUIDNotFoundException | SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Test
     void exampleTest() {
