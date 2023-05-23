@@ -353,7 +353,7 @@ public class ShopCMSView extends Application implements StockInterface {
             catch (Exception e) {System.out.println("!!!" + e.getMessage());}
         });
 
-
+        updatePrice(cartPage, total);
         window.setScene(new Scene(plate, 1920, 1080));
     }
 
