@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,6 +31,8 @@ import java.util.Random;
 public class ShopCMSView extends Application{
 
     private PIMDriver pimDriverInstance;
+
+    ProductList cart;
 
     Stage window;
     public static void main(String[] args) {
@@ -40,6 +43,7 @@ public class ShopCMSView extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         pimDriverInstance = new PIMDriver();
+        cart = new ProductList();
 
         window = stage;
         loadShopPage();
@@ -67,7 +71,11 @@ public class ShopCMSView extends Application{
             Pane view = CMS.getInstance().loadComponent("ProductView");
 
             ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(products.get(i).getName());
-            ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation()));
+            if (products.get(i).getPriceInformation() == null) {
+                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation()));
+            } else {
+                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (products.get(i).getPriceInformation().getPrice()));
+            }
             ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(random.nextInt(2) == 0 ? "Sold out" : "In stock");
             ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(products.get(i).getShortDescription());
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
@@ -238,10 +246,30 @@ public class ShopCMSView extends Application{
         ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" +(product.getPriceInformation().getPrice()));
         ((TextArea) CMS.getInstance().findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
         ((TextArea) CMS.getInstance().findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
+        ((Button) CMS.getInstance().findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
+            try {addToCart(product);}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
 
         CMS.getInstance().loadOnto(plate, productPage, "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void addToCart(ProductInformation product) {
+        cart.add(product);
+        try {loadCartPage();}
+        catch (Exception e) {System.out.println(e.getMessage());}
+    }
+
+    public void deleteFromCart(ProductInformation product) {
+        cart.remove(product);
+        try {loadCartPage();}
+        catch (Exception e) {System.out.println(e.getMessage());}
+    }
+
+    public void clearCart() {
+        cart.clear();
     }
 
     public void loadCartPage() throws Exception{
@@ -254,16 +282,32 @@ public class ShopCMSView extends Application{
         Pane cartPage = CMS.getInstance().loadComponent("CartPage");
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
-        for (int i = 0; i < 2; i++) {
+        BigDecimal total = BigDecimal.valueOf(0);
+        for (int i = 0; i < cart.size(); i++) {
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
             Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             ((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
+            ((Label) CMS.getInstance().findNode(item, "productName_Label")).setText(cart.get(i).getName());
+            ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (cart.get(i).getPriceInformation().getPrice()));
+            int finalI = i;
+            ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
+                try {deleteFromCart(cart.get(finalI));}
+                catch (Exception e) {System.out.println("!!!" + e.getMessage());}
+            });
+
+            total = total.add(cart.get(i).getPriceInformation().getPrice());
         }
+
+        ((Label) CMS.getInstance().findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
+        ((Label) CMS.getInstance().findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
+        ((Label) CMS.getInstance().findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
+
         ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
             try {loadPaymentPage();}
             catch (Exception e) {System.out.println("!!!" + e.getMessage());}
         });
+
 
         window.setScene(new Scene(plate, 1920, 1080));
     }
@@ -279,7 +323,10 @@ public class ShopCMSView extends Application{
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
-            try {loadPurchaseComplete();}
+            try {
+                clearCart();
+                loadPurchaseComplete();
+            }
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
