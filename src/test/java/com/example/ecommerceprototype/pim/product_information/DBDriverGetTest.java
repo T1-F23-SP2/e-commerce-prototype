@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Tests for all getter methods in DBDriver")
 public class DBDriverGetTest extends DBDriverAbstractTest {
     @Test
@@ -139,12 +140,12 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
             throw new RuntimeException(e);
         }
 
-            ArrayList<ProductInformation> returnedList = null;
-            try {
-                returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+        ArrayList<ProductInformation> returnedList = null;
+        try {
+            returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
 
         assertTrue(returnedList.size() == 2 &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
@@ -457,6 +458,6 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
         assertThrows(
                 NotFoundException.class,
                 () -> pimDriver.getDiscountByName("NotRealDiscount!")
-                );
+        );
     }
 }
