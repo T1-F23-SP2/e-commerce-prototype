@@ -459,5 +459,4 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
                 () -> pimDriver.getDiscountByName("NotRealDiscount!")
                 );
     }
-    }
 }
