@@ -82,12 +82,16 @@ public class CRUDGenericController implements Initializable {
 
     public void updateFXML() throws IOException {
         fileName = compBox.getValue();
-        updateFontData(fileName, IDField.getId());
+        //updateFontData(fileName, currentId);
         File file = new File("src/main/resources/com/example/ecommerceprototype/cms/fxml/"+ fileName);
         ArrayList<String> lines = new ArrayList<String>();
         String line;
         String id = currentId;
         Scanner s = new Scanner(file);
+        font = fontBox.getValue();
+        size = Float.parseFloat(sizeField.getText());
+        bold = boldRadio.isSelected();
+        contents = contentField.getText();
 
         System.out.println("file loaded");
         String[] fontText;
@@ -138,6 +142,31 @@ public class CRUDGenericController implements Initializable {
             System.out.println("line " + i + "added");
             if (lines.get(i).contains(id)) {
                 System.out.println("found id");
+                String[] contentLine = lines.get(i).split(" ");
+                String currentLine = "";
+                for (int j = 0; j<contentLine.length; j++){
+                    if (contentLine[j].contains("text")) {
+                        String tempString = "";
+                        for (int k = j; k<contentLine.length; k++){
+                            tempString += contentLine[k];
+                        }
+                        String[]  contentText = tempString.split("\"");
+                        contentText[1] = "\"" + contents + "\"";
+                        for (String value : contentText) {
+                            currentLine = currentLine + value;
+                        }
+                        contentLine[j] = currentLine;
+                    }
+                }
+                currentLine = "";
+                for (String value: contentLine){
+                    currentLine = currentLine + value + " ";
+                    if (value.contains("text")){
+                        currentLine.trim();
+                        break;
+                    }
+                }
+                lines.set(i, currentLine);
                 i=i+2;
                 if (lines.get(i).contains("<Font")) {
                     line = lines.get(i);
@@ -148,14 +177,23 @@ public class CRUDGenericController implements Initializable {
                             fontText[j] = "size=\"" + size + "\"";
                             System.out.println("size has been updated");
                         }
-                        if (fontText[j].contains("name"))
-                            fontText[j]="name\""+font+(bold?"bold\"":"\"");
-
-
+                        if (fontText[j].contains("name")) {
+                            if (fontText[j + 1].toLowerCase().contains("bold")) {
+                                fontText[j+1]="";
+                            }
+                            fontText[j] = "name=\"" + font + (bold ? " bold\"" : "\"");
+                        }
                     }
                     String tempString = "";
+                    boolean doTrim = false;
                     for (int j = 0; j < fontText.length; j++) {
+                        if (fontText[j].contains("<Font"))
+                            doTrim = true;
+                        if (doTrim && fontText[j].trim().length() == 0)
+                            continue;
+                        System.out.println(fontText[j]);
                         tempString = tempString + fontText[j] + " ";
+
                     }
                     lines.set(i, tempString);
                     //debugging
@@ -164,8 +202,6 @@ public class CRUDGenericController implements Initializable {
                         System.out.println(fontText[k]);
                     }
                      */
-                }else {
-
                 }
             }
         }
@@ -185,9 +221,13 @@ public class CRUDGenericController implements Initializable {
             String[] contentText;
             if (lines.get(i).contains(id)){
                 contentText = lines.get(i).split(" ");
-                for (String value : contentText) {
-                    if (value.contains("text")) {
-                        String[] text = value.split("\"");
+                for (int j = 0; j<contentText.length; j++) {
+                    if (contentText[j].contains("text")) {
+                        String tempLine = "";
+                        for (int k =j; k<contentText.length;k++){
+                            tempLine += contentText[k]+ " ";
+                        }
+                        String[] text = tempLine.split("\"");
                         contents = text[1];
                     }
                 }
@@ -199,7 +239,7 @@ public class CRUDGenericController implements Initializable {
                     } else if (s.contains("name")) {
                         String[] sizeText = s.split("\"");
                         style = sizeText[1];
-                    } else if (s.contains("Bold")) {
+                    } else if (s.toLowerCase().contains("bold")) {
                         bold = true;
                     }
                 }
@@ -339,12 +379,16 @@ public class CRUDGenericController implements Initializable {
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
+                    System.out.println(style.toLowerCase()+".");
                     if (fonts.contains(style.toLowerCase())){
                         fontBox.setValue(style);
                         System.out.println(style);
                     } else {
                         fontBox.setValue(null);
                         System.out.println("is not a style");
+                    }
+                    if (bold){
+                        boldRadio.setSelected(true);
                     }
                     String tempSize = String.valueOf(size);
                     sizeField.setText(tempSize);
