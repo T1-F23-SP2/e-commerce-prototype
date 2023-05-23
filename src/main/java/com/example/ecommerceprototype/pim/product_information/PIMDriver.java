@@ -9,7 +9,15 @@ import java.sql.SQLException;
 
 public class PIMDriver {
 
-    private static final DBDriver dbDriverInstance = DBDriver.getInstance();
+    private final DBDriver dbDriverInstance;
+
+    public PIMDriver() {
+         this.dbDriverInstance = DBDriver.getInstance();
+    }
+
+    protected PIMDriver(DBDriver instance) {
+        this.dbDriverInstance = instance;
+    }
 
     public boolean checkIfProductByUUIDExists(String uuid) {
         return dbDriverInstance.productByUUIDExists(uuid);

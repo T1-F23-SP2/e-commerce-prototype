@@ -24,6 +24,8 @@ public abstract class DBDriverAbstractTest {
     protected static Connection connection;
     protected static DBDriver dbDriver;
 
+    protected static PIMDriver pimDriver;
+
     /*
         Setup code which is run before all tests for each test class which inherits from this class.
 
@@ -41,6 +43,8 @@ public abstract class DBDriverAbstractTest {
 
         // Set the DBDriver instance with the newly created test connection.
         dbDriver = DBDriver.setInstance(connection);
+
+        pimDriver = new PIMDriver(dbDriver);
     }
 
 
