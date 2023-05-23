@@ -5,6 +5,7 @@ import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
+import com.example.ecommerceprototype.pim.product_information.PriceInformation;
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
 import javafx.application.Application;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -134,11 +137,69 @@ public class ShopCMSView extends Application{
         window.setScene(new Scene(plate, 1920, 1080));
     }
 
+    private void reloadShopPageWithCustomProducts(ProductList products) throws Exception {
+        //Load page template (Template 1 has space for a topbanner, a sidebar and content to be arranged in a grid)
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
+
+        loadTopBanner(plate);
+        loadSidebar(plate);
+        loadProducts(plate, products);
+
+        window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public void search(String searchTerm) throws Exception {
+        ProductList result = new ProductList();
+        if (searchTerm != "") {
+
+            ProductList products = pimDriverInstance.getAllProducts();
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getName().contains(searchTerm)) {
+                    result.add(products.get(i));
+                    continue;
+                }
+                if (products.get(i).getLongDescription().contains(searchTerm)) {
+                    result.add(products.get(i));
+                    continue;
+                }
+                if (products.get(i).getShortDescription().contains(searchTerm)) {
+                    result.add(products.get(i));
+                    continue;
+                }
+                if (products.get(i).getProductCategory().getName() != null)
+                    if (products.get(i).getProductCategory().getName().contains(searchTerm)) {
+                        result.add(products.get(i));
+                        continue;
+                    }
+                if (products.get(i).getProductUUID() == searchTerm) {
+                    result.add(products.get(i));
+                    continue;
+                }
+                if (products.get(i).getSerialNumber() == searchTerm) {
+                    result.add(products.get(i));
+                    continue;
+                }
+                if(products.get(i).getManufacturingInformation().getName() != null)
+                    if (products.get(i).getManufacturingInformation().getName().contains(searchTerm)) {
+                        result.add(products.get(i));
+                    }
+
+            }
+        }
+        reloadShopPageWithCustomProducts(result);
+    }
+
+
     public void loadTopBanner(Pane plate) throws Exception {
         //Load top banner onto template and set home button functionality
         Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
         ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
             try {loadShopPage();}
+            catch (Exception e) {System.out.println(e.getMessage());}
+        });
+        ((Button) CMS.getInstance().findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
+            try {search(((TextField) CMS.getInstance().findNode(topBanner, "search_TextField")).getText());}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
         ((Button) CMS.getInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
@@ -214,7 +275,7 @@ public class ShopCMSView extends Application{
         loadTopBanner(plate);
         loadSidebar(plate);
 
-        Pane paymentPage = CMS.getInstance().loadComponent("PaymentPage");
+        Pane paymentPage = CMS.getInstance().loadComponent("paymentPage");
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
