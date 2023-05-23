@@ -1,21 +1,18 @@
 package com.example.ecommerceprototype.cms;
 
 import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class InterfaceFindTests extends Application {
+public class InterfaceFindTests {
     @BeforeAll
     public static void initializeJavaFX() {
-        launch();
+        CMSDummyApplication.initApp();
     }
 
     @Test
@@ -64,19 +61,5 @@ public class InterfaceFindTests extends Application {
             System.out.println("!!!: " + flfe.getMessage());
         }
         assertNull(n);
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                findNodeIncorrectly();
-                findNodeInCartPage();
-                findNodeInProductView();
-                findNodeInTopBanner();
-            }
-        });
-        Platform.exit();
     }
 }
