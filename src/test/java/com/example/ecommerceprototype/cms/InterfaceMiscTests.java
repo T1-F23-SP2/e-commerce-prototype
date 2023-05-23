@@ -1,12 +1,9 @@
 package com.example.ecommerceprototype.cms;
 
 import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +12,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class InterfaceMiscTests extends Application {
-    Thread t;
-
+public class InterfaceMiscTests {
     @BeforeAll
     public static void initializeJavaFX() {
-        launch();
+        CMSDummyApplication.initApp();
     }
 
     @Test
@@ -119,27 +114,5 @@ public class InterfaceMiscTests extends Application {
             System.out.println(flfe.getMessage());
         }
         assertNotNull(CMS.getInstance().findNode(plate, "email_TextField"));
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                getNodeListWithComponent();
-                getNodeListWithNull();
-
-                getComponentList();
-
-                getButtonOnTopBanner();
-                getButtonOnProductView();
-
-                getButtonsOnTopBanner();
-                getButtonsOnPaymentPage();
-
-                loadTopBannerOntoTemplate1();
-            }
-        });
-        Platform.exit();
     }
 }
