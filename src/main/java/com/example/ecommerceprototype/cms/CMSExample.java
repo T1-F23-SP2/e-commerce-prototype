@@ -274,7 +274,6 @@ public class CMSExample extends Application{
 
         Pane paymentPage = CMS.getInstance().loadComponent("PaymentPage");
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
-        System.out.println(paymentPage);
         ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
             try {loadPurchaseComplete();}
             catch (Exception e) {System.out.println(e.getMessage());}

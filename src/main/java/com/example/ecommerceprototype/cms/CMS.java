@@ -59,6 +59,7 @@ public class CMS implements ICMS{
     @Override
     public ArrayList<Node> getNodeList(Pane component) {
         ArrayList<Node> nodes = new ArrayList<>();
+        if (component == null) return nodes;
 
         for(Node n : component.getChildren()) {
             //Recursive
