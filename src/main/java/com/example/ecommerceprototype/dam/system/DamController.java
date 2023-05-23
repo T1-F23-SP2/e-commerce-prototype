@@ -20,6 +20,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Dialog;
@@ -58,6 +61,9 @@ public class DamController implements Initializable {
     private Button deleteButton;
 
     @FXML
+    private ImageView previewImage;
+
+    @FXML
     private TextField searchField;
     @FXML
     private TableView<searchModel> tableView;
@@ -85,6 +91,9 @@ public class DamController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showTable();
+
+        tableView.setOnMouseClicked(this::getUrlFromTable);
+
     }
 
 
@@ -376,14 +385,29 @@ public class DamController implements Initializable {
     }
 
 
-    public void switchToDAM(ActionEvent event) throws IOException {
-        // Setting the stage, scene and roots.
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("dam.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        stage.centerOnScreen();
+    private void getUrlFromTable(MouseEvent event)
+    {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+
+        String type = typeTableColumn.getCellObservableValue(selectedIndex).getValue();
+        String pathFromTable = pathTableColumn.getCellObservableValue(selectedIndex).getValue();
+        if (type.contains("image") || type.contains("Image") )
+        {
+            previewImage(pathFromTable);
+        }
+        else
+        {
+            System.out.println("no picture on available");
+        }
+
+
+    }
+
+
+    private void previewImage(String url)
+    {
+        Image image = dam.getFileFromURL(url);
+        previewImage.setImage(image);
     }
 
 

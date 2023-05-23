@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.dam.dam;
 
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Type;
+import javafx.scene.image.Image;
 
 import java.sql.Connection;
 import java.util.List;
@@ -84,6 +85,14 @@ public class DAMSystem {
     }
 
 
+    public Image getFileFromURL (String url)
+    {
+        return FileConn.downloadFileFromURL(url);
+    }
+
+
+
+
     private Category extractCategory(String cat_in)
     {
         Category cat = Category.valueOf(cat_in.toUpperCase());
@@ -96,6 +105,9 @@ public class DAMSystem {
 
         return formatString;
     }
+
+
+
 
 
 }

@@ -22,7 +22,6 @@ import java.util.Objects;
 
 public class LoginControl {
 
-    Controller dam = new Controller();
 
     @FXML
     private TextField UsernameField;
@@ -94,7 +93,6 @@ public class LoginControl {
                     alert.setContentText("Welcome " + UsernameField.getText() + "!");
                     alert.showAndWait();
 
-
                     switchToDamMain(actionEvent);
                 } else {
                     // Login failed
@@ -124,13 +122,6 @@ public class LoginControl {
         alert.show();
     }
 
-    public static void infoBox(String infoMessage, String headerText, String title) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText(infoMessage);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.showAndWait();
-    }
 
     public void switchToDamMain(ActionEvent event) throws IOException
     {

@@ -6,8 +6,19 @@ import com.azure.storage.blob.specialized.BlockBlobClient;
 import com.example.ecommerceprototype.dam.constants.Category;
 import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelBuffer;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.WritableImage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.IntBuffer;
 
 
 public class FileSystem {
@@ -164,31 +175,21 @@ public class FileSystem {
         return true;
     }
 
-
-
-/*
-    public Image downloadFile(String file_name)
-    {
-
-
-        BlobClient downloadBlobClient = .getBlobClient(file_name);
-
-        String blob_url = downloadBlobClient.getBlobUrl();
-
+    public Image downloadFileFromURL(String URL){
         try {
-            URL url = new URL(blob_url);
+            String storageurl = Constants.AZURE_Start_URL;
+            URL url = new URL(storageurl+URL);
             BufferedImage BuffImage = ImageIO.read(url);
 
             Image img = BuffImgToImg(BuffImage);
 
             return img;
 
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     private Image BuffImgToImg(BufferedImage img)
     {
@@ -206,6 +207,5 @@ public class FileSystem {
         return new WritableImage(pixelBuffer);
     }
 
- */
 
 }
