@@ -1,11 +1,11 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
-import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
+import com.example.ecommerceprototype.pim.exceptions.*;
+import com.example.ecommerceprototype.pim.util.FilterableArrayList;
+import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
 
 public class PIMDriver {
 
@@ -32,7 +32,7 @@ public class PIMDriver {
     }
 
 
-    public List<ProductInformation> getAllProducts() throws UUIDNotFoundException, SQLException {
+    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         return dbDriverInstance.getAllProducts();
     }
 
@@ -44,31 +44,31 @@ public class PIMDriver {
         return dbDriverInstance.getProductByName(name);
     }
 
-    public List<ProductInformation> getProductsBySerialNumber(String serialNumber) throws SQLException, NotFoundException {
+    public ProductList getProductsBySerialNumber(String serialNumber) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsBySerialNumber(serialNumber);
     }
 
-    public List<ProductInformation> getProductsThatAreHidden() throws SQLException {
+    public ProductList getProductsThatAreHidden() throws SQLException {
         return dbDriverInstance.getProductsThatAreHidden();
     }
 
-    public List<ProductInformation> getProductsByCategoryName(String categoryName) throws SQLException, NotFoundException {
+    public ProductList getProductsByCategoryName(String categoryName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByCategoryName(categoryName);
     }
 
-    public List<ProductInformation> getProductsByManufactureName(String manufactureName) throws SQLException, NotFoundException {
+    public ProductList getProductsByManufactureName(String manufactureName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByManufactureName(manufactureName);
     }
 
-    public List<ProductInformation> getProductsByDiscountName(String discountName) throws SQLException, NotFoundException {
+    public ProductList getProductsByDiscountName(String discountName) throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsByDiscountName(discountName);
     }
 
-    public List<ProductCategory> getAllCategories() throws SQLException, NotFoundException {
+    public FilterableArrayList<ProductCategory> getAllCategories() throws SQLException, NotFoundException {
         return dbDriverInstance.getAllCategories();
     }
 
-    public ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public ProductCategory getCategoryByProductUUID(String uuid) throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
         return dbDriverInstance.getCategoryByProductUUID(uuid);
     }
 
@@ -84,7 +84,7 @@ public class PIMDriver {
         return dbDriverInstance.getSpecificationByProductUUID(uuid);
     }
 
-    public List<ManufacturingInformation> getAllManufactures() throws SQLException {
+    public FilterableArrayList<ManufacturingInformation> getAllManufactures() throws SQLException {
         return dbDriverInstance.getAllManufactures();
     }
 
@@ -96,7 +96,7 @@ public class PIMDriver {
         return dbDriverInstance.getManufactureByName(name);
     }
 
-    public List<DiscountInformation> getAllDiscounts() throws SQLException {
+    public FilterableArrayList<DiscountInformation> getAllDiscounts() throws SQLException {
         return dbDriverInstance.getAllDiscounts();
     }
 
@@ -112,11 +112,31 @@ public class PIMDriver {
         return dbDriverInstance.getDiscountPercentageByProductUUID(uuid);
     }
 
-    public List<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public FilterableArrayList<PriceInformation> getPricesByProductUUID(String uuid) throws UUIDNotFoundException, SQLException {
         return dbDriverInstance.getPricesByProductUUID(uuid);
     }
 
     public ProductInformationUpdater prepareProductInformationUpdater(ProductInformation pi) {
         return new ProductInformationUpdater(pi);
+    }
+
+    public void deleteProductByUUID(String uuid) throws UUIDNotFoundException, SQLException {
+        dbDriverInstance.deleteProductByUUID(uuid);
+    }
+
+    public void deleteProductCategoryByName(String name) throws SQLException, CategoryNotFoundException {
+        dbDriverInstance.deleteProductCategoryByName(name);
+    }
+
+    public void deleteManufactureByName(String name) throws SQLException, ManufactureNotFoundException {
+        dbDriverInstance.deleteManufactureByName(name);
+    }
+
+    public void deleteSpecificationByProductUUIDAndKey(String uuid, String key) throws UUIDNotFoundException, SQLException {
+        dbDriverInstance.deleteSpecificationByProductUUIDAndKey(uuid, key);
+    }
+
+    public void deleteDiscountByName(String name) throws SQLException, DiscountNotFoundException {
+        dbDriverInstance.deleteDiscountByName(name);
     }
 }

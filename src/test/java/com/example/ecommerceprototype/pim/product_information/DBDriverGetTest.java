@@ -1,21 +1,15 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
-import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
-import com.example.ecommerceprototype.pim.sql_helpers.SQLConnectionTestInitializer;
-import com.example.ecommerceprototype.pim.sql_helpers.TestConnectionWrapper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import com.example.ecommerceprototype.pim.exceptions.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
 public class DBDriverTest {
     static DBDriver dbDriver;
     static PIMDriver pimDriver;
@@ -35,6 +29,8 @@ public class DBDriverTest {
         }
     }
 
+@DisplayName("Tests for all getter methods in DBDriver")
+public class DBDriverGetTest extends DBDriverAbstractTest {
     @Test
     void testGetProductByName() {
         String expectedUUID = "";
@@ -126,9 +122,10 @@ public class DBDriverTest {
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
-                        .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
+                productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                        .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
     }
+
     @Test
     void testGetProductsThatAreHidden() {
         ArrayList<ProductInformation> productInformationArrayList = new ArrayList<>();
@@ -168,19 +165,19 @@ public class DBDriverTest {
                 throw new RuntimeException(ex);
             }
 
-            assertTrue(returnedList.size() == 2 &&
-                    productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                    productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
-                            .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
+        assertTrue(returnedList.size() == 2 &&
+                productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
+                productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                        .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
 
-            // Remove inserted, hidden products.
-            PreparedStatement preparedStatement = null;
-            try {
-                preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id=12; DELETE FROM products WHERE id=13");
-                preparedStatement.execute();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+        // Remove inserted, hidden products.
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id=12; DELETE FROM products WHERE id=13");
+            preparedStatement.execute();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Test
@@ -232,8 +229,8 @@ public class DBDriverTest {
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
-                        .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
+                productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                        .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
     }
 
     @Test
@@ -285,13 +282,13 @@ public class DBDriverTest {
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
-                        .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
+                productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                        .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
     }
 
     @Test
     void testGetNoProductByManufactureName() {
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO Manufactures (id, name, support_phone, support_mail) " +
                     "VALUES (10, 'NAN', 21212121, 'NAN@mail.com')");
             preparedStatement.execute();
@@ -345,8 +342,8 @@ public class DBDriverTest {
 
         assertTrue(productInformationArrayList.size() == returnedList.size() &&
                 productInformationArrayList.get(0).getProductUUID().equals(returnedList.get(0).getProductUUID()) &&
-                productInformationArrayList.get(productInformationArrayList.size()-1).getProductUUID()
-                        .equals(returnedList.get(returnedList.size()-1).getProductUUID()));
+                productInformationArrayList.get(productInformationArrayList.size() - 1).getProductUUID()
+                        .equals(returnedList.get(returnedList.size() - 1).getProductUUID()));
     }
 
     @Test
@@ -475,19 +472,11 @@ public class DBDriverTest {
     }
 
     @Test
-    void testGetNoDiscountByName() { // Boring looking test - but then again, if no exception occurs, isn't it technically working?
+    void testGetNoDiscountByName() {
         assertThrows(
                 NotFoundException.class,
                 () -> pimDriver.getDiscountByName("NotRealDiscount!")
                 );
     }
-
-    @AfterAll
-    static void end() {
-        try {
-            connectionWrapper.teardown();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

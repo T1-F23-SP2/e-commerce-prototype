@@ -11,7 +11,7 @@ public class DiscountInformationUpdater extends DiscountInformationWorker {
     private String originalName;
 
     public DiscountInformationUpdater(DiscountInformation di) {
-        super(new DiscountInformation());
+        super(di);
     }
 
     public String getOriginalName() {

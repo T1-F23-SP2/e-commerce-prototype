@@ -80,6 +80,25 @@ CREATE INDEX ON Products(product_UUID);
 
 /***** FUNCTIONS AND PROCEDURES *****/
 
+/* Get all products */
+CREATE OR REPLACE FUNCTION getAllProducts()
+    RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT Products.id,
+               Products.product_UUID,
+               Products.name,
+               Products.serial_number,
+               Products.short_description,
+               Products.is_hidden,
+               Products.long_description
+        FROM Products;
+END; $$
+LANGUAGE plpgsql;
+
+
+
 /* Get Product by UUID */
 CREATE OR REPLACE FUNCTION getProductByUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, product_UUID UUID, name VARCHAR, serial_number VARCHAR, short_description VARCHAR, is_hidden BOOLEAN, long_description TEXT)
@@ -236,6 +255,22 @@ END; $$
 LANGUAGE plpgsql;
 
 
+
+
+/* Get all categories */
+CREATE OR REPLACE FUNCTION getAllCategories()
+    RETURNS TABLE (id INT, name VARCHAR, parent_id INT)
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT Product_categories.id,
+               Product_categories.name,
+               Product_categories.parent_id
+        FROM Product_categories;
+END; $$
+LANGUAGE plpgsql;
+
+
 /* Get Category by Product UUID */
 CREATE OR REPLACE FUNCTION getCategoryByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (id INT, name VARCHAR, parent_id INT)
@@ -282,6 +317,8 @@ END; $$
 LANGUAGE plpgsql;
 
 
+
+
 /* Get specification by Product UUID */
 CREATE OR REPLACE FUNCTION getSpecificationByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (product_id INT, name VARCHAR, specification_value VARCHAR)
@@ -297,6 +334,23 @@ BEGIN
                  INNER JOIN Products
                             ON Specifications.product_id = Products.id
         WHERE Products.product_UUID = CAST (argUUID AS UUID);
+END; $$
+LANGUAGE plpgsql;
+
+
+
+
+/* Get all manufactures */
+CREATE OR REPLACE FUNCTION getAllManufactures()
+    RETURNS TABLE (id INT, name VARCHAR, support_phone VARCHAR, support_mail VARCHAR)
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT Manufactures.id,
+               Manufactures.name,
+               Manufactures.support_phone,
+               Manufactures.support_mail
+        FROM Manufactures;
 END; $$
 LANGUAGE plpgsql;
 
@@ -346,6 +400,23 @@ BEGIN
                Manufactures.support_mail
         FROM Manufactures
         WHERE Manufactures.id = argId;
+END; $$
+LANGUAGE plpgsql;
+
+
+
+
+/* Get Discount by Product UUID */
+CREATE OR REPLACE FUNCTION getAllDiscounts()
+    RETURNS TABLE (id INT, name VARCHAR, start_date TIMESTAMP, end_date TIMESTAMP)
+AS $$
+BEGIN
+    RETURN QUERY
+        SELECT Discounts.id,
+               Discounts.name,
+               Discounts.start_date,
+               Discounts.end_date
+        FROM Discounts;
 END; $$
 LANGUAGE plpgsql;
 
@@ -664,7 +735,7 @@ BEGIN
 
     DELETE FROM products
         WHERE
-            product_UUID = argUUID;
+            product_UUID = CAST(argUUID AS UUID);
 END; $$
 LANGUAGE plpgsql;
 
