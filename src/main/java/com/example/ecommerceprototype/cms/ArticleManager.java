@@ -74,7 +74,6 @@ public class ArticleManager implements IArticle{
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("file");
         return null;
     }
 
