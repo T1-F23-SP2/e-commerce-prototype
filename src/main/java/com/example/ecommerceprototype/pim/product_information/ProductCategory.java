@@ -7,11 +7,6 @@ public class ProductCategory implements Nameable {
     private String name;
     private ProductCategory productCategoryParent;
 
-    // Should the empty constructor be removed?
-    public ProductCategory() {
-
-    }
-
     public String getName() {
         return this.name;
     }
