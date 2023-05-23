@@ -44,6 +44,21 @@
             <version>42.5.4</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>19</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+            <version>12.21.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
             <!-- https://www.tutorialspoint.com/how-to-run-sql-script-using-jdbc -->
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
