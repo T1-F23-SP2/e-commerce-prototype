@@ -15,12 +15,12 @@ public class CMSDummyApplication extends Application {
 
     static void initApp() {
         if (!hasLaunched) {
-            Thread thread = new Thread(() -> {
-                Application.launch();
-            });
-            thread.start();
             try {
                 lock.lock();
+                Thread thread = new Thread(() -> {
+                    Application.launch();
+                });
+                thread.start();
                 waitForLaunch.await();
             } catch (InterruptedException e) {
                 // fall through
