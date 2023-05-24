@@ -59,7 +59,7 @@ public class InventoryDisplayGenerator {
             document.open();
 
 
-            // Adding the FUCKTable to the pdf - (CellTable)
+            // Adding the O_Table to the pdf - (CellTable)
             PdfPTable table = O_Table();
 
             document.add(table);
@@ -81,6 +81,8 @@ public class InventoryDisplayGenerator {
     }
 
 
+
+    //Creating pdf file incl. formatting
     public static void stockOverviewgen(){
         int width = 300;
         int height = 350;
