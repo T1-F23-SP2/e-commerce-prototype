@@ -14,9 +14,6 @@ public class ProductInformation implements Nameable {
     private ManufacturingInformation manufacturingInformation;
     private PriceInformation priceInformation;
 
-    // Should the empty constructor be removed?
-    public ProductInformation() {}
-
     public String getProductUUID() {
         return productUUID;
     }
