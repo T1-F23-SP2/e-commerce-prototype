@@ -6,6 +6,7 @@ import com.example.ecommerceprototype.oms.Customers.Customer;
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
+import com.example.ecommerceprototype.pim.product_information.ManufacturingInformation;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
@@ -23,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
@@ -149,7 +151,41 @@ public class ShopCMSView extends Application implements StockInterface {
                 try {reloadShopPageWithCategory(allCategories.get(finalI).getName());}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
-            b.setText(allCategories.get(i).getName());
+            b.setText("Type: " + allCategories.get(i).getName());
+            categoryList.getChildren().add(b);
+        }
+
+        // filtering by manufacturer
+        FilterableArrayList<ManufacturingInformation> allManufacturers = pimDriverInstance.getAllManufactures();
+        for (int i = 0; i < allManufacturers.size(); i++) {
+            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
+            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            int finalI = i;
+            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+                try {reloadShopPageWithCustomProducts(pimDriverInstance.getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
+                catch (Exception e) {System.out.println(e.getMessage());}
+            });
+            b.setText("Manufacturer: " + allManufacturers.get(i).getName());
+            categoryList.getChildren().add(b);
+        }
+
+        // filtering by price
+        int[] priceRange = {0, 500, 1000, 2000, 5000, 10000};
+        for (int i = 0; i < priceRange.length - 1; i++) {
+            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
+            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            ProductList productOfPrice = new ProductList();
+            for (ProductInformation product : pimDriverInstance.getAllProducts()) {
+                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i])) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
+                    productOfPrice.add(product);
+                }
+            }
+            int finalI = i;
+            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+                try {reloadShopPageWithCustomProducts(productOfPrice);}
+                catch (Exception e) {System.out.println(e.getMessage());}
+            });
+            b.setText("Price: " + priceRange[i] + " - " + priceRange[i+1]);
             categoryList.getChildren().add(b);
         }
     }
@@ -311,7 +347,7 @@ public class ShopCMSView extends Application implements StockInterface {
 
         BigDecimal total = BigDecimal.valueOf(0);
         for (ProductInformation product : cart.keySet()) {
-            total = total.add(product.getPriceInformation().getPrice().multiply(BigDecimal.valueOf(cart.get(product))));
+            total = total.add(findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(cart.get(product))));
 
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
