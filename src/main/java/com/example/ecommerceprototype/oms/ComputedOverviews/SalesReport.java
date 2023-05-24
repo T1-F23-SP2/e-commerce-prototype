@@ -141,11 +141,10 @@ public class SalesReport {
         Document result2 = finder.find(query).first();
 
         String GetUUID = (String) (result2 != null ? result2.get("UUID") : null);
-        int GetAmount = (int) Objects.requireNonNull(result2).get("AmountSold");
 
         if (Max != null)
         {
-            return "UUID: " + GetUUID + " Amount: " + GetAmount + "";
+            return GetUUID;
         }
         return null;
     }
