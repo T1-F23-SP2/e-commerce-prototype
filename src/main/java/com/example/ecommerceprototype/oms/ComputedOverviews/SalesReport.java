@@ -17,9 +17,7 @@ public class SalesReport {
 
 
 
-// TODO
-//      fix trigger
-    // qty trigger
+
 
 
 
@@ -83,7 +81,6 @@ public class SalesReport {
         MathContext ones = new MathContext(1);
         BigDecimal one = new BigDecimal("1");
         BigDecimal hundred = new BigDecimal("100");
-        // TODO: This returns the margin for 1 item
 
         BigDecimal Res = priceInformation.getPrice().divide(priceInformation.getBuyPrice());
         BigDecimal Res2 = one.divide(Res, new MathContext(3));
@@ -94,7 +91,6 @@ public class SalesReport {
         MathContext ones = new MathContext(1);
         BigDecimal one = new BigDecimal("1");
         BigDecimal hundred = new BigDecimal("100");
-        // TODO: This returns the margin for 1 item
 
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
@@ -110,7 +106,6 @@ public class SalesReport {
     }
 
     public static int getAmountOfOrders(String UUID) {
-        // TODO: Query database for amount of orders of a specific product(UUID)
 
         // Fix this, it has to get the right value and not 55 everytime
 

@@ -35,7 +35,6 @@ public class DBManager {
 
 
     // New method for query
-    //Todo: Check method (is it necessary)
     public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search) {
 
         org.bson.Document query = new org.bson.Document(searchTitle, search);
@@ -90,6 +89,15 @@ public class DBManager {
 
         return true;
 
+    }
+
+
+    public static Document queryStockDB(MongoCollection<Document> conn, String UUID){
+
+        org.bson.Document query = new org.bson.Document("UUID", UUID);
+        org.bson.Document results = conn.find(query).first();
+
+        return results;
     }
 
 

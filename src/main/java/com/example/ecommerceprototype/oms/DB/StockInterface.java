@@ -23,15 +23,9 @@ import java.util.logging.Logger;
 import static com.mongodb.client.model.Indexes.descending;
 
 public interface StockInterface {
-    public static Document queryStockDB(MongoCollection<Document> conn, String UUID){
 
-        org.bson.Document query = new org.bson.Document("UUID", UUID);
-        org.bson.Document results = conn.find(query).first();
-
-        return results;
-    }
     public static int getStockValue(String UUID) {
-        int qtyAmount = queryStockDB(DBManager.databaseConn("Item"), UUID).getInteger("QTY");
+        int qtyAmount = DBManager.queryStockDB(DBManager.databaseConn("Item"), UUID).getInteger("QTY");
         return qtyAmount;
     }
 
@@ -44,6 +38,9 @@ public interface StockInterface {
     // MCGPT
 
     // TODO: Missing for loop check sendOrderOMS method
+
+
+    // SHOP has to use this method to send an order to the OMS system and run the code
     public static void sendOrderOMSNew(MockShopObject mockShopObject) {
         String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
 
@@ -90,7 +87,6 @@ public interface StockInterface {
             ArrayList<Integer> dbIdList = DBManager.queryDBAllId(collectionConn);
 
 
-            //System.out.println("Hej");
             // Code to make the rest of the list, from the database.
             for (int i = 0; i < dbIdList.size(); i++) {
                 OrderGUIControllerOMS.idList.add(dbIdList.get(i));
@@ -175,7 +171,6 @@ public interface StockInterface {
 
 
 
-            // TODO: Code to add to orderlist
             // Code to add to orderList
             orderList.add(mockShopObject);
             //orderList = new ArrayList<>();
@@ -232,7 +227,6 @@ public interface StockInterface {
             int index = OrderGUIControllerOMS.idList.indexOf(id);
             OrderGUIControllerOMS.statusList.set(index, "Processed");
 
-            // TODO: Code to add to orderlist
             // Code to add to orderList
             orderList.add(mockShopObject);
             //orderList = new ArrayList<>();
