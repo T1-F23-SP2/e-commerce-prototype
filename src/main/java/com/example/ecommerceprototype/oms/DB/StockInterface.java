@@ -40,8 +40,7 @@ public interface StockInterface {
         return qtyAmount;
     }
 
-    // TODO: Missing for loop check sendOrderOMS method
-    // method to
+    // method to process order
     static void sendOrderOMSNew(MockShopObject mockShopObject) {
         //retrieving the uuid and amount from a shop object and storing it in UUIDString
         String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
