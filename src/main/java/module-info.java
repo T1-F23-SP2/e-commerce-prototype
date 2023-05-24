@@ -15,8 +15,10 @@ module com.example.ecommerceprototype {
 
     opens com.example.ecommerceprototype to javafx.fxml;
     exports com.example.ecommerceprototype;
+
     exports com.example.ecommerceprototype.oms;
     opens com.example.ecommerceprototype.oms to javafx.fxml;
+
     exports com.example.ecommerceprototype.pim.product_information;
     exports com.example.ecommerceprototype.pim.presentation;
     exports com.example.ecommerceprototype.pim.exceptions;
