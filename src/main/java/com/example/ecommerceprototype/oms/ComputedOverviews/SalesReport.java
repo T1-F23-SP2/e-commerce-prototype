@@ -48,28 +48,7 @@ public class SalesReport {
 
         return gdiValue;
     }
-
-
-    public static boolean getOrders(){
-        // TODO: Get all orders from orderHistory database table, and save it
-        MongoCollection<Document> finder = DBManager.databaseConn("Item");
-
-        List<org.bson.Document> result = finder.find().into(new ArrayList<>());
-
-        List<Integer> QTY = new ArrayList<>();
-        for (org.bson.Document ser : result) {
-            int QTYs = ser.getInteger("QTY");
-            QTY.add(QTYs);
-        }
-        //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
-
-
-        System.out.println(QTY);
-        Document query = new Document("QTY", new Document("$eq", 0));
-
-
-        return false;
-    }
+    
 
     public static BigDecimal calcMargin(PriceInformation priceInformation){
         MathContext ones = new MathContext(1);
