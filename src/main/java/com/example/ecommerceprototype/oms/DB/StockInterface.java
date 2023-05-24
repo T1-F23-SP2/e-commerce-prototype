@@ -25,31 +25,28 @@ import static com.mongodb.client.model.Indexes.descending;
 public interface StockInterface {
     List<MockShopObject> newOrderList = new LinkedList<>();
 
-    // method to retrieve the document of the UUID the user want
-    static Document queryStockDB(MongoCollection<Document> conn, String UUID) {
-
-        org.bson.Document query = new org.bson.Document("UUID", UUID);
-        org.bson.Document results = conn.find(query).first();
-
-        return results;
-    }
-
     // method to retrieve Quantity of an item from the database Item
     static int getStockValue(String UUID) {
-        int qtyAmount = queryStockDB(DBManager.databaseConn("Item"), UUID).getInteger("QTY");
+        int qtyAmount = DBManager.queryDB(DBManager.databaseConn("Item"), UUID).getInteger("QTY");
         return qtyAmount;
     }
 
-    // method to process order
+    // method to add order to OrderGUI list
     static void sendOrderOMSNew(MockShopObject mockShopObject) {
         //retrieving the uuid and amount from a shop object and storing it in UUIDString
         String UUIDString = String.join(", ", mockShopObject.getMap().keySet());
 
-        // extracts the integer value of that field,
-        // increments it by 1 to generate a new ID,
-        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
-        Document document = collection.find().sort(descending("_id")).first();
-        int highestId = (document == null) ? 0 : document.getInteger("_id");
+
+        // Gets the highest _id in the database
+        // Increments the id by one
+        int highestId = DBManager.getHighestId();
+
+
+//        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+//        Document document = collection.find().sort(descending("_id")).first();
+//        int highestId = (document == null) ? 0 : document.getInteger("_id");
+
+
 
         int id = highestId + 1;
 

@@ -91,7 +91,6 @@ public class SalesReport {
 
     public static BigDecimal rev(ProductInformation productInformation) {
         int j = 0;
-        //TODO Skal ikke bruge instances til calc ret til den tager er product information object også finder UUID matcher med database amount sold
         BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(productInformation.getProductUUID())).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
