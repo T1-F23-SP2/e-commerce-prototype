@@ -79,5 +79,14 @@ public class InventoryDisplayGenerator {
         String fileName = "assets/oms/out/Overview.pdf";
         convertToPdf(width, height, fileName);
     }
+
+
+    public static void stockOverviewgen(){
+        int width = 300;
+        int height = 350;
+        String fileName = "assets/oms/out/Overview.pdf";
+        convertToPdf(width, height, fileName);
+
+    }
 }
 
