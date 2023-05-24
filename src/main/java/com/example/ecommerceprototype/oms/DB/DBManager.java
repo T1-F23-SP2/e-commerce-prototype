@@ -35,6 +35,7 @@ public class DBManager {
 
 
     // New method for query
+    // This is more flexible
     public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search) {
 
         org.bson.Document query = new org.bson.Document(searchTitle, search);
@@ -164,9 +165,5 @@ public class DBManager {
         }
         return new String[0];
     }
-
-
-
-
 
     }

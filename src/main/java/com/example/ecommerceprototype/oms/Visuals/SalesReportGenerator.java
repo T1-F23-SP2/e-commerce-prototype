@@ -75,7 +75,7 @@ public class SalesReportGenerator {
             PdfPCell cell_itemQTY = new PdfPCell(new Phrase(((SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID())).toString())));
             table.addCell(cell_itemQTY);
 
-            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j].getPriceInformation()).toString()));
+            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j]).toString()));
             table.addCell(cell_rev);
 
         }

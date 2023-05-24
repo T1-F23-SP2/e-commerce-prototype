@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.oms.ComputedOverviews;
 
 import com.example.ecommerceprototype.oms.DB.DBManager;
+import com.example.ecommerceprototype.oms.mockPIM.ProductInformation;
 import com.mongodb.client.MongoCollection;
 import com.example.ecommerceprototype.oms.mockPIM.PlaceHolderInstGet;
 import com.example.ecommerceprototype.oms.mockPIM.PriceInformation;
@@ -13,13 +14,6 @@ import java.util.List;
 import java.util.*;
 
 public class SalesReport {
-
-
-
-
-
-
-
 
     // Those are static
     double turnover;
@@ -95,11 +89,11 @@ public class SalesReport {
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
 
-    public static BigDecimal rev(PriceInformation priceInformation) {
+    public static BigDecimal rev(ProductInformation productInformation) {
         int j = 0;
-        //TODO Skal ikke bruge instances til calc
-        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())).multiply(priceInformation.getPrice());
-        BigDecimal PRev =getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()).multiply(priceInformation.getBuyPrice());
+        //TODO Skal ikke bruge instances til calc ret til den tager er product information object også finder UUID matcher med database amount sold
+        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())).multiply(productInformation.getPriceInformation().getBuyPrice());
+        BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
         j++;
         return tRev;
@@ -121,7 +115,6 @@ public class SalesReport {
 
     public static String getFavoriteProduct(){
 
-        // TODO: Query database for product with most "items quantity" and return UUID
         MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
 
         List<org.bson.Document> result = finder.find().into(new ArrayList<>());
@@ -160,18 +153,6 @@ public class SalesReport {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

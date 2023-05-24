@@ -20,11 +20,6 @@ public class OrderGUIApplicationOMS extends Application implements StockInterfac
         stage.setScene(scene);
         stage.show();
 
-        //StockInterface.sendOrderOMSNew(PlaceholderInstShop.getInstShop1());
-        //StockInterface.sendOrderOMSNew(PlaceholderInstShop.getInstShop1());
-        //StockInterface.sendOrderOMSNew(PlaceholderInstShop.getInstShop1());
-        //StockInterface.sendOrderOMSNew(PlaceholderInstShop.getInstShop1());
-
 
     }
 
