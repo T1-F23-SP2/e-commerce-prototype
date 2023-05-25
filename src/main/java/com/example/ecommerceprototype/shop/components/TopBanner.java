@@ -18,13 +18,36 @@ public class TopBanner {
         this.cms = controller.getCMSInstance();
     }
 
-    public void loadTopBanner(Stage window, Pane page) throws Exception {
+    public void loadTopBannerAll(Pane page) throws Exception {
 
         Pane topBanner = cms.loadComponent("TopBanner");
         pane = topBanner;
 
         loadHomeButton();
         loadSearchBar();
+        loadCartButton();
+
+        cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
+
+    }
+
+    public void loadTopBannerHome(Pane page) throws Exception {
+
+        Pane topBanner = cms.loadComponent("TopBanner");
+        pane = topBanner;
+
+        loadHomeButton();
+
+        cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
+
+    }
+
+    public void loadTopBannerHomeCart(Pane page) throws Exception {
+
+        Pane topBanner = cms.loadComponent("TopBanner");
+        pane = topBanner;
+
+        loadHomeButton();
         loadCartButton();
 
         cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
