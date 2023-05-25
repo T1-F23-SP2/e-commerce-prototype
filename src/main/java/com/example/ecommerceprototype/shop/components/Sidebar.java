@@ -26,46 +26,51 @@ import java.util.function.Function;
 public class Sidebar {
 
     ShopController controller;
-    CMS cms; 
+    CMS cms;
+    PIMDriver pim;
 
     public Sidebar(ShopController controller) {
         this.controller = controller;
         this.cms = controller.getCMSInstance();
+        this.pim = controller.getPIMDriverInstance();
     }
 
     public void loadSidebar(Stage window, Pane plate) throws Exception {
-        //Load sidebar onto template
+
         Pane sidebar = cms.loadComponent("CategorySidebar");
         cms.loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         ((Button) cms.findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {
-                controller.getArticlePage().loadPage(window);}
-            catch (Exception e) {System.out.println(e.getMessage());}
+                controller.getArticlePage().loadPage(window);
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         });
 
-        // Load categories
+
         VBox categoryList = (VBox) cms.findNode(sidebar, "categoryList_VBox");
 
-        filter(categoryList, "All categories", "", controller.getPIMDriverInstance().getAllProducts());
+        ProductList allProducts = pim.getAllProducts();
+        createFilter(categoryList, "All categories", "", allProducts);
 
-        FilterableArrayList<ProductCategory> allCategories = controller.getPIMDriverInstance().getAllCategories();
+        FilterableArrayList<ProductCategory> allCategories = pim.getAllCategories();
         for (int i = 0; i < allCategories.size(); i++) {
-            filter(categoryList, "Type", allCategories.get(i).getName(), controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(i).getName()));
+            createFilter(categoryList, "Type", allCategories.get(i).getName(), pim.getProductsByCategoryName(allCategories.get(i).getName()));
         }
 
-        // filtering by manufacturer
-        FilterableArrayList<ManufacturingInformation> allManufacturers = controller.getPIMDriverInstance().getAllManufactures();
+
+        FilterableArrayList<ManufacturingInformation> allManufacturers = pim.getAllManufactures();
         for (int i = 0; i < allManufacturers.size(); i++) {
-            filter(categoryList, "Manufacturer", allManufacturers.get(i).getName(), controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(i).getName()));
+            createFilter(categoryList, "Manufacturer", allManufacturers.get(i).getName(), pim.getProductsByManufactureName(allManufacturers.get(i).getName()));
         }
 
-        // filtering by price
         List<Integer> priceRange = Arrays.asList(0, 100, 500, 1000, 2000, 5000, 10000);
         List<ProductList> ranges = new ArrayList<>();
         for (int i = 0; i < priceRange.size() - 1; i++) {
             ProductList productOfPrice = new ProductList();
-            for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
+            for (ProductInformation product : pim.getAllProducts()) {
                 if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i))) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i+1))) < 0) {
                     productOfPrice.add(product);
                 }
@@ -73,11 +78,11 @@ public class Sidebar {
             ranges.add(productOfPrice);
         }
         for (int i = 0; i < priceRange.size() - 1; i++) {
-            filter(categoryList, "Price", priceRange.get(i) + " - " + priceRange.get(i+1), ranges.get(i));
+            createFilter(categoryList, "Price", priceRange.get(i) + " - " + priceRange.get(i+1), ranges.get(i));
         }
     }
 
-    public void filter(VBox categoryList, String filterName, String categoryName, ProductList products) throws Exception {
+    public void createFilter(VBox categoryList, String filterName, String categoryName, ProductList products) throws Exception {
         VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
         Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
         setCategoryButtonOnAction(categoryItem, actionEvent -> {
