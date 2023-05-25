@@ -33,15 +33,12 @@ public class ProductView {
             Pane view = controller.getCMSInstance().loadComponent("ProductView");
             productView = view;
 
-            ((Label) controller.getCMSInstance().findNode(view, "productName_Label")).setText(product.getName());
-            if (product.getPriceInformation() == null) {
-                ((Label) controller.getCMSInstance().findNode(view, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
-            } else {
-                ((Label) controller.getCMSInstance().findNode(view, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
-            }
+            setProductName(product.getName());
+            setProductPrice(ProductFinder.findProduct(product).getPriceInformation().getPrice() + "DKK");
+            setProductDescription(product.getShortDescription());
             // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
             // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
-            ((TextArea) controller.getCMSInstance().findNode(view, "productDescription_TextArea")).setText(product.getShortDescription());
+
             //Image productImage = new Image(Objects.requireNonNull(ProductView.class.getResourceAsStream("Placeholder.jpg")));
             //((ImageView) controller.getCMSInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
             ((Button) controller.getCMSInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
