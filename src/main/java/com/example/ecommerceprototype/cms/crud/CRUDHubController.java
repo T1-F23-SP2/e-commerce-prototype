@@ -1,8 +1,12 @@
 package com.example.ecommerceprototype.cms.crud;
 
 import com.example.ecommerceprototype.cms.CMS;
+<<<<<<< HEAD
 import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
 import com.example.ecommerceprototype.cms.crud.CRUDHubApplication;
+=======
+import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
+>>>>>>> origin/main
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

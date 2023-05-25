@@ -8,9 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {

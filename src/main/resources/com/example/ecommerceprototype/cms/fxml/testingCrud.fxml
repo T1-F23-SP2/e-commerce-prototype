@@ -6,30 +6,31 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button fx:id="b1" layoutX="91.0" layoutY="175.0" mnemonicParsing="false" text="Button">
-         <font>
-            <Font name="SYSTEM Bold" size="80"/>
-         </font></Button>
-      <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" >
-         <font>
-            <Font name="System" size="12" />
-         </font></Button>
-      <Button fx:id="b3" layoutX="90.0" layoutY="221.0" mnemonicParsing="false" text="Button" >
-<font>
-<Font name="System" size="12" />
-</font></Button>
-      <Label fx:id="l1" layoutX="117.0" layoutY="54.0" text="Label">
-         <font>
-            <Font size="69" />
-         </font></Label>
-      <Label fx:id="l3" layoutX="100.0" layoutY="105.0" text="Label">
-         <font>
-            <Font size="35.0" />
-         </font></Label>
-      <Label fx:id="l2" layoutX="104.0" layoutY="69.0" text="Label">
-         <font>
-            <Font size="25.0" />
-         </font></Label>
-   </children>
+    <children>
+        <Button fx:id="b1" layoutX="91.0" layoutY="175.0" mnemonicParsing="false" text="Hello world"> 
+            <font>
+                <Font name="arial bold" size="100.0" /> 
+            </font></Button>
+        <Button fx:id="b2" layoutX="91.0" layoutY="266.0" mnemonicParsing="false" text="Button" >
+            <font>
+                <Font name="System" size="12" />
+            </font></Button>
+        <Button fx:id="b3" layoutX="90.0" layoutY="221.0" mnemonicParsing="false" text="Button" >
+            <font>
+                <Font name="System" size="12" />
+            </font></Button>
+        <Label fx:id="l1" layoutX="117.0" layoutY="54.0" text="Label">
+            <font>
+                <Font size="69" />
+            </font></Label>
+        <Label fx:id="l3" layoutX="100.0" layoutY="105.0" text="Label">
+            <font>
+                <Font size="35.0" />
+            </font></Label>
+        <Label fx:id="l2" layoutX="104.0" layoutY="69.0" text="Label">
+            <font>
+                <Font size="25.0" />
+            </font></Label>
+    </children>
+>>>>>>> origin/main
 </AnchorPane>

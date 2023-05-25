@@ -2,7 +2,11 @@ package com.example.ecommerceprototype.cms.crud.article;
 
 import com.example.ecommerceprototype.cms.ArticleManager;
 import com.example.ecommerceprototype.cms.CMS;
+<<<<<<< HEAD
 import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
+=======
+import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
+>>>>>>> origin/main
 import com.example.ecommerceprototype.cms.crud.CRUDHubApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

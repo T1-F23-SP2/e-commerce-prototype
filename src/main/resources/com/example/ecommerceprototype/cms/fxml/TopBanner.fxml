@@ -9,7 +9,7 @@
    <children>
       <Button fx:id="home_Button" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Home" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0" prefWidth="80" prefHeight="40">
          <font>
-            <Font size="16.0" />
+            <Font size="16.0"/>
          </font>
       </Button>
       <Button fx:id="cart_Button" layoutX="548.0" layoutY="18.0" mnemonicParsing="false" text="Go To Cart" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="18.0" prefWidth="120" prefHeight="40">

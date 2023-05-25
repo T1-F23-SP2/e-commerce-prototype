@@ -4,6 +4,10 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       minHeight="1080" minWidth="1920" maxHeight="1080" maxWidth="1920">

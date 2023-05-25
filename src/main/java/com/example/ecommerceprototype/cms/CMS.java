@@ -1,5 +1,9 @@
 package com.example.ecommerceprototype.cms;
 
+<<<<<<< HEAD
+=======
+import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
+>>>>>>> origin/main
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -59,6 +63,10 @@ public class CMS implements ICMS{
     @Override
     public ArrayList<Node> getNodeList(Pane component) {
         ArrayList<Node> nodes = new ArrayList<>();
+<<<<<<< HEAD
+=======
+        if (component == null) return nodes;
+>>>>>>> origin/main
 
         for(Node n : component.getChildren()) {
             //Recursive

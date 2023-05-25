@@ -19,13 +19,13 @@ public final class TestConnectionWrapper implements AutoCloseable {
         /*
             If test database is already present, then drop that database, so it can be recreated to a consistent state.
          */
-        if (SQLConnection.isDatabaseInPropertiesPresent(testCredentials)) SQLConnection.dropDatabase(testCredentials, true);
+        if (SQLConnection.isDatabaseInPropertiesPresent(testCredentials))
+            SQLConnection.dropDatabase(testCredentials, true);
 
         this.connection = SQLConnection.getTestConnectionInitializeIfNeeded(initializer);
 
         return this.getConnection();
     }
-
 
 
     public void teardown() throws SQLException {
@@ -35,6 +35,12 @@ public final class TestConnectionWrapper implements AutoCloseable {
             Database is on purpose not dropped on teardown, so that the database can manually be inspected if needed after test run.
             The database is however recreated before each test run. See comment in setup().
          */
+
+
+        // commit changes made to test database,
+        // So changes to database can be inspected if needed
+        this.connection.commit();
+
         this.connection.close();
     }
 
