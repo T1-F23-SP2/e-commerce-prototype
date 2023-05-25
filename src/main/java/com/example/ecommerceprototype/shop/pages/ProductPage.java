@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import javafx.event.EventHandler;
+import java.util.function.Function;
+
 public class ProductPage {
 
     ShopController controller;
@@ -34,23 +37,35 @@ public class ProductPage {
         // ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
         // ((ImageView) controller.getCMSInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
-        setLabelText("productName_Label", product.getName());
-        if (product.getPriceInformation() == null) {
-            setLabelText("productPrice_Label", "$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
-        } else {
-            setLabelText("productPrice_Label", "$" + (product.getPriceInformation().getPrice()));
-        }
-        setTextAreaText("productDescription_TextArea", product.getLongDescription());
-        setTextAreaText("productSpecification_TextArea", product.getShortDescription());
-        ((Button) cms.findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
+        setProductName(product.getName());
+        setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
+        setProductDescription(product.getLongDescription());
+        setProductSpecification(product.getShortDescription());
+
+        setButtonOnAction("addToCart_Button", actionEvent -> {
             try {
                 controller.getCart().addToCart(product);}
-            catch (Exception e) {System.out.println(e.getMessage());}
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         });
 
         cms.loadOnto(plate, productPage, "contentPlaceholder_Pane");
-
         controller.setScene(plate);
+    }
+
+    public void setProductPrice(String productPrice) {
+        setLabelText("productPrice_Label", productPrice);
+    }
+
+    public void setProductSpecification(String productSpecification) {
+        setTextAreaText("productSpecification_TextArea", productSpecification);
+    }
+    public void setProductDescription(String productDescription) {
+        setTextAreaText("productDescription_TextArea", productDescription);
+    }
+    public void setProductName(String productName) {
+        setLabelText("productName_Label", productName);
     }
 
     public void setLabelText(String fxid, String text) {
@@ -59,6 +74,10 @@ public class ProductPage {
 
     public void setTextAreaText(String fxid, String text) {
         ((TextArea) cms.findNode(page, fxid)).setText(text);
+    }
+
+    public void setButtonOnAction(String fxid, EventHandler function) {
+        ((Button) cms.findNode(page, fxid)).setOnAction(function);
     }
 
 }
