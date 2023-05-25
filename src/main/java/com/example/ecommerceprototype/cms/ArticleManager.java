@@ -47,11 +47,7 @@ public class ArticleManager implements IArticle{
     @Override
     public ArrayList<String> getArticleNames() {
         ArrayList<String> results = new ArrayList<>();
-<<<<<<< HEAD
-        File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/Articles");
-=======
         File infile = new File("src/main/resources/com/example/ecommerceprototype/cms/articles");
->>>>>>> origin/main
         if (!infile.exists())
             return results;
 
@@ -80,10 +76,6 @@ public class ArticleManager implements IArticle{
                 throw new RuntimeException(e);
             }
         }
-<<<<<<< HEAD
-        System.out.println("file");
-=======
->>>>>>> origin/main
         return null;
     }
 
