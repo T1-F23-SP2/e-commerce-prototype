@@ -40,19 +40,7 @@ public class CartPage {
         for (ProductInformation product : controller.getCart().getContents().keySet()) {
             total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
-            Pane item = cms.loadComponent("CartProductView");
-            cartItem = item;
-            cms.loadOnto(cartPage, item, "cartProductView_Vbox");
-
-            //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
-            //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
-            setProductName(product.getName());
-            setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
-            loadSpinner(item, product);
-
-            setButtonOnAction(item, "remove_Button", actionEvent -> {
-                controller.getCart().deleteFromCart(product);}
-            );
+            loadCartItem(product);
 
             updatePrice(total);
         }
@@ -68,6 +56,22 @@ public class CartPage {
 
         updatePrice(total);
         controller.setScene(plate);
+    }
+
+    public void loadCartItem(ProductInformation product) throws Exception{
+        Pane item = cms.loadComponent("CartProductView");
+        cartItem = item;
+        cms.loadOnto(page, item, "cartProductView_Vbox");
+
+        //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
+        //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
+        setProductName(product.getName());
+        setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
+        loadSpinner(item, product);
+
+        setButtonOnAction(item, "remove_Button", actionEvent -> {
+            controller.getCart().deleteFromCart(product);}
+        );
     }
 
     public void loadSpinner(Pane item, ProductInformation product) {
