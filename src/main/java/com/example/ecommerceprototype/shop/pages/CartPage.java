@@ -40,7 +40,6 @@ public class CartPage {
         for (ProductInformation product : controller.getCart().getContents().keySet()) {
             total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
-            //loadCartItem(product);
             controller.getCartItem().loadCartItem(product);
 
             updatePrice(total);
@@ -59,51 +58,10 @@ public class CartPage {
         controller.setScene(plate);
     }
 
-    public void loadCartItem(ProductInformation product) throws Exception{
-        Pane item = cms.loadComponent("CartProductView");
-        cartItem = item;
-        cms.loadOnto(page, item, "cartProductView_Vbox");
-
-        //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
-        //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
-        setProductName(product.getName());
-        setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
-        loadSpinner(item, product);
-
-        setButtonOnAction(item, "remove_Button", actionEvent -> {
-            controller.getCart().deleteFromCart(product);}
-        );
-    }
-
-    public void loadSpinner(Pane item, ProductInformation product) {
-        ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
-
-        ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            if (!"".equals(newValue)) {
-                controller.getCart().getContents().put(product, (Integer) ((Spinner) controller.getCMSInstance().findNode(item, "amount_Spinner")).getValue());
-            }
-        });
-
-        ((Spinner) cms.findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
-            try {
-                this.loadPage(controller.getWindow());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
     public void updatePrice(BigDecimal total) {
         setLabelText(page, "priceExclTax_Label", total + "DKK");
         setLabelText(page, "priceTax_Label", total.multiply(BigDecimal.valueOf(0.25)) + "DKK");
         setLabelText(page, "priceTotal_Label", total.multiply(BigDecimal.valueOf(0.25)).add(total) + "DKK");
-    }
-
-    public void setProductName(String productName) {
-        setLabelText(cartItem, "productName_Label", productName);
-    }
-    public void setProductPrice(String productPrice) {
-        setLabelText(cartItem, "price_Label", productPrice);
     }
     public void setLabelText(Pane pane, String fxid, String text) {
         ((Label) cms.findNode(pane, fxid)).setText(text);
