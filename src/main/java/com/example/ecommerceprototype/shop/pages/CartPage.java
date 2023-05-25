@@ -23,9 +23,8 @@ public class CartPage {
     }
 
     boolean cartReloading = false;
-    public void loadPage(Stage window) throws Exception{
-        //int change = 0;
-        //Load page template (Template 2 has space for a top banner and some content pane)
+    public void loadPage(Stage window) throws Exception {
+
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
         controller.getTopBanner().loadTopBanner(window, plate);
@@ -34,8 +33,8 @@ public class CartPage {
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
         BigDecimal total = BigDecimal.valueOf(0);
-        for (ProductInformation product : Cart.cart.keySet()) {
-            total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(Cart.cart.get(product))));
+        for (ProductInformation product : controller.getCart().getContents().keySet()) {
+            total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
             Pane item = CMS.getInstance().loadComponent("CartProductView");
             CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
@@ -47,12 +46,12 @@ public class CartPage {
             } else {
                 ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
             }
-            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, Cart.cart.get(product), 1));
+            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
 
             ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
 
                 if (!"".equals(newValue)) {
-                    Cart.cart.put(product, (Integer) ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValue());
+                    controller.getCart().getContents().put(product, (Integer) ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValue());
                 }
             });
             ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {

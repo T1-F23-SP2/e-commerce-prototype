@@ -1,13 +1,11 @@
 package com.example.ecommerceprototype.shop;
 
-import com.example.ecommerceprototype.oms.DB.StockInterface;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 
 
-public class ShopRefactor extends Application implements StockInterface {
-
+public class ShopMain extends Application {
 
     public static void main(String[] args) {
         launch();

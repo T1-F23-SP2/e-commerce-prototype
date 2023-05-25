@@ -23,8 +23,6 @@ public class Sidebar {
         this.controller = controller;
     }
 
-    static PIMDriver pimDriverInstance = new PIMDriver();
-
     public void loadSidebar(Stage window, Pane plate) throws Exception {
         //Load sidebar onto template
         Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
@@ -49,14 +47,14 @@ public class Sidebar {
         categoryList.getChildren().add(allCategoryButton);
 
 
-        FilterableArrayList<ProductCategory> allCategories = pimDriverInstance.getAllCategories();
+        FilterableArrayList<ProductCategory> allCategories = controller.getPIMDriverInstance().getAllCategories();
         for (int i = 0; i < allCategories.size(); i++) {
             VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
             Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
             ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
                 try {
-                    controller.getShopPage().reloadProductView(window, pimDriverInstance.getProductsByCategoryName(allCategories.get(finalI).getName()));
+                    controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(finalI).getName()));
                 }
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
@@ -65,13 +63,13 @@ public class Sidebar {
         }
 
         // filtering by manufacturer
-        FilterableArrayList<ManufacturingInformation> allManufacturers = pimDriverInstance.getAllManufactures();
+        FilterableArrayList<ManufacturingInformation> allManufacturers = controller.getPIMDriverInstance().getAllManufactures();
         for (int i = 0; i < allManufacturers.size(); i++) {
             VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
             Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
             ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
-                try {controller.getShopPage().reloadProductView(window, pimDriverInstance.getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
+                try {controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
             b.setText("Manufacturer: " + allManufacturers.get(i).getName());
@@ -84,7 +82,7 @@ public class Sidebar {
             VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
             Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
             ProductList productOfPrice = new ProductList();
-            for (ProductInformation product : pimDriverInstance.getAllProducts()) {
+            for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
                 if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i])) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
                     productOfPrice.add(product);
                 }

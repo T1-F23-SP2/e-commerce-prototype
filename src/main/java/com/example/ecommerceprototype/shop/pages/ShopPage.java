@@ -16,14 +16,12 @@ public class ShopPage {
         this.controller = controller;
     }
 
-    static PIMDriver pimDriverInstance = new PIMDriver();
-
     public void loadPage(Stage window) throws Exception {
 
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
 
         controller.getTopBanner().loadTopBanner(window, plate);
-        controller.getProductView().loadProductView(window, plate, pimDriverInstance.getAllProducts());
+        controller.getProductView().loadProductView(window, plate, controller.getPIMDriverInstance().getAllProducts());
         controller.getSidebar().loadSidebar(window, plate);
 
         window.setScene(new Scene(plate, 1920, 1080));

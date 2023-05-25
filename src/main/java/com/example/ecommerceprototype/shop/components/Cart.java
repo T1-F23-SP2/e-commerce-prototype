@@ -13,7 +13,7 @@ public class Cart {
         this.controller = controller;
     }
 
-    public static HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
+    public HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
 
     public void addToCart(ProductInformation product) {
         cart.put(product, 1);
@@ -27,7 +27,11 @@ public class Cart {
         catch (Exception e) {System.out.println(e.getMessage());}
     }
 
-    public static void clearCart() {
+    public void clearCart() {
         cart.clear();
+    }
+
+    public HashMap<ProductInformation, Integer> getContents() {
+        return cart;
     }
 }

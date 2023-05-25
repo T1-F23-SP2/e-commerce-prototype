@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.shop;
 
+import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.shop.components.*;
 import com.example.ecommerceprototype.shop.pages.*;
 import javafx.stage.Stage;
@@ -18,12 +19,11 @@ public class ShopController {
     Sidebar sidebar;
     TopBanner topBanner;
     Cart cart;
-
-
-
+    PIMDriver PIMDriverInstance;
 
     public ShopController(Stage stage) throws Exception {
 
+        PIMDriverInstance = new PIMDriver();
         articlePage = new ArticlePage(this);
         cartPage = new CartPage(this);
         paymentPage = new PaymentPage(this);
@@ -93,5 +93,9 @@ public class ShopController {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public PIMDriver getPIMDriverInstance() {
+        return PIMDriverInstance;
     }
 }
