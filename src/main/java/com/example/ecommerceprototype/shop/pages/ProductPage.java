@@ -14,8 +14,10 @@ public class ProductPage {
 
     ShopController controller;
     CMS cms;
+    Pane page;
 
-    public ProductPage(ShopController controller) {
+
+    public ProductPage(ShopController controller) throws Exception {
 
         this.controller = controller;
         this.cms = controller.getCMSInstance();
@@ -23,22 +25,23 @@ public class ProductPage {
     public void loadPage(Stage window, ProductInformation product) throws Exception {
 
         Pane plate = cms.loadComponent("ContentTemplate2");
-
         controller.getTopBanner().loadTopBanner(window, plate);
 
         Pane productPage = cms.loadComponent("ProductPage");
+        this.page = productPage;
+
         // Image productImage = new Image(ProductPage.class.getResourceAsStream("Placeholder.jpg"));
         // ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
         // ((ImageView) controller.getCMSInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
-        ((Label) cms.findNode(productPage, "productName_Label")).setText(product.getName());
+        setLabelText("productName_Label", product.getName());
         if (product.getPriceInformation() == null) {
-            ((Label) cms.findNode(productPage, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
+            setLabelText("productPrice_Label", "$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
         } else {
-            ((Label) cms.findNode(productPage, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+            setLabelText("productPrice_Label", "$" + (product.getPriceInformation().getPrice()));
         }
-        ((TextArea) cms.findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
-        ((TextArea) cms.findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
+        setTextAreaText("productDescription_TextArea", product.getLongDescription());
+        setTextAreaText("productSpecification_TextArea", product.getShortDescription());
         ((Button) cms.findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getCart().addToCart(product);}
@@ -49,4 +52,13 @@ public class ProductPage {
 
         controller.setScene(plate);
     }
+
+    public void setLabelText(String fxid, String text) {
+        ((Label) cms.findNode(page, fxid)).setText(text);
+    }
+
+    public void setTextAreaText(String fxid, String text) {
+        ((TextArea) cms.findNode(page, fxid)).setText(text);
+    }
+
 }
