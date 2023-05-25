@@ -7,11 +7,7 @@ import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.components.Cart;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -41,24 +37,14 @@ public class PaymentPage {
         cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         ((Button) cms.findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
-            Customer customer = createCustomer();
 
-            HashMap<String, Integer> order = new HashMap<>();
-
-            for (ProductInformation product : controller.getCart().getContents().keySet()) {
-                order.put(product.getProductUUID(), controller.getCart().getContents().get(product));
-            }
-
-
-            MockShopObject orderInfo = new MockShopObject(order, customer);
-            StockInterface.sendOrderOMSNew(orderInfo);
-            OrderManager.sendOrder(orderInfo);
+            MockShopObject orderInfo = createShopObject();
+            sendOrder(orderInfo);
 
             try {
                 controller.getCart().clearCart();
                 controller.getPurchasePage().loadPurchaseComplete(window);
             }
-
             catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -67,6 +53,29 @@ public class PaymentPage {
         controller.setScene(plate);
     }
 
+    public void sendOrder(MockShopObject orderInfo) {
+
+        StockInterface.sendOrderOMSNew(orderInfo);
+        OrderManager.sendOrder(orderInfo);
+    }
+
+    public MockShopObject createShopObject() {
+        Customer customer = createCustomer();
+        HashMap<String, Integer> order = createOrder();
+
+        MockShopObject orderInfo = new MockShopObject(order, customer);
+
+        return orderInfo;
+    }
+    public HashMap<String, Integer> createOrder() {
+        HashMap<String, Integer> order = new HashMap<>();
+
+        for (ProductInformation product : controller.getCart().getContents().keySet()) {
+            order.put(product.getProductUUID(), controller.getCart().getContents().get(product));
+        }
+
+        return order;
+    }
     public Customer createCustomer() {
         String name = fetchTextFieldText("fullName_TextField");
         String email = fetchTextFieldText("email_TextField");
