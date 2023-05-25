@@ -27,7 +27,7 @@ public class ShopPage {
         controller.getProductView().loadProductView(window, plate, controller.getPIMDriverInstance().getAllProducts());
         controller.getSidebar().loadSidebar(window, plate);
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 
     public void reloadProductView(Stage window, ProductList products) throws Exception {
@@ -38,7 +38,7 @@ public class ShopPage {
         controller.getProductView().loadProductView(window, plate, products);
         controller.getSidebar().loadSidebar(window, plate);
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 
 }

@@ -83,7 +83,7 @@ public class CartPage {
         });
 
         updatePrice(cartPage, total);
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 
     public void updatePrice(Pane cartPage, BigDecimal total) {

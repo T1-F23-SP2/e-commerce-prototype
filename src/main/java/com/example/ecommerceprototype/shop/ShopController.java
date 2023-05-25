@@ -4,6 +4,8 @@ import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.shop.components.*;
 import com.example.ecommerceprototype.shop.pages.*;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ShopController {
@@ -102,5 +104,9 @@ public class ShopController {
 
     public CMS getCMSInstance() {
         return CMS.getInstance();
+    }
+
+    public void setScene(Pane plate) {
+        window.setScene(new Scene(plate, 1920, 1080));
     }
 }

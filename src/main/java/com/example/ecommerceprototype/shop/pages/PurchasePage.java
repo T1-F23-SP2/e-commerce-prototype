@@ -25,6 +25,6 @@ public class PurchasePage {
         Pane paymentPage = cms.loadComponent("PurchaseCompletePage");
         cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 }

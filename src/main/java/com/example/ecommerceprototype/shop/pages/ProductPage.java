@@ -47,6 +47,6 @@ public class ProductPage {
 
         cms.loadOnto(plate, productPage, "contentPlaceholder_Pane");
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 }

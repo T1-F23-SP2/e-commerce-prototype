@@ -23,7 +23,7 @@ public class ArticlePage {
         cms.loadOnto(plate, controller.getCMSInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
         controller.getTopBanner().loadTopBanner(window, plate);
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 
 }

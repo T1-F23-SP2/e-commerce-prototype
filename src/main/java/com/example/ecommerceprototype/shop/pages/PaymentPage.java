@@ -24,7 +24,6 @@ public class PaymentPage {
     public PaymentPage(ShopController controller) {
         this.controller = controller;
         this.cms = controller.getCMSInstance();
-
     }
 
     public void loadPaymentPage(Stage window) throws Exception{
@@ -62,6 +61,6 @@ public class PaymentPage {
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        window.setScene(new Scene(plate, 1920, 1080));
+        controller.setScene(plate);
     }
 }
