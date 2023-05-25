@@ -41,7 +41,7 @@ public class Sidebar {
         VBox categoryList = (VBox) cms.findNode(sidebar, "categoryList_VBox");
         VBox allCategoryItem = (VBox) cms.loadComponent("CategoryItem");
         Button allCategoryButton = (Button) cms.findNode(allCategoryItem, "categoryItem_Button");
-        ((Button) cms.findNode(allCategoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+        setCategoryButtonOnAction(allCategoryItem, actionEvent -> {
             try {
                 controller.getShopPage().loadPage(window);}
             catch (Exception e) {System.out.println(e.getMessage());}
@@ -55,7 +55,7 @@ public class Sidebar {
             VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
             Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
-            ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            setCategoryButtonOnAction(categoryItem, actionEvent -> {
                 try {
                     controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(finalI).getName()));
                 }
@@ -71,7 +71,7 @@ public class Sidebar {
             VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
             Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
-            ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            setCategoryButtonOnAction(categoryItem, actionEvent -> {
                 try {controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
@@ -91,12 +91,18 @@ public class Sidebar {
                 }
             }
             int finalI = i;
-            ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
-                try {controller.getShopPage().reloadProductView(window, productOfPrice);}
+            setCategoryButtonOnAction(categoryItem, actionEvent -> {
+                try {
+                    controller.getShopPage().reloadProductView(window, productOfPrice);
+                }
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
             b.setText("Price: " + priceRange[i] + " - " + priceRange[i+1]);
             categoryList.getChildren().add(b);
         }
+    }
+
+    public void setCategoryButtonOnAction(VBox categoryItem, EventHandler function) {
+        ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(function);
     }
 }
