@@ -41,27 +41,9 @@ public class CartPage {
             cms.loadOnto(cartPage, item, "cartProductView_Vbox");
             //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
-            ((Label) cms.findNode(item, "productName_Label")).setText(product.getName());
-            if (product.getPriceInformation() == null) {
-                ((Label) cms.findNode(item, "price_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
-            } else {
-                ((Label) cms.findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
-            }
-            ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
-
-            ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-
-                if (!"".equals(newValue)) {
-                    controller.getCart().getContents().put(product, (Integer) ((Spinner) controller.getCMSInstance().findNode(item, "amount_Spinner")).getValue());
-                }
-            });
-            ((Spinner) cms.findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
-                try {
-                    this.loadPage(window);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            setProductName(product.getName());
+            setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
+            loadSpinner(item, product);
 
             ((Button) cms.findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
                 try {
@@ -69,7 +51,6 @@ public class CartPage {
                 }
                 catch (Exception e) {System.out.println("!!!" + e.getMessage());}
             });
-
 
             updatePrice(cartPage, total);
         }
@@ -85,12 +66,36 @@ public class CartPage {
         controller.setScene(plate);
     }
 
-    public void updatePrice(Pane cartPage, BigDecimal total) {
-        ((Label) cms.findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
-        ((Label) cms.findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
-        ((Label) cms.findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
+    public void loadSpinner(Pane item, ProductInformation product) {
+        ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
+
+        ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!"".equals(newValue)) {
+                controller.getCart().getContents().put(product, (Integer) ((Spinner) controller.getCMSInstance().findNode(item, "amount_Spinner")).getValue());
+            }
+        });
+
+        ((Spinner) cms.findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
+            try {
+                this.loadPage(controller.getWindow());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
+    public void updatePrice(Pane cartPage, BigDecimal total) {
+        setLabelText("priceExclTax_Label", total + "DKK");
+        setLabelText("priceTax_Label", total.multiply(BigDecimal.valueOf(0.25)) + "DKK");
+        setLabelText("priceTotal_Label", total.multiply(BigDecimal.valueOf(0.25)).add(total) + "DKK");
+    }
+
+    public void setProductName(String productName) {
+        setLabelText("productName_Label", productName);
+    }
+    public void setProductPrice(String productPrice) {
+        setLabelText("productPrice_Label", productPrice);
+    }
     public void setLabelText(String fxid, String text) {
         ((Label) cms.findNode(page, fxid)).setText(text);
     }
