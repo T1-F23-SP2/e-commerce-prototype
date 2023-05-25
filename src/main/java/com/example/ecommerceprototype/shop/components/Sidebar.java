@@ -90,22 +90,6 @@ public class Sidebar {
         b.setText(filterName + ": " + categoryName);
         categoryList.getChildren().add(b);
     }
-    public <E> void createCategory(VBox categoryList, String filterName, String categoryName, List<E> category, ProductList products) throws Exception {
-        for (int i = 0; i < category.size(); i++) {
-            VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
-            Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
-            int finalI = i;
-            setCategoryButtonOnAction(categoryItem, actionEvent -> {
-                try {
-                    reloadShopPageWithCategory(products);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());;
-            }});
-            b.setText(filterName + ": " + categoryName);
-            categoryList.getChildren().add(b);
-        }
-
-    }
 
     public void setCategoryButtonOnAction(VBox categoryItem, EventHandler function) {
         ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(function);
