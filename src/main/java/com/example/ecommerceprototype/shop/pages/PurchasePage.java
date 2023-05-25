@@ -9,18 +9,21 @@ import javafx.stage.Stage;
 public class PurchasePage {
 
     ShopController controller;
+    CMS cms;
 
     public PurchasePage(ShopController controller) {
+
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
 
     public void loadPurchaseComplete(Stage window) throws Exception{
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
+        Pane plate = cms.loadComponent("ContentTemplate2");
 
         controller.getTopBanner().loadTopBanner(window, plate);
 
-        Pane paymentPage = CMS.getInstance().loadComponent("PurchaseCompletePage");
-        CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
+        Pane paymentPage = cms.loadComponent("PurchaseCompletePage");
+        cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
     }

@@ -25,20 +25,20 @@ public class Sidebar {
 
     public void loadSidebar(Stage window, Pane plate) throws Exception {
         //Load sidebar onto template
-        Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
-        CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
+        Pane sidebar = controller.getCMSInstance().loadComponent("CategorySidebar");
+        controller.getCMSInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
-        ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
+        ((Button) controller.getCMSInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getArticlePage().loadPage(window);}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
         // Load categories
-        VBox categoryList = (VBox) CMS.getInstance().findNode(sidebar, "categoryList_VBox");
-        VBox allCategoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
-        Button allCategoryButton = (Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button");
-        ((Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+        VBox categoryList = (VBox) controller.getCMSInstance().findNode(sidebar, "categoryList_VBox");
+        VBox allCategoryItem = (VBox) controller.getCMSInstance().loadComponent("CategoryItem");
+        Button allCategoryButton = (Button) controller.getCMSInstance().findNode(allCategoryItem, "categoryItem_Button");
+        ((Button) controller.getCMSInstance().findNode(allCategoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getShopPage().loadPage(window);}
             catch (Exception e) {System.out.println(e.getMessage());}
@@ -49,10 +49,10 @@ public class Sidebar {
 
         FilterableArrayList<ProductCategory> allCategories = controller.getPIMDriverInstance().getAllCategories();
         for (int i = 0; i < allCategories.size(); i++) {
-            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
-            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            VBox categoryItem = (VBox) controller.getCMSInstance().loadComponent("CategoryItem");
+            Button b = (Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
-            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            ((Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
                 try {
                     controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(finalI).getName()));
                 }
@@ -65,10 +65,10 @@ public class Sidebar {
         // filtering by manufacturer
         FilterableArrayList<ManufacturingInformation> allManufacturers = controller.getPIMDriverInstance().getAllManufactures();
         for (int i = 0; i < allManufacturers.size(); i++) {
-            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
-            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            VBox categoryItem = (VBox) controller.getCMSInstance().loadComponent("CategoryItem");
+            Button b = (Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
-            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            ((Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
                 try {controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
@@ -79,8 +79,8 @@ public class Sidebar {
         // filtering by price
         int[] priceRange = {0, 500, 1000, 2000, 5000, 10000};
         for (int i = 0; i < priceRange.length - 1; i++) {
-            VBox categoryItem = (VBox) CMS.getInstance().loadComponent("CategoryItem");
-            Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
+            VBox categoryItem = (VBox) controller.getCMSInstance().loadComponent("CategoryItem");
+            Button b = (Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button");
             ProductList productOfPrice = new ProductList();
             for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
                 if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i])) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
@@ -88,7 +88,7 @@ public class Sidebar {
                 }
             }
             int finalI = i;
-            ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
+            ((Button) controller.getCMSInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
                 try {controller.getShopPage().reloadProductView(window, productOfPrice);}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });

@@ -11,14 +11,17 @@ import javafx.stage.Stage;
 public class ShopPage {
 
     ShopController controller;
+    CMS cms;
 
     public ShopPage(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
+
     }
 
     public void loadPage(Stage window) throws Exception {
 
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
+        Pane plate = cms.loadComponent("ContentTemplate1");
 
         controller.getTopBanner().loadTopBanner(window, plate);
         controller.getProductView().loadProductView(window, plate, controller.getPIMDriverInstance().getAllProducts());
@@ -29,7 +32,7 @@ public class ShopPage {
 
     public void reloadProductView(Stage window, ProductList products) throws Exception {
 
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate1");
+        Pane plate = cms.loadComponent("ContentTemplate1");
 
         controller.getTopBanner().loadTopBanner(window, plate);
         controller.getProductView().loadProductView(window, plate, products);

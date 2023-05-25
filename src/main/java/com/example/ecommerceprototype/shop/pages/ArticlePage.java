@@ -9,16 +9,18 @@ import javafx.stage.Stage;
 public class ArticlePage {
 
     ShopController controller;
+    CMS cms;
 
     public ArticlePage(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
 
     public void loadPage(Stage window) throws Exception {
 
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
+        Pane plate = cms.loadComponent("ContentTemplate2");
 
-        CMS.getInstance().loadOnto(plate, CMS.getInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
+        cms.loadOnto(plate, controller.getCMSInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
         controller.getTopBanner().loadTopBanner(window, plate);
 
         window.setScene(new Scene(plate, 1920, 1080));

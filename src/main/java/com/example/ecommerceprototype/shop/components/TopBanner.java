@@ -17,30 +17,30 @@ public class TopBanner {
 
     public void loadTopBanner(Stage window, Pane page) throws Exception {
 
-        Pane topBanner = CMS.getInstance().loadComponent("TopBanner");
+        Pane topBanner = controller.getCMSInstance().loadComponent("TopBanner");
 
-        ((Button) CMS.getInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
+        ((Button) controller.getCMSInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getShopPage().loadPage(window);
             }
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        ((Button) CMS.getInstance().findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
+        ((Button) controller.getCMSInstance().findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
             try {
-                controller.getSearch().search(((TextField) CMS.getInstance().findNode(topBanner, "search_TextField")).getText());
+                controller.getSearch().search(((TextField) controller.getCMSInstance().findNode(topBanner, "search_TextField")).getText());
             }
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        ((Button) CMS.getInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
+        ((Button) controller.getCMSInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getCartPage().loadPage(window);
             }
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        CMS.getInstance().loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
+        controller.getCMSInstance().loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
 
     }
 }

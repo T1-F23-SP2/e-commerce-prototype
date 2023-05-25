@@ -19,26 +19,29 @@ import java.util.HashMap;
 public class PaymentPage {
 
     ShopController controller;
+    CMS cms;
 
     public PaymentPage(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
+
     }
 
     public void loadPaymentPage(Stage window) throws Exception{
 
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
+        Pane plate = cms.loadComponent("ContentTemplate2");
 
         controller.getTopBanner().loadTopBanner(window, plate);
 
-        Pane paymentPage = CMS.getInstance().loadComponent("paymentPage");
-        CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
+        Pane paymentPage = cms.loadComponent("paymentPage");
+        cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
-        ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
-            String name = ((TextField) CMS.getInstance().findNode(paymentPage, "fullName_TextField")).getText();
-            String email = ((TextField) CMS.getInstance().findNode(paymentPage, "email_TextField")).getText();
-            int phone = Integer.parseInt(((TextField) CMS.getInstance().findNode(paymentPage, "phoneNumber_TextField")).getText());
-            String address = ((TextField) CMS.getInstance().findNode(paymentPage, "address_TextField")).getText();
-            int zipcode = Integer.parseInt(((TextField) CMS.getInstance().findNode(paymentPage, "ZIPCode_TextField")).getText());
+        ((Button) cms.findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
+            String name = ((TextField) cms.findNode(paymentPage, "fullName_TextField")).getText();
+            String email = ((TextField) cms.findNode(paymentPage, "email_TextField")).getText();
+            int phone = Integer.parseInt(((TextField) cms.findNode(paymentPage, "phoneNumber_TextField")).getText());
+            String address = ((TextField) cms.findNode(paymentPage, "address_TextField")).getText();
+            int zipcode = Integer.parseInt(((TextField) cms.findNode(paymentPage, "ZIPCode_TextField")).getText());
 
             HashMap<String, Integer> order = new HashMap<>();
 

@@ -17,52 +17,54 @@ import java.math.BigDecimal;
 
 public class CartPage {
     ShopController controller;
+    CMS cms;
 
     public CartPage(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
 
     boolean cartReloading = false;
     public void loadPage(Stage window) throws Exception {
 
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
+        Pane plate = cms.loadComponent("ContentTemplate2");
 
         controller.getTopBanner().loadTopBanner(window, plate);
 
-        Pane cartPage = CMS.getInstance().loadComponent("CartPage");
-        CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
+        Pane cartPage = cms.loadComponent("CartPage");
+        cms.loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
         BigDecimal total = BigDecimal.valueOf(0);
         for (ProductInformation product : controller.getCart().getContents().keySet()) {
             total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
-            Pane item = CMS.getInstance().loadComponent("CartProductView");
-            CMS.getInstance().loadOnto(cartPage, item, "cartProductView_Vbox");
+            Pane item = cms.loadComponent("CartProductView");
+            cms.loadOnto(cartPage, item, "cartProductView_Vbox");
             //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
-            //((ImageView) CMS.getInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
-            ((Label) CMS.getInstance().findNode(item, "productName_Label")).setText(product.getName());
+            //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
+            ((Label) cms.findNode(item, "productName_Label")).setText(product.getName());
             if (product.getPriceInformation() == null) {
-                ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
+                ((Label) cms.findNode(item, "price_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
             } else {
-                ((Label) CMS.getInstance().findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+                ((Label) cms.findNode(item, "price_Label")).setText("$" + (product.getPriceInformation().getPrice()));
             }
-            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
+            ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product), 1));
 
-            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
 
                 if (!"".equals(newValue)) {
-                    controller.getCart().getContents().put(product, (Integer) ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).getValue());
+                    controller.getCart().getContents().put(product, (Integer) ((Spinner) controller.getCMSInstance().findNode(item, "amount_Spinner")).getValue());
                 }
             });
-            ((Spinner) CMS.getInstance().findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
+            ((Spinner) cms.findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
                 try {
-                    loadPage(window);
+                    this.loadPage(window);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             });
 
-            ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
+            ((Button) cms.findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
                 try {
                     controller.getCart().deleteFromCart(product);
                 }
@@ -73,7 +75,7 @@ public class CartPage {
             updatePrice(cartPage, total);
         }
 
-        ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
+        ((Button) cms.findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getPaymentPage().loadPaymentPage(window);
             }
@@ -84,10 +86,10 @@ public class CartPage {
         window.setScene(new Scene(plate, 1920, 1080));
     }
 
-    public static void updatePrice(Pane cartPage, BigDecimal total) {
-        ((Label) CMS.getInstance().findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
-        ((Label) CMS.getInstance().findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
-        ((Label) CMS.getInstance().findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
+    public void updatePrice(Pane cartPage, BigDecimal total) {
+        ((Label) cms.findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
+        ((Label) cms.findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
+        ((Label) cms.findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
     }
 
 }

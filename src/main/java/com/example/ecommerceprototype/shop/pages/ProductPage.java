@@ -13,36 +13,39 @@ import javafx.stage.Stage;
 public class ProductPage {
 
     ShopController controller;
+    CMS cms;
 
     public ProductPage(ShopController controller) {
+
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
     public void loadPage(Stage window, ProductInformation product) throws Exception {
-        //Load page template (Template 2 has space for a top banner and some content pane)
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
+
+        Pane plate = cms.loadComponent("ContentTemplate2");
 
         controller.getTopBanner().loadTopBanner(window, plate);
 
-        Pane productPage = CMS.getInstance().loadComponent("ProductPage");
+        Pane productPage = cms.loadComponent("ProductPage");
         // Image productImage = new Image(ProductPage.class.getResourceAsStream("Placeholder.jpg"));
-        // ((ImageView) CMS.getInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
-        // ((ImageView) CMS.getInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
+        // ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
+        // ((ImageView) controller.getCMSInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
-        ((Label) CMS.getInstance().findNode(productPage, "productName_Label")).setText(product.getName());
+        ((Label) cms.findNode(productPage, "productName_Label")).setText(product.getName());
         if (product.getPriceInformation() == null) {
-            ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
+            ((Label) cms.findNode(productPage, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
         } else {
-            ((Label) CMS.getInstance().findNode(productPage, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+            ((Label) cms.findNode(productPage, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
         }
-        ((TextArea) CMS.getInstance().findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
-        ((TextArea) CMS.getInstance().findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
-        ((Button) CMS.getInstance().findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
+        ((TextArea) cms.findNode(productPage, "productDescription_TextArea")).setText(product.getLongDescription());
+        ((TextArea) cms.findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
+        ((Button) cms.findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getCart().addToCart(product);}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        CMS.getInstance().loadOnto(plate, productPage, "contentPlaceholder_Pane");
+        cms.loadOnto(plate, productPage, "contentPlaceholder_Pane");
 
         window.setScene(new Scene(plate, 1920, 1080));
     }

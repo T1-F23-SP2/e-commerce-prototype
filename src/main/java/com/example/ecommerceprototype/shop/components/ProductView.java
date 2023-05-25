@@ -26,20 +26,20 @@ public class ProductView {
                 continue;
             }
 
-            Pane view = CMS.getInstance().loadComponent("ProductView");
+            Pane view = controller.getCMSInstance().loadComponent("ProductView");
 
-            ((Label) CMS.getInstance().findNode(view, "productName_Label")).setText(product.getName());
+            ((Label) controller.getCMSInstance().findNode(view, "productName_Label")).setText(product.getName());
             if (product.getPriceInformation() == null) {
-                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
+                ((Label) controller.getCMSInstance().findNode(view, "productPrice_Label")).setText("$" + (ProductFinder.findProduct(product).getPriceInformation().getPrice()));
             } else {
-                ((Label) CMS.getInstance().findNode(view, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
+                ((Label) controller.getCMSInstance().findNode(view, "productPrice_Label")).setText("$" + (product.getPriceInformation().getPrice()));
             }
-            // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
-            // ((Label) CMS.getInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
-            ((TextArea) CMS.getInstance().findNode(view, "productDescription_TextArea")).setText(product.getShortDescription());
+            // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
+            // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
+            ((TextArea) controller.getCMSInstance().findNode(view, "productDescription_TextArea")).setText(product.getShortDescription());
             //Image productImage = new Image(Objects.requireNonNull(ProductView.class.getResourceAsStream("Placeholder.jpg")));
-            //((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
-            ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
+            //((ImageView) controller.getCMSInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
+            ((Button) controller.getCMSInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
                 try {
                     controller.getProductPage().loadPage(window, product);
                 } catch (Exception e) {
@@ -47,7 +47,7 @@ public class ProductView {
                 }
             });
 
-            ((Button) CMS.getInstance().findNode(view, "addToCart_Button")).setOnAction(actionEvent -> {
+            ((Button) controller.getCMSInstance().findNode(view, "addToCart_Button")).setOnAction(actionEvent -> {
                 try {
                     controller.getCart().addToCart(product);
                 } catch (Exception e) {
@@ -59,7 +59,7 @@ public class ProductView {
             GridPane.setRowIndex(view, (int) Math.floor(i / 3)); // floor(n/3) is the integer sequence for 0, 0, 0, 1, 1, 1, 2, 2, 2... (https://oeis.org/A002264)
             i += 1;
 
-            CMS.getInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
+            controller.getCMSInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
         }
     }
 }

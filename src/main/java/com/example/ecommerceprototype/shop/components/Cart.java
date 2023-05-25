@@ -13,18 +13,24 @@ public class Cart {
         this.controller = controller;
     }
 
-    public HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
+    HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
 
     public void addToCart(ProductInformation product) {
         cart.put(product, 1);
-        try {controller.getCartPage().loadPage(controller.getWindow());}
+        try {
+            controller.getCartPage().loadPage(controller.getWindow());
+        }
         catch (Exception e) {System.out.println(e.getMessage());}
     }
 
     public void deleteFromCart(ProductInformation product) {
         cart.remove(product);
-        try {controller.getCartPage().loadPage(controller.getWindow());}
-        catch (Exception e) {System.out.println(e.getMessage());}
+        try {
+            controller.getCartPage().loadPage(controller.getWindow());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void clearCart() {

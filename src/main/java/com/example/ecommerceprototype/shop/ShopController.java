@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.shop;
 
+import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.shop.components.*;
 import com.example.ecommerceprototype.shop.pages.*;
@@ -97,5 +98,9 @@ public class ShopController {
 
     public PIMDriver getPIMDriverInstance() {
         return PIMDriverInstance;
+    }
+
+    public CMS getCMSInstance() {
+        return CMS.getInstance();
     }
 }
