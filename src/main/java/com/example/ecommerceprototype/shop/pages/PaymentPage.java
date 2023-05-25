@@ -41,11 +41,7 @@ public class PaymentPage {
         cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
         ((Button) cms.findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
-            String name = fetchTextFieldText("fullName_TextField");
-            String email = fetchTextFieldText("email_TextField");
-            int phone = Integer.parseInt(fetchTextFieldText("phoneNumber_TextField"));
-            String address = fetchTextFieldText("address_TextField");
-            int zipcode = Integer.parseInt(fetchTextFieldText("ZIPCode_TextField"));
+            Customer customer = createCustomer();
 
             HashMap<String, Integer> order = new HashMap<>();
 
@@ -53,7 +49,7 @@ public class PaymentPage {
                 order.put(product.getProductUUID(), controller.getCart().getContents().get(product));
             }
 
-            Customer customer = new Customer(name, email, phone, address, zipcode);
+
             MockShopObject orderInfo = new MockShopObject(order, customer);
             StockInterface.sendOrderOMSNew(orderInfo);
             OrderManager.sendOrder(orderInfo);
@@ -69,6 +65,18 @@ public class PaymentPage {
         });
 
         controller.setScene(plate);
+    }
+
+    public Customer createCustomer() {
+        String name = fetchTextFieldText("fullName_TextField");
+        String email = fetchTextFieldText("email_TextField");
+        int phone = Integer.parseInt(fetchTextFieldText("phoneNumber_TextField"));
+        String address = fetchTextFieldText("address_TextField");
+        int zipcode = Integer.parseInt(fetchTextFieldText("ZIPCode_TextField"));
+
+        Customer customer = new Customer(name, email, phone, address, zipcode);
+
+        return customer;
     }
 
     public String fetchTextFieldText(String fxid) {
