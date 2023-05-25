@@ -8,6 +8,7 @@ import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -39,24 +40,17 @@ public class PaymentPage {
         ((Button) cms.findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
 
             MockShopObject orderInfo = createShopObject();
-            sendOrder(orderInfo);
 
             try {
-                controller.getCart().clearCart();
-                controller.getPurchasePage().loadPurchaseComplete(window);
-            }
-            catch (Exception e) {
+                controller.getPurchasePage().loadPurchaseComplete(window, orderInfo);
+            } catch (Exception e){
                 System.out.println(e.getMessage());
             }
+            controller.getCart().clearCart();
+
         });
 
         controller.setScene(plate);
-    }
-
-    public void sendOrder(MockShopObject orderInfo) {
-
-        StockInterface.sendOrderOMSNew(orderInfo);
-        OrderManager.sendOrder(orderInfo);
     }
 
     public MockShopObject createShopObject() {

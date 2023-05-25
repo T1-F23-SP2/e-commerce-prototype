@@ -41,14 +41,12 @@ public class ShopController {
         cart = new Cart(this);
         cartItem = new CartItem(this);
 
-
         window = stage;
         shopPage.loadPage(window);
 
         stage.setTitle("Arnes ElectroShop!");
         stage.show();
 
-        stage.setFullScreen(true);
     }
 
     public Stage getWindow() {
