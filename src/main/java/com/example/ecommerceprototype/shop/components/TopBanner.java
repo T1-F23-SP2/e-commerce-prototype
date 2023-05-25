@@ -37,6 +37,7 @@ public class TopBanner {
         pane = topBanner;
 
         loadHomeButton();
+        cms.findNode(pane, "search_TextField").setVisible(false);
         cms.findNode(pane, "search_Button").setVisible(false);
         cms.findNode(pane, "cart_Button").setVisible(false);
 
@@ -50,6 +51,7 @@ public class TopBanner {
         pane = topBanner;
 
         loadHomeButton();
+        cms.findNode(pane, "search_TextField").setVisible(false);
         cms.findNode(pane, "search_Button").setVisible(false);
         loadCartButton();
 
@@ -72,6 +74,7 @@ public class TopBanner {
     }
     public void loadSearchBar() throws Exception {
 
+        cms.findNode(pane, "search_TextField").setVisible(true);
         cms.findNode(pane, "search_Button").setVisible(true);
         ((Button) cms.findNode(pane, "search_Button")).setOnAction(actionEvent -> {
             try {
