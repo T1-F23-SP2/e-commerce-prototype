@@ -16,6 +16,9 @@ public class Cart {
     HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
 
     public void addToCart(ProductInformation product) {
+        if (cart.containsKey(product)) {
+            cart.put(product, cart.get(product) + 1);
+        }
         cart.put(product, 1);
         try {
             controller.getCartPage().loadPage(controller.getWindow());
