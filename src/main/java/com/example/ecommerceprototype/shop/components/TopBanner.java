@@ -2,8 +2,6 @@ package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.pages.CartPage;
-import com.example.ecommerceprototype.shop.pages.ShopPage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;

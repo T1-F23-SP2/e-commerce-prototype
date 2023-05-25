@@ -2,8 +2,6 @@ package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.ShopRefactor;
-import com.example.ecommerceprototype.shop.pages.CartPage;
 
 import java.util.HashMap;
 

@@ -8,8 +8,6 @@ import com.example.ecommerceprototype.pim.product_information.ProductInformation
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.pages.ArticlePage;
-import com.example.ecommerceprototype.shop.pages.ShopPage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;

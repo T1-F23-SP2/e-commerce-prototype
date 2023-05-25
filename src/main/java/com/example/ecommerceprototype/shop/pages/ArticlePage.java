@@ -2,7 +2,6 @@ package com.example.ecommerceprototype.shop.pages;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.components.TopBanner;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;

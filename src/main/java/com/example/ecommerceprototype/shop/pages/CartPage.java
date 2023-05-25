@@ -5,15 +5,11 @@ import com.example.ecommerceprototype.pim.product_information.ProductInformation
 import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
 import com.example.ecommerceprototype.shop.components.ProductFinder;
-import com.example.ecommerceprototype.shop.components.Sidebar;
-import com.example.ecommerceprototype.shop.components.TopBanner;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
