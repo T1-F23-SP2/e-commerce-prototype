@@ -11,6 +11,7 @@ public class TopBanner {
 
     ShopController controller;
     CMS cms;
+    Pane pane;
 
     public TopBanner(ShopController controller) {
         this.controller = controller;
@@ -20,35 +21,51 @@ public class TopBanner {
     public void loadTopBanner(Stage window, Pane page) throws Exception {
 
         Pane topBanner = cms.loadComponent("TopBanner");
+        pane = topBanner;
 
-        ((Button) cms.findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
-            try {
-                controller.getShopPage().loadPage(window);
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
-
-        ((Button) cms.findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
-            try {
-                controller.getSearch().search(((TextField) cms.findNode(topBanner, "search_TextField")).getText());
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
-
-        ((Button) cms.findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
-            try {
-                controller.getCartPage().loadPage(window);
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
+        loadHomeButton();
+        loadSearchBar();
+        loadCartButton();
 
         cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
 
     }
+
+    public void loadHomeButton() throws Exception {
+
+        ((Button) cms.findNode(pane, "home_Button")).setOnAction(actionEvent -> {
+            try {
+                controller.getShopPage().loadPage(controller.getWindow());
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+    }
+    public void loadSearchBar() throws Exception {
+
+        ((Button) cms.findNode(pane, "search_Button")).setOnAction(actionEvent -> {
+            try {
+                controller.getSearch().search(((TextField) cms.findNode(pane, "search_TextField")).getText());
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+    }
+
+    public void loadCartButton() throws Exception {
+
+        ((Button) cms.findNode(pane, "cart_Button")).setOnAction(actionEvent -> {
+            try {
+                controller.getCartPage().loadPage(controller.getWindow());
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+    }
+
 }
