@@ -20,7 +20,7 @@ public class ArticlePage {
 
         Pane plate = cms.loadComponent("ContentTemplate2");
 
-        cms.loadOnto(plate, controller.getCMSInstance().loadComponent("ArticlePage"), "contentPlaceholder_Pane");
+        cms.loadOnto(plate, cms.loadComponent("ArticlePage"), "contentPlaceholder_Pane");
         controller.getTopBanner().loadTopBanner(window, plate);
 
         controller.setScene(plate);

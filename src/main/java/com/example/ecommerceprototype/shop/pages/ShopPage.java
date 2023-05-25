@@ -12,10 +12,12 @@ public class ShopPage {
 
     ShopController controller;
     CMS cms;
+    PIMDriver pim;
 
     public ShopPage(ShopController controller) {
         this.controller = controller;
         this.cms = controller.getCMSInstance();
+        this.pim = controller.getPIMDriverInstance();
 
     }
 
@@ -24,7 +26,7 @@ public class ShopPage {
         Pane plate = cms.loadComponent("ContentTemplate1");
 
         controller.getTopBanner().loadTopBanner(window, plate);
-        controller.getProductView().loadProductView(window, plate, controller.getPIMDriverInstance().getAllProducts());
+        controller.getProductView().loadProductView(window, plate, pim.getAllProducts());
         controller.getSidebar().loadSidebar(window, plate);
 
         controller.setScene(plate);

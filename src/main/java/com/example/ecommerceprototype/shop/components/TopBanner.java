@@ -10,37 +10,45 @@ import javafx.stage.Stage;
 public class TopBanner {
 
     ShopController controller;
+    CMS cms;
 
     public TopBanner(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
 
     public void loadTopBanner(Stage window, Pane page) throws Exception {
 
-        Pane topBanner = controller.getCMSInstance().loadComponent("TopBanner");
+        Pane topBanner = cms.loadComponent("TopBanner");
 
-        ((Button) controller.getCMSInstance().findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
+        ((Button) cms.findNode(topBanner, "home_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getShopPage().loadPage(window);
             }
-            catch (Exception e) {System.out.println(e.getMessage());}
-        });
-
-        ((Button) controller.getCMSInstance().findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
-            try {
-                controller.getSearch().search(((TextField) controller.getCMSInstance().findNode(topBanner, "search_TextField")).getText());
+            catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            catch (Exception e) {System.out.println(e.getMessage());}
         });
 
-        ((Button) controller.getCMSInstance().findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
+        ((Button) cms.findNode(topBanner, "search_Button")).setOnAction(actionEvent -> {
+            try {
+                controller.getSearch().search(((TextField) cms.findNode(topBanner, "search_TextField")).getText());
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+
+        ((Button) cms.findNode(topBanner, "cart_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getCartPage().loadPage(window);
             }
-            catch (Exception e) {System.out.println(e.getMessage());}
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         });
 
-        controller.getCMSInstance().loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
+        cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
 
     }
 }

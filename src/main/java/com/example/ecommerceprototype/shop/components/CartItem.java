@@ -44,7 +44,7 @@ public class CartItem {
 
         ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (!"".equals(newValue)) {
-                controller.getCart().getContents().put(product, (Integer) ((Spinner) controller.getCMSInstance().findNode(item, "amount_Spinner")).getValue());
+                controller.getCart().getContents().put(product, (Integer) ((Spinner) cms.findNode(item, "amount_Spinner")).getValue());
             }
         });
 
