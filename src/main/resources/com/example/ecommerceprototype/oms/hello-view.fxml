@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="467.0" prefWidth="475.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.oms.OrderGUIControllerOMS">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="508.0" prefWidth="366.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Orders">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="412.0" prefWidth="366.0">
+               <children>
+                  <ListView fx:id="ordersListId" prefHeight="300.0" prefWidth="400.0" />
+                  <ListView fx:id="ordersListStatus" prefHeight="300.0" prefWidth="400.0" />
+                  <ListView fx:id="ordersListUUID" prefHeight="300.0" prefWidth="400.0" />
+               </children>
+            </HBox>
+            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#bottomCheckDB" text="Update" />
+            <Button fx:id="addOrderMock" mnemonicParsing="false" onAction="#addOrderMock" text="Add Order" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
