@@ -19,7 +19,6 @@ public class ProductPage {
     CMS cms;
     Pane page;
 
-
     public ProductPage(ShopController controller) throws Exception {
 
         this.controller = controller;
@@ -54,20 +53,6 @@ public class ProductPage {
         controller.setScene(plate);
     }
 
-    public void setProductPrice(String productPrice) {
-        setLabelText("productPrice_Label", productPrice);
-    }
-
-    public void setProductSpecification(String productSpecification) {
-        setTextAreaText("productSpecification_TextArea", productSpecification);
-    }
-    public void setProductDescription(String productDescription) {
-        setTextAreaText("productDescription_TextArea", productDescription);
-    }
-    public void setProductName(String productName) {
-        setLabelText("productName_Label", productName);
-    }
-
     public void setLabelText(String fxid, String text) {
         ((Label) cms.findNode(page, fxid)).setText(text);
     }
@@ -79,5 +64,18 @@ public class ProductPage {
     public void setButtonOnAction(String fxid, EventHandler function) {
         ((Button) cms.findNode(page, fxid)).setOnAction(function);
     }
+    public void setProductPrice(String productPrice) {
+        setLabelText("productPrice_Label", productPrice);
+    }
+    public void setProductSpecification(String productSpecification) {
+        setTextAreaText("productSpecification_TextArea", productSpecification);
+    }
+    public void setProductDescription(String productDescription) {
+        setTextAreaText("productDescription_TextArea", productDescription);
+    }
+    public void setProductName(String productName) {
+        setLabelText("productName_Label", productName);
+    }
+
 
 }
