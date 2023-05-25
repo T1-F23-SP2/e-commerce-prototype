@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.pim.util.ProductList;
 import com.example.ecommerceprototype.shop.ShopController;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -14,9 +15,12 @@ import javafx.stage.Stage;
 public class ProductView {
 
     ShopController controller;
+    CMS cms;
+    Pane productView;
 
     public ProductView(ShopController controller) {
         this.controller = controller;
+        this.cms = controller.getCMSInstance();
     }
 
     public void loadProductView(Stage window, Pane plate, ProductList products) throws Exception {
@@ -27,6 +31,7 @@ public class ProductView {
             }
 
             Pane view = controller.getCMSInstance().loadComponent("ProductView");
+            productView = view;
 
             ((Label) controller.getCMSInstance().findNode(view, "productName_Label")).setText(product.getName());
             if (product.getPriceInformation() == null) {
@@ -62,4 +67,31 @@ public class ProductView {
             controller.getCMSInstance().loadOnto(plate, view, "contentPlaceholder_GridPane");
         }
     }
+
+    public void setTextAreaText(String fxid, String text) {
+        ((Label) cms.findNode(productView, fxid)).setText(text);
+    }
+
+    public void setLabelText(String fxid, String text) {
+        ((Label) cms.findNode(productView, fxid)).setText(text);
+    }
+
+    public void setButtonOnAction(Pane pane, String fxid, EventHandler function) {
+        ((Button) cms.findNode(pane, fxid)).setOnAction(function);
+    }
+
+    public void setProductSpecification(String productSpecification) {
+        setTextAreaText("productSpecification_TextArea", productSpecification);
+    }
+    public void setProductDescription(String productDescription) {
+        setTextAreaText("productDescription_TextArea", productDescription);
+    }
+
+    public void setProductPrice(String productPrice) {
+        setLabelText("productPrice_Label", productPrice);
+    }
+    public void setProductName(String productName) {
+        setLabelText("productName_Label", productName);
+    }
+
 }
