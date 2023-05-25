@@ -25,6 +25,7 @@ public class ProductView {
 
     public void loadProductView(Stage window, Pane plate, ProductList products) throws Exception {
         int i = 0;
+
         for (ProductInformation product : products) {
             if (product.getIsHidden()) {
                 continue;
@@ -41,7 +42,7 @@ public class ProductView {
 
             //Image productImage = new Image(Objects.requireNonNull(ProductView.class.getResourceAsStream("Placeholder.jpg")));
             //((ImageView) controller.getCMSInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
-            ((Button) controller.getCMSInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
+            setButtonOnAction("productImage_Button", actionEvent -> {
                 try {
                     controller.getProductPage().loadPage(window, product);
                 } catch (Exception e) {
@@ -49,7 +50,7 @@ public class ProductView {
                 }
             });
 
-            ((Button) controller.getCMSInstance().findNode(view, "addToCart_Button")).setOnAction(actionEvent -> {
+            setButtonOnAction("addToCart_Button", actionEvent -> {
                 try {
                     controller.getCart().addToCart(product);
                 } catch (Exception e) {
@@ -73,8 +74,8 @@ public class ProductView {
         ((Label) cms.findNode(productView, fxid)).setText(text);
     }
 
-    public void setButtonOnAction(Pane pane, String fxid, EventHandler function) {
-        ((Button) cms.findNode(pane, fxid)).setOnAction(function);
+    public void setButtonOnAction(String fxid, EventHandler function) {
+        ((Button) cms.findNode(productView, fxid)).setOnAction(function);
     }
 
     public void setProductSpecification(String productSpecification) {
