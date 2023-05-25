@@ -17,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Sidebar {
 
@@ -91,19 +94,19 @@ public class Sidebar {
         }
 
         // filtering by price
-        int[] priceRange = {0, 500, 1000, 2000, 5000, 10000};
-        for (int i = 0; i < priceRange.length - 1; i++) {
+        List<Integer> priceRange = Arrays.asList(0, 100, 500, 1000, 2000, 5000, 10000);
+        for (int i = 0; i < priceRange.size() - 1; i++) {
             VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
             Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
             ProductList productOfPrice = new ProductList();
             for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
-                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i])) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
+                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i))) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
                     productOfPrice.add(product);
                 }
             }
             int finalI = i;
             setCategoryButtonOnAction(categoryItem, actionEvent -> { reloadShopPageWithCategory(productOfPrice); });
-            b.setText("Price: " + priceRange[i] + " - " + priceRange[i+1]);
+            b.setText("Price: " + priceRange.get(i) + " - " + priceRange.get(i+1));
             categoryList.getChildren().add(b);
         }
     }
