@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.product_information.ManufacturingInformation;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class Sidebar {
 
@@ -57,10 +59,14 @@ public class Sidebar {
             int finalI = i;
             setCategoryButtonOnAction(categoryItem, actionEvent -> {
                 try {
-                    controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(finalI).getName()));
+                    reloadShopPageWithCategory(controller.getPIMDriverInstance().getProductsByCategoryName(allCategories.get(finalI).getName()));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
                 }
-                catch (Exception e) {System.out.println(e.getMessage());}
             });
+
             b.setText("Type: " + allCategories.get(i).getName());
             categoryList.getChildren().add(b);
         }
@@ -72,8 +78,13 @@ public class Sidebar {
             Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
             setCategoryButtonOnAction(categoryItem, actionEvent -> {
-                try {controller.getShopPage().reloadProductView(window, controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
-                catch (Exception e) {System.out.println(e.getMessage());}
+                try {
+                    reloadShopPageWithCategory(controller.getPIMDriverInstance().getProductsByManufactureName(allManufacturers.get(finalI).getName()));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             });
             b.setText("Manufacturer: " + allManufacturers.get(i).getName());
             categoryList.getChildren().add(b);
@@ -91,12 +102,7 @@ public class Sidebar {
                 }
             }
             int finalI = i;
-            setCategoryButtonOnAction(categoryItem, actionEvent -> {
-                try {
-                    controller.getShopPage().reloadProductView(window, productOfPrice);
-                }
-                catch (Exception e) {System.out.println(e.getMessage());}
-            });
+            setCategoryButtonOnAction(categoryItem, actionEvent -> { reloadShopPageWithCategory(productOfPrice); });
             b.setText("Price: " + priceRange[i] + " - " + priceRange[i+1]);
             categoryList.getChildren().add(b);
         }
@@ -104,5 +110,14 @@ public class Sidebar {
 
     public void setCategoryButtonOnAction(VBox categoryItem, EventHandler function) {
         ((Button) cms.findNode(categoryItem, "categoryItem_Button")).setOnAction(function);
+    }
+
+    public void reloadShopPageWithCategory(ProductList products) {
+        try {
+            controller.getShopPage().reloadProductView(controller.getWindow(), products);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
