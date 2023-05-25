@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.cms.crud.CRUDHubController">
+   <children>
+      <Button fx:id="articleManager_Button" layoutX="85.0" layoutY="187.0" mnemonicParsing="false" text="Article Manager">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="genericTextManager_Button" layoutX="364.0" layoutY="187.0" mnemonicParsing="false" text="Text Editor Manager">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="236.0" layoutY="84.0" text="Manager Page">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="800" minWidth="1740" maxWidth="1740" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox minHeight="800" minWidth="1740" maxWidth="1740" spacing="50" alignment="TOP_CENTER">
+      <padding>
+         <Insets top="100"/>
+      </padding>
+
+      <VBox alignment="TOP_CENTER" maxWidth="500" minWidth="500" spacing="10">
+         <Label text="Notes">
+            <font><Font size="25" /></font>
+         </Label>
+
+         <TextArea prefHeight="650" prefWidth="180" wrapText="true">
+            <font><Font size="20" /></font>
+         </TextArea>
+      </VBox>
+
+
+
+      <VBox alignment="TOP_CENTER" maxWidth="500" minWidth="500" spacing="20">
+         <Label prefHeight="36.0" prefWidth="235.0" text="Contact Information">
+            <font><Font size="25" /></font>
+         </Label>
+
+         <TextField fx:id="fullName_TextField" prefHeight="50.0" promptText="Full Name.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField fx:id="email_TextField" prefHeight="50.0" promptText="Email.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField fx:id="phoneNumber_TextField" prefHeight="50.0" promptText="Phone nr.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField fx:id="address_TextField" prefHeight="50.0" promptText="Address.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField fx:id="city_TextField" prefHeight="50.0" promptText="City.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField fx:id="ZIPCode_TextField" prefHeight="50.0" promptText="ZIP Code.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+      </VBox>
+
+
+
+      <VBox alignment="TOP_CENTER" maxWidth="500" minWidth="500" spacing="20">
+         <Label text="Card information">
+            <font><Font size="25.0" /></font>
+         </Label>
+
+         <TextField prefHeight="50.0" promptText="Card Number">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <HBox prefHeight="100.0" prefWidth="200.0" alignment="CENTER_LEFT" spacing="10">
+            <Label text="Expiration Date:">
+               <font><Font size="20.0" /></font>
+            </Label>
+
+            <TextField prefHeight="40.0" prefWidth="55.0" promptText="mm">
+               <font><Font size="18.0" /></font>
+            </TextField>
+
+            <Label text="/">
+               <font><Font size="20.0" /></font>
+            </Label>
+
+            <TextField prefHeight="40.0" prefWidth="55.0" promptText="yy">
+               <font><Font size="18.0" /></font>
+            </TextField>
+
+            <Label text="Security Code: ">
+               <font><Font size="20.0" /></font>
+            </Label>
+
+            <TextField prefHeight="40.0" prefWidth="60.0" promptText="xxx" >
+               <font><Font size="18.0" /></font>
+            </TextField>
+         </HBox>
+
+         <TextField promptText="Cardholder Name.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <TextField promptText="Billing address.">
+            <font><Font size="20.0" /></font>
+         </TextField>
+
+         <Button fx:id="finish_Button" prefWidth="150.0" text="Finish">
+            <font><Font size="25.0" /></font>
+         </Button>
+      </VBox>
+   </HBox>
+</VBox>
