@@ -1,67 +1,31 @@
-package com.example.ecommerceprototype.shop.pages;
+package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
-import com.example.ecommerceprototype.shop.components.Cart;
-import com.example.ecommerceprototype.shop.components.ProductFinder;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.math.BigDecimal;
+public class CartItem {
 
-public class CartPage {
     ShopController controller;
     CMS cms;
     Pane page;
     Pane cartItem;
 
-    public CartPage(ShopController controller) {
+    public CartItem(ShopController controller) {
         this.controller = controller;
         this.cms = controller.getCMSInstance();
-    }
-
-    boolean cartReloading = false;
-    public void loadPage(Stage window) throws Exception {
-
-        Pane plate = cms.loadComponent("ContentTemplate2");
-
-        controller.getTopBanner().loadTopBanner(window, plate);
-
-        Pane cartPage = cms.loadComponent("CartPage");
-        page = cartPage;
-        cms.loadOnto(plate, cartPage, "contentPlaceholder_Pane");
-
-        BigDecimal total = BigDecimal.valueOf(0);
-
-        for (ProductInformation product : controller.getCart().getContents().keySet()) {
-            total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
-
-            //loadCartItem(product);
-            controller.getCartItem().loadCartItem(product);
-
-            updatePrice(total);
-        }
-
-        setButtonOnAction(page, "pay_Button", actionEvent -> {
-            try {
-                controller.getPaymentPage().loadPaymentPage(window);
-            }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        });
-
-        updatePrice(total);
-        controller.setScene(plate);
     }
 
     public void loadCartItem(ProductInformation product) throws Exception{
         Pane item = cms.loadComponent("CartProductView");
         cartItem = item;
+        page = controller.getCartPage().getPagePane();
         cms.loadOnto(page, item, "cartProductView_Vbox");
 
         //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
@@ -86,17 +50,11 @@ public class CartPage {
 
         ((Spinner) cms.findNode(item, "amount_Spinner")).setOnMouseClicked(actionEvent -> {
             try {
-                this.loadPage(controller.getWindow());
+                controller.getCartPage().loadPage(controller.getWindow());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
-    }
-
-    public void updatePrice(BigDecimal total) {
-        setLabelText(page, "priceExclTax_Label", total + "DKK");
-        setLabelText(page, "priceTax_Label", total.multiply(BigDecimal.valueOf(0.25)) + "DKK");
-        setLabelText(page, "priceTotal_Label", total.multiply(BigDecimal.valueOf(0.25)).add(total) + "DKK");
     }
 
     public void setProductName(String productName) {
@@ -112,7 +70,5 @@ public class CartPage {
     public void setButtonOnAction(Pane pane, String fxid, EventHandler function) {
         ((Button) cms.findNode(pane, fxid)).setOnAction(function);
     }
-    public Pane getPagePane() {
-        return page;
-    }
+
 }

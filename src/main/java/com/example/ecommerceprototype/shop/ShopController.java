@@ -22,6 +22,7 @@ public class ShopController {
     Sidebar sidebar;
     TopBanner topBanner;
     Cart cart;
+    CartItem cartItem;
     PIMDriver PIMDriverInstance;
 
     public ShopController(Stage stage) throws Exception {
@@ -38,6 +39,7 @@ public class ShopController {
         sidebar = new Sidebar(this);
         topBanner = new TopBanner(this);
         cart = new Cart(this);
+        cartItem = new CartItem(this);
 
 
         window = stage;
@@ -96,6 +98,10 @@ public class ShopController {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public CartItem getCartItem() {
+        return cartItem;
     }
 
     public PIMDriver getPIMDriverInstance() {
