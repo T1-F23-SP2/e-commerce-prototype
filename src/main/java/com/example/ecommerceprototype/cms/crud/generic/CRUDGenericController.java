@@ -37,10 +37,8 @@ public class CRUDGenericController implements Initializable {
     private String style = "System";
     private String font;
     private String fontText;
-<<<<<<< HEAD
-=======
+
     private String currentId;
->>>>>>> origin/main
 
     private final List<String> styles = Arrays.asList("System", "Arial", "Impact");
 

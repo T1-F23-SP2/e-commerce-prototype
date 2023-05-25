@@ -1,14 +1,9 @@
 package com.example.ecommerceprototype.cms;
 
-<<<<<<< HEAD
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-=======
+
 import com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
->>>>>>> origin/main
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;

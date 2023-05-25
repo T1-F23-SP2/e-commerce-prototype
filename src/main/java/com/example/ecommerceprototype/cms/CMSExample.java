@@ -274,10 +274,7 @@ public class CMSExample extends Application{
 
         Pane paymentPage = CMS.getInstance().loadComponent("PaymentPage");
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/main
         ((Button) CMS.getInstance().findNode(paymentPage, "finish_Button")).setOnAction(actionEvent -> {
             try {loadPurchaseComplete();}
             catch (Exception e) {System.out.println(e.getMessage());}
@@ -309,11 +306,8 @@ public class CMSExample extends Application{
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         //Set action for article button (on the sidebar)
-<<<<<<< HEAD
-        ((Button) CMS.getInstance().findNode(sidebar, "articlesb_Button")).setOnAction(actionEvent -> {
-=======
+
         ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
->>>>>>> origin/main
             try {loadArticlePage();}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
