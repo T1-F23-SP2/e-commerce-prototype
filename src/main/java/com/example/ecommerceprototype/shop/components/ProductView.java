@@ -67,7 +67,7 @@ public class ProductView {
     }
 
     public void setTextAreaText(String fxid, String text) {
-        ((Label) cms.findNode(productView, fxid)).setText(text);
+        ((TextArea) cms.findNode(productView, fxid)).setText(text);
     }
 
     public void setLabelText(String fxid, String text) {

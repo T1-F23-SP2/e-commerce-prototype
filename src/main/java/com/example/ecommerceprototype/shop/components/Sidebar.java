@@ -95,20 +95,35 @@ public class Sidebar {
 
         // filtering by price
         List<Integer> priceRange = Arrays.asList(0, 100, 500, 1000, 2000, 5000, 10000);
+        List<ProductList> ranges = new ArrayList<>();
+        for (int i = 0; i < priceRange.size() - 1; i++) {
+            ProductList productOfPrice = new ProductList();
+            for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
+                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i))) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i+1))) < 0) {
+                    productOfPrice.add(product);
+                }
+            }
+            ranges.add(productOfPrice);
+        }
+
         for (int i = 0; i < priceRange.size() - 1; i++) {
             VBox categoryItem = (VBox) cms.loadComponent("CategoryItem");
             Button b = (Button) cms.findNode(categoryItem, "categoryItem_Button");
             ProductList productOfPrice = new ProductList();
             for (ProductInformation product : controller.getPIMDriverInstance().getAllProducts()) {
-                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i))) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange[i+1])) < 0) {
+                if (product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i))) > 0 && product.getPriceInformation().getPrice().compareTo(BigDecimal.valueOf(priceRange.get(i+1))) < 0) {
                     productOfPrice.add(product);
                 }
             }
             int finalI = i;
-            setCategoryButtonOnAction(categoryItem, actionEvent -> { reloadShopPageWithCategory(productOfPrice); });
+            setCategoryButtonOnAction(categoryItem, actionEvent -> { reloadShopPageWithCategory(ranges.get(finalI)); });
             b.setText("Price: " + priceRange.get(i) + " - " + priceRange.get(i+1));
             categoryList.getChildren().add(b);
         }
+    }
+
+    public <E> void createCategory(String categoryName, List<E> category) {
+
     }
 
     public void setCategoryButtonOnAction(VBox categoryItem, EventHandler function) {
