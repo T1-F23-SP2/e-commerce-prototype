@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.pim.product_information.ProductInformation
 import com.example.ecommerceprototype.shop.ShopController;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Cart {
 
@@ -16,14 +17,29 @@ public class Cart {
     HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
 
     public void addToCart(ProductInformation product) {
-        if (cart.containsKey(product)) {
-            cart.put(product, cart.get(product) + 1);
+        boolean isAlreadyInCart = false;
+        // every ProductInformation is a unique object, so the UUIDs instead of the objects are compared
+        for (ProductInformation key : cart.keySet()) {
+            if (Objects.equals(key.getProductUUID(), product.getProductUUID())) {
+                int value = cart.get(key);
+                cart.remove(key);
+                cart.put(key, value + 1);
+
+                isAlreadyInCart = true;
+                break;
+            }
+            System.out.print("item");
         }
-        cart.put(product, 1);
+        if (!isAlreadyInCart) {
+            cart.put(product, 1);
+        }
+
         try {
             controller.getCartPage().loadPage(controller.getWindow());
         }
-        catch (Exception e) {System.out.println(e.getMessage());}
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void deleteFromCart(ProductInformation product) {
