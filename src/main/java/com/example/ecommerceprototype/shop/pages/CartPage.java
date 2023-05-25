@@ -5,11 +5,9 @@ import com.example.ecommerceprototype.pim.product_information.ProductInformation
 import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
 import com.example.ecommerceprototype.shop.components.ProductFinder;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -18,6 +16,7 @@ import java.math.BigDecimal;
 public class CartPage {
     ShopController controller;
     CMS cms;
+    Pane page;
 
     public CartPage(ShopController controller) {
         this.controller = controller;
@@ -90,6 +89,14 @@ public class CartPage {
         ((Label) cms.findNode(cartPage, "priceExclTax_Label")).setText("$" + total);
         ((Label) cms.findNode(cartPage, "priceTax_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)));
         ((Label) cms.findNode(cartPage, "priceTotal_Label")).setText("$" + total.multiply(BigDecimal.valueOf(0.25)).add(total));
+    }
+
+    public void setLabelText(String fxid, String text) {
+        ((Label) cms.findNode(page, fxid)).setText(text);
+    }
+
+    public void setButtonOnAction(String fxid, EventHandler function) {
+        ((Button) cms.findNode(page, fxid)).setOnAction(function);
     }
 
 }
