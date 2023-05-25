@@ -31,7 +31,7 @@ public class PaymentPage {
 
         Pane plate = cms.loadComponent("ContentTemplate2");
 
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerHome(plate);
 
         Pane paymentPage = cms.loadComponent("paymentPage");
         page = paymentPage;

@@ -29,7 +29,7 @@ public class CartPage {
 
         Pane plate = cms.loadComponent("ContentTemplate2");
 
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerHome(plate);
 
         Pane cartPage = cms.loadComponent("CartPage");
         page = cartPage;

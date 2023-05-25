@@ -25,7 +25,7 @@ public class ShopPage {
 
         Pane plate = cms.loadComponent("ContentTemplate1");
 
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerAll(plate);
         controller.getProductView().loadProductView(window, plate, pim.getAllProducts());
         controller.getSidebar().loadSidebar(window, plate);
 
@@ -36,7 +36,7 @@ public class ShopPage {
 
         Pane plate = cms.loadComponent("ContentTemplate1");
 
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerAll(plate);
         controller.getProductView().loadProductView(window, plate, products);
         controller.getSidebar().loadSidebar(window, plate);
 

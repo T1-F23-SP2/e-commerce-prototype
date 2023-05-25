@@ -27,7 +27,7 @@ public class ProductPage {
     public void loadPage(Stage window, ProductInformation product) throws Exception {
 
         Pane plate = cms.loadComponent("ContentTemplate2");
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerHomeCart(plate);
 
         Pane productPage = cms.loadComponent("ProductPage");
         this.page = productPage;

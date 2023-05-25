@@ -23,7 +23,7 @@ public class PurchasePage {
     public void loadPurchaseComplete(Stage window, MockShopObject orderInfo) throws Exception{
         Pane plate = cms.loadComponent("ContentTemplate2");
 
-        controller.getTopBanner().loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBannerHome(plate);
 
         Pane paymentPage = cms.loadComponent("PurchaseCompletePage");
         cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
