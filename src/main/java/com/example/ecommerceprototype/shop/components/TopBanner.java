@@ -37,6 +37,8 @@ public class TopBanner {
         pane = topBanner;
 
         loadHomeButton();
+        cms.findNode(pane, "search_Button").setVisible(false);
+        cms.findNode(pane, "cart_Button").setVisible(false);
 
         cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
 
@@ -48,6 +50,7 @@ public class TopBanner {
         pane = topBanner;
 
         loadHomeButton();
+        cms.findNode(pane, "search_Button").setVisible(false);
         loadCartButton();
 
         cms.loadOnto(page, topBanner, "topBannerPlaceholder_Pane");
@@ -56,6 +59,7 @@ public class TopBanner {
 
     public void loadHomeButton() throws Exception {
 
+        cms.findNode(pane, "home_Button").setVisible(true);
         ((Button) cms.findNode(pane, "home_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getShopPage().loadPage(controller.getWindow());
@@ -68,6 +72,7 @@ public class TopBanner {
     }
     public void loadSearchBar() throws Exception {
 
+        cms.findNode(pane, "search_Button").setVisible(true);
         ((Button) cms.findNode(pane, "search_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getSearch().search(((TextField) cms.findNode(pane, "search_TextField")).getText());
@@ -81,6 +86,7 @@ public class TopBanner {
 
     public void loadCartButton() throws Exception {
 
+        cms.findNode(pane, "cart_Button").setVisible(true);
         ((Button) cms.findNode(pane, "cart_Button")).setOnAction(actionEvent -> {
             try {
                 controller.getCartPage().loadPage(controller.getWindow());
