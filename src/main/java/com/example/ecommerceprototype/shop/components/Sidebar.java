@@ -7,6 +7,7 @@ import com.example.ecommerceprototype.pim.product_information.ProductCategory;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
 import com.example.ecommerceprototype.pim.util.ProductList;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.pages.ArticlePage;
 import com.example.ecommerceprototype.shop.pages.ShopPage;
 import javafx.scene.control.Button;
@@ -18,16 +19,22 @@ import java.math.BigDecimal;
 
 public class Sidebar {
 
+    ShopController controller;
+
+    public Sidebar(ShopController controller) {
+        this.controller = controller;
+    }
+
     static PIMDriver pimDriverInstance = new PIMDriver();
 
-    public static void loadSidebar(Stage window, Pane plate) throws Exception {
+    public void loadSidebar(Stage window, Pane plate) throws Exception {
         //Load sidebar onto template
         Pane sidebar = CMS.getInstance().loadComponent("CategorySidebar");
         CMS.getInstance().loadOnto(plate, sidebar, "sidebarPlaceholder_Pane");
 
         ((Button) CMS.getInstance().findNode(sidebar, "articles_Button")).setOnAction(actionEvent -> {
             try {
-                ArticlePage.loadPage(window);}
+                controller.getArticlePage().loadPage(window);}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 
@@ -37,7 +44,7 @@ public class Sidebar {
         Button allCategoryButton = (Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button");
         ((Button) CMS.getInstance().findNode(allCategoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
             try {
-                ShopPage.loadPage(window);}
+                controller.getShopPage().loadPage(window);}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
         allCategoryButton.setText("All categories");
@@ -51,7 +58,7 @@ public class Sidebar {
             int finalI = i;
             ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
                 try {
-                    ShopPage.reloadProductView(window, pimDriverInstance.getProductsByCategoryName(allCategories.get(finalI).getName()));
+                    controller.getShopPage().reloadProductView(window, pimDriverInstance.getProductsByCategoryName(allCategories.get(finalI).getName()));
                 }
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
@@ -66,7 +73,7 @@ public class Sidebar {
             Button b = (Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button");
             int finalI = i;
             ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
-                try {ShopPage.reloadProductView(window, pimDriverInstance.getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
+                try {controller.getShopPage().reloadProductView(window, pimDriverInstance.getProductsByManufactureName(allManufacturers.get(finalI).getName()));}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
             b.setText("Manufacturer: " + allManufacturers.get(i).getName());
@@ -86,7 +93,7 @@ public class Sidebar {
             }
             int finalI = i;
             ((Button) CMS.getInstance().findNode(categoryItem, "categoryItem_Button")).setOnAction(actionEvent -> {
-                try {ShopPage.reloadProductView(window, productOfPrice);}
+                try {controller.getShopPage().reloadProductView(window, productOfPrice);}
                 catch (Exception e) {System.out.println(e.getMessage());}
             });
             b.setText("Price: " + priceRange[i] + " - " + priceRange[i+1]);

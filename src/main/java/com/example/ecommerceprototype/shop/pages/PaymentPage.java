@@ -6,6 +6,7 @@ import com.example.ecommerceprototype.oms.DB.StockInterface;
 import com.example.ecommerceprototype.oms.MockShop.MockShopObject;
 import com.example.ecommerceprototype.oms.OrderStatus.OrderManager;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
 import com.example.ecommerceprototype.shop.components.Sidebar;
 import com.example.ecommerceprototype.shop.components.TopBanner;
@@ -19,11 +20,17 @@ import java.util.HashMap;
 
 public class PaymentPage {
 
-    public static void loadPaymentPage(Stage window) throws Exception{
+    ShopController controller;
+
+    public PaymentPage(ShopController controller) {
+        this.controller = controller;
+    }
+
+    public void loadPaymentPage(Stage window) throws Exception{
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
-        TopBanner.loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBanner(window, plate);
 
         Pane paymentPage = CMS.getInstance().loadComponent("paymentPage");
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
@@ -49,7 +56,7 @@ public class PaymentPage {
 
             try {
                 Cart.clearCart();
-                PurchasePage.loadPurchaseComplete(window);
+                controller.getPurchasePage().loadPurchaseComplete(window);
             }
             catch (Exception e) {System.out.println(e.getMessage());}
         });

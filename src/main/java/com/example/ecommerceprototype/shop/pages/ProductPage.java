@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.shop.pages;
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
 import com.example.ecommerceprototype.shop.components.ProductFinder;
 import com.example.ecommerceprototype.shop.components.Sidebar;
@@ -12,11 +13,17 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ProductPage {
-    public static void loadPage(Stage window, ProductInformation product) throws Exception {
+
+    ShopController controller;
+
+    public ProductPage(ShopController controller) {
+        this.controller = controller;
+    }
+    public void loadPage(Stage window, ProductInformation product) throws Exception {
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
-        TopBanner.loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBanner(window, plate);
 
         Pane productPage = CMS.getInstance().loadComponent("ProductPage");
         // Image productImage = new Image(ProductPage.class.getResourceAsStream("Placeholder.jpg"));
@@ -33,7 +40,7 @@ public class ProductPage {
         ((TextArea) CMS.getInstance().findNode(productPage, "productSpecification_TextArea")).setText(product.getShortDescription());
         ((Button) CMS.getInstance().findNode(productPage, "addToCart_Button")).setOnAction(actionEvent -> {
             try {
-                Cart.addToCart(product);}
+                controller.getCart().addToCart(product);}
             catch (Exception e) {System.out.println(e.getMessage());}
         });
 

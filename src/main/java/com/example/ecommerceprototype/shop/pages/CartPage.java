@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.shop.pages;
 
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
 import com.example.ecommerceprototype.shop.components.ProductFinder;
 import com.example.ecommerceprototype.shop.components.Sidebar;
@@ -19,14 +20,19 @@ import javafx.stage.Stage;
 import java.math.BigDecimal;
 
 public class CartPage {
+    ShopController controller;
+
+    public CartPage(ShopController controller) {
+        this.controller = controller;
+    }
 
     boolean cartReloading = false;
-    public static void loadPage(Stage window) throws Exception{
+    public void loadPage(Stage window) throws Exception{
         //int change = 0;
         //Load page template (Template 2 has space for a top banner and some content pane)
         Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
-        TopBanner.loadTopBanner(window, plate);
+        controller.getTopBanner().loadTopBanner(window, plate);
 
         Pane cartPage = CMS.getInstance().loadComponent("CartPage");
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
@@ -63,7 +69,7 @@ public class CartPage {
 
             ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
                 try {
-                    Cart.deleteFromCart(product);
+                    controller.getCart().deleteFromCart(product);
                 }
                 catch (Exception e) {System.out.println("!!!" + e.getMessage());}
             });
@@ -74,7 +80,7 @@ public class CartPage {
 
         ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
             try {
-                PaymentPage.loadPaymentPage(window);
+                controller.getPaymentPage().loadPaymentPage(window);
             }
             catch (Exception e) {System.out.println("!!!" + e.getMessage());}
         });

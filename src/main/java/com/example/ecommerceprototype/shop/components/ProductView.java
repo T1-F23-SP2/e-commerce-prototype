@@ -3,6 +3,7 @@ package com.example.ecommerceprototype.shop.components;
 import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.pim.util.ProductList;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.pages.ProductPage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +18,13 @@ import java.util.Objects;
 
 public class ProductView {
 
-    public static void loadProductView(Stage window, Pane plate, ProductList products) throws Exception {
+    ShopController controller;
+
+    public ProductView(ShopController controller) {
+        this.controller = controller;
+    }
+
+    public void loadProductView(Stage window, Pane plate, ProductList products) throws Exception {
         int i = 0;
         for (ProductInformation product : products) {
             if (product.getIsHidden()) {
@@ -39,7 +46,7 @@ public class ProductView {
             //((ImageView) CMS.getInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
             ((Button) CMS.getInstance().findNode(view, "productImage_Button")).setOnAction(actionEvent -> {
                 try {
-                    ProductPage.loadPage(window, product);
+                    controller.getProductPage().loadPage(window, product);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
@@ -47,7 +54,7 @@ public class ProductView {
 
             ((Button) CMS.getInstance().findNode(view, "addToCart_Button")).setOnAction(actionEvent -> {
                 try {
-                    Cart.addToCart(product);
+                    controller.getCart().addToCart(product);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

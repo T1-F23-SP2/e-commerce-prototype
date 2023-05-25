@@ -2,13 +2,20 @@ package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.util.ProductList;
+import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.pages.ShopPage;
 import com.example.ecommerceprototype.shop.ShopRefactor;
 
 public class Search {
 
+    ShopController controller;
+
+    public Search(ShopController controller) {
+        this.controller = controller;
+    }
+
     static PIMDriver pimDriverInstance = new PIMDriver();
-    public static void search(String searchTerm) throws Exception {
+    public void search(String searchTerm) throws Exception {
         ProductList result = new ProductList();
         if (searchTerm != "") {
 
@@ -47,7 +54,7 @@ public class Search {
 
             }
         }
-        ShopPage.reloadProductView(ShopRefactor.getRootWindow(), result);
+        controller.getShopPage().reloadProductView(controller.getWindow(), result);
     }
 
 }

@@ -35,25 +35,14 @@ import java.util.Random;
 
 public class ShopRefactor extends Application implements StockInterface {
 
-    static Stage window;
+
     public static void main(String[] args) {
         launch();
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        window = stage;
-        ShopPage.loadPage(window);
-
-        stage.setTitle("Arnes ElectroShop!");
-        stage.show();
-
-        stage.setFullScreen(true);
-    }
-
-    public static Stage getRootWindow() {
-        return window;
+        ShopController controller = new ShopController(stage);
     }
 
 }
