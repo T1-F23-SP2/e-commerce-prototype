@@ -17,6 +17,7 @@ public class CartPage {
     ShopController controller;
     CMS cms;
     Pane page;
+    Pane cartItem;
 
     public CartPage(ShopController controller) {
         this.controller = controller;
@@ -31,38 +32,41 @@ public class CartPage {
         controller.getTopBanner().loadTopBanner(window, plate);
 
         Pane cartPage = cms.loadComponent("CartPage");
+        page = cartPage;
         cms.loadOnto(plate, cartPage, "contentPlaceholder_Pane");
 
         BigDecimal total = BigDecimal.valueOf(0);
+
         for (ProductInformation product : controller.getCart().getContents().keySet()) {
             total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
             Pane item = cms.loadComponent("CartProductView");
+            cartItem = item;
             cms.loadOnto(cartPage, item, "cartProductView_Vbox");
+
             //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
             //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
             setProductName(product.getName());
             setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
             loadSpinner(item, product);
 
-            ((Button) cms.findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
-                try {
-                    controller.getCart().deleteFromCart(product);
-                }
-                catch (Exception e) {System.out.println("!!!" + e.getMessage());}
-            });
+            setButtonOnAction(item, "remove_Button", actionEvent -> {
+                controller.getCart().deleteFromCart(product);}
+            );
 
-            updatePrice(cartPage, total);
+            updatePrice(total);
         }
 
-        ((Button) cms.findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
+        setButtonOnAction(page, "pay_Button", actionEvent -> {
             try {
                 controller.getPaymentPage().loadPaymentPage(window);
             }
-            catch (Exception e) {System.out.println("!!!" + e.getMessage());}
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         });
 
-        updatePrice(cartPage, total);
+        updatePrice(total);
         controller.setScene(plate);
     }
 
@@ -84,24 +88,24 @@ public class CartPage {
         });
     }
 
-    public void updatePrice(Pane cartPage, BigDecimal total) {
-        setLabelText("priceExclTax_Label", total + "DKK");
-        setLabelText("priceTax_Label", total.multiply(BigDecimal.valueOf(0.25)) + "DKK");
-        setLabelText("priceTotal_Label", total.multiply(BigDecimal.valueOf(0.25)).add(total) + "DKK");
+    public void updatePrice(BigDecimal total) {
+        setLabelText(page, "priceExclTax_Label", total + "DKK");
+        setLabelText(page, "priceTax_Label", total.multiply(BigDecimal.valueOf(0.25)) + "DKK");
+        setLabelText(page, "priceTotal_Label", total.multiply(BigDecimal.valueOf(0.25)).add(total) + "DKK");
     }
 
     public void setProductName(String productName) {
-        setLabelText("productName_Label", productName);
+        setLabelText(cartItem, "productName_Label", productName);
     }
     public void setProductPrice(String productPrice) {
-        setLabelText("productPrice_Label", productPrice);
+        setLabelText(cartItem, "price_Label", productPrice);
     }
-    public void setLabelText(String fxid, String text) {
-        ((Label) cms.findNode(page, fxid)).setText(text);
+    public void setLabelText(Pane pane, String fxid, String text) {
+        ((Label) cms.findNode(pane, fxid)).setText(text);
     }
 
-    public void setButtonOnAction(String fxid, EventHandler function) {
-        ((Button) cms.findNode(page, fxid)).setOnAction(function);
+    public void setButtonOnAction(Pane pane, String fxid, EventHandler function) {
+        ((Button) cms.findNode(pane, fxid)).setOnAction(function);
     }
 
 }
