@@ -35,11 +35,6 @@ import java.util.Random;
 
 public class ShopRefactor extends Application implements StockInterface {
 
-    private PIMDriver pimDriverInstance;
-    OrderManager orderManager;
-
-    Cart cart = new Cart();
-
     static Stage window;
     public static void main(String[] args) {
         launch();
@@ -47,9 +42,6 @@ public class ShopRefactor extends Application implements StockInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-        pimDriverInstance = new PIMDriver();
-        orderManager = new OrderManager();
-        //stockInterfaceInstance = new StockInterface();
 
         window = stage;
         ShopPage.loadPage(window);

@@ -45,6 +45,14 @@ public class ProductView {
                 }
             });
 
+            ((Button) CMS.getInstance().findNode(view, "addToCart_Button")).setOnAction(actionEvent -> {
+                try {
+                    Cart.addToCart(product);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            });
+
             GridPane.setColumnIndex(view, i % 3);
             GridPane.setRowIndex(view, (int) Math.floor(i / 3)); // floor(n/3) is the integer sequence for 0, 0, 0, 1, 1, 1, 2, 2, 2... (https://oeis.org/A002264)
             i += 1;

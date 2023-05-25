@@ -24,10 +24,9 @@ public class CartPage {
     public static void loadPage(Stage window) throws Exception{
         //int change = 0;
         //Load page template (Template 2 has space for a top banner and some content pane)
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
         TopBanner.loadTopBanner(window, plate);
-        Sidebar.loadSidebar(window, plate);
 
         Pane cartPage = CMS.getInstance().loadComponent("CartPage");
         CMS.getInstance().loadOnto(plate, cartPage, "contentPlaceholder_Pane");
@@ -63,7 +62,9 @@ public class CartPage {
             });
 
             ((Button) CMS.getInstance().findNode(cartPage, "remove_Button")).setOnAction(actionEvent -> {
-                try {Cart.deleteFromCart(product);}
+                try {
+                    Cart.deleteFromCart(product);
+                }
                 catch (Exception e) {System.out.println("!!!" + e.getMessage());}
             });
 
@@ -72,7 +73,9 @@ public class CartPage {
         }
 
         ((Button) CMS.getInstance().findNode(cartPage, "pay_Button")).setOnAction(actionEvent -> {
-            try {PaymentPage.loadPaymentPage(window);}
+            try {
+                PaymentPage.loadPaymentPage(window);
+            }
             catch (Exception e) {System.out.println("!!!" + e.getMessage());}
         });
 

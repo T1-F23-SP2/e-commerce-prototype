@@ -11,10 +11,9 @@ public class PurchasePage {
 
     public static void loadPurchaseComplete(Stage window) throws Exception{
         //Load page template (Template 2 has space for a top banner and some content pane)
-        Pane plate = CMS.getInstance().loadComponent("ContentTemplate3");
+        Pane plate = CMS.getInstance().loadComponent("ContentTemplate2");
 
         TopBanner.loadTopBanner(window, plate);
-        Sidebar.loadSidebar(window, plate);
 
         Pane paymentPage = CMS.getInstance().loadComponent("PurchaseCompletePage");
         CMS.getInstance().loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
