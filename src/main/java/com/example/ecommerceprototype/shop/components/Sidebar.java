@@ -56,14 +56,14 @@ public class Sidebar {
         createFilter(categoryList, "All categories", "", allProducts);
 
         FilterableArrayList<ProductCategory> allCategories = pim.getAllCategories();
-        for (int i = 0; i < allCategories.size(); i++) {
-            createFilter(categoryList, "Type", allCategories.get(i).getName(), pim.getProductsByCategoryName(allCategories.get(i).getName()));
+        for (ProductCategory allCategory : allCategories) {
+            createFilter(categoryList, "Type", allCategory.getName(), pim.getProductsByCategoryName(allCategory.getName()));
         }
 
 
         FilterableArrayList<ManufacturingInformation> allManufacturers = pim.getAllManufactures();
-        for (int i = 0; i < allManufacturers.size(); i++) {
-            createFilter(categoryList, "Manufacturer", allManufacturers.get(i).getName(), pim.getProductsByManufactureName(allManufacturers.get(i).getName()));
+        for (ManufacturingInformation allManufacturer : allManufacturers) {
+            createFilter(categoryList, "Manufacturer", allManufacturer.getName(), pim.getProductsByManufactureName(allManufacturer.getName()));
         }
 
         List<Integer> priceRange = Arrays.asList(0, 100, 500, 1000, 2000, 5000, 10000);
