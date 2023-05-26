@@ -30,7 +30,7 @@ public class ShopController {
         PIMDriverInstance = new PIMDriver();
 
         shopPopulate = new ShopPopulate(this);
-        shopPopulate.populateCategories();
+        shopPopulate.populate();
 
         articlePage = new ArticlePage(this);
         cartPage = new CartPage(this);

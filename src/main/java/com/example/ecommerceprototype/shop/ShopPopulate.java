@@ -3,9 +3,7 @@ package com.example.ecommerceprototype.shop;
 import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.DuplicateEntryException;
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
-import com.example.ecommerceprototype.pim.product_information.PIMDriver;
-import com.example.ecommerceprototype.pim.product_information.ProductCategory;
-import com.example.ecommerceprototype.pim.product_information.ProductCategoryBuilder;
+import com.example.ecommerceprototype.pim.product_information.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +16,11 @@ public class ShopPopulate {
     public ShopPopulate(ShopController controller) {
         this.controller = controller;
         this.pim = controller.getPIMDriverInstance();
+    }
+
+    public void populate() throws SQLException, NotFoundException, DuplicateEntryException {
+        populateCategories();
+        populateManufacturers();
     }
 
     public void populateCategories() throws SQLException, NotFoundException, DuplicateEntryException {
@@ -43,6 +46,26 @@ public class ShopPopulate {
 
         createCategory("Monitors", "");
 
+    }
+
+    public void populateManufacturers() throws SQLException, NotFoundException, DuplicateEntryException {
+
+        for (ManufacturingInformation manufacturer : pim.getAllManufactures()) {
+            pim.deleteManufactureByName(manufacturer.getName());
+        }
+        createManufacturer("Acer");
+        createManufacturer("Lenovo");
+        createManufacturer("ASUS");
+        createManufacturer("AMD");
+
+    }
+
+    public void createManufacturer(String name) throws SQLException, DuplicateEntryException {
+        new ManufacturingInformationBuilder()
+                .setName(name)
+                .setSupportPhoneNumber("12 23 34 45")
+                .setSupportMail(name.toLowerCase() + "@company.com")
+                .submit();
     }
 
     public void createCategory(String name, String parent) throws SQLException, CategoryNotFoundException, DuplicateEntryException {
