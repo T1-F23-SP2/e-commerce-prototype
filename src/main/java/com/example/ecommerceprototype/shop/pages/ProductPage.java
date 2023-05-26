@@ -43,7 +43,9 @@ public class ProductPage {
 
         setButtonOnAction("addToCart_Button", actionEvent -> {
             try {
-                controller.getCart().addToCart(product);}
+                controller.getCart().addToCart(product);
+                controller.getCartPage().loadPage(controller.getWindow());
+            }
             catch (Exception e) {
                 System.out.println(e.getMessage());
             }

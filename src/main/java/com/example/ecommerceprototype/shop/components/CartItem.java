@@ -35,8 +35,13 @@ public class CartItem {
         loadSpinner(item, product);
 
         setButtonOnAction(item, "remove_Button", actionEvent -> {
-            controller.getCart().deleteFromCart(product);}
-        );
+            controller.getCart().deleteFromCart(product);
+            try {
+                controller.getCartPage().loadPage(controller.getWindow());
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        });
     }
 
     public void loadSpinner(Pane item, ProductInformation product) {

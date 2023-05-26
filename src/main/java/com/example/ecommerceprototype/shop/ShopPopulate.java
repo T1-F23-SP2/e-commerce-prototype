@@ -121,4 +121,18 @@ public class ShopPopulate {
                 .submit();
     }
 
+    public void clearAll() throws SQLException, NotFoundException, DuplicateEntryException {
+        for (ProductCategory category : pim.getAllCategories()) {
+            pim.deleteProductCategoryByName(category.getName());
+        }
+
+        for (ManufacturingInformation manufacturer : pim.getAllManufactures()) {
+            pim.deleteManufactureByName(manufacturer.getName());
+        }
+
+        for (ProductCategory category : pim.getAllCategories()) {
+            pim.deleteProductCategoryByName(category.getName());
+        }
+    }
+
 }

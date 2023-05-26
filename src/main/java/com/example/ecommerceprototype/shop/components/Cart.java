@@ -33,23 +33,10 @@ public class Cart {
         if (!isAlreadyInCart) {
             cart.put(product, 1);
         }
-
-        try {
-            controller.getCartPage().loadPage(controller.getWindow());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     public void deleteFromCart(ProductInformation product) {
         cart.remove(product);
-        try {
-            controller.getCartPage().loadPage(controller.getWindow());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     public void clearCart() {
