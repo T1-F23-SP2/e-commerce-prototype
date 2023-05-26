@@ -12,9 +12,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class CartTest {
 
@@ -32,19 +34,36 @@ class CartTest {
     @Test
     void testAddToCart() throws SQLException, NotFoundException {
         controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
-        assertEquals(true, controller.getCart().getContents().containsKey(controller.getPIMDriverInstance().getProductByName("TestProduct")));
-        assertEquals(2, controller.getCart().getContents().get(controller.getPIMDriverInstance().getProductByName("TestProduct")));
+        assertEquals(true, controller.getCart().getContents().containsKey(controller.getPIMDriverInstance().getProductByName("TestProduct").getProductUUID()));
+        assertEquals(1, controller.getCart().getContents().get(controller.getPIMDriverInstance().getProductByName("TestProduct").getProductUUID()));
     }
 
     @Test
-    void testDeleteFromCart() {
+    void testAddToCartTwice() throws SQLException, NotFoundException {
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        assertEquals(true, controller.getCart().getContents().containsKey(controller.getPIMDriverInstance().getProductByName("TestProduct").getProductUUID()));
+        assertEquals(2, controller.getCart().getContents().get(controller.getPIMDriverInstance().getProductByName("TestProduct").getProductUUID()));
     }
 
     @Test
-    void testClearCart() {
+    void testDeleteFromCart() throws SQLException, NotFoundException {
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        controller.getCart().deleteFromCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        assertEquals(true, controller.getCart().getContents().isEmpty());
+    }
+
+    @Test
+    void testClearCart() throws SQLException, NotFoundException {
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        controller.getCart().addToCart(controller.getPIMDriverInstance().getProductByName("TestProduct"));
+        controller.getCart().clearCart();
+        assertEquals(true, controller.getCart().getContents().isEmpty());
     }
 
     @Test
     void testGetContents() {
+        assertInstanceOf((HashMap<String, Integer>), controller.getCart().getContents());
     }
 }
