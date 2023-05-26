@@ -10,12 +10,12 @@ class ProductFinderTest {
     ShopController controller;
 
     @Test
-    void findProduct() throws Exception {
+    void testFindProduct() throws Exception {
         controller = new ShopController();
         controller.getShopPopulate().createCategory("TestCategory", "");
         controller.getShopPopulate().createManufacturer("TestManufacturer");
         controller.getShopPopulate().createProduct("TestProduct", "0000", "TestCategory", "TestManufacturer", "500", "short", "long");
 
-        assertEquals(controller.getPIMDriverInstance().getProductByName("TestCategory"), ProductFinder.findProduct(controller.getPIMDriverInstance().getProductByName("TestCategory")));
+        assertEquals(controller.getPIMDriverInstance().getProductByName("TestProduct").getProductUUID(), ProductFinder.findProduct(controller.getPIMDriverInstance().getProductByName("TestProduct")).getProductUUID());
     }
 }
