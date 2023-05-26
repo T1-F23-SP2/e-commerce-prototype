@@ -45,11 +45,20 @@ public class CartItem {
     }
 
     public void loadSpinner(Pane item, ProductInformation product) {
-        ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, controller.getCart().getContents().get(product.getProductUUID()), 1));
+        ((Spinner) cms.findNode(item, "amount_Spinner")).setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99, controller.getCart().getContents().get(product.getProductUUID()), 1));
 
         ((Spinner) cms.findNode(item, "amount_Spinner")).getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (!"".equals(newValue)) {
-                controller.getCart().getContents().put(product.getProductUUID(), (Integer) ((Spinner) cms.findNode(item, "amount_Spinner")).getValue());
+                if ((Integer) ((Spinner) cms.findNode(item, "amount_Spinner")).getValue() == 0) {
+                    controller.getCart().deleteFromCart(product);
+                    try {
+                        controller.getCartPage().loadPage(controller.getWindow());
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                } else {
+                    controller.getCart().getContents().put(product.getProductUUID(), (Integer) ((Spinner) cms.findNode(item, "amount_Spinner")).getValue());
+                }
             }
         });
 

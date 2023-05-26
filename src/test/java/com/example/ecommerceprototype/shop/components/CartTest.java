@@ -64,6 +64,6 @@ class CartTest {
 
     @Test
     void testGetContents() {
-        assertInstanceOf((HashMap<String, Integer>), controller.getCart().getContents());
+        assertEquals(true, controller.getCart().getContents() instanceof HashMap<String, Integer>);
     }
 }
