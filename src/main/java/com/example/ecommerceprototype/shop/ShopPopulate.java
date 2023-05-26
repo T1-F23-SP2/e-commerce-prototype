@@ -19,13 +19,23 @@ public class ShopPopulate {
 
     public void populate() throws SQLException, NotFoundException, DuplicateEntryException {
 
+        populateCategories();
+        populateManufacturers();
+        populateProducts();
+
+    }
+
+    public void populateProducts() throws SQLException, DuplicateEntryException, UUIDNotFoundException, CategoryNotFoundException {
+
         for (ProductInformation product: pim.getAllProducts()) {
             pim.deleteProductByUUID(product.getProductUUID());
         }
 
-        populateCategories();
-        populateManufacturers();
-        createProduct("Product", "1111", "Computers", "Lenovo", "1222", "short", "long");
+        createProduct("Product 1", "1111", "Computers", "Lenovo", "1000", "short", "long");
+        createProduct("Product 2", "1112", "PC components", "Acer", "1222", "short", "long");
+        createProduct("Product 3", "1113", "CPUs", "Lenovo", "233", "short", "long");
+        createProduct("Product 4", "1114", "RAM", "ASUS", "5444", "short", "long");
+        createProduct("Product 5", "1115", "Laptops", "AMD", "2332", "short", "long");
     }
 
     public void populateCategories() throws SQLException, NotFoundException, DuplicateEntryException {
@@ -66,20 +76,20 @@ public class ShopPopulate {
     }
 
     public void createProduct(String name, String serialNumber, String category, String manufacturer, String price, String shortDescription, String longDescription) throws SQLException, DuplicateEntryException {
-        // Creates a category object for the product object
+
         ProductCategoryBuilder categoryBuilder = (ProductCategoryBuilder) new ProductCategoryBuilder()
                 .setName(category);
 
-        // Creates a manufacture object for the product object
+
         ManufacturingInformationBuilder manufactureBuilder = (ManufacturingInformationBuilder) new ManufacturingInformationBuilder()
                 .setName(manufacturer);
 
-        // Creates a price object for the product object
+
         PriceInformationBuilder priceInformationBuilder = new PriceInformationBuilder()
                 .setPrice(new BigDecimal(price))
                 .setWholeSalePrice(new BigDecimal(0));
 
-        // Inserts the new product
+
         try {
             new ProductInformationBuilder()
                     .setName(name)
