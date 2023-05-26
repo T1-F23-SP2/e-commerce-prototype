@@ -7,17 +7,19 @@ import com.example.ecommerceprototype.shop.ShopController;
 public class Search {
 
     ShopController controller;
+    PIMDriver pim;
 
     public Search(ShopController controller) {
         this.controller = controller;
+        this.pim = controller.getPIMDriverInstance();
     }
 
     static PIMDriver pimDriverInstance = new PIMDriver();
-    public void search(String searchTerm) throws Exception {
+    public ProductList search(String searchTerm) throws Exception {
         ProductList result = new ProductList();
         if (searchTerm != "") {
 
-            ProductList products = pimDriverInstance.getAllProducts();
+            ProductList products = pim.getAllProducts();
 
             for (int i = 0; i < products.size(); i++) {
                 if (products.get(i).getName().contains(searchTerm)) {
@@ -52,7 +54,7 @@ public class Search {
 
             }
         }
-        controller.getShopPage().reloadProductView(controller.getWindow(), result);
+        return result;
     }
 
 }
