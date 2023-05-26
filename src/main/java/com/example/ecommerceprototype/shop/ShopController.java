@@ -24,10 +24,14 @@ public class ShopController {
     Cart cart;
     CartItem cartItem;
     PIMDriver PIMDriverInstance;
+    ShopPopulate shopPopulate;
 
     public ShopController(Stage stage) throws Exception {
-
         PIMDriverInstance = new PIMDriver();
+
+        shopPopulate = new ShopPopulate(this);
+        shopPopulate.populateCategories();
+
         articlePage = new ArticlePage(this);
         cartPage = new CartPage(this);
         paymentPage = new PaymentPage(this);
