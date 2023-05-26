@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PurchasePageTest {
 
     @Test
-    void loadPurchaseComplete() {
-    }
-
-    @Test
     void sendOrder() {
     }
 }

@@ -7,22 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class PaymentPageTest {
 
     @Test
-    void loadPaymentPage() {
+    void testCreateShopObject() {
+
     }
 
     @Test
-    void createShopObject() {
+    void testCreateOrder() {
     }
 
     @Test
-    void createOrder() {
-    }
-
-    @Test
-    void createCustomer() {
-    }
-
-    @Test
-    void fetchTextFieldText() {
+    void testCreateCustomer() {
     }
 }
