@@ -64,8 +64,8 @@ public class PaymentPage {
     public HashMap<String, Integer> createOrder() {
         HashMap<String, Integer> order = new HashMap<>();
 
-        for (ProductInformation product : controller.getCart().getContents().keySet()) {
-            order.put(product.getProductUUID(), controller.getCart().getContents().get(product));
+        for (String product : controller.getCart().getContents().keySet()) {
+            order.put(product, controller.getCart().getContents().get(product));
         }
 
         return order;
