@@ -26,7 +26,7 @@ public class ShopController {
     PIMDriver PIMDriverInstance;
     ShopPopulate shopPopulate;
 
-    public ShopController(Stage stage) throws Exception {
+    public ShopController() throws Exception {
         PIMDriverInstance = new PIMDriver();
 
         shopPopulate = new ShopPopulate(this);
@@ -45,12 +45,14 @@ public class ShopController {
         cart = new Cart(this);
         cartItem = new CartItem(this);
 
+    }
+
+    public void startGUI(Stage stage) throws Exception {
         window = stage;
         shopPage.loadPage(window);
 
         stage.setTitle("Arnes ElectroShop!");
         stage.show();
-
     }
 
     public Stage getWindow() {
@@ -116,5 +118,9 @@ public class ShopController {
 
     public void setScene(Pane plate) {
         window.setScene(new Scene(plate, 1920, 1080));
+    }
+
+    public ShopPopulate getShopPopulate() {
+        return shopPopulate;
     }
 }
