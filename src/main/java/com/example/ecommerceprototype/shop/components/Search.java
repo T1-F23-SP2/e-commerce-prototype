@@ -14,7 +14,6 @@ public class Search {
         this.pim = controller.getPIMDriverInstance();
     }
 
-    static PIMDriver pimDriverInstance = new PIMDriver();
     public ProductList search(String searchTerm) throws Exception {
         ProductList result = new ProductList();
         if (searchTerm != "") {
