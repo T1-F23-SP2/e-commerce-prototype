@@ -138,13 +138,13 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         ProductCategory productCategory = productCategoryList.get(0);
-        String name = productCategory.getName();
 
         // Try update
         ProductCategoryUpdater productCategoryUpdater = new ProductCategoryUpdater(productCategory);
+        String name = productCategoryUpdater.getOriginalName();
         productCategoryUpdater.setName("TestCategoryName");
         try {
-            dbDriver.updateProductCategoryByName(name, productCategoryUpdater.getProductCategory());
+            productCategoryUpdater.submit();
         } catch (SQLException | DuplicateEntryException | CategoryNotFoundException e) {
             throw new RuntimeException(e);
         }

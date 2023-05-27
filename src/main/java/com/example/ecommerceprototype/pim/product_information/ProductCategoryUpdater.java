@@ -28,10 +28,6 @@ public class ProductCategoryUpdater extends ProductCategoryWorker { // TODO: Imp
 
     @Override
     public ProductCategory submit() throws SQLException, DuplicateEntryException, CategoryNotFoundException {
-        if (originalName == null) {
-            originalName = this.getProductCategory().getName();
-        }
-
         DBDriver.getInstance().updateProductCategoryByName(this.originalName, super.getProductCategory());
         return super.getProductCategory();
     }
