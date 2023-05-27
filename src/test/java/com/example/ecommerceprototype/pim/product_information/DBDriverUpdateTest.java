@@ -106,14 +106,14 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         DiscountInformation discountInformation = DiscountInformationList.get(0);
-        String name = discountInformation.getName();
         LocalDate startDate = discountInformation.getStartingDate();
 
         // Try update
         DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(discountInformation);
+        String name = discountInformationUpdater.getOriginalName();
         discountInformationUpdater.setStartingDate(startDate.minusDays(1));
         try {
-            dbDriver.updateDiscountByName(name, discountInformationUpdater.getDiscountInformation());
+            discountInformationUpdater.submit();
         } catch (SQLException | DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
