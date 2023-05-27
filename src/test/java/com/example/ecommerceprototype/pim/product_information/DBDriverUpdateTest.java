@@ -43,7 +43,7 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
         ProductInformation productInformation = productList.get(0);
 
         // Try update
-        ProductInformationUpdater productInformationUpdater = new ProductInformationUpdater(productInformation);
+        ProductInformationUpdater productInformationUpdater = pimDriver.prepareProductInformationUpdater(productInformation);
         productInformationUpdater.setName("NewProductName");
         String uuid = productInformationUpdater.getProductInformation().getProductUUID();
 
