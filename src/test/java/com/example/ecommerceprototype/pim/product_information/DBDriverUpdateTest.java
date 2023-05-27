@@ -74,14 +74,14 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         ManufacturingInformation manufacturingInformation = manufacturingInformationList.get(0);
-        String name = manufacturingInformation.getName();
-        String number = manufacturingInformation.getSupportPhoneNumber();
 
         // Try update
         ManufacturingInformationUpdater manufacturingInformationUpdater = new ManufacturingInformationUpdater(manufacturingInformation);
+        String name = manufacturingInformationUpdater.getManufacturingInformation().getName();
         manufacturingInformationUpdater.setSupportPhoneNumber("NotANumber");
+
         try {
-            dbDriver.updateManufactureByName(name, manufacturingInformationUpdater.getManufacturingInformation());
+            manufacturingInformationUpdater.submit();
         } catch (SQLException | DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
