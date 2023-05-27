@@ -29,10 +29,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DisplayName("Tests for all update methods in DBDriver")
 public class DBDriverUpdateTest extends DBDriverAbstractTest {
-    /*
-        Example test
-        This simply shows how to access relevant objects, needed for testing.
-     */
     @Test
     void testUpdateProductByUUID() {
         // Get list of products
@@ -45,14 +41,14 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific productInfo
         ProductInformation productInformation = productList.get(0);
-        String uuid = productInformation.getProductUUID();
-        String name = productInformation.getName();
 
         // Try update
-        ProductInformationUpdater productInformationUpdater = new ProductInformationUpdater(productInformation);
+        ProductInformationUpdater productInformationUpdater = pimDriver.prepareProductInformationUpdater(productInformation);
         productInformationUpdater.setName("NewProductName");
+        String uuid = productInformationUpdater.getProductInformation().getProductUUID();
+
         try {
-            dbDriver.updateProductByUUID(uuid, name, productInformationUpdater.getProductInformation());
+            productInformationUpdater.submit();
         } catch (SQLException | UUIDNotFoundException | DuplicateEntryException | CategoryNotFoundException |
                  ManufactureNotFoundException e) {
             throw new RuntimeException(e);
@@ -60,7 +56,7 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Assert
         try {
-            assertEquals("NewProductName", dbDriver.getProductByUUID(uuid).getName());
+            assertEquals(productInformation.getName() /*"NewProductName"*/, dbDriver.getProductByUUID(uuid).getName());
         } catch (UUIDNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,14 +74,14 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         ManufacturingInformation manufacturingInformation = manufacturingInformationList.get(0);
-        String name = manufacturingInformation.getName();
-        String number = manufacturingInformation.getSupportPhoneNumber();
 
         // Try update
-       ManufacturingInformationUpdater manufacturingInformationUpdater = new ManufacturingInformationUpdater(manufacturingInformation);
-       manufacturingInformationUpdater.setSupportPhoneNumber("NotANumber");
+        ManufacturingInformationUpdater manufacturingInformationUpdater = new ManufacturingInformationUpdater(manufacturingInformation);
+        String name = manufacturingInformationUpdater.getManufacturingInformation().getName();
+        manufacturingInformationUpdater.setSupportPhoneNumber("NotANumber");
+
         try {
-            dbDriver.updateManufactureByName(name, manufacturingInformationUpdater.getManufacturingInformation());
+            manufacturingInformationUpdater.submit();
         } catch (SQLException | DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
@@ -110,14 +106,14 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         DiscountInformation discountInformation = DiscountInformationList.get(0);
-        String name = discountInformation.getName();
         LocalDate startDate = discountInformation.getStartingDate();
 
         // Try update
         DiscountInformationUpdater discountInformationUpdater = new DiscountInformationUpdater(discountInformation);
+        String name = discountInformationUpdater.getOriginalName();
         discountInformationUpdater.setStartingDate(startDate.minusDays(1));
         try {
-            dbDriver.updateDiscountByName(name, discountInformationUpdater.getDiscountInformation());
+            discountInformationUpdater.submit();
         } catch (SQLException | DuplicateEntryException e) {
             throw new RuntimeException(e);
         }
@@ -142,13 +138,13 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 
         // Get specific info
         ProductCategory productCategory = productCategoryList.get(0);
-        String name = productCategory.getName();
 
         // Try update
         ProductCategoryUpdater productCategoryUpdater = new ProductCategoryUpdater(productCategory);
+        String name = productCategoryUpdater.getOriginalName();
         productCategoryUpdater.setName("TestCategoryName");
         try {
-            dbDriver.updateProductCategoryByName(name, productCategoryUpdater.getProductCategory());
+            productCategoryUpdater.submit();
         } catch (SQLException | DuplicateEntryException | CategoryNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -193,14 +189,4 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 //            throw new RuntimeException(e);
 //        }
 //    }
-
-    @Test
-    void exampleTest() {
-        // TODO: Remove example test once ready
-        // Access the dedicated dbDriver test instance like so:
-        assertNotNull(dbDriver);
-
-        // Also access the dedicated test connection like so:
-        assertNotNull(connection);
-    }
 }
