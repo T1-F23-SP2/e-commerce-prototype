@@ -14,6 +14,7 @@ public class ProductCategoryUpdater extends ProductCategoryWorker { // TODO: Imp
 
     public ProductCategoryUpdater(ProductCategory pc) {
         super(pc);
+        this.setOriginalName(pc.getName());
     }
 
     public String getOriginalName() {
