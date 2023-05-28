@@ -213,7 +213,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // Assumes that an error in this step of the execution is a result of the UUID not being valid. If used w. get-method, the method should throw UUIDNotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
         }
 
@@ -232,7 +233,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // Assumes that an error in this step of the execution is a result of the name not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
         }
 
@@ -251,7 +253,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // Assumes that an error in this step of the execution is a result of the serial not being valid. If used w. get-method, the method should throw NotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
         }
 
@@ -289,7 +292,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
         }
 
@@ -308,7 +312,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
         }
 
@@ -327,7 +332,8 @@ public class DBDriver {
             if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
                 return false; // There exists none.
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
             return false; // If used w. get-method, the method should throw NotFoundException. Note: Could also be caused by server connectivity-issues or any other SQL-related mishaps.
         }
 
