@@ -748,7 +748,7 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException, UUIDNotFoundException, SQLException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws UUIDNotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
@@ -763,7 +763,7 @@ public class DBDriver {
         insertStatement.execute();
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException, UUIDNotFoundException, DiscountNotFoundException, SQLException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws UUIDNotFoundException, DiscountNotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
