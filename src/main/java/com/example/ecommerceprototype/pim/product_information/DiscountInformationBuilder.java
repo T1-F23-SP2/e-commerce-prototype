@@ -11,7 +11,7 @@ public class DiscountInformationBuilder extends DiscountInformationWorker {
         super(new DiscountInformation());
     }
 
-    @Override // TODO Implement submit for Creating a discount
+    @Override
     public DiscountInformation submit() throws SQLException, DuplicateEntryException {
         DBDriver.getInstance().insertNewDiscount(this.getDiscountInformation());
         return this.getDiscountInformation();

@@ -67,7 +67,7 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
         ProductInformation returnedProduct = null;
         try {
             returnedProduct = pimDriver.getProductByUUID(uuid);
-        } catch (UUIDNotFoundException | SQLException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -157,6 +157,8 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
             returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         assertTrue(returnedList.size() == 2 &&
@@ -180,6 +182,8 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
         try {
             returnedList = (ArrayList<ProductInformation>) pimDriver.getProductsThatAreHidden();
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
 

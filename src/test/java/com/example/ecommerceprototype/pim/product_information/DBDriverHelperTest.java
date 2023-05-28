@@ -1,14 +1,17 @@
 package com.example.ecommerceprototype.pim.product_information;
 
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DisplayName("Tests for helper methods in DBDriver")
 public class DBDriverHelperTest extends DBDriverAbstractTest {
     @Test
-    void testCheckIfProductByUUIDNotExists() {
+    void testCheckIfProductByUUIDNotExists() throws SQLException, NotFoundException {
         assertFalse(pimDriver.checkIfProductByUUIDExists("NotARealUUID!"));
     }
 

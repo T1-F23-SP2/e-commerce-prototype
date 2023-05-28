@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 public class DBDriver {
@@ -56,7 +57,7 @@ public class DBDriver {
 
     // region Helper methods for formatting queries
 
-    private static ProductInformation queryProductInformation(String uniqueIdentifier, PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException {
+    private ProductInformation queryProductInformation(String uniqueIdentifier, PreparedStatement queryStatement, SQLValueArguments sqlValueArguments) throws SQLException, NotFoundException {
         sqlValueArguments.setArgument(uniqueIdentifier);
 
         sqlValueArguments.setArgumentsInStatement(queryStatement);
@@ -65,36 +66,43 @@ public class DBDriver {
         ResultSet resultSet = queryStatement.getResultSet();
         resultSet.next();
 
-        return getProductInformation(resultSet);
+        return getProductInformationFromResultSet(resultSet);
     }
 
-    private static ProductInformation getProductInformation(ResultSet resultSet) throws SQLException {
+    private ProductInformation getProductInformationFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         ProductInformation productInformation = new ProductInformation();
-
-        productInformation.setUUID(resultSet.getString("product_UUID"))
+        String uuid = resultSet.getString("product_UUID");
+        productInformation.setUUID(uuid)
                 .setName(resultSet.getString("name"))
                 .setSerialNumber(resultSet.getString("serial_number"))
                 .setShortDescription(resultSet.getString("short_description"))
                 .setIsHidden(resultSet.getBoolean("is_hidden"))
-                .setLongDescription(resultSet.getString("long_description"));
+                .setLongDescription(resultSet.getString("long_description"))
+                .setProductCategory(this.getCategoryByProductUUID(uuid))
+                .setProductSpecification(this.getSpecificationByProductUUID(uuid))
+                .setManufacturingInformation(this.getManufactureByProductUUID(uuid));
+
+
+        List<PriceInformation> priceInformationList = this.getPricesByProductUUID(uuid);
+        if (priceInformationList.size() > 0) productInformation.setPriceInformation(priceInformationList.get(0));
         return productInformation;
     }
 
-    private static ProductList getMultipleProductInformation(PreparedStatement queryStatement) throws SQLException {
+    private ProductList getMultipleProductInformation(PreparedStatement queryStatement) throws SQLException, NotFoundException {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
         ProductList productInformationArrayList = new ProductList();
         while (resultSet.next()) {
 
-            ProductInformation productInformation = getProductInformation(resultSet);
+            ProductInformation productInformation = getProductInformationFromResultSet(resultSet);
 
             productInformationArrayList.add(productInformation);
         }
         return productInformationArrayList;
     }
 
-    private static ProductList productsBySerialHelper(String serialNumber, PreparedStatement queryStatement) throws SQLException {
+    private ProductList productsBySerialHelper(String serialNumber, PreparedStatement queryStatement) throws SQLException, NotFoundException {
         new SQLValueArguments()
                 .setArgument(serialNumber)
                 .setArgumentsInStatement(queryStatement);
@@ -332,8 +340,7 @@ public class DBDriver {
     // endregion Helper methods for checking if object exists in database
 
 
-    protected ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
-        // TODO: Should be replaced by procedure
+    protected ProductList getAllProducts() throws NotFoundException, SQLException {
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getAllProducts()");
 
         queryStatement.execute();
@@ -341,25 +348,14 @@ public class DBDriver {
 
         ProductList productInformationArrayList = new ProductList();
         while (resultSet.next()) {
-            ProductInformation productInformation = new ProductInformation();
 
-            productInformation.setUUID(resultSet.getString("product_UUID"))
-                    .setName(resultSet.getString("name"))
-                    .setSerialNumber(resultSet.getString("serial_number"))
-                    .setShortDescription(resultSet.getString("short_description"))
-                    .setIsHidden(resultSet.getBoolean("is_hidden"))
-                    .setLongDescription(resultSet.getString("long_description"))
-                    .setProductCategory(this.getCategoryByProductUUID(resultSet.getString("product_UUID")))
-                    .setProductSpecification(this.getSpecificationByProductUUID(resultSet.getString("product_UUID")))
-                    .setManufacturingInformation(this.getManufactureByProductUUID(resultSet.getString("product_UUID")))
-                    .setPriceInformation(this.getPricesByProductUUID(resultSet.getString("product_UUID")).get(0));
 
-            productInformationArrayList.add(productInformation);
+            productInformationArrayList.add(getProductInformationFromResultSet(resultSet));
         }
         return productInformationArrayList;
     }
 
-    protected ProductInformation getProductByUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    protected ProductInformation getProductByUUID(String uuid) throws NotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
@@ -370,7 +366,7 @@ public class DBDriver {
         return queryProductInformation(uuid, queryStatement, sqlValueArguments);
     }
 
-    protected ProductInformation getProductByName(String name) throws ProductNotFoundException, SQLException {
+    protected ProductInformation getProductByName(String name) throws NotFoundException, SQLException {
         if (!productByNameExists(name)) {
             throw new ProductNotFoundException();
         }
@@ -381,7 +377,7 @@ public class DBDriver {
         return queryProductInformation(name, queryStatement, sqlValueArguments);
     }
 
-    protected ProductList getProductsBySerialNumber(String serialNumber) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsBySerialNumber(String serialNumber) throws NotFoundException, SQLException {
         if (!this.productBySerialNumberExists(serialNumber)) {
             throw new ProductNotFoundException();
         }
@@ -390,13 +386,13 @@ public class DBDriver {
         return productsBySerialHelper(serialNumber, queryStatement);
     }
 
-    protected ProductList getProductsThatAreHidden() throws SQLException {
+    protected ProductList getProductsThatAreHidden() throws SQLException, NotFoundException {
         PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductsThatAreHidden()");
 
         return getMultipleProductInformation(queryStatement);
     }
 
-    protected ProductList getProductsByCategoryName(String categoryName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByCategoryName(String categoryName) throws NotFoundException, SQLException {
         if (!this.categoryByNameExists(categoryName)) {
             throw new ProductNotFoundException();
         }
@@ -405,7 +401,7 @@ public class DBDriver {
         return productsBySerialHelper(categoryName, queryStatement);
     }
 
-    protected ProductList getProductsByManufactureName(String manufactureName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByManufactureName(String manufactureName) throws NotFoundException, SQLException {
         if (!this.manufacturerByNameExists(manufactureName)) {
             throw new ProductNotFoundException();
         }
@@ -414,7 +410,7 @@ public class DBDriver {
         return productsBySerialHelper(manufactureName, queryStatement);
     }
 
-    protected ProductList getProductsByDiscountName(String discountName) throws ProductNotFoundException, SQLException {
+    protected ProductList getProductsByDiscountName(String discountName) throws NotFoundException, SQLException {
         if (!this.discountByNameExists(discountName)) {
             throw new ProductNotFoundException();
         }

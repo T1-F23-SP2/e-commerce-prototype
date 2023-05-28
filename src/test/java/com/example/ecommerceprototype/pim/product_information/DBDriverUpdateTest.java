@@ -35,7 +35,7 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
         ProductList productList = new ProductList();
         try {
             productList.addAll(dbDriver.getAllProducts());
-        } catch (UUIDNotFoundException | SQLException | CategoryNotFoundException e) {
+        } catch (NotFoundException| SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -57,7 +57,7 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
         // Assert
         try {
             assertEquals(productInformation.getName() /*"NewProductName"*/, dbDriver.getProductByUUID(uuid).getName());
-        } catch (UUIDNotFoundException | SQLException e) {
+        } catch (NotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
