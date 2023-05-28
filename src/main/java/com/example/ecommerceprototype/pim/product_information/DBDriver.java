@@ -41,13 +41,6 @@ public class DBDriver {
         return instance;
     }
 
-    protected static DBDriver getInstance(Connection connection) throws SQLException, IOException {
-        if (instance == null) {
-            instance = new DBDriver(connection);
-        }
-        return instance;
-    }
-
     // Overwrite the existing instance , for use in tests only
     protected static DBDriver setInstance(DBDriver dbDriver) {
         instance = dbDriver;
