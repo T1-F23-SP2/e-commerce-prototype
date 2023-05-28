@@ -460,33 +460,33 @@ CREATE OR REPLACE FUNCTION getDiscountPercentageByProductUUID(argUUID VARCHAR)
     RETURNS TABLE (percentage NUMERIC)
 AS $$
 DECLARE
-    newest_price  NUMERIC;
-    earlier_price NUMERIC;
+    new_price  NUMERIC;
+    old_price NUMERIC;
     percentage    NUMERIC;
 BEGIN
     SELECT price
-    INTO newest_price
+    INTO new_price
     FROM Price_history
              INNER JOIN Products ON Price_history.product_id = Products.id
-    WHERE Products.product_UUID = CAST (argUUID AS UUID)
+    WHERE Products.product_UUID = CAST (argUUID AS UUID) ORDER BY time_of_creation DESC
     LIMIT 1;
 
     SELECT price
-    INTO earlier_price
+    INTO old_price
     FROM Price_history
              INNER JOIN Products ON Price_history.product_id = Products.id
-    WHERE Products.product_UUID = CAST (argUUID AS UUID)
+    WHERE Products.product_UUID = CAST (argUUID AS UUID) ORDER BY time_of_creation DESC
     LIMIT 1 OFFSET 1;
 
-    IF newest_price = 0 OR earlier_price = 0 THEN
+    IF new_price = 0 OR old_price = 0 THEN
         RAISE EXCEPTION 'Cannot divide by zero';
     END IF;
 
-    IF newest_price = earlier_price THEN
+    IF new_price = old_price THEN
         RAISE EXCEPTION 'Same price';
     END IF;
 
-    SELECT ((1 - newest_price / earlier_price) * 100) INTO percentage;
+    SELECT (((old_price - new_price) / new_price) * 100) INTO percentage;
 
     RETURN QUERY SELECT percentage;
 END; $$
