@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.pim.exceptions.*;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLConnection;
 import com.example.ecommerceprototype.pim.sql_helpers.SQLValueArguments;
 import com.example.ecommerceprototype.pim.util.FilterableArrayList;
+import com.example.ecommerceprototype.pim.util.Functions;
 import com.example.ecommerceprototype.pim.util.ProductList;
 
 import java.io.IOException;
@@ -201,24 +202,19 @@ public class DBDriver {
 
     // region Helper methods for checking if object exists in database
 
-    public boolean productByUUIDExists(String uuid) {
-        try {
-            PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
-            new SQLValueArguments()
-                    .setArgument(uuid)
-                    .setArgumentsInStatement(queryStatement);
+    public boolean productByUUIDExists(String uuid) throws SQLException {
+        if (!Functions.isUUIDv4(uuid)) return false;
 
-            queryStatement.execute();
 
-            if (countRowsInQuery(queryStatement.getResultSet()) == 0) {
-                return false; // There exists none.
-            }
-        } catch (
-                SQLException e) { // TODO: Consider: Is catching this SQLException pointless? The above check already validates whether such a product exists, so the error would probably be symptomatic of an actual mistake in the code.
-            return false; // Assumes that an error in this step of the execution is a result of the UUID not being valid. If used w. get-method, the method should throw UUIDNotFoundException. Note: Could also be because of server connectivity-issues or any other SQL-related mishaps.
-        }
+        PreparedStatement queryStatement = connection.prepareStatement("SELECT * FROM getProductByUUID(?)");
+        new SQLValueArguments()
+                .setArgument(uuid)
+                .setArgumentsInStatement(queryStatement);
 
-        return true; // If used in an insert-method a DuplicateEntryException should be thrown.
+        ResultSet resultSet = queryStatement.executeQuery();
+
+        return resultSet.next();
+
     }
 
     public boolean productByNameExists(String name) {
@@ -754,7 +750,7 @@ public class DBDriver {
         }
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws IncompleteProductInformationException, UUIDNotFoundException, SQLException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice) throws UUIDNotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }
@@ -769,7 +765,7 @@ public class DBDriver {
         insertStatement.execute();
     }
 
-    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws IncompleteProductInformationException, UUIDNotFoundException, DiscountNotFoundException, SQLException {
+    protected void insertNewPriceChange(String uuid, BigDecimal price, BigDecimal wholeSalePrice, DiscountInformation discountInformation) throws UUIDNotFoundException, DiscountNotFoundException, SQLException {
         if (!this.productByUUIDExists(uuid)) {
             throw new UUIDNotFoundException();
         }

@@ -211,7 +211,7 @@ public class DBDriverInsertTest extends DBDriverAbstractTest {
 
     @Order(Integer.MAX_VALUE) // Make sure this runs last
     @Test
-    void testInsertNewProduct() {
+    void testInsertNewProduct() throws SQLException {
         final String name = "TEST NAME";
         final String serial = "HLKJDKLJS8293j";
         final String shortDescription = """

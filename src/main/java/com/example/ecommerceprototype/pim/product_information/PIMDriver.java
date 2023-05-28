@@ -19,7 +19,7 @@ public class PIMDriver {
         this.dbDriverInstance = instance;
     }
 
-    public boolean checkIfProductByUUIDExists(String uuid) {
+    public boolean checkIfProductByUUIDExists(String uuid) throws SQLException {
         return dbDriverInstance.productByUUIDExists(uuid);
     }
 
