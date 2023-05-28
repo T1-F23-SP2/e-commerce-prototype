@@ -73,15 +73,19 @@ public abstract class SQLConnection {
     }
 
 
-    public static Properties loadTestProperties() throws IOException {
+    public static Properties loadTestProperties(String filename) throws IOException {
         Properties mainProperties = SQLConnection.loadMainProperties();
-        Properties testProperties = SQLConnection.loadProperties("test.credentials", mainProperties);
+        Properties testProperties = SQLConnection.loadProperties(filename, mainProperties);
 
         if (testProperties.getProperty("database").equals(mainProperties.getProperty("database"))) {
             throw new IllegalArgumentException("Test connection cannot point to the same database as the main connection");
         }
 
         return testProperties;
+    }
+
+    public static Properties loadTestProperties() throws IOException {
+        return loadTestProperties("test.credentials");
     }
 
 
@@ -154,13 +158,13 @@ public abstract class SQLConnection {
         }
     }
 
-    public static Connection getMainConnection() throws IOException, SQLException {
-        return getConnectionFromProperties(loadMainProperties());
-    }
-
-    public static Connection getTestConnection() throws IOException, SQLException {
-        return getConnectionFromProperties(loadTestProperties());
-    }
+//    public static Connection getMainConnection() throws IOException, SQLException {
+//        return getConnectionFromProperties(loadMainProperties());
+//    }
+//
+//    public static Connection getTestConnection() throws IOException, SQLException {
+//        return getConnectionFromProperties(loadTestProperties());
+//    }
 
 
     // If database is not present in the system, then create the database. And execute initializer.

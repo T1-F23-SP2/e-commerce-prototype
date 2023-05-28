@@ -4,6 +4,7 @@ import com.example.ecommerceprototype.pim.exceptions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -508,4 +509,17 @@ public class DBDriverGetTest extends DBDriverAbstractTest {
     void testGetNoPricesByProductUUID() {
         assertThrows(UUIDNotFoundException.class, () -> pimDriver.getPricesByProductUUID(testUUID));
     }
+
+    @Test
+    void testGetDiscountPercentage() throws SQLException, NotFoundException {
+        ProductInformation pi = pimDriver.getProductByName("Lenovo Ideapad 5 Pro 14\" QHD touch");
+
+        String uuid = pi.getProductUUID();
+        BigDecimal expected = new BigDecimal("-7.70416024653312788900");
+
+        BigDecimal discount = pimDriver.getDiscountPercentageByProductUUID(uuid);
+
+        assertEquals(expected, discount);
+    }
+
 }

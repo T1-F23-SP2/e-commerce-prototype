@@ -12,9 +12,6 @@ public class ProductCategory implements Nameable {
     }
 
     public ProductCategory getProductCategoryParent() {
-        if (this.productCategoryParent == null) {
-            return null;
-        }
         return this.productCategoryParent;
     }
 
