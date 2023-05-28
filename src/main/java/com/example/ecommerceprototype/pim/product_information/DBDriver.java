@@ -107,7 +107,11 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) return null;
+        if (!resultSet.next()) {
+            return new ProductCategory()
+                    .setName("")
+                    .setProductCategoryParent((ProductCategory) null);
+        }
 
         ProductCategory productCategory = new ProductCategory()
                 .setName(resultSet.getString("name"));
@@ -143,7 +147,12 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) return null;
+        if (!resultSet.next()) {
+            return new ManufacturingInformation()
+                    .setName("")
+                    .setSupportPhoneNumber("")
+                    .setSupportMail("");
+        }
 
         return new ManufacturingInformation()
                 .setName(resultSet.getString("name"))
@@ -159,8 +168,12 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) return null;
-
+        if (!resultSet.next()) {
+            return new DiscountInformation()
+                    .setName("")
+                    .setStartingDate(null)
+                    .setExpiringDate(null);
+        }
 
         return new DiscountInformation()
                 .setName(resultSet.getString("name"))
