@@ -501,7 +501,7 @@ public class GUIController {
         List<ProductInformation> productInformationList;
         try {
             productInformationList = pimDriverInstance.getAllProducts();
-        } catch (SQLException | UUIDNotFoundException | CategoryNotFoundException e) {
+        } catch (SQLException | NotFoundException e) {
             alertSQLError();
             e.printStackTrace();
             return;

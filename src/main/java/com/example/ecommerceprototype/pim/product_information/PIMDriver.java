@@ -40,11 +40,11 @@ public class PIMDriver {
     }
 
 
-    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
+    public ProductList getAllProducts() throws NotFoundException, SQLException {
         return dbDriverInstance.getAllProducts();
     }
 
-    public ProductInformation getProductByUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public ProductInformation getProductByUUID(String uuid) throws NotFoundException, SQLException {
         return dbDriverInstance.getProductByUUID(uuid);
     }
 
@@ -56,7 +56,7 @@ public class PIMDriver {
         return dbDriverInstance.getProductsBySerialNumber(serialNumber);
     }
 
-    public ProductList getProductsThatAreHidden() throws SQLException {
+    public ProductList getProductsThatAreHidden() throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsThatAreHidden();
     }
 
