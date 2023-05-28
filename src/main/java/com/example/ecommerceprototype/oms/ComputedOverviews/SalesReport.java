@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.oms.ComputedOverviews;
 
 import com.example.ecommerceprototype.oms.DB.DBManager;
+import com.example.ecommerceprototype.oms.mockPIM.ProductInformation;
 import com.mongodb.client.MongoCollection;
 import com.example.ecommerceprototype.oms.mockPIM.PlaceHolderInstGet;
 import com.example.ecommerceprototype.oms.mockPIM.PriceInformation;
@@ -13,15 +14,6 @@ import java.util.List;
 import java.util.*;
 
 public class SalesReport {
-
-
-
-
-// TODO
-//      fix trigger
-    // qty trigger
-
-
 
     // Those are static
     double turnover;
@@ -56,34 +48,12 @@ public class SalesReport {
 
         return gdiValue;
     }
-
-
-    public static boolean getOrders(){
-        // TODO: Get all orders from orderHistory database table, and save it
-        MongoCollection<Document> finder = DBManager.databaseConn("Item");
-
-        List<org.bson.Document> result = finder.find().into(new ArrayList<>());
-
-        List<Integer> QTY = new ArrayList<>();
-        for (org.bson.Document ser : result) {
-            int QTYs = ser.getInteger("QTY");
-            QTY.add(QTYs);
-        }
-        //TODO: Get input from user? to get UUID? or object? Mabye bword is passed as object?
-
-
-        System.out.println(QTY);
-        Document query = new Document("QTY", new Document("$eq", 0));
-
-
-        return false;
-    }
+    
 
     public static BigDecimal calcMargin(PriceInformation priceInformation){
         MathContext ones = new MathContext(1);
         BigDecimal one = new BigDecimal("1");
         BigDecimal hundred = new BigDecimal("100");
-        // TODO: This returns the margin for 1 item
 
         BigDecimal Res = priceInformation.getPrice().divide(priceInformation.getBuyPrice());
         BigDecimal Res2 = one.divide(Res, new MathContext(3));
@@ -94,23 +64,20 @@ public class SalesReport {
         MathContext ones = new MathContext(1);
         BigDecimal one = new BigDecimal("1");
         BigDecimal hundred = new BigDecimal("100");
-        // TODO: This returns the margin for 1 item
 
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
 
-    public static BigDecimal rev(PriceInformation priceInformation) {
+    public static BigDecimal rev(ProductInformation productInformation) {
         int j = 0;
-        //TODO Skal ikke bruge instances til calc
-        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(PlaceHolderInstGet.productArray[j].getProductUUID())).multiply(priceInformation.getPrice());
-        BigDecimal PRev =getQTY(PlaceHolderInstGet.productArray[j].getProductUUID()).multiply(priceInformation.getBuyPrice());
+        BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(productInformation.getProductUUID())).multiply(productInformation.getPriceInformation().getBuyPrice());
+        BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
         j++;
         return tRev;
     }
 
     public static int getAmountOfOrders(String UUID) {
-        // TODO: Query database for amount of orders of a specific product(UUID)
 
         // Fix this, it has to get the right value and not 55 everytime
 
@@ -126,7 +93,6 @@ public class SalesReport {
 
     public static String getFavoriteProduct(){
 
-        // TODO: Query database for product with most "items quantity" and return UUID
         MongoCollection<Document> finder = DBManager.databaseConn("SalesOverview");
 
         List<org.bson.Document> result = finder.find().into(new ArrayList<>());
@@ -146,11 +112,10 @@ public class SalesReport {
         Document result2 = finder.find(query).first();
 
         String GetUUID = (String) (result2 != null ? result2.get("UUID") : null);
-        int GetAmount = (int) Objects.requireNonNull(result2).get("AmountSold");
 
         if (Max != null)
         {
-            return "UUID: " + GetUUID + " Amount: " + GetAmount + "";
+            return GetUUID;
         }
         return null;
     }
@@ -165,18 +130,6 @@ public class SalesReport {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

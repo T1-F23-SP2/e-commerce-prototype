@@ -3,7 +3,6 @@ module com.example.ecommerceprototype {
     requires javafx.fxml;
     requires java.sql;
     requires org.postgresql.jdbc;
-    requires org.mybatis;
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
     requires java.logging;
@@ -11,12 +10,13 @@ module com.example.ecommerceprototype {
     requires org.jfree.jfreechart;
     requires java.desktop;
     requires org.mongodb.driver.core;
+    requires org.mybatis;
 
     opens com.example.ecommerceprototype to javafx.fxml;
     exports com.example.ecommerceprototype;
 
-    exports com.example.ecommerceprototype.shop;
-    opens com.example.ecommerceprototype.shop to javafx.fxml;
+    exports com.example.ecommerceprototype.oms;
+    opens com.example.ecommerceprototype.oms to javafx.fxml;
 
     exports com.example.ecommerceprototype.pim.product_information;
     exports com.example.ecommerceprototype.pim.presentation;
@@ -37,8 +37,6 @@ module com.example.ecommerceprototype {
     exports com.example.ecommerceprototype.cms.exceptions;
     opens com.example.ecommerceprototype.cms.exceptions to javafx.fxml;
 
-    exports com.example.ecommerceprototype.oms;
-    opens com.example.ecommerceprototype.oms to javafx.fxml;
     exports com.example.ecommerceprototype.shop.components;
     opens com.example.ecommerceprototype.shop.components to javafx.fxml;
     exports com.example.ecommerceprototype.shop.pages;

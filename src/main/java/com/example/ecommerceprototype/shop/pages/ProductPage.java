@@ -1,5 +1,6 @@
 package com.example.ecommerceprototype.shop.pages;
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.ProductFinder;
@@ -18,11 +19,13 @@ public class ProductPage {
     ShopController controller;
     CMS cms;
     Pane page;
+    PIMDriver pim;
 
     public ProductPage(ShopController controller) throws Exception {
 
         this.controller = controller;
         this.cms = controller.getCMSInstance();
+        this.pim = controller.getPIMDriverInstance();
     }
     public void loadPage(Stage window, ProductInformation product) throws Exception {
 
@@ -43,7 +46,9 @@ public class ProductPage {
 
         setButtonOnAction("addToCart_Button", actionEvent -> {
             try {
-                controller.getCart().addToCart(product);}
+                controller.getCart().addToCart(product);
+                controller.getCartPage().loadPage(controller.getWindow());
+            }
             catch (Exception e) {
                 System.out.println(e.getMessage());
             }

@@ -57,13 +57,13 @@ public class Sidebar {
 
         FilterableArrayList<ProductCategory> allCategories = pim.getAllCategories();
         for (ProductCategory allCategory : allCategories) {
-            createFilter(categoryList, "Type", allCategory.getName(), pim.getProductsByCategoryName(allCategory.getName()));
+            createFilter(categoryList, "Type: ", allCategory.getName(), pim.getProductsByCategoryName(allCategory.getName()));
         }
 
 
         FilterableArrayList<ManufacturingInformation> allManufacturers = pim.getAllManufactures();
         for (ManufacturingInformation allManufacturer : allManufacturers) {
-            createFilter(categoryList, "Manufacturer", allManufacturer.getName(), pim.getProductsByManufactureName(allManufacturer.getName()));
+            createFilter(categoryList, "Manufacturer: ", allManufacturer.getName(), pim.getProductsByManufactureName(allManufacturer.getName()));
         }
 
         List<Integer> priceRange = Arrays.asList(0, 100, 500, 1000, 2000, 5000, 10000);
@@ -78,7 +78,7 @@ public class Sidebar {
             ranges.add(productOfPrice);
         }
         for (int i = 0; i < priceRange.size() - 1; i++) {
-            createFilter(categoryList, "Price", priceRange.get(i) + " - " + priceRange.get(i+1), ranges.get(i));
+            createFilter(categoryList, "Price: ", priceRange.get(i) + " - " + priceRange.get(i+1), ranges.get(i));
         }
     }
 
@@ -92,7 +92,7 @@ public class Sidebar {
                 System.out.println(e.getMessage());
             }
         });
-        b.setText(filterName + ": " + categoryName);
+        b.setText(filterName + categoryName);
         categoryList.getChildren().add(b);
     }
 

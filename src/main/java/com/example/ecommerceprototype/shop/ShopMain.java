@@ -13,7 +13,8 @@ public class ShopMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ShopController controller = new ShopController(stage);
+        ShopController controller = new ShopController();
+        controller.startGUI(stage);
     }
 
 }

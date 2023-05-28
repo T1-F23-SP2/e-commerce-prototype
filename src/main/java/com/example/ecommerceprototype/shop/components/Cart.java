@@ -14,13 +14,16 @@ public class Cart {
         this.controller = controller;
     }
 
-    HashMap<ProductInformation, Integer> cart = new HashMap<ProductInformation, Integer>();
+    HashMap<String, Integer> cart = new HashMap<>();
 
     public void addToCart(ProductInformation product) {
+        System.out.print("item");
+        System.out.print(product.getProductUUID());
+        System.out.print(cart);
         boolean isAlreadyInCart = false;
         // every ProductInformation is a unique object, so the UUIDs instead of the objects are compared
-        for (ProductInformation key : cart.keySet()) {
-            if (Objects.equals(key.getProductUUID(), product.getProductUUID())) {
+        for (String key : cart.keySet()) {
+            if (Objects.equals(key, product.getProductUUID())) {
                 int value = cart.get(key);
                 cart.remove(key);
                 cart.put(key, value + 1);
@@ -31,32 +34,19 @@ public class Cart {
             System.out.print("item");
         }
         if (!isAlreadyInCart) {
-            cart.put(product, 1);
-        }
-
-        try {
-            controller.getCartPage().loadPage(controller.getWindow());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
+            cart.put(product.getProductUUID(), 1);
         }
     }
 
     public void deleteFromCart(ProductInformation product) {
-        cart.remove(product);
-        try {
-            controller.getCartPage().loadPage(controller.getWindow());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        cart.remove(product.getProductUUID());
     }
 
     public void clearCart() {
         cart.clear();
     }
 
-    public HashMap<ProductInformation, Integer> getContents() {
+    public HashMap<String, Integer> getContents() {
         return cart;
     }
 }

@@ -23,7 +23,7 @@ public class CMSTest extends Application{
             Pane p = null;
             try {
                 p = CMS.getInstance().loadComponent("TopBanner");
-            } catch (FXMLLoadFailedException flfe) {
+            } catch (com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException flfe) {
                 System.out.println("!!!: " + flfe.getMessage());
             }
             assertNotNull(p);
@@ -49,7 +49,7 @@ public class CMSTest extends Application{
             try {
                 Pane p = CMS.getInstance().loadComponent("TopBanner");
                 n = CMS.getInstance().findNode(p, "home_Button");
-            } catch (FXMLLoadFailedException flfe) {
+            } catch (com.example.ecommerceprototype.cms.exceptions.FXMLLoadFailedException flfe) {
                 System.out.println("!!!: " + flfe.getMessage());
             }
             assertNotNull(n);
