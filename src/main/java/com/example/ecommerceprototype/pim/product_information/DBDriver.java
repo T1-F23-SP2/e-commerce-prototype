@@ -41,13 +41,6 @@ public class DBDriver {
         return instance;
     }
 
-    protected static DBDriver getInstance(Connection connection) throws SQLException, IOException {
-        if (instance == null) {
-            instance = new DBDriver(connection);
-        }
-        return instance;
-    }
-
     // Overwrite the existing instance , for use in tests only
     protected static DBDriver setInstance(DBDriver dbDriver) {
         instance = dbDriver;
@@ -115,11 +108,7 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) {
-            return new ProductCategory()
-                    .setName("")
-                    .setProductCategoryParent((ProductCategory) null);
-        }
+        if (!resultSet.next()) return null;
 
         ProductCategory productCategory = new ProductCategory()
                 .setName(resultSet.getString("name"));
@@ -155,12 +144,7 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) {
-            return new ManufacturingInformation()
-                    .setName("")
-                    .setSupportPhoneNumber("")
-                    .setSupportMail("");
-        }
+        if (!resultSet.next()) return null;
 
         return new ManufacturingInformation()
                 .setName(resultSet.getString("name"))
@@ -176,12 +160,8 @@ public class DBDriver {
         queryStatement.execute();
         ResultSet resultSet = queryStatement.getResultSet();
 
-        if (!resultSet.next()) {
-            return new DiscountInformation()
-                    .setName("")
-                    .setStartingDate(null)
-                    .setExpiringDate(null);
-        }
+        if (!resultSet.next()) return null;
+
 
         return new DiscountInformation()
                 .setName(resultSet.getString("name"))
