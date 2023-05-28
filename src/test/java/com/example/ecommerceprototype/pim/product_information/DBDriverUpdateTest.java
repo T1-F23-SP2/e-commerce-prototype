@@ -5,6 +5,7 @@ import com.example.ecommerceprototype.pim.util.ProductList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -189,4 +190,39 @@ public class DBDriverUpdateTest extends DBDriverAbstractTest {
 //            throw new RuntimeException(e);
 //        }
 //    }
+
+    @Test
+    void testUpdatePrice() throws NotFoundException, SQLException {
+        ProductInformation pi = pimDriver.getAllProducts().get(0);
+        BigDecimal oldPrice = pi.getPriceInformation().getPrice();
+        BigDecimal newPrice = new BigDecimal("39.99");
+        String discountName = "test_new_discount";
+
+        DiscountInformationBuilder discountInformationBuilder = new DiscountInformationBuilder();
+        discountInformationBuilder.setName(discountName)
+                .setStartingDate(LocalDate.parse("2023-01-01"))
+                .setExpiringDate(LocalDate.now());
+
+        assertDoesNotThrow(() -> {
+            discountInformationBuilder.submit();
+        });
+
+        DiscountInformation discount = discountInformationBuilder.getDiscountInformation();
+
+        PriceInformationBuilder builder = new PriceInformationBuilder();
+        builder.setPrice(newPrice)
+                .setWholeSalePrice(new BigDecimal("23.00"))
+                .setDiscountInformation(discount)
+                .setProductUUID(pi.getProductUUID());
+
+        assertDoesNotThrow(() -> {
+            builder.submit();
+        });
+
+        ProductInformation updatedPi = pimDriver.getProductByUUID(pi.getProductUUID());
+
+        assertNotEquals(oldPrice, updatedPi.getPriceInformation().getPrice());
+
+        assertEquals(newPrice, updatedPi.getPriceInformation().getPrice());
+    }
 }
