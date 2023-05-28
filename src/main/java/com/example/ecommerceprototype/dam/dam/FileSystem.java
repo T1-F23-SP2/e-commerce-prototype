@@ -13,11 +13,17 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.IntBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class FileSystem {
@@ -187,21 +193,29 @@ public class FileSystem {
         }
     }
 
-    public File downloadFileFromURL(String URL){
-        File file;
-
+    public void downloadFileFromURL(String desiredDownloadPath_in, String url_in, String uuid_in)
+    {
         try {
-            String storageURL = Constants.AZURE_Start_URL;
-            URL url = new URL(storageURL+URL);
+            URL url = new URL(url_in);
 
-            file = new File(url.toURI());
+            String filename = extractName(url_in, uuid_in);
 
-            return file;
+            String path = desiredDownloadPath_in+uuid_in;
 
-        } catch (Exception e) {
-            System.out.println("downloadFileFromURL FileSystem");
+            Files.createDirectories(Paths.get(path));
+
+            File myFile = new File(path+"/"+filename);
+
+
+            ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
+            FileChannel fileChannel = fileOutputStream.getChannel();
+            fileOutputStream.getChannel()
+                    .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
 
@@ -220,6 +234,19 @@ public class FileSystem {
         PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer(newImg.getWidth(), newImg.getHeight(), buffer, pixelFormat);
         return new WritableImage(pixelBuffer);
     }
+
+
+    public String extractName(String url_in, String uuid_in)
+    {
+        String url = url_in;
+        String extractionPart = "%2F"+uuid_in+"%2F";
+        int lettersToSubtract = extractionPart.length();
+
+        String formatString = url.substring(url.lastIndexOf("%2F"+uuid_in+"%2F") + lettersToSubtract);
+        return formatString;
+    }
+
+
 
 
 }

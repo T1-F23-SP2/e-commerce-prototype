@@ -382,17 +382,19 @@ public class DamController implements Initializable {
 
     private void getUrlFromTable(MouseEvent event)
     {
-        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        try {
+            int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
 
-        String type = typeTableColumn.getCellObservableValue(selectedIndex).getValue();
-        String pathFromTable = pathTableColumn.getCellObservableValue(selectedIndex).getValue();
-        if (type.contains("image") || type.contains("Image") )
+            String type = typeTableColumn.getCellObservableValue(selectedIndex).getValue();
+            String pathFromTable = pathTableColumn.getCellObservableValue(selectedIndex).getValue();
+            if (type.contains("image") || type.contains("Image")) {
+                previewImage(pathFromTable);
+            } else {
+                System.out.println("no picture available");
+            }
+        } catch (Exception e)
         {
-            previewImage(pathFromTable);
-        }
-        else
-        {
-            System.out.println("no picture on available");
+            System.out.println("Asset not selected");
         }
     }
 

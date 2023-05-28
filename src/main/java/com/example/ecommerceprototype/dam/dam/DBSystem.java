@@ -46,7 +46,8 @@ public class DBSystem {
     }
 
 
-    public void addAsset(Asset asset) {
+    public int addAsset(Asset asset) {
+        int assetID = 0;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT add_asset(?,?,?,?,?,?)");
@@ -60,16 +61,20 @@ public class DBSystem {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    int assetID = resultSet.getInt(1);
+                    assetID = resultSet.getInt(1);
+
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             System.out.println("Something went wrong! No asset added!");
         }
+        return assetID;
     }
 
 
-    public void deleteAsset(int assetID_in) {
+    public boolean deleteAsset(int assetID_in) {
+        boolean assetDeleted = false;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT delete_asset(?)");
@@ -78,9 +83,13 @@ public class DBSystem {
 
             statement.executeQuery();
 
+            assetDeleted = true;
+
         } catch (SQLException e) {
             System.out.println("something wrong with 'deleteAsset' in DBSystem");
         }
+
+        return assetDeleted;
     }
 
 
@@ -106,7 +115,8 @@ public class DBSystem {
         return tagID;
     }
 
-    public void addTagAssignment(int assetID_in, int tagID_in) {
+    public boolean addTagAssignment(int assetID_in, int tagID_in) {
+        boolean tagAssigned = false;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT add_tag_assignment(?,?)");
@@ -115,14 +125,16 @@ public class DBSystem {
             statement.setInt(2, tagID_in);
 
             statement.executeQuery();
+            tagAssigned = true;
 
         } catch (Exception e) {
             System.out.println("something wrong with 'addTagAssignment' in DBSystem");
         }
+        return tagAssigned;
     }
 
     public List<String> getAllTags() {
-        List<String> tags = null;
+        List<String> tags = new ArrayList<>();
 
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -163,7 +175,8 @@ public class DBSystem {
         return tags;
     }
 
-    public void deleteTagAssignment(int assetID_in, String tagName_in) {
+    public boolean deleteTagAssignment(int assetID_in, String tagName_in) {
+        boolean tagDeleted = false;
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT delete_tag_assignment(?,?)");
@@ -171,10 +184,12 @@ public class DBSystem {
             statement.setInt(2, assetID_in);
 
             statement.executeQuery();
+            tagDeleted = true;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return tagDeleted;
     }
 
 

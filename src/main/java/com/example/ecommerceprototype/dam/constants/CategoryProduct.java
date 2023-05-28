@@ -5,7 +5,7 @@ public enum CategoryProduct {
     RAM ("RAM"),
     GPU ("GPU"),
     MOTHERBOARD ("Motherboard"),
-    HDD ("Harddisk"),
+    HARDDISK ("Harddisk"),
     SSD ("SSD"),
     MONITOR ("Monitor"),
     LAPTOP ("Laptop"),

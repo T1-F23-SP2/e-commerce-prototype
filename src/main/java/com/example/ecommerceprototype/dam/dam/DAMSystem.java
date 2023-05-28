@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.dam.dam;
 
 import com.example.ecommerceprototype.dam.constants.Category;
+import com.example.ecommerceprototype.dam.constants.Constants;
 import com.example.ecommerceprototype.dam.constants.Type;
 import javafx.scene.image.Image;
 
@@ -107,20 +108,21 @@ public class DAMSystem {
     }
 
 
-
-
-    private Category extractCategory(String cat_in)
+    public boolean downloadFilesFromUUID(String UUID, String downloadPath)
     {
-        Category cat = Category.valueOf(cat_in.toUpperCase());
-        return cat;
-    }
+        List<String> urls = DBConn.getURLsByUUID(UUID);
+        if (!urls.isEmpty()) {
+            for (String url : urls)
+            {
 
-    private String extractFileFormat(String name_in)
-    {
-        String formatString = name_in.substring(name_in.lastIndexOf(".") + 1);
-        return formatString;
+                FileConn.downloadFileFromURL(downloadPath, Constants.AZURE_Start_URL +url, UUID);
+            }
+            return true;
+        } else
+        {
+            return false;
+        }
     }
-
 
 
 
