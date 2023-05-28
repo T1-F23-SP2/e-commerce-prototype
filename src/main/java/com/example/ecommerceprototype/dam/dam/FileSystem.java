@@ -110,7 +110,6 @@ public class FileSystem {
            uploadBlobClient = containerClient.getBlobClient(folder_name + "/" + uuid + "/" + file_name);
        }
 
-
         uploadBlobClient.uploadFromFile(oripath);
 
         String url = uploadBlobClient.getBlobUrl();
