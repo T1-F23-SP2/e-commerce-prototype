@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class OrderGUIApplicationOMS extends Application implements StockInterface {
+public class GUIOverviewApplication extends Application implements StockInterface {
     @Override
     public void start(Stage stage) throws IOException {
 
 
-        FXMLLoader fxmlLoader = new FXMLLoader(OrderGUIApplicationOMS.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 750, 600);
+        FXMLLoader fxmlLoader = new FXMLLoader(OrderGUIApplicationOMS.class.getResource("BusinessOverview.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

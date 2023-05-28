@@ -59,7 +59,7 @@ public class InventoryDisplayGenerator {
             document.open();
 
 
-            // Adding the FUCKTable to the pdf - (CellTable)
+            // Adding the O_Table to the pdf - (CellTable)
             PdfPTable table = O_Table();
 
             document.add(table);
@@ -78,6 +78,17 @@ public class InventoryDisplayGenerator {
         int height = 350;
         String fileName = "assets/oms/out/Overview.pdf";
         convertToPdf(width, height, fileName);
+    }
+
+
+
+    //Creating pdf file incl. formatting
+    public static void stockOverviewgen(){
+        int width = 300;
+        int height = 350;
+        String fileName = "assets/oms/out/Overview.pdf";
+        convertToPdf(width, height, fileName);
+
     }
 }
 

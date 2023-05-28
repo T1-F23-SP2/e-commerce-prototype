@@ -33,7 +33,7 @@ public class SalesReportGenerator {
 
     public static PdfPTable Table_Table() {
         // Change this to the right column names
-        String[] columnHeaders = {"Name", "UUID", "AmountOfOrders", "Price", "Buy Price", "CalcMargin (%)", "CalcMargin (KR)", "QTY", "Revenue"};
+        String[] columnHeaders = {"Name", "UUID", "AmountOfOrders", "Price", "Buy Price", "CalcMargin (%)", "CalcMargin (KR)", "QTY", "Revenue", "Star"};
 
         PdfPTable table = new PdfPTable(columnHeaders.length);
         table.setWidthPercentage(100);
@@ -75,9 +75,18 @@ public class SalesReportGenerator {
             PdfPCell cell_itemQTY = new PdfPCell(new Phrase(((SalesReport.getQTY(PlaceHolderInstGet.productArray[j].getProductUUID())).toString())));
             table.addCell(cell_itemQTY);
 
-            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j].getPriceInformation()).toString()));
+            PdfPCell cell_rev = new PdfPCell(new Phrase(SalesReport.rev(PlaceHolderInstGet.productArray[j]).toString()));
             table.addCell(cell_rev);
 
+            if (SalesReport.getFavoriteProduct().equals(PlaceHolderInstGet.productArray[j].getProductUUID())) {
+                PdfPCell Fav_Product = new PdfPCell(new Phrase("Star"));
+                table.addCell(Fav_Product);
+            }
+            else {
+                System.out.println(SalesReport.getFavoriteProduct());
+                PdfPCell Fav = new PdfPCell(new Phrase(""));
+                table.addCell(Fav);
+            }
         }
 
         return table;

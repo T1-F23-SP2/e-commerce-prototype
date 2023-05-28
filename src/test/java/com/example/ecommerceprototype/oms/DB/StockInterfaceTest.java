@@ -43,7 +43,7 @@ class StockInterfaceTest {
 
     @Test
     void queryStockDB() {
-    assertNotNull(StockInterface.queryStockDB(DBManager.databaseConn("TestTable"), "12345"));
+    assertNotNull(DBManager.queryDB(DBManager.databaseConn("TestTable"), "12345"));
     }
 
     @Test

@@ -75,10 +75,7 @@ public class OrderGUIControllerOMS {
 
         for (int i = 0; i < idList.size(); i++) {
             statusList.add("Processed");
-//Todo: Fix this?
-            // Get the object from com.example.ecommerceprototype.OMS.DB with specific id.
-//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", idList.get(i).toString());
-//            String UUIDString = documentObj.getString("UUID");
+
             UUIDString = String.join(", ", DBManager.getUUIDInfo(idList.get(i), "UUID"));
             OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
@@ -111,45 +108,7 @@ public class OrderGUIControllerOMS {
     @FXML
     void addOrderMock(ActionEvent event) {
         StockInterface.sendOrderOMSNew(mockShopObject);
-
-/*
-        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
-        Document document = collection.find().sort(descending("_id")).first();
-        int highestId = (document == null) ? 0 : document.getInteger("_id");
-
-        int id = highestId+1;
-
-
-        // Code to update the ui in OrderGUI
-        // Add to list
-//        OrderGUIControllerOMS.orderMap.put(id, false);
-        OrderGUIControllerOMS.idList.clear();
-        OrderGUIControllerOMS.statusList.clear();
-        OrderGUIControllerOMS.UUIDList.clear();
-        OrderGUIControllerOMS.idList.add(id);
-        OrderGUIControllerOMS.statusList.add("Not processed");
-        OrderGUIControllerOMS.UUIDList.add(UUIDString);
-
-        ArrayList<Integer> dbIdList = DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory"));
-        // Collection to database made
-        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
-
-        for (int i = 0; i < dbIdList.size(); i++) {
-            OrderGUIControllerOMS.idList.add(dbIdList.get(i));
-            OrderGUIControllerOMS.statusList.add("Processed");
-            //Todo: fix this?
-
-            // Code to get information out of com.example.ecommerceprototype.OMS.DB
-//            Document documentObj = DBManager.queryDBFlex(collectionConn, "_id", String.valueOf(idList.get(i)));
-//            OrderGUIControllerOMS.UUIDList.add(documentObj.getString("UUID"));
-
-            OrderGUIControllerOMS.UUIDList.add(UUIDString);
-*/
-        //}
-
-        // Code to place in database Code to process
-        //OrderManager.sendOrder(mockShopObject);
-    }
+  }
 
     public void initialize() {
         ordersListId.setItems(idList);
