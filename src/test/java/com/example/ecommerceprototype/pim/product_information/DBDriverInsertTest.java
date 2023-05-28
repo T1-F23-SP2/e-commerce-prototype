@@ -3,6 +3,7 @@ package com.example.ecommerceprototype.pim.product_information;
 import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -135,7 +136,7 @@ public class DBDriverInsertTest extends DBDriverAbstractTest {
 
     @Order(Integer.MAX_VALUE) // Make sure this runs last
     @Test
-    void testInsertNewProduct() {
+    void testInsertNewProduct() throws SQLException {
         final String name = "TEST NAME";
         final String serial = "HLKJDKLJS8293j";
         final String shortDescription = """
