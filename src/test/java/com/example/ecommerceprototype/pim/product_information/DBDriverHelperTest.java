@@ -1,8 +1,6 @@
 package com.example.ecommerceprototype.pim.product_information;
 
-import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
-import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
 import com.example.ecommerceprototype.pim.util.ProductList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
