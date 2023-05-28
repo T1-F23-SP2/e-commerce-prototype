@@ -428,8 +428,13 @@ public class GUIController {
             priceInformationBuilder.setProductUUID(rowValue.getProductUUID());
             try {
                 priceInformationBuilder.submit();
-            } catch (IncompleteProductInformationException e) {
+            } catch (DiscountNotFoundException e) {
+                alertObjectWithGivenNameDoesNotExist("Discount", priceInformationBuilder.getPriceInformation().getDiscountInformation().getName());
                 throw new RuntimeException(e);
+            } catch (SQLException | UUIDNotFoundException e) {
+                alertSQLError();
+                e.printStackTrace();
+                return;
             }
 
             addNewProductUpdaterToSubmit(productInformationUpdaterList, productInformationUpdater, rowValue);
