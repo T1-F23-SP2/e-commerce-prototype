@@ -113,20 +113,14 @@ public class WatermarkController {
                 int originalWidth = originalImage.getWidth();
                 int originalHeight = originalImage.getHeight();
 
-
-                // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
                 BufferedImage watermarkedImage = new BufferedImage(originalWidth, originalHeight, BufferedImage.TYPE_INT_RGB);
 
-
-                // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
                 Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
 
-                // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
                 g2d.drawImage(originalImage, 0, 0, null);
 
                 BufferedImage logo = ImageIO.read(new File("src/main/resources/com/example/ecommerceprototype/dam/images/sdu_logo.png"));
 
-                // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
 
                 double scaleFactor = Math.min((double) originalWidth / logo.getWidth(), (double) originalHeight / logo.getHeight());
 
@@ -134,8 +128,8 @@ public class WatermarkController {
                 int scaledHeight = (int) (logo.getHeight() * scaleFactor);
                 Image scaledLogo = logo.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_DEFAULT);
 
-                int desiredWidth = (int) (originalWidth * 0.1);  // Adjust the value as needed
-                int desiredHeight = (int) (originalHeight * 0.1);  // Adjust the value as needed
+                int desiredWidth = (int) (originalWidth * 0.1);  // Adjust the value as needed for smaller or bigger watermark
+                int desiredHeight = (int) (originalHeight * 0.1);  // Adjust the value as needed for smaller or bigger watermark
                 Image sizedLogo = scaledLogo.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
 
                 int logoWidth = logo.getWidth();
@@ -145,7 +139,6 @@ public class WatermarkController {
                 int logoY = originalHeight - desiredHeight - logoMargin;
                 g2d.drawImage(sizedLogo, logoX, logoY, null);
 
-                // vi gemmer nu det nye billede som en fil
                 String nameWatermarked = ".watermarked.jpg";
 
                 String newFilePath = selectedFile.getPath() + nameWatermarked;
@@ -202,13 +195,10 @@ public class WatermarkController {
             int originalWidth = originalImage.getWidth();
             int originalHeight = originalImage.getHeight();
 
-            // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
             BufferedImage watermarkedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-            // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
             Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
 
-            // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
             g2d.drawImage(originalImage, 0, 0, null);
 
             BufferedImage logo = null;
@@ -218,8 +208,6 @@ public class WatermarkController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-            // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
 
             double scaleFactor = Math.min((double) originalWidth / logo.getWidth(), (double) originalHeight / logo.getHeight());
 
@@ -238,7 +226,6 @@ public class WatermarkController {
             int logoY = originalHeight - desiredHeight - logoMargin;
             g2d.drawImage(sizedLogo, logoX, logoY, null);
 
-            // vi gemmer nu det nye billede som en fil
             String nameWatermarked = ".logomarked.jpg";
             String newFilePath = selectedFile.getPath() + nameWatermarked;
 
@@ -295,13 +282,10 @@ public class WatermarkController {
             int originalWidth = originalImage.getWidth();
             int originalHeight = originalImage.getHeight();
 
-            // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
             BufferedImage watermarkedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-            // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
             Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
 
-            // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
             g2d.drawImage(originalImage, 0, 0, null);
 
             BufferedImage logo = null;
@@ -390,13 +374,10 @@ public class WatermarkController {
                     throw new RuntimeException(e);
                 }
 
-                // nu opretter vi et BufferedImage object til det billede som vi ønsker at tilføje et vandmærke
                 BufferedImage watermarkedImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 
-                // derefter opretter vi et Graphics2D objekt af billedet vi ønsker at vandmærke
                 Graphics2D g2d = (Graphics2D) watermarkedImage.getGraphics();
 
-                // vi tilføjer og tegner nu det originale billede ovenpå det nye billede
                 g2d.drawImage(originalImage, 0, 0, null);
 
                 Font font = new Font("Purisa", Font.PLAIN, 48);
@@ -405,7 +386,6 @@ public class WatermarkController {
                 g2d.setColor(color);
                 g2d.drawString(mark, 10, 50);
 
-                // vi gemmer nu det nye billede som en fil
                 String nameWatermarked = ".logomarked.jpg";
                 String newFilePath = selectedFile.getPath() + nameWatermarked;
 
