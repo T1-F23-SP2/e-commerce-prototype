@@ -268,7 +268,7 @@ public static final int CVR = 53319637;
 
     public static void main(String[] args) {
         fileFormatter();
-        //generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"), PlaceholderInstShop.getInstShop1());
+        generateOCPDF(new File("assets/oms/out/Order_confirmation #" + OrderConfirmationNumber + ".pdf"), PlaceholderInstShop.getInstShop1(), 1);
     }
 
 
