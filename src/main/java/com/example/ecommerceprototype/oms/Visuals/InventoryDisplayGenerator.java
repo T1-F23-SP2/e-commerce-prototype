@@ -2,16 +2,9 @@ package com.example.ecommerceprototype.oms.Visuals;
 
 import com.example.ecommerceprototype.oms.ComputedOverviews.SalesReport;
 import com.example.ecommerceprototype.oms.mockPIM.PlaceHolderInstGet;
-import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.text.*;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.*;
-import org.jfree.chart.JFreeChart;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.FileOutputStream;
-import java.util.List;
 
 public class InventoryDisplayGenerator {
 
@@ -47,19 +40,17 @@ public class InventoryDisplayGenerator {
         return O_table;
     }
 
-    public static void convertToPdf(int width, int height, String filename) {
+    public static void convertToPdf(String filename) {
         //Initialize document
         Document document = new Document(PageSize.A4);
         try {
-            // Initialize writer
-            PdfWriter O_Writer;
             // Calls instance of document with the file output
-            O_Writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+            PdfWriter.getInstance(document, new FileOutputStream(filename));
             //Open document to write to the pdf
             document.open();
 
 
-            // Adding the O_Table to the pdf - (CellTable)
+            // Adding the O_table to the pdf - (CellTable)
             PdfPTable table = O_Table();
 
             document.add(table);
@@ -73,22 +64,15 @@ public class InventoryDisplayGenerator {
 
     }
 
-    public static void main(String[] args) {
-        int width = 300;
-        int height = 350;
+
+    public static void stockOverviewGen(){
         String fileName = "assets/oms/out/Overview.pdf";
-        convertToPdf(width, height, fileName);
+        convertToPdf(fileName);
+
     }
 
-
-
-    //Creating pdf file incl. formatting
-    public static void stockOverviewgen(){
-        int width = 300;
-        int height = 350;
-        String fileName = "assets/oms/out/Overview.pdf";
-        convertToPdf(width, height, fileName);
-
+    public static void main(String[] args) {
+        stockOverviewGen();
     }
 }
 

@@ -125,7 +125,7 @@ class DBManagerTest {
     void getUUIDInfo() {
 
 
-        assertNotNull(DBManager.getUUIDInfo(10, "Amount"));
+        assertNotNull(DBManager.getUUIDInfo(1, "UUID"));
 
     }
 

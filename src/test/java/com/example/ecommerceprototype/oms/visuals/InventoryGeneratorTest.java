@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.oms.visuals;
 
-import com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator;
+
+import com.example.ecommerceprototype.oms.Visuals.InventoryDisplayGenerator;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.mongodb.client.MongoClient;
@@ -20,7 +21,7 @@ import java.io.File;
 import static com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator.pdfMaker;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SalesReportGeneratorTest {
+class InventoryGeneratorTest {
 
     String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
     MongoClient mongoClient = MongoClients.create(uri);
@@ -48,24 +49,10 @@ class SalesReportGeneratorTest {
     }
 
     @Test
-    void Table_Table() {
+    void O_Table() {
         // Tester at der er indhold i pdf
         table.addCell(headerCell);
         assertTrue(table.isContent());
-    }
-
-    @Test
-    void Chart_BARchart() {
-        JFreeChart chart = SalesReportGenerator.Chart_BARchart();
-
-        assertNotNull(chart);
-    }
-
-    @Test
-    void Chart_PIEchart() {
-        JFreeChart chart = SalesReportGenerator.Chart_PIEchart();
-
-        assertNotNull(chart);
     }
 
 

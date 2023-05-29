@@ -1,6 +1,6 @@
 package com.example.ecommerceprototype.oms.DB;
 
-import com.mongodb.client.MongoClient;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,8 +60,4 @@ class StockInterfaceTest {
         assertTrue(true);
     }
 
-    @Test
-    void sendOrderOMS() {
-        assertTrue(true);
-    }
 }
