@@ -34,7 +34,7 @@ public class PaymentPage {
 
         controller.getTopBanner().loadTopBannerHomeCart(plate);
 
-        Pane paymentPage = cms.loadComponent("paymentPage");
+        Pane paymentPage = cms.loadComponent("PaymentPage");
         page = paymentPage;
         cms.loadOnto(plate, paymentPage, "contentPlaceholder_Pane");
 
