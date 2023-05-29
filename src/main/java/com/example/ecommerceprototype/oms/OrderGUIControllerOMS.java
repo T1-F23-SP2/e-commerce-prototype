@@ -70,8 +70,6 @@ public class OrderGUIControllerOMS {
 
 
         idList.addAll(DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory")));
-        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
-
 
         for (int i = 0; i < idList.size(); i++) {
             statusList.add("Processed");
@@ -95,10 +93,8 @@ public class OrderGUIControllerOMS {
 
         updateMethod();
 
-        System.out.println("Outside");
 
         for (int i = 0; i < tempOrderList.size(); i++) {
-            System.out.println("Hejnej");
             OrderConfirmationGenerator.fileFormatter();
             OrderConfirmationGenerator.generateOCPDF(new File("assets/oms/out/"+"Order_Confirmation"+(i+1)+".pdf"), tempOrderList.get(i), DBManager.getHighestId()+i-tempOrderList.size());
         }
