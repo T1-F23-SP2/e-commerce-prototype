@@ -48,7 +48,7 @@ public class SalesReport {
 
         return gdiValue;
     }
-    
+
 
     public static BigDecimal calcMargin(PriceInformation priceInformation){
         MathContext ones = new MathContext(1);

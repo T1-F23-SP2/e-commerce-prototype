@@ -42,11 +42,6 @@ public interface StockInterface {
         int highestId = DBManager.getHighestId();
 
 
-//        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
-//        Document document = collection.find().sort(descending("_id")).first();
-//        int highestId = (document == null) ? 0 : document.getInteger("_id");
-
-
 
         int id = highestId + 1;
 
@@ -54,34 +49,39 @@ public interface StockInterface {
         newOrderList.add(mockShopObject);
 
 
-        // Code to clear the currently shown list on the UI in OrderGUI
-        OrderGUIControllerOMS.idList.clear();
-        OrderGUIControllerOMS.statusList.clear();
-        OrderGUIControllerOMS.UUIDList.clear();
+        // Lambda function??????
+//        Platform.runLater(()->{
+            // Code to clear the currently shown list on the UI in OrderGUI
+            OrderGUIControllerOMS.idList.clear();
+            OrderGUIControllerOMS.statusList.clear();
+            OrderGUIControllerOMS.UUIDList.clear();
 
 
-        // Code to update the list shown on the UI in OrderGUI
-        for (int i = 0; i < newOrderList.size(); i++) {
-            OrderGUIControllerOMS.idList.add(id + i);
-            OrderGUIControllerOMS.statusList.add("Not processed");
-            OrderGUIControllerOMS.UUIDList.add(String.join(", ", newOrderList.get(i).getMap().keySet()));
+            // Code to update the list shown on the UI in OrderGUI
+            for (int i = 0; i < newOrderList.size(); i++) {
+                OrderGUIControllerOMS.idList.add(id + i);
+                OrderGUIControllerOMS.statusList.add("Not processed");
+                OrderGUIControllerOMS.UUIDList.add(String.join(", ", newOrderList.get(i).getMap().keySet()));
 
-        }
+            }
 
-        // Retrieves all the id's from the database 'orderHistory',
-        // and saves them in the Arraylist "dbIdList"
-        MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
-        ArrayList<Integer> dbIdList = DBManager.queryDBAllId(collectionConn);
+            // Retrieves all the id's from the database 'orderHistory',
+            // and saves them in the Arraylist "dbIdList"
+            MongoCollection<Document> collectionConn = DBManager.databaseConn("OrderHistory");
+            ArrayList<Integer> dbIdList = DBManager.queryDBAllId(collectionConn);
 
 
-        // Updates the rest of the lists.
-        for (int i = 0; i < dbIdList.size(); i++) {
-            OrderGUIControllerOMS.idList.add(dbIdList.get(i));
-            OrderGUIControllerOMS.statusList.add("Processed");
+            // Updates the rest of the lists.
+            for (int i = 0; i < dbIdList.size(); i++) {
+                OrderGUIControllerOMS.idList.add(dbIdList.get(i));
+                OrderGUIControllerOMS.statusList.add("Processed");
 
-            OrderGUIControllerOMS.UUIDList.add(String.join(", ", DBManager.getUUIDInfo(dbIdList.get(i), "UUID")));
+                OrderGUIControllerOMS.UUIDList.add(String.join(", ", DBManager.getUUIDInfo(dbIdList.get(i), "UUID")));
 
-        }
+            }
+
+//        });
+
 
     }
 
