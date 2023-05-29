@@ -91,6 +91,7 @@ public class SalesReportGenerator {
 
 
 
+        table.setSpacingAfter(30f);
         return table;
     }
     public static PdfPTable Table_GDI() {
@@ -103,6 +104,7 @@ public class SalesReportGenerator {
         for (String columnHeader : columnHeaders) {
             PdfPCell headerCell = new PdfPCell(new Phrase(columnHeader));
             headerCell.setBackgroundColor(color2);
+
             GDI_table.addCell(headerCell);
         }
 
@@ -184,7 +186,7 @@ public class SalesReportGenerator {
             document.add(paragraph);
 
 
-            // Adding the FUCKTable to the pdf - (CellTable)
+            // Adding the Table to the pdf - (CellTable)
             PdfPTable table = Table_Table();
             PdfPTable table_GDI = Table_GDI();
             document.add(table);
@@ -270,7 +272,7 @@ public class SalesReportGenerator {
         charts.add(Chart_PIEchart());
         int width = 250;
         int height = 300;
-        String fileName = "assets/oms/out/TEST.pdf";
+        String fileName = "assets/oms/out/SalesReport.pdf";
         convertToPdf(charts, width, height, fileName);
     }
 

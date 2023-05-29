@@ -43,8 +43,14 @@ class SalesReportGeneratorTest {
     @Test
     void Table_Table() {
         // Tester at der er indhold i pdf
-        table.addCell(headerCell);
-        assertTrue(table.isContent());
+        assertTrue(SalesReportGenerator.Table_Table().isContent());
+    }
+
+    @Test
+    void gdi_Table(){
+
+        assertTrue(SalesReportGenerator.Table_GDI().isContent());
+
     }
 
     @Test
