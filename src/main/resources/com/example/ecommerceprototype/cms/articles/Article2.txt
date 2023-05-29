@@ -1,0 +1,8 @@
+CRUD Made Article
+Marcus Brink Thomsen
+16/05-2023
+This article was created using the 'Article CRUD Application'.
+This means that the CRUD is able to create new articles, and edit their content
+
+'EDIT' <- edit test
+
