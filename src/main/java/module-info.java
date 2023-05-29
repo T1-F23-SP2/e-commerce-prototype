@@ -15,6 +15,9 @@ module com.example.ecommerceprototype {
     opens com.example.ecommerceprototype to javafx.fxml;
     exports com.example.ecommerceprototype;
 
+    opens com.example.ecommerceprototype.shop;
+    exports com.example.ecommerceprototype.shop to javafx.fxml;
+
     exports com.example.ecommerceprototype.oms;
     opens com.example.ecommerceprototype.oms to javafx.fxml;
 
