@@ -176,9 +176,9 @@ public static final int CVR = 53319637;
 
                 for (int k = 0; k < UUIDOrderList.size(); k++) {
                     //TODO: USE IF SHOP HASN'T BEEN IMPLEMENTED
-                    //table.addCell(PlaceHolderInstGet.productArray[k].getName());
-                    //table.addCell(AmountArray[k]);
-                    //table.addCell(PlaceHolderInstGet.productArray[k].getPriceInformation().getPrice().toString() + " DKK");
+//                    table.addCell(PlaceHolderInstGet.productArray[k].getName());
+//                    table.addCell(AmountArray[k]);
+//                    table.addCell(PlaceHolderInstGet.productArray[k].getPriceInformation().getPrice().toString() + " DKK");
 
 
                     table.addCell(UUIDOrderList.get(k));
