@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static com.example.ecommerceprototype.oms.Visuals.InventoryDisplayGenerator.stockOverviewGen;
 
-import static com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator.pdfMaker;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryGeneratorTest {
@@ -28,12 +28,9 @@ class InventoryGeneratorTest {
     MongoDatabase database = mongoClient.getDatabase("StockDB");
     MongoCollection<Document> collection = database.getCollection("Item");
 
-    PdfPTable table = new PdfPTable(2);
-    PdfPCell headerCell = new PdfPCell();
-
     @BeforeEach
     void setUp() {
-        System.out.println("Running test in SalesReportGenerator");
+        System.out.println("Running test in InventoryGenerator");
     }
 
     @AfterEach
@@ -41,18 +38,9 @@ class InventoryGeneratorTest {
     }
 
     @Test
-    void DB() {
-        //Tester at der bliver hentet UUID fra database
-        Document result = collection.find(Filters.eq("UUID", "1U2U3I4D1")).first();
-        System.out.println(result.toJson());
-        assertEquals("1U2U3I4D1", result.getString("UUID"));
-    }
-
-    @Test
     void O_Table() {
         // Tester at der er indhold i pdf
-        table.addCell(headerCell);
-        assertTrue(table.isContent());
+        assertTrue(InventoryDisplayGenerator.O_Table().isContent());
     }
 
 
@@ -60,7 +48,7 @@ class InventoryGeneratorTest {
     void convertToPdf() {
         long Starttime = System.currentTimeMillis();
 
-        pdfMaker();
+        stockOverviewGen();
 
         long EndTime = System.currentTimeMillis();
         long generationTime = EndTime - Starttime;

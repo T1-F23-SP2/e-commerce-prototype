@@ -61,19 +61,13 @@ public class SalesReport {
     }
 
     public static BigDecimal calcMarginKR(PriceInformation priceInformation){
-        MathContext ones = new MathContext(1);
-        BigDecimal one = new BigDecimal("1");
-        BigDecimal hundred = new BigDecimal("100");
-
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
 
     public static BigDecimal rev(ProductInformation productInformation) {
-        int j = 0;
         BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(productInformation.getProductUUID())).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
-        j++;
         return tRev;
     }
 
