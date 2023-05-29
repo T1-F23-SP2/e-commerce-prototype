@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ecommerceprototype.oms.ComputedOverviews.SalesReport.report;
 
 
 public class SalesReportGenerator {
@@ -83,13 +84,48 @@ public class SalesReportGenerator {
                 table.addCell(Fav_Product);
             }
             else {
-                System.out.println(SalesReport.getFavoriteProduct());
                 PdfPCell Fav = new PdfPCell(new Phrase(""));
                 table.addCell(Fav);
             }
         }
 
+
+
         return table;
+    }
+    public static PdfPTable Table_GDI() {
+        // Change this to the right column names
+        String[] columnHeaders = {"turnover", "wages", "interestIncome", "rentalIncome", "Taxes", "Production Cost", "low Inventory", "GDI"};
+
+        PdfPTable GDI_table = new PdfPTable(columnHeaders.length);
+        GDI_table.setWidthPercentage(100);
+
+        for (String columnHeader : columnHeaders) {
+            PdfPCell headerCell = new PdfPCell(new Phrase(columnHeader));
+            headerCell.setBackgroundColor(color2);
+            GDI_table.addCell(headerCell);
+        }
+
+            PdfPCell Turnover = new PdfPCell(new Phrase(String.valueOf(report.getTurnover())));
+            GDI_table.addCell(Turnover);
+
+            PdfPCell wages = new PdfPCell(new Phrase((String.valueOf(report.getWages()))));
+            GDI_table.addCell(wages);
+            PdfPCell InterestIncome = new PdfPCell(new Phrase(String.valueOf(report.getInterestIncome())));
+            GDI_table.addCell(InterestIncome);
+            PdfPCell RentalIncome = new PdfPCell(new Phrase(String.valueOf(report.getRentalIncome())));
+            GDI_table.addCell(RentalIncome);
+            PdfPCell Taxes = new PdfPCell(new Phrase(String.valueOf(report.getTaxes())));
+            GDI_table.addCell(Taxes);
+            PdfPCell ProductionCost = new PdfPCell(new Phrase(String.valueOf(report.getProductionCost())));
+            GDI_table.addCell(ProductionCost);
+            PdfPCell LowInventory = new PdfPCell(new Phrase(String.valueOf(report.getLowInventory())));
+            GDI_table.addCell(LowInventory);
+            PdfPCell calcGrossDomesticIncome = new PdfPCell(new Phrase(String.valueOf(report.calcGrossDomesticIncome())));
+            GDI_table.addCell(calcGrossDomesticIncome);
+
+
+        return GDI_table;
     }
 
 
@@ -141,7 +177,7 @@ public class SalesReportGenerator {
             document.open();
 
             Image image = Image.getInstance("assets/oms/travel and tour - Made with PosterMyWall.jpg");
-            image.scaleToFit(PageSize.A4.getWidth(), 175);
+            image.scaleToFit(PageSize.A4.getWidth(), 125);
             Paragraph paragraph = new Paragraph();
             paragraph.add(image);
             paragraph.setSpacingAfter(20);
@@ -150,8 +186,9 @@ public class SalesReportGenerator {
 
             // Adding the FUCKTable to the pdf - (CellTable)
             PdfPTable table = Table_Table();
-
+            PdfPTable table_GDI = Table_GDI();
             document.add(table);
+            document.add(table_GDI);
             //user positioned text and graphic contents of a page | how to apply the proper font encoding.
             PdfContentByte cb = writer.getDirectContent();
             //Set template
@@ -231,8 +268,8 @@ public class SalesReportGenerator {
         List<JFreeChart> charts = new ArrayList<>();
         charts.add(Chart_BARchart());
         charts.add(Chart_PIEchart());
-        int width = 300;
-        int height = 350;
+        int width = 250;
+        int height = 300;
         String fileName = "assets/oms/out/TEST.pdf";
         convertToPdf(charts, width, height, fileName);
     }

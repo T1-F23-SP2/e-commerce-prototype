@@ -38,6 +38,39 @@ public class SalesReport {
         this.productionCost = productionCost;
         this.lowInventory = lowInventory;
     }
+    public static SalesReport report = new SalesReport(100000.00, 2000, 5.9, 2000, 10000, 100, 1000, 60);
+
+    public double getTurnover() {
+        return turnover;
+    }
+
+    public double getWages() {
+        return wages;
+    }
+
+    public double getInterestIncome() {
+        return interestIncome;
+    }
+
+    public double getRentalIncome() {
+        return rentalIncome;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public double getProductionCost() {
+        return productionCost;
+    }
+
+    public int getLowInventory() {
+        return lowInventory;
+    }
+
+    public static SalesReport getReport() {
+        return report;
+    }
 
 
 
