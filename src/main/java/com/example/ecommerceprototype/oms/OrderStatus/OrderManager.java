@@ -19,7 +19,7 @@ public class OrderManager {
         Document document = collection.find().sort(descending("_id")).first();
         int highestId = (document == null) ? 0 : document.getInteger("_id");
 
-        int id = highestId+1;
+        int id = highestId + 1;
 
 
         // Code to convert
@@ -34,4 +34,4 @@ public class OrderManager {
         MongoCollection<Document> connDB = DBManager.databaseConn("OrderHistory");
         connDB.insertOne(new Document().append("_id", id).append("UUID", resultUUID).append("Date", LocalDate.now()).append("Amount", resultAmount));
     }
-   }
+}

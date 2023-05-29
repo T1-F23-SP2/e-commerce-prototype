@@ -175,6 +175,7 @@ public static final int CVR = 53319637;
 
 
                 for (int k = 0; k < UUIDOrderList.size(); k++) {
+                    //TODO: USE IF SHOP HASN'T BEEN IMPLEMENTED
                     //table.addCell(PlaceHolderInstGet.productArray[k].getName());
                     //table.addCell(AmountArray[k]);
                     //table.addCell(PlaceHolderInstGet.productArray[k].getPriceInformation().getPrice().toString() + " DKK");
@@ -195,7 +196,7 @@ public static final int CVR = 53319637;
                 table.writeSelectedRows(0, -1, 50, 460, writer.getDirectContent());
 
 
-                // Add delivery address + leverings metode + afsendelse dato
+                // Add delivery address + delivery method + date sent
                 Paragraph paragraph = new Paragraph();
                 Paragraph paragraphLeft = new Paragraph();
 

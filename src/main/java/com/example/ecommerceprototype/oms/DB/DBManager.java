@@ -15,6 +15,7 @@ import static com.mongodb.client.model.Indexes.descending;
 public class DBManager {
 
 
+
     public static MongoCollection<org.bson.Document> databaseConn(String table) {
         Logger.getLogger("").setLevel(Level.WARNING);
         String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
@@ -25,6 +26,7 @@ public class DBManager {
     }
 
 
+    // Searches for the matching UUID and returns a Document
     public static Document queryDB(MongoCollection<Document> conn, String search) {
 
         org.bson.Document query = new org.bson.Document("UUID", search);
@@ -34,8 +36,8 @@ public class DBManager {
     }
 
 
-    // New method for query
-    // This is more flexible
+    // More flexible method for querying the DB.
+    // What to search for, could be UUID, and then the matching search
     public static Document queryDBFlex(MongoCollection<Document> conn, String searchTitle, String search) {
 
         org.bson.Document query = new org.bson.Document(searchTitle, search);
@@ -45,6 +47,7 @@ public class DBManager {
     }
 
 
+    // Queries all id and returns a ArrayList with it.
     public static ArrayList<Integer> queryDBAllId(MongoCollection<Document> conn) {
 
         var filter = new Document();
@@ -93,13 +96,14 @@ public class DBManager {
     }
 
 
-    public static Document queryStockDB(MongoCollection<Document> conn, String UUID){
+
+    /*public static Document queryStockDB(MongoCollection<Document> conn, String UUID){
 
         org.bson.Document query = new org.bson.Document("UUID", UUID);
         org.bson.Document results = conn.find(query).first();
 
         return results;
-    }
+    }*/
 
 
     public static void decrementFieldByUUID(String uuid, int amount) {
@@ -114,9 +118,9 @@ public class DBManager {
         // Update the document with the specified ID
         collection.updateOne(query, update);
 
-
     }
 
+    // Method to get the highest id out of the database
     public static int getHighestId (){
         MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
         Document document = collection.find().sort(descending("_id")).first();
