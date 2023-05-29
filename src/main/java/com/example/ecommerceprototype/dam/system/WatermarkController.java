@@ -296,8 +296,6 @@ public class WatermarkController {
                 throw new RuntimeException(e);
             }
 
-            // vi bliver nu nødt til at tegne logoet ovenpå det nye billede
-
             double scaleFactor = Math.min((double) originalWidth / logo.getWidth(), (double) originalHeight / logo.getHeight());
 
             int scaledWidth = (int) (logo.getWidth() * scaleFactor);
@@ -315,7 +313,6 @@ public class WatermarkController {
             int logoY = originalHeight - desiredHeight - logoMargin;
             g2d.drawImage(sizedLogo, logoX, logoY, null);
 
-            // vi gemmer nu det nye billede som en fil
             String nameWatermarked = ".logomarked.jpg";
             String newFilePath = selectedFile.getPath() + nameWatermarked;
 
