@@ -15,9 +15,7 @@ public class OrderManager {
     public static void sendOrder(MockShopObject mockShopObject){
 
         // Get highest id out and plus id by one
-        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
-        Document document = collection.find().sort(descending("_id")).first();
-        int highestId = (document == null) ? 0 : document.getInteger("_id");
+        int highestId = DBManager.getHighestId();
 
         int id = highestId + 1;
 

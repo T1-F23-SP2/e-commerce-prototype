@@ -77,11 +77,10 @@ public class OrderGUIControllerOMS {
             UUIDString = String.join(", ", DBManager.getUUIDInfo(idList.get(i), "UUID"));
             OrderGUIControllerOMS.UUIDList.add(UUIDString);
 
-
-
-            StockInterface.newOrderList.clear();
-
         }
+
+        StockInterface.newOrderList.clear();
+
     }
 
     @FXML

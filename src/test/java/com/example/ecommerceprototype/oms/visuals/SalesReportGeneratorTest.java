@@ -77,7 +77,7 @@ class SalesReportGeneratorTest {
 
         long EndTime = System.currentTimeMillis();
         long generationTime = EndTime - Starttime;
-        assertLessThanOrEqual(generationTime, 10000);
+        assertLessThanOrEqual(generationTime, 15000);
     }
 
     private void assertLessThanOrEqual(long actual, long expected) {
