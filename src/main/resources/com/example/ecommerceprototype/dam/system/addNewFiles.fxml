@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ecommerceprototype.dam.system.AddNewFilesController">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #71E3FF;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="27.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Files" wrappingWidth="145.251953125">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="addFilesButton" layoutX="14.0" layoutY="39.0" mnemonicParsing="false" onAction="#addFiles" prefHeight="27.0" prefWidth="133.0" style="-fx-background-color: transparent; -fx-border-color: #71E3FF;" text="Add files" />
+            <ListView fx:id="myListView" layoutX="178.0" layoutY="40.0" prefHeight="320.0" prefWidth="199.0" />
+            <Text layoutX="184.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You've added the following files:" />
+            <Button fx:id="returnToDamButton" layoutX="14.0" layoutY="164.0" mnemonicParsing="false" onAction="#switchToDAM" prefHeight="27.0" prefWidth="133.0" style="-fx-background-color: transparent; -fx-border-color: #71E3FF;" text="Return To Menu" />
+            <Button fx:id="openFilesButton" layoutX="14.0" layoutY="82.0" mnemonicParsing="false" onAction="#openFile" prefHeight="27.0" prefWidth="133.0" style="-fx-background-color: transparent; -fx-border-color: #71E3FF;" text="Open File" />
+            <Button fx:id="loadFilesButton" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#loadFiles" prefHeight="27.0" prefWidth="133.0" style="-fx-background-color: transparent; -fx-border-color: #71E3FF;" text="Load existing files" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

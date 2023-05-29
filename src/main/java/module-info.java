@@ -1,8 +1,12 @@
 module com.example.ecommerceprototype {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
     requires java.sql;
     requires org.postgresql.jdbc;
+    requires java.desktop;
+    requires javafx.media;
+    requires com.azure.storage.blob;
     requires org.mybatis;
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
@@ -13,16 +17,24 @@ module com.example.ecommerceprototype {
     requires org.mongodb.driver.core;
 
     opens com.example.ecommerceprototype to javafx.fxml;
+    opens com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype;
 
     exports com.example.ecommerceprototype.shop;
     opens com.example.ecommerceprototype.shop to javafx.fxml;
+
+    exports com.example.ecommerceprototype.dam;
+    exports com.example.ecommerceprototype.dam.system;
+    opens com.example.ecommerceprototype.dam.system;
+    exports com.example.ecommerceprototype.dam.dam;
+    opens com.example.ecommerceprototype.dam.dam;
 
     exports com.example.ecommerceprototype.pim.product_information;
     exports com.example.ecommerceprototype.pim.presentation;
     exports com.example.ecommerceprototype.pim.exceptions;
     exports com.example.ecommerceprototype.pim.sql_helpers;
     opens com.example.ecommerceprototype.pim.presentation to javafx.fxml;
+<<<<<<< HEAD
 
     exports com.example.ecommerceprototype.cms;
     opens com.example.ecommerceprototype.cms to javafx.fxml;
@@ -44,4 +56,6 @@ module com.example.ecommerceprototype {
     exports com.example.ecommerceprototype.shop.pages;
     opens com.example.ecommerceprototype.shop.pages to javafx.fxml;
 
+=======
+>>>>>>> origin/DAM-Main
 }
