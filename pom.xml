@@ -68,6 +68,11 @@
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core-test</artifactId>
+            <version>1.17.0</version>
+        </dependency>
     </dependencies>
 
     <build>

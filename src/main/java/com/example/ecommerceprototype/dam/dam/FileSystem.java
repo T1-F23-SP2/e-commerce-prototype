@@ -28,11 +28,10 @@ import java.nio.file.Paths;
 
 public class FileSystem {
     private static FileSystem instance;
-    private BlobContainerClient blobContainerClient = null;
-    private BlobContainerClient blobContainerClientPI = null;
-    private BlobContainerClient blobContainerClientPF = null;
-    private BlobContainerClient blobContainerClientImages = null;
-    private BlobContainerClient blobContainerClientFiles = null;
+    BlobContainerClient blobContainerClient = null;BlobContainerClient blobContainerClientPI = null;
+    BlobContainerClient blobContainerClientPF = null;
+    BlobContainerClient blobContainerClientImages = null;
+    BlobContainerClient blobContainerClientFiles = null;
 
 
     FileSystem() {
@@ -116,6 +115,7 @@ public class FileSystem {
 
         return shortenURL(url);
     }
+
 
     public boolean deleteFile(String filename_in, String type_in, String category_in, String uuid_in)
     {

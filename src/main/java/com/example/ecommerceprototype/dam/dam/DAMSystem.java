@@ -43,6 +43,8 @@ public class DAMSystem {
 
     public void addAsset(String name, Type type, Category category, String format, String uuid, String oripath)
     {
+        boolean added = false;
+
         String url = FileConn.uploadFile(name, type, category, uuid, oripath);
         Asset asset = new Asset(type, name, url, format, category, uuid);
         DBConn.addAsset(asset);
