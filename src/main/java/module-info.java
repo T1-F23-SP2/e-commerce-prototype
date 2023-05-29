@@ -8,19 +8,24 @@ module com.example.ecommerceprototype {
     requires javafx.media;
     requires com.azure.storage.blob;
     requires org.mybatis;
+
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
     requires java.logging;
     requires itextpdf;
     requires org.jfree.jfreechart;
     requires org.mongodb.driver.core;
+    requires org.mybatis;
 
     opens com.example.ecommerceprototype to javafx.fxml;
     opens com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype;
 
-    exports com.example.ecommerceprototype.shop;
-    opens com.example.ecommerceprototype.shop to javafx.fxml;
+    opens com.example.ecommerceprototype.shop;
+    exports com.example.ecommerceprototype.shop to javafx.fxml;
+
+    exports com.example.ecommerceprototype.oms;
+    opens com.example.ecommerceprototype.oms to javafx.fxml;
 
     exports com.example.ecommerceprototype.dam;
     exports com.example.ecommerceprototype.dam.system;
@@ -47,8 +52,6 @@ module com.example.ecommerceprototype {
     exports com.example.ecommerceprototype.cms.exceptions;
     opens com.example.ecommerceprototype.cms.exceptions to javafx.fxml;
 
-    exports com.example.ecommerceprototype.oms;
-    opens com.example.ecommerceprototype.oms to javafx.fxml;
     exports com.example.ecommerceprototype.shop.components;
     opens com.example.ecommerceprototype.shop.components to javafx.fxml;
     exports com.example.ecommerceprototype.shop.pages;

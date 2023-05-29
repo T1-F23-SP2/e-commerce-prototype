@@ -78,7 +78,7 @@ public class TopBanner {
         cms.findNode(pane, "search_Button").setVisible(true);
         ((Button) cms.findNode(pane, "search_Button")).setOnAction(actionEvent -> {
             try {
-                controller.getSearch().search(((TextField) cms.findNode(pane, "search_TextField")).getText());
+                controller.getShopPage().reloadProductView(controller.getWindow(), controller.getSearch().search(((TextField) cms.findNode(pane, "search_TextField")).getText()));
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());

@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.shop.pages;
 
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
 import com.example.ecommerceprototype.shop.components.Cart;
@@ -18,10 +19,12 @@ public class CartPage {
     CMS cms;
     Pane page;
     Pane cartItem;
+    PIMDriver pim;
 
     public CartPage(ShopController controller) {
         this.controller = controller;
         this.cms = controller.getCMSInstance();
+        this.pim = controller.getPIMDriverInstance();
     }
 
     boolean cartReloading = false;
@@ -37,10 +40,10 @@ public class CartPage {
 
         BigDecimal total = BigDecimal.valueOf(0);
 
-        for (ProductInformation product : controller.getCart().getContents().keySet()) {
-            total = total.add(ProductFinder.findProduct(product).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
+        for (String product : controller.getCart().getContents().keySet()) {
+            total = total.add(ProductFinder.findProduct(pim.getProductByUUID(product)).getPriceInformation().getPrice().multiply(BigDecimal.valueOf(controller.getCart().getContents().get(product))));
 
-            controller.getCartItem().loadCartItem(product);
+            controller.getCartItem().loadCartItem(pim.getProductByUUID(product));
 
             updatePrice(total);
         }
