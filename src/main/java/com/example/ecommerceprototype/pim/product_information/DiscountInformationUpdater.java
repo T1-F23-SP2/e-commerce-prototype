@@ -11,7 +11,8 @@ public class DiscountInformationUpdater extends DiscountInformationWorker {
     private String originalName;
 
     public DiscountInformationUpdater(DiscountInformation di) {
-        super(new DiscountInformation());
+        super(di);
+        this.setOriginalName(di.getName());
     }
 
     public String getOriginalName() {
@@ -25,14 +26,6 @@ public class DiscountInformationUpdater extends DiscountInformationWorker {
 
     @Override // TODO Implement submit for Updating a discount
     public DiscountInformation submit() throws SQLException, DuplicateEntryException {
-        if (originalName == null) {
-            originalName = this.getDiscountInformation().getName();
-        }
-
-        System.out.println(this.originalName);
-        System.out.println(this.getDiscountInformation().getStartingDate());
-        System.out.println(this.getDiscountInformation().getExpiringDate());
-
         DBDriver.getInstance().updateDiscountByName(this.originalName, super.getDiscountInformation());
         return super.getDiscountInformation();
     }

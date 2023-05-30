@@ -37,9 +37,10 @@ public final class TestConnectionWrapper implements AutoCloseable {
          */
 
 
+        // If auto commit is not enabled, then
         // commit changes made to test database,
         // So changes to database can be inspected if needed
-        this.connection.commit();
+        if (!this.connection.getAutoCommit()) this.connection.commit();
 
         this.connection.close();
     }

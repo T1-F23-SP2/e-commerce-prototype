@@ -9,9 +9,17 @@ import java.sql.SQLException;
 
 public class PIMDriver {
 
-    private static final DBDriver dbDriverInstance = DBDriver.getInstance();
+    private final DBDriver dbDriverInstance;
 
-    public boolean checkIfProductByUUIDExists(String uuid) {
+    public PIMDriver() {
+         this.dbDriverInstance = DBDriver.getInstance();
+    }
+
+    protected PIMDriver(DBDriver instance) {
+        this.dbDriverInstance = instance;
+    }
+
+    public boolean checkIfProductByUUIDExists(String uuid) throws SQLException {
         return dbDriverInstance.productByUUIDExists(uuid);
     }
 
@@ -32,11 +40,11 @@ public class PIMDriver {
     }
 
 
-    public ProductList getAllProducts() throws UUIDNotFoundException, SQLException, CategoryNotFoundException {
+    public ProductList getAllProducts() throws NotFoundException, SQLException {
         return dbDriverInstance.getAllProducts();
     }
 
-    public ProductInformation getProductByUUID(String uuid) throws UUIDNotFoundException, SQLException {
+    public ProductInformation getProductByUUID(String uuid) throws NotFoundException, SQLException {
         return dbDriverInstance.getProductByUUID(uuid);
     }
 
@@ -48,7 +56,7 @@ public class PIMDriver {
         return dbDriverInstance.getProductsBySerialNumber(serialNumber);
     }
 
-    public ProductList getProductsThatAreHidden() throws SQLException {
+    public ProductList getProductsThatAreHidden() throws SQLException, NotFoundException {
         return dbDriverInstance.getProductsThatAreHidden();
     }
 

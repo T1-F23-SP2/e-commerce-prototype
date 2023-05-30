@@ -8,9 +8,6 @@ public class ManufacturingInformation implements Nameable {
     private String supportPhoneNumber;
     private String supportMail;
 
-    // Should the empty constructor be removed?
-    public ManufacturingInformation() {}
-
     public String getName() {
         return name;
     }
