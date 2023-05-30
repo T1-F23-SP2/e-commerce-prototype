@@ -1,8 +1,6 @@
 package com.example.ecommerceprototype.shop.components;
 
 import com.example.ecommerceprototype.cms.CMS;
-import com.example.ecommerceprototype.cms.FXMLLoadFailedException;
-import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.product_information.ManufacturingInformation;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.product_information.ProductCategory;
@@ -17,11 +15,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 public class Sidebar {
 
