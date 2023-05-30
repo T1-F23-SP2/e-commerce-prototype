@@ -34,7 +34,7 @@ public class ShopPopulate {
         createProduct("Acer Aspire", "XC-1760 i7-12/16/256", "Computers", "Acer", "6499", "    Intel® Core™ i7-12700-processor\n" +
                 "    16 GB DDR4 RAM\n" +
                 "    256 GB SSD", "Denne Acer Aspire XC-1760 stationære computer har en 12. Gen Intel®-processor, der vil optimere din daglige computerbrug. Den klarer multitasking med absolut lethed og kommer i et elegant sort kabinet, der sikrer et stilrent udtryk.");
-        createProduct("Phillips monitor", "242S1AE/00 23,8\" ", "Monitors", "Philips", "1519", "    23,8\" Full HD 1080p IPS panel\n" +
+        createProduct("Phillips monitor", "242S1AE/00 23,8\" ", "Monitors", "Phillips", "1519", "    23,8\" Full HD 1080p IPS panel\n" +
                 "    75 Hz opdatering, 1000:1 kontrast\n" +
                 "    250 nit lysstyrke, flimrefri", "Philips 242S1AE/00 23,8\" skærmen lader dig nyde skarp FHD 1080p billedkvalitet. EasyRead og Easy comfort teknologien reducerer belastningen af dine øjne, når du arbejder på skærmen.");
         createProduct("AMD Ryzen 7 5700G", "5700G", "CPUs", "AMD", "1579", "    8-core/16-tråde, 3,8-4,6 GHz\n" +
@@ -80,6 +80,7 @@ public class ShopPopulate {
         createManufacturer("Lenovo");
         createManufacturer("ASUS");
         createManufacturer("AMD");
+        createManufacturer("Corsair");
 
     }
 

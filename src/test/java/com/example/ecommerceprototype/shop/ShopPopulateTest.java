@@ -14,11 +14,11 @@ class ShopPopulateTest {
     void testPopulateProducts() throws Exception {
         ShopController controller = new ShopController();
         controller.getShopPopulate().populateProducts();
-        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Product 1"));
-        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Product 2"));
-        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Product 3"));
-        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Product 4"));
-        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Product 5"));
+        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Acer Aspire"));
+        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Phillips monitor"));
+        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("AMD Ryzen 7 5700G"));
+        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Corsair Dominator"));
+        assertTrue(controller.getPIMDriverInstance().checkIfProductByNameExists("Lenovo Yoga Slim 7 Pro"));
     }
 
     @Test
@@ -42,6 +42,7 @@ class ShopPopulateTest {
         assertTrue(controller.getPIMDriverInstance().checkIfManufactureByNameExists("Lenovo"));
         assertTrue(controller.getPIMDriverInstance().checkIfManufactureByNameExists("ASUS"));
         assertTrue(controller.getPIMDriverInstance().checkIfManufactureByNameExists("AMD"));
+        assertTrue(controller.getPIMDriverInstance().checkIfManufactureByNameExists("Corsair"));
     }
 
     @Test
