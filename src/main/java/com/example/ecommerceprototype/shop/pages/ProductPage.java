@@ -8,6 +8,8 @@ import com.example.ecommerceprototype.shop.components.ProductFinder;
 
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -35,8 +37,8 @@ public class ProductPage {
         Pane productPage = cms.loadComponent("ProductPage");
         this.page = productPage;
 
-        // Image productImage = new Image(ProductPage.class.getResourceAsStream("Placeholder.jpg"));
-        // ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
+         Image productImage = controller.getDAMInstance().getImageListFromUUID("i7-13700k").get(0);
+         ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
         // ((ImageView) controller.getCMSInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
         setProductName(product.getName());

@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class CartItem {
@@ -28,8 +30,8 @@ public class CartItem {
         page = controller.getCartPage().getPagePane();
         cms.loadOnto(page, item, "cartProductView_Vbox");
 
-        //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
-        //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
+        Image productImage = controller.getDAMInstance().getImageListFromUUID("i7-13700k").get(0);
+        ((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
         setProductName(product.getName());
         setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
         loadSpinner(item, product);

@@ -15,7 +15,6 @@ module com.example.ecommerceprototype {
     requires itextpdf;
     requires org.jfree.jfreechart;
     requires org.mongodb.driver.core;
-    requires org.mybatis;
 
     opens com.example.ecommerceprototype to javafx.fxml;
     opens com.example.ecommerceprototype.dam;
