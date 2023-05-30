@@ -27,6 +27,18 @@ class SQLConnectionTest {
         assertEquals("My strong password", exampleCredentials.getProperty("password"));
     }
 
+    @DisplayName("Assert exception is thrown, if test.credentials points same DB as main.credentials")
+    @Test
+    void testLoadTestPropertiesWithSameDBName() {
+        /*
+            loadTestProperties() should throw an error if the loaded credentials point to same database as main.credentials.
+         */
+
+        // For the sake of the test try to load main.credentials, as this will always have the same credentials
+        // as the main connection.
+        assertThrows(IllegalArgumentException.class, () -> SQLConnection.loadTestProperties("main.credentials"));
+    }
+
     @Test
     void testNotFoundPropertiesFile() {
         Exception exception = assertThrows(IOException.class, () -> {
