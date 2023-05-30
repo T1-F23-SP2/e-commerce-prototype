@@ -10,6 +10,7 @@ public class ProductInformationUpdater extends ProductInformationWorker {
 
     public ProductInformationUpdater(ProductInformation pi) {
         super(pi);
+        this.setOriginalName(pi.getName());
     }
 
     public String getOriginalName() {
@@ -23,10 +24,6 @@ public class ProductInformationUpdater extends ProductInformationWorker {
 
     @Override
     public ProductInformation submit() throws UUIDNotFoundException, SQLException, ManufactureNotFoundException, CategoryNotFoundException, DuplicateEntryException {
-        if (originalName == null) {
-            originalName = this.getProductInformation().getName();
-        }
-
         DBDriver.getInstance().updateProductByUUID(super.getProductInformation().getProductUUID(), this.originalName, super.getProductInformation());
 
         return super.getProductInformation();

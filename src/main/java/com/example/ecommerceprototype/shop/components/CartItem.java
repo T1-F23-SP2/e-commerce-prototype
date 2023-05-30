@@ -4,10 +4,9 @@ import com.example.ecommerceprototype.cms.CMS;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
 import com.example.ecommerceprototype.shop.ShopController;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class CartItem {
@@ -28,10 +27,11 @@ public class CartItem {
         page = controller.getCartPage().getPagePane();
         cms.loadOnto(page, item, "cartProductView_Vbox");
 
-        //Image productImage = new Image(getClass().getResourceAsStream("Placeholder.jpg"));
-        //((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
+        Image productImage = controller.getDAMInstance().getImageListFromUUID(product.getProductUUID()).get(0);
+        ((ImageView) controller.getCMSInstance().findNode(item, "productImage_ImageView")).setImage(productImage);
         setProductName(product.getName());
         setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");
+        ((TextArea) cms.findNode(item, "productDescription_TextArea")).setText(product.getShortDescription());
         loadSpinner(item, product);
 
         setButtonOnAction(item, "remove_Button", actionEvent -> {

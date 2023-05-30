@@ -8,9 +8,13 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class ProductView {
 
@@ -40,8 +44,8 @@ public class ProductView {
             // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(String.valueOf(StockInterface.getStockValue("12345")));
             // ((Label) controller.getCMSInstance().findNode(view, "productStatus_Label")).setText(StockInterface.getStockValue(products.get(i).getProductUUID()) > 0 ? "In stock" : "Sold out");
 
-            //Image productImage = new Image(Objects.requireNonNull(ProductView.class.getResourceAsStream("Placeholder.jpg")));
-            //((ImageView) controller.getCMSInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
+            Image productImage = controller.getDAMInstance().getImageListFromUUID(product.getProductUUID()).get(0);
+            ((ImageView) controller.getCMSInstance().findNode(view, "productImage_ImageView")).setImage(productImage);
             setButtonOnAction("productImage_Button", actionEvent -> {
                 try {
                     controller.getProductPage().loadPage(window, product);

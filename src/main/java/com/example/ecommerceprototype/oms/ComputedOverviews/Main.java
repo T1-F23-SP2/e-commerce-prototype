@@ -2,6 +2,7 @@ package com.example.ecommerceprototype.oms.ComputedOverviews;
 
 import com.example.ecommerceprototype.oms.DB.DBManager;
 import com.example.ecommerceprototype.pim.exceptions.CategoryNotFoundException;
+import com.example.ecommerceprototype.pim.exceptions.NotFoundException;
 import com.example.ecommerceprototype.pim.exceptions.UUIDNotFoundException;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.pim.product_information.ProductInformation;
@@ -25,6 +26,8 @@ public class Main {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
 
