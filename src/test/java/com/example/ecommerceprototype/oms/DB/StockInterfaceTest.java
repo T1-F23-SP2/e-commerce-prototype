@@ -1,6 +1,10 @@
 package com.example.ecommerceprototype.oms.DB;
 
+import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
+import com.example.ecommerceprototype.oms.OrderGUIControllerOMS;
 import com.mongodb.client.MongoClient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,11 +61,19 @@ class StockInterfaceTest {
 
     @Test
     void sendOrderOMSNew() {
-        assertTrue(true);
+        ObservableList<Integer> firstList = FXCollections.observableArrayList(1);
+        ObservableList<Integer> secondList = FXCollections.observableArrayList(1);
+
+        OrderGUIControllerOMS.idList.clear();
+        OrderGUIControllerOMS.idList.addAll(DBManager.queryDBAllId(DBManager.databaseConn("OrderHistory")));
+
+        firstList.addAll(OrderGUIControllerOMS.idList);
+        StockInterface.sendOrderOMSNew(PlaceholderInstShop.getInstShop1());
+
+        secondList.addAll(OrderGUIControllerOMS.idList);
+
+        assertNotEquals(firstList, secondList);
+
     }
 
-    @Test
-    void sendOrderOMS() {
-        assertTrue(true);
-    }
 }

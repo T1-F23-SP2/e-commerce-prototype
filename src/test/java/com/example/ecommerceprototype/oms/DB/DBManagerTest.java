@@ -5,13 +5,17 @@ import com.example.ecommerceprototype.oms.MockShop.PlaceholderInstShop;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Indexes.descending;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DBManagerTest {
@@ -21,7 +25,6 @@ class DBManagerTest {
 
     MongoDatabase database;
 //    MongoClient client;
-
 
 
     @BeforeEach
@@ -122,7 +125,29 @@ class DBManagerTest {
     void getUUIDInfo() {
 
 
-        assertNotNull(DBManager.getUUIDInfo(10, "Amount"));
+        assertNotNull(DBManager.getUUIDInfo(1, "UUID"));
 
     }
+
+    @Test
+    void getHighestId() {
+        MongoCollection<Document> collection = DBManager.databaseConn("OrderHistory");
+
+        Document TestOrdre = new Document("_id", 9999)
+                .append("UUID", "96070253-78dc-4503-a0ac-f09e00d3b418")
+                .append("Date", LocalDate.now())
+                .append("Amount", "[1, 2]");
+
+        collection.insertOne(TestOrdre);
+
+        int highestId = DBManager.getHighestId();
+
+        assertEquals(highestId, 9999);
+
+        // Delete the "TestOrdre" document
+        Bson filter = eq("_id", 9999);
+        collection.deleteOne(filter);
+    }
+
+
 }

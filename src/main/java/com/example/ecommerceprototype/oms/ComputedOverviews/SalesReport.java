@@ -38,6 +38,39 @@ public class SalesReport {
         this.productionCost = productionCost;
         this.lowInventory = lowInventory;
     }
+    public static SalesReport report = new SalesReport(100000.00, 2000, 5.9, 2000, 10000, 100, 1000, 60);
+
+    public double getTurnover() {
+        return turnover;
+    }
+
+    public double getWages() {
+        return wages;
+    }
+
+    public double getInterestIncome() {
+        return interestIncome;
+    }
+
+    public double getRentalIncome() {
+        return rentalIncome;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public double getProductionCost() {
+        return productionCost;
+    }
+
+    public int getLowInventory() {
+        return lowInventory;
+    }
+
+    public static SalesReport getReport() {
+        return report;
+    }
 
 
 
@@ -48,7 +81,7 @@ public class SalesReport {
 
         return gdiValue;
     }
-    
+
 
     public static BigDecimal calcMargin(PriceInformation priceInformation){
         MathContext ones = new MathContext(1);
@@ -61,19 +94,13 @@ public class SalesReport {
     }
 
     public static BigDecimal calcMarginKR(PriceInformation priceInformation){
-        MathContext ones = new MathContext(1);
-        BigDecimal one = new BigDecimal("1");
-        BigDecimal hundred = new BigDecimal("100");
-
         return priceInformation.getPrice().subtract(priceInformation.getBuyPrice());
     }
 
     public static BigDecimal rev(ProductInformation productInformation) {
-        int j = 0;
         BigDecimal qRev = BigDecimal.valueOf(SalesReport.getAmountOfOrders(productInformation.getProductUUID())).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal PRev =getQTY(productInformation.getProductUUID()).multiply(productInformation.getPriceInformation().getBuyPrice());
         BigDecimal tRev = qRev.subtract(PRev);
-        j++;
         return tRev;
     }
 

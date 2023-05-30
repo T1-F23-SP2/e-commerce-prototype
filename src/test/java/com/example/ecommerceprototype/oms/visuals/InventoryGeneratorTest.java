@@ -1,6 +1,7 @@
 package com.example.ecommerceprototype.oms.visuals;
 
-import com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator;
+
+import com.example.ecommerceprototype.oms.Visuals.InventoryDisplayGenerator;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.mongodb.client.MongoClient;
@@ -16,55 +17,30 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
+import static com.example.ecommerceprototype.oms.Visuals.InventoryDisplayGenerator.stockOverviewGen;
 
-import static com.example.ecommerceprototype.oms.Visuals.SalesReportGenerator.pdfMaker;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SalesReportGeneratorTest {
+class InventoryGeneratorTest {
 
     String uri = "mongodb+srv://Kristoffer:123456789A@testerinvoice.t8c16zx.mongodb.net/test";
     MongoClient mongoClient = MongoClients.create(uri);
     MongoDatabase database = mongoClient.getDatabase("StockDB");
     MongoCollection<Document> collection = database.getCollection("Item");
 
-    PdfPTable table = new PdfPTable(2);
-    PdfPCell headerCell = new PdfPCell();
-
     @BeforeEach
     void setUp() {
-        System.out.println("Running test in SalesReportGenerator");
+        System.out.println("Running test in InventoryGenerator");
     }
 
     @AfterEach
     void tearDown() {
     }
 
-
     @Test
-    void Table_Table() {
+    void O_Table() {
         // Tester at der er indhold i pdf
-        assertTrue(SalesReportGenerator.Table_Table().isContent());
-    }
-
-    @Test
-    void gdi_Table(){
-
-        assertTrue(SalesReportGenerator.Table_GDI().isContent());
-
-    }
-
-    @Test
-    void Chart_BARchart() {
-        JFreeChart chart = SalesReportGenerator.Chart_BARchart();
-
-        assertNotNull(chart);
-    }
-
-    @Test
-    void Chart_PIEchart() {
-        JFreeChart chart = SalesReportGenerator.Chart_PIEchart();
-
-        assertNotNull(chart);
+        assertTrue(InventoryDisplayGenerator.O_Table().isContent());
     }
 
 
@@ -72,11 +48,11 @@ class SalesReportGeneratorTest {
     void convertToPdf() {
         long Starttime = System.currentTimeMillis();
 
-        pdfMaker();
+        stockOverviewGen();
 
         long EndTime = System.currentTimeMillis();
         long generationTime = EndTime - Starttime;
-        assertLessThanOrEqual(generationTime, 25000);
+        assertLessThanOrEqual(generationTime, 10000);
     }
 
     private void assertLessThanOrEqual(long actual, long expected) {
