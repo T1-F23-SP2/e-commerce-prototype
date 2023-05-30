@@ -14,6 +14,7 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
 
     public ManufacturingInformationUpdater(ManufacturingInformation mi) {
         super(mi);
+        this.setOriginalName(mi.getName());
     }
 
     public String getOriginalName() {
@@ -27,10 +28,6 @@ public class ManufacturingInformationUpdater extends ManufacturingInformationWor
 
     @Override
     public ManufacturingInformation submit() throws SQLException, DuplicateEntryException {
-        if (originalName == null) {
-            originalName = this.getManufacturingInformation().getName();
-        }
-
         DBDriver.getInstance().updateManufactureByName(this.originalName, super.getManufacturingInformation());
         return super.getManufacturingInformation();
     }
