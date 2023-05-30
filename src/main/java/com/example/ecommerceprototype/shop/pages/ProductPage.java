@@ -37,9 +37,8 @@ public class ProductPage {
         Pane productPage = cms.loadComponent("ProductPage");
         this.page = productPage;
 
-         Image productImage = controller.getDAMInstance().getImageListFromUUID("i7-13700k").get(0);
+         Image productImage = controller.getDAMInstance().getImageListFromUUID(product.getProductUUID()).get(0);
          ((ImageView) controller.getCMSInstance().findNode(productPage, "primaryProductImage_ImageView")).setImage(productImage);
-        // ((ImageView) controller.getCMSInstance().findNode(productPage, "secondaryProductImage_ImageView")).setImage(productImage);
 
         setProductName(product.getName());
         setProductPrice((ProductFinder.findProduct(product).getPriceInformation().getPrice()) + "DKK");

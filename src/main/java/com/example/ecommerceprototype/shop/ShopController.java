@@ -1,7 +1,9 @@
 package com.example.ecommerceprototype.shop;
 
 import com.example.ecommerceprototype.cms.CMS;
+import com.example.ecommerceprototype.dam.dam.DAMSystem;
 import com.example.ecommerceprototype.dam.service.DAMIntegration;
+import com.example.ecommerceprototype.dam.system.DamController;
 import com.example.ecommerceprototype.pim.product_information.PIMDriver;
 import com.example.ecommerceprototype.shop.components.*;
 import com.example.ecommerceprototype.shop.pages.*;
@@ -27,10 +29,14 @@ public class ShopController {
     PIMDriver PIMDriverInstance;
     ShopPopulate shopPopulate;
     DAMIntegration DAMInstance;
+    DAMSystem DAMSystemInstance;
+    DamController DAMControllerInstance;
 
     public ShopController() throws Exception {
         PIMDriverInstance = new PIMDriver();
         DAMInstance = new DAMIntegration();
+        DAMSystemInstance = DAMSystem.getInstance();
+        DAMControllerInstance = new DamController();
 
         shopPopulate = new ShopPopulate(this);
         shopPopulate.populate();
@@ -129,5 +135,13 @@ public class ShopController {
 
     public ShopPopulate getShopPopulate() {
         return shopPopulate;
+    }
+
+    public DAMSystem getDAMSystemInstance() {
+        return DAMSystemInstance;
+    }
+
+    public DamController getDAMControllerInstance() {
+        return DAMControllerInstance;
     }
 }

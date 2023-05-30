@@ -233,6 +233,7 @@ public class DamController implements Initializable {
 
                         System.out.println(name + type + category + uuid);
                         addAsset(name, type, category, uuid, oriFileName, oriFilePath);
+                        System.out.println(oriFileName + oriFilePath);
                     }
 
                 } catch (Exception e) {
