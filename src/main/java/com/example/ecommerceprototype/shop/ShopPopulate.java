@@ -47,18 +47,18 @@ public class ShopPopulate {
         createProduct("AMD Ryzen 7 5700G", "5700G", "CPUs", "AMD", "1579", "    8-core/16-tråde, 3,8-4,6 GHz\n" +
                 "    AM4 kontakt, 20 MB total cache\n" +
                 "    65 W TDP, inkl. blæser", "AMD Ryzen™ 7 5700G processoren er en kraftfuld byggesten til dit næste gaming setup. Den har 8 cores, 16 tråde og genererer en kraftfuld ydeevne og en endnu hurtigere turbo-tilstand. Den har integreret GPU for en samlet computerløsning.");
-        createProduct("Corsair Dominator Platinum RGB DDR5-5200", "CMT32GX5M2B5200C40", "RAM", "Corsair", "1209", "Corsair Dominator CMT32GX5M2B5200C40, 32 GB, 2 x 16 GB, DDR5, 5200 Mhz, 288-pin DIMM, Sort", "Corsair Dominator CMT32GX5M2B5200C40. Komponent til: PC/server, Intern hukommelse: 32 GB, Hukommelseslayout (moduler x størrelse): 2 x 16 GB, Intern hukommelsestype: DDR5, Hukommelsesur hastighed: 5200 Mhz, Hukommelse form faktor: 288-pin DIMM, Maksimal blænderåbning: 40, Produktfarve: Sort");
+        createProduct("Corsair Dominator", "CMT32GX5M2B5200C40", "RAM", "Corsair", "1209", "Corsair Dominator CMT32GX5M2B5200C40", "Corsair Dominator CMT32GX5M2B5200C40. Komponent til: PC/server, Intern hukommelse: 32 GB, Hukommelseslayout (moduler x størrelse): 2 x 16 GB, Intern hukommelsestype: DDR5, Hukommelsesur hastighed: 5200 Mhz, Hukommelse form faktor: 288-pin DIMM, Maksimal blænderåbning: 40, Produktfarve: Sort");
         createProduct("Lenovo Yoga Slim 7 Pro", "Lenovo Yoga Slim 7 Pro", "Laptops", "Lenovo", "6999", "    Intel® Core™ i7-12700H-processor\n" +
                 "    14\" QWQXGA+ IPS-skærm\n" +
                 "    16 GB LPDDR5 RAM, 512 GB SSD", "Denne Lenovo Yoga Slim 7 Pro 14\" bærbar computer giver dig mulighed for at skabe kraftfulde kreationer, mens du beholder en ultratynd formfaktor. Den lynhurtige 12. Gen Intel®-processor klarer ubesværet krævende opgaver og giver altid en jævn ydeevne.");
     }
 
     public void populateImages() throws SQLException, NotFoundException {
-        dam.addAsset("acer-aspire.jpg", Type.PRODUCT_IMAGE, extractCategory("Desktop"), ".jpg", pim.getProductByName("Acer Aspire").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/acer-aspire.jpg");
-        dam.addAsset("phillips-skarm.jpg", Type.PRODUCT_IMAGE, extractCategory("Monitor"), ".jpg", pim.getProductByName("Phillips monitor").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/phillips-skarm.jpg");
-        dam.addAsset("amd-ryzen-7.png", Type.PRODUCT_IMAGE, extractCategory("CPU"), ".png", pim.getProductByName("AMD Ryzen 7 5700G").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/amd-ryzen-7.png");
-        dam.addAsset("corsair-dominator", Type.PRODUCT_IMAGE, extractCategory("RAM"), ".jpg", pim.getProductByName("Corsair Dominator Platinum RGB DDR5-5200").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/corsair-dominator.jpg");
-        dam.addAsset("lenovo-yoga-slim-7-pro.jpg", Type.PRODUCT_IMAGE, extractCategory("Laptop"), ".avif", pim.getProductByName("Lenovo Yoga Slim 7 Pro").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/lenovo-yoga-slim-7-pro.jpg");
+        int id1 = dam.addAsset("acer-aspire.jpg", Type.PRODUCT_IMAGE, extractCategory("Desktop"), ".jpg", pim.getProductByName("Acer Aspire").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/acer-aspire.jpg");
+        int id2 = dam.addAsset("phillips-skarm.jpg", Type.PRODUCT_IMAGE, extractCategory("Monitor"), ".jpg", pim.getProductByName("Phillips monitor").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/phillips-skarm.jpg");
+        int id3 = dam.addAsset("amd-ryzen-7.png", Type.PRODUCT_IMAGE, extractCategory("CPU"), ".png", pim.getProductByName("AMD Ryzen 7 5700G").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/amd-ryzen-7.png");
+        int id4 = dam.addAsset("corsair-dominator", Type.PRODUCT_IMAGE, extractCategory("RAM"), ".jpg", pim.getProductByName("Corsair Dominator").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/corsair-dominator.jpg");
+        int id5 = dam.addAsset("lenovo-yoga-slim-7-pro.jpg", Type.PRODUCT_IMAGE, extractCategory("Laptop"), ".avif", pim.getProductByName("Lenovo Yoga Slim 7 Pro").getProductUUID(), "src/main/resources/com/example/ecommerceprototype/shop/images/lenovo-yoga-slim-7-pro.jpg");
     }
 
     private Category extractCategory(String cat_in) {
